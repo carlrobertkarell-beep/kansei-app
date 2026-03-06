@@ -940,28 +940,16 @@ function rDashboard() {
     <div class="dash-greeting">${greeting}</div>
     <div class="dash-date">${today}</div>
 
-    <div class="dash-actions">
-      <div class="dash-action primary" onclick="go('list')">
-        
-        <div class="da-title">Patienter</div>
-        <div class="da-sub">Se alla patienter, skapa ny eller öppna befintlig</div>
-      </div>
-      <div class="dash-action" onclick="quickStartMeeting()">
-        
-        <div class="da-title">Spela in möte</div>
-        <div class="da-sub">Transkribera samtal automatiskt och skapa journal</div>
-      </div>
-      <div class="dash-action" onclick="quickManualSOAP()">
-        
-        <div class="da-title">Skriv journal</div>
-        <div class="da-sub">Fyll i SOAP-anteckning manuellt</div>
-      </div>
-      <div class="dash-action" onclick="quickNewPlan()">
-        
-        <div class="da-title">Skapa rehabplan</div>
-        <div class="da-sub">Generera rehabplan direkt utan journal</div>
-      </div>
-</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
+      <button onclick="newPatientFlow()" style="background:var(--navy);color:white;border:none;border-radius:14px;padding:22px 16px;text-align:left;cursor:pointer;font-family:inherit">
+        <div style="font-size:22px;font-weight:300;margin-bottom:4px">Ny patient</div>
+        <div style="font-size:12px;opacity:.6;line-height:1.4">Registrera och påbörja ett nytt kundkort</div>
+      </button>
+      <button onclick="returningPatientFlow()" style="background:white;border:1px solid var(--border);border-radius:14px;padding:22px 16px;text-align:left;cursor:pointer;font-family:inherit">
+        <div style="font-size:22px;font-weight:300;color:var(--navy);margin-bottom:4px">Återkommande</div>
+        <div style="font-size:12px;color:var(--text3);line-height:1.4">Sök befintlig patient och starta besök</div>
+      </button>
+    </div>
 
     <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
       ${[['Patienter',total,''],['Aktiva',active,''],['Väntande återbesök',upcoming.length,'']].map(([l,v,_])=>`
@@ -1155,7 +1143,7 @@ function renderPhaseNext(pat) {
   </div>`;
 }
 
-function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().getFullYear()-(p.birthYear||0);let h=renderPhaseBar(p)+renderPhaseNext(p)+`<div class="det-hdr"><div><div class="det-name">${e(p.name||"Namnlös")}</div><div class="det-diag">${e(p.diagnosis||"")}</div><div class="det-meta"><div><div class="dml">Personnummer</div><div class="dmv">${p.pnr||"—"}</div></div><div><div class="dml">Födelseår</div><div class="dmv">${p.birthYear||"—"}</div></div><div><div class="dml">Ålder</div><div class="dmv">${age} år</div></div><div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div><div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div></div></div><div class="det-actions">${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Tillbaka till plan</button>`:""}<button class="btn" onclick="go('patjournal')">Exportera journal</button>${(p.visits||[]).length>=2?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Framstegsnotering</button>`:""}<button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera patient</button><button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button></div></div><div class="vlbl">Besökshistorik</div>${renderPainGraph(p)}`;if(!p.visits||!p.visits.length){h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:#4a9aaa">Skapa första besöket</a></div>`;}else{p.visits.forEach((v,idx)=>{const st=v.status||"Aktiv";const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};const exp=v._exp||false;const pay=v.payStatus||'unpaid';const payLabel={paid:'✓ Betald',unpaid:'⚠ Obetald',invoiced:'📄 Fakturerad'}[pay];h+=`<div class="vcard ${idx===0?"latest":""}">
+function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().getFullYear()-(p.birthYear||0);let h=renderPhaseBar(p)+renderPhaseNext(p)+`<div class="det-hdr"><div><div class="det-name">${e(p.name||"Namnlös")}</div><div class="det-diag">${e(p.diagnosis||"")}</div><div class="det-meta"><div><div class="dml">Personnummer</div><div class="dmv">${p.pnr||"—"}</div></div><div><div class="dml">E-post</div><div class="dmv">${p.email||"—"}</div></div><div><div class="dml">Födelseår</div><div class="dmv">${p.birthYear||"—"}</div></div><div><div class="dml">Ålder</div><div class="dmv">${age} år</div></div><div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div><div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div></div></div><div class="det-actions">${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Tillbaka till plan</button>`:""}<button class="btn" onclick="go('patjournal')">Exportera journal</button>${(p.visits||[]).length>=2?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Framstegsnotering</button>`:""}<button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera patient</button><button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button></div></div><div class="vlbl">Besökshistorik</div>${renderPainGraph(p)}`;if(!p.visits||!p.visits.length){h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:#4a9aaa">Skapa första besöket</a></div>`;}else{p.visits.forEach((v,idx)=>{const st=v.status||"Aktiv";const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};const exp=v._exp||false;const pay=v.payStatus||'unpaid';const payLabel={paid:'✓ Betald',unpaid:'⚠ Obetald',invoiced:'📄 Fakturerad'}[pay];h+=`<div class="vcard ${idx===0?"latest":""}">
   <div class="vhdr" onclick="togVisit('${v.id}')">
     <span class="vnum">0${p.visits.length-idx}</span>
     <div class="vinfo">
@@ -1171,7 +1159,15 @@ function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().
     </div>
     <span class="vstatus" style="background:${sc.bg};color:${sc.col}">${st}</span>
     <span class="vchev ${exp?"open":""}" id="ch-${v.id}">›</span>
-  </div><div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});h+=`</div><div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea><div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div><div class="vactions"> ${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)?`<button class="btn btn-p" onclick="viewDoc('${v.id}')">Visa journal</button>`:v.soap?`<button class="btn" style="opacity:.5;cursor:not-allowed" title="Journal sparad men tom">Visa journal</button>`:""} ${v.plan?`<button class="btn" onclick="viewPlan('${v.id}')">Visa rehabplan</button><button class="btn btn-p" onclick="sharePlan('${v.id}')">Dela länk</button><button class="btn" onclick="mailPlan('${v.id}')">Maila</button>${v.plan?`<button class="btn" onclick="printHomeCard('${v.id}')">Hemkort</button>`:""}`:""}<button class="btn" onclick="editVisit('${v.id}')">Redigera</button><button class="btn btn-d" style="margin-left:auto" onclick="confDel('visit','${v.id}','besöket ${v.date}')">Radera besök</button></div></div></div></div>`;});}h+=renderConsentBlock(p);document.getElementById("s-detail").innerHTML=h;}
+  </div><div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});h+=`</div><div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea><div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div><div class="vactions">
+  ${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)
+    ? `<button class="btn btn-p" onclick="viewDoc('${v.id}')">Visa journal</button>`
+    : `<button class="btn" onclick="addJournalToVisit('${v.id}')">+ Skapa journal</button>`}
+  ${v.plan
+    ? `<button class="btn" onclick="viewPlan('${v.id}')">Visa rehabplan</button><button class="btn" onclick="sharePlan('${v.id}')">Dela länk</button><button class="btn" onclick="mailPlan('${v.id}')">Maila</button><button class="btn" onclick="printHomeCard('${v.id}')">Hemkort</button>`
+    : `<button class="btn" onclick="addPlanToVisit('${v.id}')">+ Skapa rehabplan</button>`}
+  <button class="btn btn-d" style="margin-left:auto" onclick="confDel('visit','${v.id}','besöket ${v.date}')">Radera besök</button>
+</div></div></div></div>`;});}h+=renderConsentBlock(p);document.getElementById("s-detail").innerHTML=h;}
 function togVisit(vid){const p=S.pat;if(!p||!p.visits)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;v._exp=!v._exp;const b=document.getElementById("vb-"+vid);const c=document.getElementById("ch-"+vid);if(b)b.style.display=v._exp?"block":"none";if(c)c.classList.toggle("open",v._exp);}
 function updNote(vid,note){if(!S.pat)return;S.pat.visits=S.pat.visits.map(v=>v.id===vid?{...v,note}:v);savePat(S.pat);S.pat=S.patients.find(x=>x.id===S.pat.id)||S.pat;}
 function updStatus(vid,status){if(!S.pat)return;S.pat.visits=S.pat.visits.map(v=>v.id===vid?{...v,status}:v);savePat(S.pat);S.pat=S.patients.find(x=>x.id===S.pat.id)||S.pat;rDetail();}
@@ -2054,12 +2050,21 @@ function rEditPat() {
   if (!p) { go('list'); return; }
   const el = document.getElementById('s-editpat');
   el.innerHTML = `<div class="edit-wrap">
-    <div class="ftit">Redigera patientinfo</div>
-    <div class="fsub" style="margin-bottom:22px">Ändringar sparas direkt på patientkortet.</div>
-    <span class="slabel">Namn</span>
-    <input class="field" id="ep-name" value="${e(p.name||'')}" placeholder="Patientens namn" style="margin-bottom:11px">
+    <div class="ftit">Patientprofil</div>
+    <div class="fsub" style="margin-bottom:22px">Redigera patientens uppgifter.</div>
+
+    <span class="slabel">Namn *</span>
+    <input class="field" id="ep-name" value="${e(p.name||'')}" placeholder="Patientens fullständiga namn" style="margin-bottom:11px">
+
+    <span class="slabel">Personnummer</span>
+    <input class="field" id="ep-pnr" value="${e(p.pnr||'')}" placeholder="19720101-1234" style="margin-bottom:11px">
+
+    <span class="slabel">E-post</span>
+    <input class="field" id="ep-email" type="email" value="${e(p.email||'')}" placeholder="patient@exempel.se" style="margin-bottom:11px">
+
     <span class="slabel">Födelseår</span>
     <input class="field" id="ep-year" type="number" value="${p.birthYear||1980}" min="1920" max="2010" style="margin-bottom:11px">
+
     <span class="slabel">Primär diagnos</span>
     <select class="field" id="ep-diag" style="margin-bottom:11px">
       ${DIAGS.map(d=>`<option ${d===p.diagnosis?'selected':''}>${d}</option>`).join('')}
@@ -2068,7 +2073,11 @@ function rEditPat() {
       <span class="slabel">Fritext diagnos</span>
       <input class="field" id="ep-custom" value="${e(p.customDiag||'')}" placeholder="Beskriv diagnos..." style="margin-bottom:11px">
     </div>
-    <div style="display:flex;gap:10px;margin-top:16px">
+
+    <span class="slabel">Anteckningar</span>
+    <textarea class="field" id="ep-notes" placeholder="Relevanta bakgrundsuppgifter, mediciner, kontraindikationer..." style="margin-bottom:11px;height:100px;resize:vertical">${e(p.notes||'')}</textarea>
+
+    <div style="display:flex;gap:10px;margin-top:8px">
       <button class="btn btn-p" style="flex:1;padding:12px" onclick="saveEditPat()">Spara ändringar</button>
       <button class="btn" style="flex:1;padding:12px" onclick="go('detail')">Avbryt</button>
     </div>
@@ -2081,10 +2090,14 @@ function rEditPat() {
 function saveEditPat() {
   const p = S.pat;
   const name = document.getElementById('ep-name').value.trim();
+  if (!name) { alert('Namn är obligatoriskt.'); return; }
+  const pnr = document.getElementById('ep-pnr').value.trim();
+  const email = document.getElementById('ep-email').value.trim();
   const birthYear = parseInt(document.getElementById('ep-year').value)||1980;
   const diagnosis = document.getElementById('ep-diag').value;
   const customDiag = document.getElementById('ep-custom')&&document.getElementById('ep-custom').value.trim()||'';
-  const updated = {...p, name, birthYear, diagnosis, customDiag};
+  const notes = document.getElementById('ep-notes').value.trim();
+  const updated = {...p, name, pnr, email, birthYear, diagnosis, customDiag, notes};
   S.pat = savePat(updated);
   go('detail');
 }
