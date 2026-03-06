@@ -1452,26 +1452,74 @@ function newVisit(){
 function newPatientFlow() {
   const ov = document.createElement('div');
   ov.id = 'new-pat-flow';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center';
-  ov.onclick = ev => { if(ev.target===ov) ov.remove(); };
-  ov.innerHTML = `<div style="background:white;border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:24px 20px 40px;max-height:85vh;overflow-y:auto">
-    <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:6px">Ny patient</div>
-    <div style="font-size:13px;color:var(--text3);margin-bottom:18px">Fyll i basuppgifter för att skapa kundkortet.</div>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
-      <input id="npf-name" class="field" placeholder="Namn *" style="margin:0">
-      <input id="npf-pnr" class="field" placeholder="Personnummer (t.ex. 19720101-1234)" style="margin:0">
-      <input id="npf-email" class="field" type="email" placeholder="E-post" style="margin:0">
-      <input id="npf-year" class="field" type="number" placeholder="Födelseår (t.ex. 1972)" min="1920" max="2010" style="margin:0">
-      <select id="npf-diag" class="field" style="margin:0">${DIAGS.map(d=>`<option>${e(d)}</option>`).join('')}</select>
-      <textarea id="npf-notes" class="field" placeholder="Anteckningar..." style="margin:0;height:70px;resize:vertical"></textarea>
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:flex-end;justify-content:center;animation:fadeInOv .18s ease';
+  ov.innerHTML = `
+  <style>
+    @keyframes fadeInOv{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .npf-backdrop{position:absolute;inset:0;background:rgba(10,20,35,.6);backdrop-filter:blur(4px)}
+    .npf-sheet{position:relative;background:white;border-radius:20px 20px 0 0;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;animation:slideUp .22s cubic-bezier(.2,.8,.4,1)}
+    .npf-header{background:var(--navy);padding:24px 24px 20px;border-radius:20px 20px 0 0}
+    .npf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:white;margin-bottom:4px}
+    .npf-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em}
+    .npf-body{padding:24px}
+    .npf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+    .npf-full{margin-bottom:10px}
+    .npf-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+    .npf-input{width:100%;border:1px solid #dde2e8;border-radius:8px;padding:11px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fafbfc;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;outline:none}
+    .npf-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,.1);background:white}
+    .npf-input::placeholder{color:#aab0ba}
+    .npf-footer{padding:0 24px 32px;display:flex;flex-direction:column;gap:8px}
+    .npf-btn-primary{background:var(--navy);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.01em;transition:background .15s}
+    .npf-btn-primary:hover{background:var(--navy2)}
+    .npf-btn-ghost{background:transparent;border:1px solid #dde2e8;border-radius:10px;padding:12px;font-size:13px;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+    .npf-btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+    .npf-err{font-size:11px;color:#c07070;margin-bottom:8px;display:none;padding:8px 12px;background:#fff0f0;border-radius:6px}
+  </style>
+  <div class="npf-backdrop" onclick="document.getElementById('new-pat-flow').remove()"></div>
+  <div class="npf-sheet">
+    <div class="npf-header">
+      <div class="npf-title">Ny patient</div>
+      <div class="npf-sub">Registrera basuppgifter</div>
     </div>
-    <div style="font-size:11px;color:#c07070;margin-bottom:10px;display:none" id="npf-err">Namn är obligatoriskt.</div>
-    <div style="display:flex;flex-direction:column;gap:8px">
-      <button onclick="createNewPatientAndChoose()" style="background:var(--navy);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">Skapa kundkort och välj åtgärd</button>
-      <button onclick="document.getElementById('new-pat-flow').remove()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:var(--text2);cursor:pointer;font-family:inherit">Avbryt</button>
+    <div class="npf-body">
+      <div class="npf-row">
+        <div>
+          <div class="npf-label">Namn *</div>
+          <input id="npf-name" class="npf-input" placeholder="Fullständigt namn" oninput="document.getElementById('npf-err').style.display='none'">
+        </div>
+        <div>
+          <div class="npf-label">Personnummer</div>
+          <input id="npf-pnr" class="npf-input" placeholder="ÅÅÅÅMMDD-XXXX">
+        </div>
+      </div>
+      <div class="npf-row">
+        <div>
+          <div class="npf-label">E-post</div>
+          <input id="npf-email" class="npf-input" type="email" placeholder="patient@mail.se">
+        </div>
+        <div>
+          <div class="npf-label">Födelseår</div>
+          <input id="npf-year" class="npf-input" type="number" placeholder="1972" min="1920" max="2010">
+        </div>
+      </div>
+      <div class="npf-full">
+        <div class="npf-label">Primär diagnos</div>
+        <select id="npf-diag" class="npf-input">${DIAGS.map(d=>`<option>${e(d)}</option>`).join('')}</select>
+      </div>
+      <div class="npf-full">
+        <div class="npf-label">Anteckningar</div>
+        <textarea id="npf-notes" class="npf-input" placeholder="Relevanta bakgrundsuppgifter, mediciner, kontraindikationer..." style="height:80px;resize:vertical"></textarea>
+      </div>
+    </div>
+    <div class="npf-footer">
+      <div class="npf-err" id="npf-err">Namn är obligatoriskt.</div>
+      <button class="npf-btn-primary" onclick="createNewPatientAndChoose()">Skapa kundkort →</button>
+      <button class="npf-btn-ghost" onclick="document.getElementById('new-pat-flow').remove()">Avbryt</button>
     </div>
   </div>`;
   document.body.appendChild(ov);
+  setTimeout(() => document.getElementById('npf-name')?.focus(), 250);
 }
 
 function createNewPatientAndChoose() {
@@ -1492,28 +1540,52 @@ function createNewPatientAndChoose() {
 function returningPatientFlow() {
   const ov = document.createElement('div');
   ov.id = 'returning-pat-flow';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center';
-  ov.onclick = ev => { if(ev.target===ov) ov.remove(); };
-  ov.innerHTML = `<div style="background:white;border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:24px 20px 40px">
-    <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:16px">Sök patient</div>
-    <input id="rpf-search" class="field" placeholder="Namn eller personnummer..." style="margin-bottom:12px" oninput="renderPatientSearchResults()">
-    <div id="rpf-results" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:6px"></div>
-    <button onclick="document.getElementById('returning-pat-flow').remove()" style="margin-top:14px;background:white;border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;color:var(--text2);cursor:pointer;font-family:inherit;width:100%">Avbryt</button>
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:flex-end;justify-content:center;animation:fadeInOv .18s ease';
+  ov.innerHTML = `
+  <div class="npf-backdrop" onclick="document.getElementById('returning-pat-flow').remove()"></div>
+  <div class="npf-sheet">
+    <div class="npf-header">
+      <div class="npf-title">Återkommande patient</div>
+      <div class="npf-sub">Sök på namn eller personnummer</div>
+    </div>
+    <div class="npf-body" style="padding-bottom:8px">
+      <input id="rpf-search" class="npf-input" placeholder="Börja skriva..." style="margin-bottom:14px;font-size:15px;padding:13px 15px" oninput="renderPatientSearchResults()" autocomplete="off">
+      <div id="rpf-results" style="display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto"></div>
+    </div>
+    <div style="padding:0 24px 32px">
+      <button class="npf-btn-ghost" style="width:100%" onclick="document.getElementById('returning-pat-flow').remove()">Avbryt</button>
+    </div>
   </div>`;
   document.body.appendChild(ov);
-  setTimeout(() => { const f=document.getElementById('rpf-search'); if(f)f.focus(); renderPatientSearchResults(); }, 100);
+  setTimeout(() => { const f=document.getElementById('rpf-search'); if(f)f.focus(); renderPatientSearchResults(); }, 150);
 }
 
 function renderPatientSearchResults() {
   const q = (document.getElementById('rpf-search')?.value||'').toLowerCase().trim();
-  const results = S.patients.filter(p => !q || p.name?.toLowerCase().includes(q) || (p.pnr&&p.pnr.includes(q))).slice(0,8);
+  const all = [...S.patients].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  const results = (q ? all.filter(p => p.name?.toLowerCase().includes(q)||(p.pnr&&p.pnr.includes(q))) : all).slice(0,8);
   const c = document.getElementById('rpf-results');
   if (!c) return;
-  if (!results.length) { c.innerHTML='<div style="font-size:13px;color:var(--text3);text-align:center;padding:20px">Inga träffar</div>'; return; }
-  c.innerHTML = results.map(p=>`<button onclick="selectReturningPatient('${p.id}')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:12px 14px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-    <div style="font-size:14px;font-weight:600;color:var(--navy)">${e(p.name)}</div>
-    <div style="font-size:11px;color:var(--text3);margin-top:2px">${e(p.diagnosis||'')}${p.pnr?' · '+p.pnr:''} · ${(p.visits||[]).length} besök</div>
-  </button>`).join('');
+  if (!results.length) {
+    c.innerHTML='<div style="text-align:center;padding:28px 0;color:#8a9aaa;font-size:13px">Inga träffar</div>';
+    return;
+  }
+  c.innerHTML = results.map(p => {
+    const lastDate = p.visits&&p.visits[0]&&p.visits[0].date||'';
+    const initials = (p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const age = p.birthYear ? new Date().getFullYear()-p.birthYear : '';
+    return `<button onclick="selectReturningPatient('${p.id}')" style="display:flex;align-items:center;gap:12px;background:white;border:1px solid #e8ecf0;border-radius:10px;padding:12px 14px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:all .12s" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal3)'" onmouseout="this.style.borderColor='#e8ecf0';this.style.background='white'">
+      <div style="width:38px;height:38px;border-radius:50%;background:var(--navy);color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">${initials}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(p.name)}</div>
+        <div style="font-size:11px;color:#6a7a8a;margin-top:2px">${e(p.diagnosis||'')}${age?' · '+age+' år':''}${p.pnr?' · '+p.pnr:''}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-size:11px;color:#8a9aaa">${(p.visits||[]).length} besök</div>
+        ${lastDate?`<div style="font-size:10px;color:#aab0ba;margin-top:1px">${lastDate}</div>`:''}
+      </div>
+    </button>`;
+  }).join('');
 }
 
 function selectReturningPatient(patId) {
@@ -1530,25 +1602,40 @@ function showVisitActionChooser() {
   document.getElementById('new-visit-overlay')?.remove();
   const ov = document.createElement('div');
   ov.id = 'new-visit-overlay';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center';
-  ov.onclick = ev => { if(ev.target===ov){ ov.remove(); go('detail'); } };
-  ov.innerHTML = `<div style="background:white;border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:24px 20px 40px">
-    <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:4px">${e(p.name)}</div>
-    <div style="font-size:13px;color:var(--text3);margin-bottom:20px">${e(p.diagnosis||'')}${p.pnr?' · '+p.pnr:''}</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button onclick="document.getElementById('new-visit-overlay').remove();startMeeting()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:16px;text-align:left;cursor:pointer;font-family:inherit">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Spela in möte</div>
-        <div style="font-size:12px;color:var(--text3)">Transkribera samtal och skapa journal automatiskt</div>
-      </button>
-      <button onclick="document.getElementById('new-visit-overlay').remove();startManualSOAP()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:16px;text-align:left;cursor:pointer;font-family:inherit">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Skriv journal manuellt</div>
-        <div style="font-size:12px;color:var(--text3)">Fyll i SOAP-anteckning direkt</div>
-      </button>
-      <button onclick="document.getElementById('new-visit-overlay').remove();S.visitId=null;S.plan=null;S.locked={};S.form={...dform(),name:p.name,birthYear:p.birthYear,diagnosis:p.diagnosis,pnr:p.pnr||'',email:p.email||''};go('form')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:16px;text-align:left;cursor:pointer;font-family:inherit">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px">Skapa rehabplan</div>
-        <div style="font-size:12px;color:var(--text3)">Generera ny träningsplan utan journal</div>
-      </button>
-      <button onclick="document.getElementById('new-visit-overlay').remove();go('detail')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-family:inherit;color:var(--text3);font-size:13px">Öppna kundkort</button>
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:flex-end;justify-content:center;animation:fadeInOv .18s ease';
+  const actions = [
+    {label:'Spela in möte', sub:'Transkribera samtal och skapa journal automatiskt', fn:`document.getElementById('new-visit-overlay').remove();startMeeting()`},
+    {label:'Skriv journal manuellt', sub:'Fyll i SOAP-anteckning direkt', fn:`document.getElementById('new-visit-overlay').remove();startManualSOAP()`},
+    {label:'Skapa rehabplan', sub:'Generera träningsplan utan journal', fn:`document.getElementById('new-visit-overlay').remove();S.visitId=null;S.plan=null;S.locked={};S.form={...dform(),name:p.name,birthYear:p.birthYear,diagnosis:p.diagnosis,pnr:p.pnr||'',email:p.email||''};go('form')`},
+  ];
+  ov.innerHTML = `
+  <div class="npf-backdrop" onclick="document.getElementById('new-visit-overlay').remove();go('detail')"></div>
+  <div class="npf-sheet">
+    <div class="npf-header" style="display:flex;align-items:center;gap:14px">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:white;flex-shrink:0">${(p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
+      <div>
+        <div class="npf-title" style="font-size:22px">${e(p.name)}</div>
+        <div class="npf-sub">${e(p.diagnosis||'')}${p.pnr?' · '+p.pnr:''}</div>
+      </div>
+    </div>
+    <div class="npf-body">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:12px">Välj åtgärd</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        ${actions.map((a,i)=>`
+        <button onclick="${a.fn}" style="display:flex;align-items:center;gap:14px;background:white;border:1px solid #e8ecf0;border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:all .12s" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal3)'" onmouseout="this.style.borderColor='#e8ecf0';this.style.background='white'">
+          <div style="width:32px;height:32px;border-radius:8px;background:var(--teal3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="width:10px;height:10px;border-radius:50%;background:var(--teal);opacity:${1-i*0.2}"></div>
+          </div>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:var(--navy)">${a.label}</div>
+            <div style="font-size:11px;color:#8a9aaa;margin-top:2px">${a.sub}</div>
+          </div>
+        </button>`).join('')}
+      </div>
+    </div>
+    <div style="padding:8px 24px 32px;display:flex;gap:8px">
+      <button onclick="document.getElementById('new-visit-overlay').remove();go('detail')" class="npf-btn-ghost" style="flex:1">Öppna kundkort</button>
+      <button onclick="document.getElementById('new-visit-overlay').remove()" class="npf-btn-ghost" style="flex:1">Stäng</button>
     </div>
   </div>`;
   document.body.appendChild(ov);
