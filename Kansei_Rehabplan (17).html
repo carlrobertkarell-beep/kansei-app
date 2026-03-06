@@ -1,0 +1,3027 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kansei Klinik</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+  :root{
+    --navy:#0f2744;
+    --navy2:#1a3a5c;
+    --navy3:#234878;
+    --teal:#1a7a8a;
+    --teal2:#2a9aaa;
+    --teal3:#e8f6f8;
+    --gold:#b8920a;
+    --white:#ffffff;
+    --bg:#f2f4f7;
+    --bg2:#e8ebef;
+    --border:#d0d8e4;
+    --border2:#b8c4d4;
+    --text:#1a2a3a;
+    --text2:#3a4a5a;
+    --text3:#6a7a8a;
+    --text4:#9aabb8;
+    --green:#1a7a4a;
+    --green-bg:#e8f5ee;
+    --amber:#8a6000;
+    --amber-bg:#fdf3d8;
+    --red:#8a2020;
+    --red-bg:#fde8e8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);}
+
+  /* ── TOPBAR ── */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px 0 16px;height:52px;background:var(--navy);border-bottom:1px solid var(--navy3);position:sticky;top:0;z-index:100;}
+  .topbar-logo{height:32px;display:block;}
+  .topbar-right{display:flex;gap:4px;align-items:center;}
+
+  /* ── BUTTONS ── */
+  .btn{padding:7px 16px;border-radius:5px;font-size:12px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;border:1px solid var(--border2);background:white;color:var(--text2);transition:all .15s;white-space:nowrap;}
+  .btn:hover{background:var(--bg);border-color:var(--teal);color:var(--teal);}
+  .btn-p{background:var(--teal);border-color:var(--teal);color:white;font-weight:600;}
+  .btn-p:hover{background:var(--teal2);border-color:var(--teal2);color:white;}
+  .btn-navy{background:var(--navy);border-color:var(--navy);color:white;font-weight:600;}
+  .btn-navy:hover{background:var(--navy2);}
+  .btn-d{background:white;border-color:#f0c0c0;color:var(--red);}
+  .btn-d:hover{background:var(--red-bg);}
+  .btn-ghost{background:transparent;border-color:rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.08);color:white;}
+  .btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* ── LAYOUT ── */
+  .main{max-width:1100px;margin:0 auto;padding:28px 24px 80px;}
+  .screen{display:none;}.screen.active{display:block;}
+
+  /* ── DASHBOARD ── */
+  .dash-greeting{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);font-weight:300;margin-bottom:2px;}
+  .dash-date{font-size:12px;color:var(--text3);margin-bottom:24px;}
+  .dash-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+  .dash-action{background:white;border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all .2s;text-align:left;}
+  .dash-action:hover{border-color:var(--teal);box-shadow:0 2px 12px rgba(26,122,138,0.1);transform:translateY(-1px);}
+  .dash-action.primary{background:var(--navy);border-color:var(--navy);}
+  .dash-action.primary:hover{background:var(--navy2);}
+  .da-icon{font-size:22px;margin-bottom:10px;}
+  .da-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px;}
+  .dash-action.primary .da-title{color:white;}
+  .da-sub{font-size:11px;color:var(--text3);line-height:1.5;}
+  .dash-action.primary .da-sub{color:rgba(255,255,255,0.5);}
+  .dash-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .dash-panel{background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+  .dash-panel-hdr{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .dash-panel-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);}
+  .dash-panel-body{padding:0;}
+  .dash-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+  .dash-row:last-child{border-bottom:none;}
+  .dash-row:hover{background:var(--teal3);}
+  .dr-avatar{width:32px;height:32px;border-radius:50%;background:var(--navy);color:white;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;}
+  .dr-info{flex:1;min-width:0;}
+  .dr-name{font-size:13px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dr-diag{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dr-badge{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0;}
+  .dr-date{font-size:10px;color:var(--text4);font-family:'DM Mono',monospace;flex-shrink:0;}
+  .dash-empty{padding:24px 16px;text-align:center;font-size:12px;color:var(--text4);}
+
+  /* ── PATIENT LIST ── */
+  .page-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px;}
+  .page-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--navy);font-weight:400;}
+  .page-sub{font-size:12px;color:var(--text3);margin-top:2px;}
+  .search-inp{width:100%;background:white;border:1px solid var(--border);border-radius:6px;padding:9px 14px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;margin-bottom:16px;}
+  .search-inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,0.08);}
+  .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+  .pcard{background:white;border:1px solid var(--border);border-radius:8px;padding:16px;cursor:pointer;transition:all .18s;position:relative;}
+  .pcard:hover{border-color:var(--teal);box-shadow:0 2px 10px rgba(26,122,138,0.09);transform:translateY(-1px);}
+  .pc-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--border2);font-size:12px;cursor:pointer;padding:2px 5px;border-radius:3px;}
+  .pc-del:hover{color:var(--red);background:var(--red-bg);}
+  .pc-name{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--navy);margin-bottom:2px;padding-right:20px;font-weight:400;}
+  .pc-diag{font-size:11px;color:var(--teal);margin-bottom:10px;font-style:italic;}
+  .pc-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:9px;}
+  .pc-tag{font-size:10px;color:var(--text3);background:var(--bg);padding:2px 7px;border-radius:3px;border:1px solid var(--border);}
+  .pc-bot{display:flex;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px solid var(--border);}
+  .pc-visits{font-size:10px;color:var(--text4);}
+  .pc-status{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+  .empty{text-align:center;padding:60px 20px;}
+  .empty-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text3);margin-bottom:12px;font-weight:300;}
+
+  /* ── DETAIL ── */
+  .det-hdr{background:white;border:1px solid var(--border);border-radius:10px;padding:22px 24px;margin-bottom:18px;}
+  .det-name{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--navy);font-weight:400;margin-bottom:2px;}
+  .det-diag{font-size:13px;color:var(--teal);font-style:italic;margin-bottom:14px;}
+  .det-meta{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:14px;}
+  .dml{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--text4);margin-bottom:3px;}
+  .dmv{font-size:12px;color:var(--navy);font-family:'DM Mono',monospace;font-weight:500;}
+  .det-actions{display:flex;gap:7px;flex-wrap:wrap;padding-top:14px;border-top:1px solid var(--border);}
+  .vlbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;font-weight:600;}
+  .vcard{background:white;border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;}
+  .vcard.latest{border-color:var(--teal);border-left:3px solid var(--teal);}
+  .vhdr{display:flex;align-items:center;gap:12px;padding:12px 15px;cursor:pointer;}
+  .vhdr:hover{background:var(--teal3);}
+  .vnum{font-family:'DM Mono',monospace;font-size:10px;color:var(--text4);width:20px;}
+  .vinfo{flex:1;}
+  .vdate{font-size:13px;color:var(--navy);font-weight:500;}
+  .vexs{font-size:11px;color:var(--text3);margin-top:1px;}
+  .vstatus{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+  .vchev{color:var(--text4);font-size:14px;transition:transform .2s;}
+  .vchev.open{transform:rotate(90deg);}
+  .vbody{padding:0 15px 15px;border-top:1px solid var(--border);}
+  .vex-item{display:grid;grid-template-columns:20px 1fr auto;gap:8px;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--bg2);font-size:12px;}
+  .vex-item:last-child{border-bottom:none;}
+  .vex-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--text4);}
+  .vex-name{color:var(--text);}
+  .vex-dose{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);}
+  .rf-banner{background:#fff3cd;border:1.5px solid #f5c842;border-radius:10px;padding:14px 16px;margin:12px 0;color:#7a5000}
+  .rf-title{font-weight:700;font-size:12px;margin-bottom:8px;color:#6a3000;letter-spacing:.02em}
+  .rf-item{font-size:12px;margin-bottom:5px;line-height:1.5;padding-left:8px;border-left:2px solid #f5c842}
+  .note-lbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin:11px 0 5px;}
+  .note-inp{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 11px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:55px;}
+  .note-inp:focus{border-color:var(--teal);}
+  .srow{display:flex;align-items:center;gap:7px;margin-top:8px;}
+  .slbl{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);}
+  .ssel{background:white;border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--text);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;cursor:pointer;}
+  .vactions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+
+  /* ── SOAP IN VISIT ── */
+  .soap-card{margin-top:10px;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+  .soap-card-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--teal3);border-bottom:1px solid var(--border);}
+  .soap-card-title{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:600;}
+  .soap-card-icd{font-family:'DM Mono',monospace;font-size:10px;color:var(--navy);background:white;padding:2px 7px;border-radius:3px;border:1px solid var(--border);}
+  .soap-row{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:6px 12px;border-bottom:1px solid var(--bg2);font-size:11px;align-items:baseline;}
+  .soap-row:last-child{border-bottom:none;}
+  .soap-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:700;width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .soap-l.S{background:#dceef8;color:#1a5a8a;}
+  .soap-l.O{background:#dcf0e4;color:#1a6a3a;}
+  .soap-l.A{background:#fdf3d8;color:#7a5a00;}
+  .soap-l.P{background:#ede0f8;color:#5a20a0;}
+  .soap-t{color:var(--text2);line-height:1.55;}
+
+  /* ── FORM ── */
+  .fw{max-width:600px;margin:0 auto;}
+  .ftit{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);margin-bottom:3px;font-weight:400;}
+  .fsub{color:var(--text3);font-size:12px;margin-bottom:22px;}
+  .slabel{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:7px;margin-top:18px;display:block;font-weight:600;}
+  .field{width:100%;background:white;border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .15s;}
+  .field:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,0.08);}
+  .field option{background:white;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .slwrap{margin-bottom:11px;}
+  .slhd{display:flex;justify-content:space-between;margin-bottom:4px;}
+  .sllbl{font-size:12px;color:var(--text2);}
+  .slval{font-size:13px;font-weight:600;font-family:'DM Mono',monospace;color:var(--navy);}
+  input[type=range]{width:100%;accent-color:var(--teal);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px;}
+  .chip{padding:5px 13px;border-radius:4px;border:1px solid var(--border);background:white;color:var(--text3);font-size:12px;cursor:pointer;transition:all .12s;font-family:'DM Sans',sans-serif;}
+  .chip.on{border-color:var(--teal);background:var(--teal3);color:var(--teal);font-weight:600;}
+  .hint{font-size:11px;color:var(--text3);margin-bottom:5px;line-height:1.6;}
+  .genbtn{width:100%;margin-top:20px;padding:13px;background:var(--navy);border:none;border-radius:7px;font-family:'Cormorant Garamond',serif;font-size:17px;color:white;cursor:pointer;letter-spacing:.04em;font-weight:400;}
+  .genbtn:hover:not(:disabled){background:var(--navy2);}
+  .genbtn:disabled{opacity:.4;cursor:not-allowed;}
+  .errbox{background:var(--red-bg);border:1px solid #f0c0c0;border-radius:6px;padding:9px 12px;color:var(--red);margin-bottom:12px;font-size:12px;}
+
+  /* ── EDIT EX ── */
+  .eelist{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+  .eeitem{display:flex;align-items:center;gap:10px;padding:10px 13px;border-radius:7px;border:1px solid;transition:all .18s;}
+  .eeitem.lk{border-color:var(--teal);background:var(--teal3);}
+  .eeitem.ul{border-color:var(--border);background:white;}
+  .eenum{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;flex-shrink:0;border:1px solid;}
+  .lk .eenum{background:white;color:var(--teal);border-color:var(--teal);}
+  .ul .eenum{background:var(--bg);color:var(--text4);border-color:var(--border);}
+  .eeinfo{flex:1;}
+  .eename{font-size:13px;font-weight:500;}
+  .lk .eename{color:var(--navy);}.ul .eename{color:var(--text3);}
+  .eedose{font-size:10px;color:var(--text4);margin-top:2px;font-family:'DM Mono',monospace;}
+  .eest{font-size:9px;margin-top:2px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;}
+  .lk .eest{color:var(--teal);}.ul .eest{color:var(--text4);}
+  .lkbtn{padding:4px 10px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid;font-family:'DM Sans',sans-serif;}
+  .lkbtn.on{border-color:var(--teal);background:white;color:var(--teal);}
+  .lkbtn.off{border-color:var(--border);background:var(--bg);color:var(--text3);}
+  .rinfo{background:var(--teal3);border:1px solid var(--teal);border-radius:6px;padding:7px 12px;font-size:12px;color:var(--teal);text-align:center;margin-bottom:12px;}
+
+  /* ── LOADING ── */
+  .ldwrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:13px;}
+  .spin{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--teal);animation:spin 1s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .ldtit{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--navy);font-weight:300;letter-spacing:.04em;}
+  .ldst{font-size:12px;display:flex;align-items:center;gap:8px;transition:color .3s;}
+  .ldst.done{color:var(--green);}.ldst.act{color:var(--teal);}.ldst.wait{color:var(--text4);}
+
+  /* ── SETTINGS ── */
+  .swrap{max-width:480px;margin:0 auto;}
+  .stit{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);font-weight:400;margin-bottom:3px;}
+  .ssub{font-size:12px;color:var(--text3);margin-bottom:22px;line-height:1.6;}
+  .akwrap{position:relative;margin-bottom:7px;}
+  .akinp{width:100%;background:white;border:1px solid var(--border);border-radius:6px;padding:9px 44px 9px 12px;color:var(--text);font-size:13px;font-family:'DM Mono',monospace;outline:none;}
+  .akinp:focus{border-color:var(--teal);}
+  .aktgl{position:absolute;right:9px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;font-family:'DM Sans',sans-serif;}
+  .akst{display:flex;align-items:center;gap:6px;font-size:11px;margin-bottom:6px;}
+  .akdot{width:6px;height:6px;border-radius:50%;}
+  .akhint{font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:12px;}
+  .akhint a{color:var(--teal);}
+  .svconf{font-size:11px;color:var(--green);margin-left:9px;opacity:0;transition:opacity .3s;}
+  .svconf.show{opacity:1;}
+
+  /* ── MODAL ── */
+  .modal-ov{display:none;position:fixed;inset:0;background:rgba(15,39,68,0.5);align-items:center;justify-content:center;z-index:200;}
+  .modal-ov.open{display:flex;}
+  .modal{background:white;border:1px solid var(--border);border-radius:12px;padding:26px;max-width:380px;width:90%;box-shadow:0 8px 32px rgba(15,39,68,0.15);}
+  .modal-title{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--navy);margin-bottom:6px;font-weight:400;}
+  .modal-text{font-size:13px;color:var(--text3);line-height:1.6;margin-bottom:18px;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;}
+
+  /* ── MEETING ── */
+  .meet-wrap{max-width:680px;margin:0 auto;}
+  .meet-consent{background:var(--teal3);border:1px solid var(--teal);border-radius:8px;padding:18px 22px;margin-bottom:20px;}
+  .meet-consent-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--navy);margin-bottom:7px;font-weight:400;}
+  .meet-consent-txt{font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:13px;}
+  .meet-consent-btn{display:flex;gap:9px;}
+  .meet-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);font-weight:400;margin-bottom:3px;}
+  .meet-sub{font-size:12px;color:var(--text3);margin-bottom:20px;}
+  .meet-status{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:11px 15px;border-radius:7px;background:white;border:1px solid var(--border);}
+  .meet-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+  .meet-dot.listening{background:#c03030;animation:pulse 1.2s ease-in-out infinite;}
+  .meet-dot.idle{background:var(--border2);}
+  .meet-dot.processing{background:var(--amber);animation:pulse .8s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+  .meet-status-txt{font-size:12px;color:var(--text2);flex:1;}
+  .meet-timer{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);}
+  .transcript-box{background:white;border:1px solid var(--border);border-radius:7px;padding:14px;min-height:180px;max-height:320px;overflow-y:auto;margin-bottom:14px;font-size:12px;color:var(--text2);line-height:1.8;}
+  .transcript-line{margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid var(--bg2);}
+  .transcript-line:last-child{border-bottom:none;}
+  .tl-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--text4);margin-right:8px;}
+  .tl-text{color:var(--text);}
+  .tl-text.interim{color:var(--text3);font-style:italic;}
+  .meet-controls{display:flex;gap:9px;margin-bottom:16px;flex-wrap:wrap;}
+  .rec-btn{padding:11px 20px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .18s;flex:1;}
+  .rec-btn.start{background:#c03030;color:white;}
+  .rec-btn.start:hover{background:#d04040;}
+  .rec-btn.stop{background:var(--red-bg);border:1px solid #f0c0c0;color:var(--red);}
+  .meet-note{width:100%;background:white;border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:65px;margin-bottom:13px;line-height:1.6;}
+  .meet-note:focus{border-color:var(--teal);}
+  .meet-done-btn{width:100%;padding:13px;background:var(--navy);border:none;border-radius:7px;font-family:'Cormorant Garamond',serif;font-size:17px;color:white;cursor:pointer;letter-spacing:.04em;}
+  .meet-done-btn:hover:not(:disabled){background:var(--navy2);}
+  .meet-done-btn:disabled{opacity:.4;cursor:not-allowed;}
+
+  /* ── SOAP NOTE (review) ── */
+  .soap-wrap{max-width:640px;margin:0 auto;}
+  .soap-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);font-weight:400;margin-bottom:3px;}
+  .soap-sub{font-size:12px;color:var(--text3);margin-bottom:20px;}
+  .soap-section{background:white;border:1px solid var(--border);border-radius:7px;margin-bottom:10px;overflow:hidden;}
+  .soap-hdr{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg);}
+  .soap-letter{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;width:21px;height:21px;border-radius:4px;display:flex;align-items:center;justify-content:center;}
+  .soap-letter.S{background:#dceef8;color:#1a5a8a;}
+  .soap-letter.O{background:#dcf0e4;color:#1a6a3a;}
+  .soap-letter.A{background:#fdf3d8;color:#7a5a00;}
+  .soap-letter.P{background:#ede0f8;color:#5a20a0;}
+  .soap-hdr-title{font-size:12px;color:var(--text2);font-weight:500;}
+  .soap-body{padding:11px 14px;}
+  .soap-edit{width:100%;background:transparent;border:none;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:58px;line-height:1.7;}
+  .soap-actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap;}
+  .soap-diag-row{display:flex;gap:9px;margin-bottom:13px;flex-wrap:wrap;}
+  .soap-diag-field{flex:1;background:white;border:1px solid var(--border);border-radius:6px;padding:8px 11px;color:var(--text);font-size:13px;font-family:'DM Sans',sans-serif;outline:none;}
+  .soap-diag-field:focus{border-color:var(--teal);}
+  .soap-diag-lbl{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:5px;font-weight:600;}
+
+  /* ── MANUAL SOAP ── */
+  .msoap-wrap{max-width:620px;margin:0 auto;}
+  .msoap-hint{background:var(--teal3);border:1px solid var(--teal);border-radius:7px;padding:10px 14px;font-size:12px;color:var(--text2);margin-bottom:18px;line-height:1.6;}
+  .msoap-section{margin-bottom:13px;}
+  .msoap-hdr{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+  .msoap-lbl{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;width:20px;height:20px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .msoap-lbl.S{background:#dceef8;color:#1a5a8a;}
+  .msoap-lbl.O{background:#dcf0e4;color:#1a6a3a;}
+  .msoap-lbl.A{background:#fdf3d8;color:#7a5a00;}
+  .msoap-lbl.P{background:#ede0f8;color:#5a20a0;}
+  .msoap-name{font-size:12px;color:var(--text2);}
+  .msoap-ta{width:100%;background:white;border:1px solid var(--border);border-radius:6px;padding:9px 12px;color:var(--text);font-size:12px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:70px;line-height:1.65;}
+  .msoap-ta:focus{border-color:var(--teal);}
+  .msoap-diag-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:5px;}
+
+  /* ── EDIT PATIENT ── */
+  .edit-wrap{max-width:540px;margin:0 auto;}
+
+  /* ── CHART ── */
+  .chart-wrap{background:white;border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;}
+  .chart-title{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;font-weight:600;}
+
+  /* ── DOC (rehab plan print) ── */
+  .doc-outer{background:var(--bg2);min-height:100vh;}
+  .dcontrols{background:var(--navy);padding:9px 28px;display:flex;align-items:center;gap:7px;flex-wrap:wrap;border-bottom:1px solid var(--navy3);}
+  .dhint{font-size:10px;color:rgba(255,255,255,0.3);margin-left:auto;}
+  .document{max-width:794px;margin:0 auto;background:white;font-family:'DM Sans',sans-serif;color:#2a2520;border:1px solid #ccc;}
+  .dochdr{background:white;padding:32px 48px 22px;border-bottom:2px solid var(--teal);}
+  .dhtop{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:16px;border-bottom:1px solid #e0dbd4;margin-bottom:14px;}
+  .dlogo{height:48px;}
+  .dlogo-sub{font-size:9px;color:#9a9490;margin-top:4px;letter-spacing:.12em;text-transform:uppercase;text-align:right;}
+  .dtag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:5px;}
+  .dpname{font-family:'Cormorant Garamond',serif;font-size:28px;color:#0f2744;font-weight:400;line-height:1.1;}
+  .ddiag{font-size:12px;color:#6a7a8a;margin-top:3px;font-style:italic;}
+  .dmeta{display:flex;gap:22px;flex-wrap:wrap;}
+  .dml{font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:#9a9490;margin-bottom:2px;}
+  .dmv{font-size:12px;color:#0f2744;font-family:'DM Mono',monospace;font-weight:500;}
+  .dbody{padding:30px 48px;}
+  .dgreet{font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.85;color:#4a4540;font-style:italic;font-weight:300;border-left:3px solid var(--teal);padding-left:15px;margin-bottom:28px;}
+  .dsec{font-family:'Cormorant Garamond',serif;font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:11px;padding-bottom:6px;border-bottom:2px solid var(--teal);}
+  .ggrid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:26px;border:1px solid #ddd;}
+  .gcell{padding:13px;border-right:1px solid #ddd;}
+  .gcell:last-child{border-right:none;}
+  .glbl{font-size:8px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin-bottom:4px;font-weight:600;}
+  .gtxt{font-size:12px;color:#2a2520;line-height:1.55;font-weight:300;}
+  .excard{margin-bottom:14px;page-break-inside:avoid;border:1px solid #ddd;}
+  .exhdr{display:grid;grid-template-columns:38px 1fr auto;align-items:center;border-bottom:1px solid #ddd;}
+  .exnum{display:flex;align-items:center;justify-content:center;height:36px;border-right:1px solid #ddd;font-family:'DM Mono',monospace;font-size:13px;color:var(--teal);font-weight:700;}
+  .exname{padding:0 13px;font-family:'Cormorant Garamond',serif;font-size:15px;color:#0f2744;}
+  .exdose{padding:0 13px;font-size:10px;color:var(--teal);font-family:'DM Mono',monospace;white-space:nowrap;font-weight:600;}
+  .exbody{padding:13px 17px;}
+  .expurp{font-size:11px;color:#6a6560;margin-bottom:9px;line-height:1.6;font-style:italic;border-bottom:1px solid #eee;padding-bottom:9px;}
+  .exsp-lbl{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#4a4540;font-weight:600;display:block;margin-bottom:2px;}
+  .exsp{font-size:11px;color:#6a6560;margin-bottom:9px;line-height:1.5;}
+  .exsteps{list-style:none;margin-bottom:9px;}
+  .exsteps li{display:grid;grid-template-columns:17px 1fr;gap:6px;margin-bottom:4px;font-size:11px;color:#2a2520;line-height:1.55;padding-bottom:4px;border-bottom:1px solid #f0ece4;}
+  .exsteps li:last-child{border-bottom:none;margin-bottom:0;}
+  .stepn{font-family:'DM Mono',monospace;font-size:9px;color:var(--teal);font-weight:600;}
+  .exnote{border-left:3px solid #c8a84b;padding:6px 10px;font-size:10px;color:#5a4a20;margin-bottom:5px;line-height:1.5;background:#fffdf5;}
+  .exnote-lbl{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#c8a84b;display:block;margin-bottom:2px;font-weight:600;}
+  .exok{border-left:3px solid #2a8a40;padding:6px 10px;font-size:10px;color:#1a4a20;line-height:1.5;background:#f5fff7;}
+  .exok-lbl{font-size:7px;letter-spacing:.14em;text-transform:uppercase;color:#2a8a40;display:block;margin-bottom:2px;font-weight:600;}
+  .scgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-bottom:26px;border:1px solid #ddd;}
+  .scday{text-align:center;padding:9px 3px;border-right:1px solid #ddd;}
+  .scday:last-child{border-right:none;}
+  .scday.act{border-top:3px solid var(--teal);}
+  .scday .dn{font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#9a9490;margin-bottom:2px;}
+  .scday.act .dn{color:var(--teal);font-weight:600;}
+  .scday .dt{font-size:9px;color:#6a6560;line-height:1.35;}
+  .scday.act .dt{color:#0f2744;font-weight:500;}
+  .pgrid2{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-bottom:26px;border:1px solid #ddd;}
+  .pcell{padding:12px;border-right:1px solid #ddd;}
+  .pcell:last-child{border-right:none;}
+  .phead{display:flex;align-items:center;gap:6px;margin-bottom:4px;}
+  .pdot{width:7px;height:7px;border-radius:50%;}
+  .plbl{font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;}
+  .pcell.gr .pdot{background:#2a8a40;}.pcell.gr .plbl{color:#2a8a40;}
+  .pcell.ye .pdot{background:#c8a030;}.pcell.ye .plbl{color:#c8a030;}
+  .pcell.re .pdot{background:#c05050;}.pcell.re .plbl{color:#c05050;}
+  .ptxt{font-size:10px;color:#4a4540;line-height:1.55;font-weight:300;}
+  .lifelist{list-style:none;margin-bottom:26px;}
+  .lifelist li{display:grid;grid-template-columns:13px 1fr;gap:9px;align-items:start;padding:7px 0;border-bottom:1px solid #eee;font-size:11px;color:#2a2520;line-height:1.55;font-weight:300;}
+  .lifelist li::before{content:"—";color:var(--teal);font-weight:600;}
+  .fubanner{border-left:3px solid var(--teal);padding:13px 17px;margin-bottom:26px;background:#f4f9fa;}
+  .futxt{font-family:'Cormorant Garamond',serif;font-size:13px;color:#0f2744;line-height:1.7;font-weight:300;font-style:italic;}
+  .dftr{border-top:2px solid var(--teal);padding:13px 48px;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:12px;}
+  .ftrlogo{height:32px;filter:brightness(0);opacity:0.35;}
+  .ftrclinic{font-size:9px;color:#8a8580;line-height:1.8;margin-top:3px;}
+  .ftrclinic strong{color:#4a4540;font-weight:600;display:block;font-size:10px;}
+  .ftrr{text-align:right;font-size:9px;color:#8a8580;line-height:1.8;}
+  .ftrslog{font-style:italic;color:var(--teal);margin-bottom:1px;font-weight:500;}
+
+  /* ── JOURNAL DOC ── */
+  .jdoc{max-width:794px;margin:0 auto;background:white;font-family:'DM Sans',sans-serif;color:#2a2520;border:1px solid #ccc;}
+  .jdoc-hdr{background:white;padding:26px 48px 17px;border-bottom:2px solid var(--teal);display:flex;justify-content:space-between;align-items:flex-start;}
+  .jdoc-title{font-family:'Cormorant Garamond',serif;font-size:25px;color:#0f2744;font-weight:400;}
+  .jdoc-sub{font-size:12px;color:#6a7a8a;margin-top:2px;}
+  .jdoc-meta{display:flex;gap:18px;margin-top:9px;flex-wrap:wrap;}
+  .jdoc-body{padding:26px 48px;}
+  .jdoc-sec{font-family:'Cormorant Garamond',serif;font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--teal);margin-bottom:9px;padding-bottom:5px;border-bottom:2px solid var(--teal);margin-top:20px;}
+  .jdoc-sec:first-child{margin-top:0;}
+  .jdoc-soap{border:1px solid #ddd;margin-bottom:5px;}
+  .jdoc-soap-hdr{display:grid;grid-template-columns:30px 1fr;align-items:center;border-bottom:1px solid #ddd;}
+  .jdoc-soap-l{display:flex;align-items:center;justify-content:center;height:30px;border-right:1px solid #ddd;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;}
+  .jdoc-soap-l.S{color:#1a5a8a;}.jdoc-soap-l.O{color:#1a6a3a;}.jdoc-soap-l.A{color:#7a5a00;}.jdoc-soap-l.P{color:#5a20a0;}
+  .jdoc-soap-title{padding:0 11px;font-size:11px;color:#4a4540;font-style:italic;}
+  .jdoc-soap-body{padding:9px 13px;font-size:11px;color:#2a2520;line-height:1.7;white-space:pre-wrap;}
+  .jdoc-icd{display:inline-flex;align-items:center;gap:8px;padding:5px 11px;background:#f4f9fa;border:1px solid #d0e8ec;border-radius:4px;margin-bottom:14px;}
+  .jdoc-icd-code{font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--teal);}
+  .jdoc-icd-desc{font-size:12px;color:#4a4540;}
+  .jdoc-ftr{border-top:2px solid var(--teal);padding:11px 48px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#8a8580;}
+  .jdoc-ftr-logo{height:26px;filter:brightness(0);opacity:0.3;}
+
+  
+  /* ── PHASES ── */
+  .phase-bar{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:18px;}
+  .phase-step{flex:1;padding:12px 10px;text-align:center;cursor:pointer;transition:all .15s;border-right:1px solid var(--border);background:white;}
+  .phase-step:last-child{border-right:none;}
+  .phase-step:hover{background:var(--bg);}
+  .phase-step.active{background:var(--navy);color:white;}
+  .phase-step.done{background:var(--teal3);}
+  .ps-icon{font-size:14px;margin-bottom:3px;}
+  .ps-label{font-size:8px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:1px;}
+  .phase-step.active .ps-label{color:rgba(255,255,255,0.6);}
+  .phase-step.done .ps-label{color:var(--teal);}
+  .ps-name{font-size:11px;font-weight:600;color:var(--navy);}
+  .phase-step.active .ps-name{color:white;}
+  .phase-step.done .ps-name{color:var(--teal);}
+  .ps-desc{font-size:9px;color:var(--text3);margin-top:2px;line-height:1.4;}
+  .phase-step.active .ps-desc{color:rgba(255,255,255,0.5);}
+  .phase-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:4px;font-size:10px;font-weight:600;}
+  .phase-next{background:var(--teal3);border:1px solid var(--teal);border-radius:8px;padding:13px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .phase-next-txt{font-size:12px;color:var(--text2);line-height:1.5;}
+  .phase-next-txt strong{color:var(--navy);display:block;margin-bottom:2px;}
+@media print{
+    .tb,.dcontrols{display:none!important;}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+    .doc-outer,.jdoc{background:white;}
+    .document,.jdoc{max-width:100%;border:none;}
+  }
+
+  /* ── EKONOMI ── */
+
+  /* ── INTAG-FLÖDE ── */
+  .ipb-avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.15);color:white;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .ipb-name{font-size:14px;font-weight:600;color:white;}
+  .ipb-meta{font-size:11px;color:rgba(255,255,255,0.5);}
+  .ipb-change{font-size:11px;color:rgba(255,255,255,0.4);cursor:pointer;margin-left:auto;text-decoration:underline;}
+  .ipb-change:hover{color:white;}
+  .svc-chip{padding:10px 14px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:12px;font-weight:500;transition:all .12s;background:white;display:flex;justify-content:space-between;align-items:center;}
+  .svc-chip:hover{border-color:var(--teal);color:var(--teal);}
+  .svc-chip.selected{background:var(--navy);border-color:var(--navy);color:white;}
+  .svc-chip-price{font-size:10px;opacity:.6;font-family:'DM Mono',monospace;}
+  .channel-chip{padding:6px 14px;border:1px solid var(--border);border-radius:20px;cursor:pointer;font-size:11px;font-weight:500;transition:all .12s;background:white;}
+  .channel-chip:hover{border-color:var(--teal);}
+  .channel-chip.selected{background:var(--teal);border-color:var(--teal);color:white;}
+  .ina-btn{padding:14px;border-radius:8px;border:1px solid var(--border);background:white;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;transition:all .15s;text-align:left;}
+  .ina-btn:hover{border-color:var(--teal);background:var(--teal3);}
+  .ina-btn.primary{background:var(--navy);border-color:var(--navy);color:white;}
+  .ina-btn.primary:hover{background:var(--navy2);}
+  .ina-icon{font-size:18px;margin-bottom:6px;display:block;}
+  .ina-sub{font-size:10px;color:var(--text3);margin-top:2px;font-weight:400;}
+  .ina-btn.primary .ina-sub{color:rgba(255,255,255,0.5);}
+  .intakt-saved-banner{background:#e8f5ee;border:1px solid #a0d8b0;border-radius:6px;padding:9px 14px;font-size:12px;color:var(--green);font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+
+  /* ── SIDE-BY-SIDE SOAP ── */
+  .sbs-wrap{max-width:1200px;margin:0 auto;}
+  .sbs-top{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+  .sbs-col-label{padding:8px 14px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+  .sbs-col-label.prev{background:var(--amber-bg);color:var(--amber);border:1px solid #e0c860;}
+  .sbs-col-label.curr{background:var(--teal3);color:var(--teal);border:1px solid var(--teal);}
+  .sbs-col-detail{font-size:12px;font-weight:400;color:var(--text3);margin-left:auto;text-transform:none;letter-spacing:0;}
+  .sbs-section{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px;}
+  .sbs-panel{background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+  .sbs-phdr{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid var(--border);}
+  .sbs-letter{width:22px;height:22px;border-radius:4px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sbs-letter.S{background:#ffe8e8;color:#a03030;}
+  .sbs-letter.O{background:#e8eeff;color:#2030a0;}
+  .sbs-letter.A{background:var(--amber-bg);color:var(--amber);}
+  .sbs-letter.P{background:var(--green-bg);color:var(--green);}
+  .sbs-pname{font-size:10px;color:var(--text3);}
+  .sbs-prev-body{padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.7;min-height:80px;background:#fefcf0;font-style:italic;}
+  .sbs-curr-ta{width:100%;padding:10px 12px;font-size:12px;font-family:'DM Sans',sans-serif;color:var(--text);line-height:1.7;min-height:80px;border:none;outline:none;resize:vertical;background:white;}
+  .sbs-curr-ta:focus{background:#f8fcff;}
+  .sbs-prev-exlist{padding:8px 12px;background:#fefcf0;}
+  .sbs-ex-row{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;color:var(--text2);border-bottom:1px solid var(--border);}
+  .sbs-ex-row:last-child{border-bottom:none;}
+  .sbs-ex-n{width:16px;height:16px;border-radius:3px;background:var(--amber-bg);color:var(--amber);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .sbs-goals-prev{padding:10px 12px;background:#fefcf0;}
+  .sbs-goal-row{margin-bottom:6px;font-size:11px;}
+  .sbs-goal-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text4);}
+  .sbs-goal-val{color:var(--text2);font-style:italic;margin-top:1px;}
+  .sbs-pain-compare{display:flex;gap:10px;margin-bottom:14px;}
+  .sbs-pain-box{flex:1;background:white;border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;}
+  .sbs-pain-val{font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy);}
+  .sbs-pain-lbl{font-size:10px;color:var(--text3);margin-top:2px;}
+  .sbs-delta{font-size:12px;font-weight:700;padding:2px 8px;border-radius:4px;margin-top:4px;display:inline-block;}
+  .sbs-delta.better{background:var(--green-bg);color:var(--green);}
+  .sbs-delta.worse{background:var(--red-bg);color:var(--red);}
+  .sbs-delta.same{background:var(--bg);color:var(--text3);}
+  @media(max-width:750px){
+    .sbs-section,.sbs-top{grid-template-columns:1fr;}
+    }
+  /* ── BETALSTATUS ── */
+  .pay-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:opacity .12s;user-select:none;}
+  .pay-badge:hover{opacity:.8;}
+  .pay-badge.paid{background:#e8f5ee;color:#1a7a4a;border-color:#a0d8b0;}
+  .pay-badge.unpaid{background:#fde8e8;color:#a03030;border-color:#f0b0b0;}
+  .pay-badge.invoiced{background:#fdf3d8;color:#8a6000;border-color:#e0c060;}
+  .pay-popup{position:fixed;z-index:200;background:white;border:1px solid var(--border);border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.15);min-width:160px;overflow:hidden;}
+  .pay-opt{padding:10px 14px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:8px;}
+  .pay-opt:hover{background:var(--bg);}
+  /* ── SAMTYCKE ── */
+  .consent-wrap{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:12px;}
+  .consent-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .consent-hdr-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);}
+  .consent-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;}
+  .consent-row:last-child{border-bottom:none;}
+  .consent-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+  .consent-type{flex:1;color:var(--text2);}
+  .consent-date{font-size:10px;color:var(--text3);font-family:monospace;}
+  .consent-rev{font-size:10px;color:var(--red);cursor:pointer;text-decoration:underline;margin-left:6px;}
+  /* ── PATIENTJOURNAL PDF ── */
+  .pjdoc{max-width:800px;margin:0 auto;background:white;}
+  .pjdoc-cover{padding:48px 48px 28px;border-bottom:3px solid var(--navy);}
+  .pjdoc-clinic-name{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);margin-bottom:14px;}
+  .pjdoc-patient-name{font-family:'Cormorant Garamond',serif;font-size:34px;color:var(--navy);font-weight:400;margin-bottom:4px;}
+  .pjdoc-diag{font-size:13px;color:var(--text3);}
+  .pjdoc-meta-row{display:flex;gap:24px;margin-top:18px;padding-top:18px;border-top:1px solid var(--border);}
+  .pjdoc-mi .lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text4);margin-bottom:2px;}
+  .pjdoc-mi .val{font-size:13px;font-weight:600;color:var(--navy);}
+  .pjdoc-section{padding:24px 48px;border-bottom:1px solid var(--border);}
+  .pjdoc-sec-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--teal);margin-bottom:14px;}
+  .pjdoc-visit-block{margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--bg2);}
+  .pjdoc-visit-block:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+  .pjdoc-visit-hdr{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .pjdoc-visit-n{width:22px;height:22px;border-radius:50%;background:var(--navy);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .pjdoc-visit-date{font-weight:700;color:var(--navy);font-size:13px;}
+  .pjdoc-soap-row{display:grid;grid-template-columns:22px 1fr;gap:8px;margin-bottom:6px;}
+  .pjdoc-sl{width:20px;height:20px;border-radius:3px;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .pjdoc-sl.S{background:#ffe8e8;color:#a03030;}
+  .pjdoc-sl.O{background:#e8eeff;color:#2030a0;}
+  .pjdoc-sl.A{background:var(--amber-bg);color:var(--amber);}
+  .pjdoc-sl.P{background:var(--green-bg);color:var(--green);}
+  .pjdoc-soap-text{font-size:12px;line-height:1.7;color:var(--text2);padding-top:1px;white-space:pre-wrap;}
+  .pjdoc-exercises{margin-top:8px;padding:8px 12px;background:var(--bg);border-radius:6px;}
+  .pjdoc-ex-row{display:flex;gap:8px;font-size:11px;padding:2px 0;color:var(--text2);}
+  .pjdoc-ex-n{color:var(--text4);font-family:monospace;flex-shrink:0;width:20px;}
+  .pjdoc-ftr{padding:20px 48px;display:flex;align-items:center;justify-content:space-between;border-top:2px solid var(--navy);}
+  .pjdoc-ftr-txt{font-size:10px;color:var(--text3);line-height:1.8;}
+  .login-wrap{max-width:360px;margin:80px auto;padding:0 20px}
+  .login-logo{height:48px;margin-bottom:24px}
+  .login-title{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--navy);font-weight:400;margin-bottom:4px}
+  .login-sub{font-size:13px;color:var(--text3);margin-bottom:28px}
+  .login-field{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;margin-bottom:10px;background:white}
+  .login-field:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,0.08)}
+  .login-btn{width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px;font-weight:600;letter-spacing:.02em}
+  .login-btn:hover{background:#2a4a5a}
+  .login-err{font-size:12px;color:#c07070;margin-top:8px;min-height:18px}
+  .login-hint{font-size:11px;color:var(--text3);margin-top:16px;line-height:1.6}
+  @media print{
+    .dcontrols{display:none!important;}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+    .pjdoc-section{page-break-inside:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:14px;flex-shrink:0">
+    <img src="data:image/svg+xml,%3Csvg%20id%3D%22Layer_1%22%20data-name%3D%22Layer%201%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20619.89%20448.29%22%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill%3A%23fff%3B%7D.cls-2%7Bfill%3A%230067a2%3B%7D.cls-3%7Bfill%3A%23f6c600%3B%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EKansei%20Logo%20redesign%3C/title%3E%3Cpath%20d%3D%22M67.05%2C195.27%2C32.39%2C206.2a13.88%2C13.88%2C0%2C0%2C0-8.93%2C11.06%2C14.28%2C14.28%2C0%2C0%2C0%2C4%2C11.44L52.52%2C249h0L43.72%2C276c-1.77%2C7.08%2C1%2C14.16%2C6.53%2C17.33s11.64%2C1%2C12.53.66l34.79-13.86%2C22%2C13.94a6%2C6%2C0%2C0%2C0%2C5.11.61l48.48-16.41a12.86%2C12.86%2C0%2C0%2C0%2C6.18-8.2%2C12.49%2C12.49%2C0%2C0%2C0-1.25-8.46l-9.33-27.86%2C30.78-21.59c.31-.39%2C4.31-5.66%2C2.14-12.13-2.3-6.85-9.32-8.46-9.64-8.53H157.41Q151%2C176.27%2C144.55%2C161a12.83%2C12.83%2C0%2C0%2C0-4.75-5.83c-5.84-3.82-12.61-.93-13.18-.67L83.71%2C168.08A14%2C14%2C0%2C0%2C0%2C80%2C170.75a14.18%2C14.18%2C0%2C0%2C0-3.46%2C5.73q-2.34%2C8.63-4.67%2C17.26Z%22/%3E%3Cpath%20class%3D%22cls-1%22%20d%3D%22M79.51%2C202.4h40.58L131.89%2C167c.3-.73.74-1.83%2C1.24-3.2.44-1.2.65-1.85%2C1-1.85s.53.72%2C1%2C2.15c.45%2C1.2.85%2C2.19%2C1.15%2C2.9q6.71%2C17.68%2C13.4%2C35.38h39.78c1.26-.16%2C2.3.16%2C2.52.75s-.33%2C1.21-.92%2C1.95a7.19%2C7.19%2C0%2C0%2C1-1.6%2C1.5L156.68%2C230l11.59%2C36c.18%2C1.57-.1%2C2.79-.7%2C3-.32.1-.72-.08-1.4-.4a7.14%2C7.14%2C0%2C0%2C1-1.3-.8l-30.39-22.39-29.18%2C21c-.29.17-.71.42-1.24.68-1.3.62-2.19%2C1-2.71.77-.7-.36-.79-2-.25-3.85q5.7-17.3%2C11.39-34.59l-31.38-23c-1.73-.73-2.63-2.07-2.38-3A1.69%2C1.69%2C0%2C0%2C1%2C79.51%2C202.4Z%22/%3E%3Cpath%20class%3D%22cls-2%22%20d%3D%22M83.71%2C193.74h30.05l6.8-23.79L89%2C179.81Z%22/%3E%3Cpath%20class%3D%22cls-2%22%20d%3D%22M134.22%2C256.58l20.52%2C16.53-33.05%2C12-12.13-10.26Z%22/%3E%3Cpath%20class%3D%22cls-3%22%20d%3D%22M66.38%2C208.34l31.19%2C24.92L87.3%2C271.91%2C55.45%2C282.57l11.46-38.38L35.06%2C219Z%22/%3E%3Cpath%20d%3D%22M501%2C205.59l-1.2%2C5.41H467.55a2.1%2C2.1%2C0%2C0%2C0-.67.24%2C2.51%2C2.51%2C0%2C0%2C0-.78.62%2C3.72%2C3.72%2C0%2C0%2C0-.22.3c-.06.28-.48%2C2.25-.55%2C2.53q-1.4%2C6.44-2.78%2C12.83h28.78c2.45%2C0%2C4.25%2C2.55%2C3.68%2C5.19l-9.25%2C41.79h-21l.09-.3H451.59l-.08.3H428.25l3.53-15.17H469q1.47-5.83%2C3-11.67l-37.46-.42L447%2C193.86h45.56a8.21%2C8.21%2C0%2C0%2C1%2C6.53%2C3.39%2C11.22%2C11.22%2C0%2C0%2C1%2C2.07%2C5.21A9.16%2C9.16%2C0%2C0%2C1%2C501%2C205.59Z%22/%3E%3Cpath%20d%3D%22M348.77%2C193.85H296.25L275.48%2C274.5h25.76l6.6-22.35h15l-6.88%2C22.35h23.25l17.17-70.07a10.77%2C10.77%2C0%2C0%2C0-2.4-7.19A10.58%2C10.58%2C0%2C0%2C0%2C348.77%2C193.85Zm-18.16%2C29.87c-1%2C4.64-1.92%2C6.36-2.22%2C6.86a7%2C7%2C0%2C0%2C1-2.46%2C2.79%2C6.4%2C6.4%2C0%2C0%2C1-3.33.81h-9.74a1%2C1%2C0%2C0%2C1-.57-.41%2C1.07%2C1.07%2C0%2C0%2C1-.1-.93q2.18-9.06%2C4.36-18.14l.62-2.54a2.82%2C2.82%2C0%2C0%2C1%2C1.1-.92A2.85%2C2.85%2C0%2C0%2C1%2C319%2C211c1.87%2C0%2C3.44%2C0%2C4.59.09%2C4.17.24%2C5.28.72%2C6%2C1.52a5.91%2C5.91%2C0%2C0%2C1%2C.9%2C1.52%2C10.42%2C10.42%2C0%2C0%2C1%2C.81%2C3.66A21.61%2C21.61%2C0%2C0%2C1%2C330.61%2C223.72Z%22/%3E%3Cpath%20d%3D%22M374.15%2C274.5q3.94-15.37%2C7.9-30.73l9%2C30.73h28q8.71-34.2%2C17.44-68.4c.08-.25%2C1.63-5.47-1.86-9.31a9.45%2C9.45%2C0%2C0%2C0-6.17-2.94l-15.44.2q-4.69%2C20.67-9.4%2C41.34l-8.93-34.7a9.83%2C9.83%2C0%2C0%2C0-8.92-6.84H368.59q-9.37%2C40.32-18.76%2C80.65Z%22/%3E%3Cpath%20d%3D%22M512.3%2C194.15l-19%2C80.06h50.31L548%2C255.44l-24.76.4%2C3.4-13.77%2C25%2C.2L557%2C224.71H531.27l4-13.59H560l1.6-11.43a9.18%2C9.18%2C0%2C0%2C0-.3-2.19c-.2-.55-.71-1.26-2.85-2.1a18.52%2C18.52%2C0%2C0%2C0-6.44-1.25Z%22/%3E%3Cpath%20d%3D%22M572%2C194.44%2C551.43%2C273.9H578l18.36-68.48c.11-.52%2C1-5.64-2.42-9a8.65%2C8.65%2C0%2C0%2C0-3.56-2Z%22/%3E%3Cpath%20d%3D%22M270.27%2C193.85l-28.55%2C34.23-2.79.1q4.14-15.47%2C8.27-30.94a2.72%2C2.72%2C0%2C0%2C0-.66-2.63%2C2.77%2C2.77%2C0%2C0%2C0-2.26-.76h-21.8L202.79%2C274h25q3.84-14.22%2C7.69-28.45l4.09.1L250.1%2C274h21l-13.8-35.63%2C31.81-42.93a1.2%2C1.2%2C0%2C0%2C0%2C0-.9%2C1.15%2C1.15%2C0%2C0%2C0-.93-.69Z%22/%3E%3C/svg%3E" alt="Kansei" class="topbar-logo">
+    <div style="display:none" class="topbar-slogan-desktop">Rörelse är medicin</div>
+  </div>
+  <div class="topbar-right" id="tbr"></div>
+</div>
+<div class="main">
+  <div id="s-dashboard" class="screen"></div>
+  <div id="s-list" class="screen"></div>
+  <div id="s-detail" class="screen"></div>
+  <div id="s-form" class="screen"></div>
+  <div id="s-editex" class="screen"></div>
+  <div id="s-loading" class="screen"></div>
+  <div id="s-login" class="screen active"></div>
+  <div id="s-doc" class="screen"></div>
+  <div id="s-settings" class="screen"></div>
+  <div id="s-meeting" class="screen"></div>
+  <div id="s-soap" class="screen"></div>
+  <div id="s-editpat" class="screen"></div>
+  <div id="s-journaldoc" class="screen"></div>
+  <div id="s-manualsoap" class="screen"></div>
+  <div id="s-sbs-soap" class="screen"></div>
+  <div id="s-patjournal" class="screen"></div>
+</div>
+<div id="crash-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#8a2020;color:white;padding:10px 20px;font-size:12px;z-index:999;display:flex;align-items:center;gap:10px">
+  <span>⚠ Osparade ändringar — senast sparad: <span id="last-saved-txt">aldrig</span></span>
+  <button onclick="manualSave()" style="background:white;color:#8a2020;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;font-weight:600">Spara nu</button>
+  <button onclick="exportBackup()" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer">💾 Ladda ner backup</button>
+  <button onclick="document.getElementById('crash-banner').style.display='none'" style="background:transparent;border:none;color:rgba(255,255,255,0.6);cursor:pointer;margin-left:auto;font-size:16px">✕</button>
+</div>
+<div id="autosave-toast" style="display:none;position:fixed;bottom:16px;right:16px;background:var(--navy);color:white;padding:8px 16px;border-radius:6px;font-size:11px;z-index:998;opacity:0;transition:opacity .3s">✓ Autosparad</div>
+<div class="modal-ov" id="modal">
+  <div class="modal">
+    <div class="modal-title" id="mtitle"></div>
+    <div class="modal-text" id="mtext"></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal()">Avbryt</button>
+      <button class="btn btn-d" id="mconfirm">Radera</button>
+    </div>
+  </div>
+</div>
+<script>
+window.onerror = function(msg, src, line, col, err) {
+  document.body.innerHTML = '<div style="background:#1a2e42;color:#e8ddd0;padding:40px;font-family:sans-serif;min-height:100vh"><h2 style="color:#c07070;margin-bottom:16px">Fel vid start</h2><p style="margin-bottom:8px"><strong>Meddelande:</strong> ' + msg + '</p><p style="margin-bottom:8px"><strong>Rad:</strong> ' + line + ', Kolumn: ' + col + '</p><p style="color:#4a5a6a;font-size:12px;margin-top:20px">Skicka denna information till din tekniker.</p></div>';
+  return false;
+};
+const LOGO="data:image/svg+xml,%3Csvg%20id%3D%22Layer_1%22%20data-name%3D%22Layer%201%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20619.89%20448.29%22%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill%3A%23fff%3B%7D.cls-2%7Bfill%3A%230067a2%3B%7D.cls-3%7Bfill%3A%23f6c600%3B%7D%3C/style%3E%3C/defs%3E%3Ctitle%3EKansei%20Logo%20redesign%3C/title%3E%3Cpath%20d%3D%22M67.05%2C195.27%2C32.39%2C206.2a13.88%2C13.88%2C0%2C0%2C0-8.93%2C11.06%2C14.28%2C14.28%2C0%2C0%2C0%2C4%2C11.44L52.52%2C249h0L43.72%2C276c-1.77%2C7.08%2C1%2C14.16%2C6.53%2C17.33s11.64%2C1%2C12.53.66l34.79-13.86%2C22%2C13.94a6%2C6%2C0%2C0%2C0%2C5.11.61l48.48-16.41a12.86%2C12.86%2C0%2C0%2C0%2C6.18-8.2%2C12.49%2C12.49%2C0%2C0%2C0-1.25-8.46l-9.33-27.86%2C30.78-21.59c.31-.39%2C4.31-5.66%2C2.14-12.13-2.3-6.85-9.32-8.46-9.64-8.53H157.41Q151%2C176.27%2C144.55%2C161a12.83%2C12.83%2C0%2C0%2C0-4.75-5.83c-5.84-3.82-12.61-.93-13.18-.67L83.71%2C168.08A14%2C14%2C0%2C0%2C0%2C80%2C170.75a14.18%2C14.18%2C0%2C0%2C0-3.46%2C5.73q-2.34%2C8.63-4.67%2C17.26Z%22/%3E%3Cpath%20class%3D%22cls-1%22%20d%3D%22M79.51%2C202.4h40.58L131.89%2C167c.3-.73.74-1.83%2C1.24-3.2.44-1.2.65-1.85%2C1-1.85s.53.72%2C1%2C2.15c.45%2C1.2.85%2C2.19%2C1.15%2C2.9q6.71%2C17.68%2C13.4%2C35.38h39.78c1.26-.16%2C2.3.16%2C2.52.75s-.33%2C1.21-.92%2C1.95a7.19%2C7.19%2C0%2C0%2C1-1.6%2C1.5L156.68%2C230l11.59%2C36c.18%2C1.57-.1%2C2.79-.7%2C3-.32.1-.72-.08-1.4-.4a7.14%2C7.14%2C0%2C0%2C1-1.3-.8l-30.39-22.39-29.18%2C21c-.29.17-.71.42-1.24.68-1.3.62-2.19%2C1-2.71.77-.7-.36-.79-2-.25-3.85q5.7-17.3%2C11.39-34.59l-31.38-23c-1.73-.73-2.63-2.07-2.38-3A1.69%2C1.69%2C0%2C0%2C1%2C79.51%2C202.4Z%22/%3E%3Cpath%20class%3D%22cls-2%22%20d%3D%22M83.71%2C193.74h30.05l6.8-23.79L89%2C179.81Z%22/%3E%3Cpath%20class%3D%22cls-2%22%20d%3D%22M134.22%2C256.58l20.52%2C16.53-33.05%2C12-12.13-10.26Z%22/%3E%3Cpath%20class%3D%22cls-3%22%20d%3D%22M66.38%2C208.34l31.19%2C24.92L87.3%2C271.91%2C55.45%2C282.57l11.46-38.38L35.06%2C219Z%22/%3E%3Cpath%20d%3D%22M501%2C205.59l-1.2%2C5.41H467.55a2.1%2C2.1%2C0%2C0%2C0-.67.24%2C2.51%2C2.51%2C0%2C0%2C0-.78.62%2C3.72%2C3.72%2C0%2C0%2C0-.22.3c-.06.28-.48%2C2.25-.55%2C2.53q-1.4%2C6.44-2.78%2C12.83h28.78c2.45%2C0%2C4.25%2C2.55%2C3.68%2C5.19l-9.25%2C41.79h-21l.09-.3H451.59l-.08.3H428.25l3.53-15.17H469q1.47-5.83%2C3-11.67l-37.46-.42L447%2C193.86h45.56a8.21%2C8.21%2C0%2C0%2C1%2C6.53%2C3.39%2C11.22%2C11.22%2C0%2C0%2C1%2C2.07%2C5.21A9.16%2C9.16%2C0%2C0%2C1%2C501%2C205.59Z%22/%3E%3Cpath%20d%3D%22M348.77%2C193.85H296.25L275.48%2C274.5h25.76l6.6-22.35h15l-6.88%2C22.35h23.25l17.17-70.07a10.77%2C10.77%2C0%2C0%2C0-2.4-7.19A10.58%2C10.58%2C0%2C0%2C0%2C348.77%2C193.85Zm-18.16%2C29.87c-1%2C4.64-1.92%2C6.36-2.22%2C6.86a7%2C7%2C0%2C0%2C1-2.46%2C2.79%2C6.4%2C6.4%2C0%2C0%2C1-3.33.81h-9.74a1%2C1%2C0%2C0%2C1-.57-.41%2C1.07%2C1.07%2C0%2C0%2C1-.1-.93q2.18-9.06%2C4.36-18.14l.62-2.54a2.82%2C2.82%2C0%2C0%2C1%2C1.1-.92A2.85%2C2.85%2C0%2C0%2C1%2C319%2C211c1.87%2C0%2C3.44%2C0%2C4.59.09%2C4.17.24%2C5.28.72%2C6%2C1.52a5.91%2C5.91%2C0%2C0%2C1%2C.9%2C1.52%2C10.42%2C10.42%2C0%2C0%2C1%2C.81%2C3.66A21.61%2C21.61%2C0%2C0%2C1%2C330.61%2C223.72Z%22/%3E%3Cpath%20d%3D%22M374.15%2C274.5q3.94-15.37%2C7.9-30.73l9%2C30.73h28q8.71-34.2%2C17.44-68.4c.08-.25%2C1.63-5.47-1.86-9.31a9.45%2C9.45%2C0%2C0%2C0-6.17-2.94l-15.44.2q-4.69%2C20.67-9.4%2C41.34l-8.93-34.7a9.83%2C9.83%2C0%2C0%2C0-8.92-6.84H368.59q-9.37%2C40.32-18.76%2C80.65Z%22/%3E%3Cpath%20d%3D%22M512.3%2C194.15l-19%2C80.06h50.31L548%2C255.44l-24.76.4%2C3.4-13.77%2C25%2C.2L557%2C224.71H531.27l4-13.59H560l1.6-11.43a9.18%2C9.18%2C0%2C0%2C0-.3-2.19c-.2-.55-.71-1.26-2.85-2.1a18.52%2C18.52%2C0%2C0%2C0-6.44-1.25Z%22/%3E%3Cpath%20d%3D%22M572%2C194.44%2C551.43%2C273.9H578l18.36-68.48c.11-.52%2C1-5.64-2.42-9a8.65%2C8.65%2C0%2C0%2C0-3.56-2Z%22/%3E%3Cpath%20d%3D%22M270.27%2C193.85l-28.55%2C34.23-2.79.1q4.14-15.47%2C8.27-30.94a2.72%2C2.72%2C0%2C0%2C0-.66-2.63%2C2.77%2C2.77%2C0%2C0%2C0-2.26-.76h-21.8L202.79%2C274h25q3.84-14.22%2C7.69-28.45l4.09.1L250.1%2C274h21l-13.8-35.63%2C31.81-42.93a1.2%2C1.2%2C0%2C0%2C0%2C0-.9%2C1.15%2C1.15%2C0%2C0%2C0-.93-.69Z%22/%3E%3C/svg%3E";
+const SLOGAN="Rörelse är medicin — vi guidar dig hela vägen";
+
+// ── SUPABASE SYNC ─────────────────────────────────────────────────────────────
+const SB_URL = 'https://wyahrvaqqufkjogamckm.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5YWhydmFxcXVma2pvZ2FtY2ttIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3Mjg4MTUsImV4cCI6MjA4ODMwNDgxNX0.9GZM4hUO1qqDxxxLuFpv-yiZzSMoSC9cDG8a02ApX5c';
+let _sbSyncing = false;
+let _syncStatus = 'idle'; // idle | syncing | ok | error
+
+function sbHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Prefer': 'resolution=merge-duplicates'
+  };
+}
+
+function setSyncStatus(s, msg) {
+  _syncStatus = s;
+  const el = document.getElementById('sync-status');
+  if (!el) return;
+  const icons = {idle:'☁️', syncing:'🔄', ok:'✅', error:'⚠️'};
+  const colors = {idle:'rgba(255,255,255,0.4)', syncing:'#f0c040', ok:'#60d080', error:'#f07060'};
+  el.innerHTML = `<span style="color:${colors[s]};font-size:11px">${icons[s]} ${msg||''}</span>`;
+}
+
+async function sbUpsertPat(pat) {
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/patients', {
+      method: 'POST',
+      headers: sbHeaders(),
+      body: JSON.stringify({ id: pat.id, data: pat, updated_at: new Date().toISOString() })
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+async function sbDeletePat(id) {
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/patients?id=eq.' + encodeURIComponent(id), {
+      method: 'DELETE',
+      headers: sbHeaders()
+    });
+    return res.ok;
+  } catch(e) { return false; }
+}
+
+async function sbLoadAll() {
+  try {
+    const res = await fetch(SB_URL + '/rest/v1/patients?select=id,data,updated_at&order=updated_at.desc', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+    });
+    if (!res.ok) return null;
+    const rows = await res.json();
+    return rows.map(r => r.data).filter(Boolean);
+  } catch(e) { return null; }
+}
+
+async function syncToCloud() {
+  if (_sbSyncing) return;
+  _sbSyncing = true;
+  setSyncStatus('syncing', 'Sparar...');
+  let ok = true;
+  for (const p of S.patients) {
+    const r = await sbUpsertPat(p);
+    if (!r) { ok = false; break; }
+  }
+  _sbSyncing = false;
+  if (ok) {
+    setSyncStatus('ok', 'Synkad');
+    setTimeout(() => setSyncStatus('idle', ''), 3000);
+  } else {
+    setSyncStatus('error', 'Synkfel');
+  }
+}
+
+async function syncFromCloud() {
+  setSyncStatus('syncing', 'Hämtar...');
+  const cloudPats = await sbLoadAll();
+  if (!cloudPats) { setSyncStatus('error', 'Anslutningsfel'); return; }
+
+  // Merge: cloud wins if newer
+  const local = {};
+  S.patients.forEach(p => local[p.id] = p);
+
+  cloudPats.forEach(cp => {
+    const lp = local[cp.id];
+    if (!lp || (cp.updatedAt||0) > (lp.updatedAt||0)) {
+      local[cp.id] = cp;
+      try { localStorage.setItem('kansei-data:'+cp.id, JSON.stringify(cp)); } catch {}
+    }
+  });
+
+  S.patients = Object.values(local).sort((a,b) => (b.updatedAt||0)-(a.updatedAt||0));
+  setSyncStatus('ok', cloudPats.length + ' patienter');
+  setTimeout(() => setSyncStatus('idle', ''), 3000);
+
+  // Re-render current screen
+  if (S.screen === 'dashboard') rDashboard();
+  else if (S.screen === 'list') rList();
+}
+
+const CLINIC={name:"Kansei Ortopedi & Rehabcenter",address:"Upplandsgatan 26, 113 60 Stockholm",phone:"073 398 858 88",email:"info@kansei.se",website:"kansei.se"};
+const DIAGS=["Ländryggssmärta (ospecifik)","Nacksmärta / cervikalt syndrom","Rotatorkuffproblem / axelsmärta","Knäartros","Höftartros","Tennisarmbåge (lateral epikondylit)","Hälseneproblem (Achillestendinopati)","Plantarfasciit","Frozen shoulder (adhesiv kapsulir)","Diskbråck lumbal","Patellofemoralt smärtsyndrom","Fibromyalgi","Annan / fritext"];
+const SOPTS=["Aktiv","Uppföljning","Avslutad"];
+const SCOL={Aktiv:{bg:'#e8f5ee',col:'#1a7a4a'},Uppföljning:{bg:'#fdf3d8',col:'#8a6000'},Avslutad:{bg:'#eef0f3',col:'#5a6a7a'}};
+const PHASES=[
+  {id:1,label:'Fas 1',name:'Smärtlindring',desc:'Minska smärta, skydda vävnad, återfå basrörelser',color:'#c03030',bg:'#fde8e8',icon:'🔴'},
+  {id:2,label:'Fas 2',name:'Stabilisering',desc:'Muskelstyrka, funktion, neuromuskulär kontroll',color:'#8a6000',bg:'#fdf3d8',icon:'🟡'},
+  {id:3,label:'Fas 3',name:'Underhåll & friskvård',desc:'Upprätthålla, förebygga återfall, långsiktig hälsa',color:'#1a7a4a',bg:'#e8f5ee',icon:'🟢'}
+];
+let S={screen:"list",patients:[],pat:null,visitId:null,plan:null,locked:{},form:dform(),search:"",apiKey:"",apiVis:false};
+function dform(){return{name:"",birthYear:1980,diagnosis:DIAGS[0],customDiag:"",pain:5,history:"ingen",knowledge:"låg",location:"hem",motivation:6,exercises:5,followup:4,notes:""};}
+
+// ── CRASH PROTECTION & AUTO-SAVE ─────────────────────────────────────────────
+let _lastSaveTime=0;
+let _unsavedChanges=false;
+let _autoSaveInterval=null;
+
+function markUnsaved(){
+  _unsavedChanges=true;
+  const b=document.getElementById('crash-banner');
+  if(b) b.style.display='flex';
+}
+
+function manualSave(){
+  S.patients.forEach(p=>{lss(p.id,p);});
+  _lastSaveTime=Date.now();
+  _unsavedChanges=false;
+  const b=document.getElementById('crash-banner');
+  if(b) b.style.display='none';
+  const ts=document.getElementById('last-saved-txt');
+  if(ts) ts.textContent=new Date().toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
+  showAutoSaveToast('✓ Sparad '+new Date().toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'}));
+}
+
+function showAutoSaveToast(msg){
+  const t=document.getElementById('autosave-toast');
+  if(!t)return;
+  t.textContent = msg || '✓ Autosparad';
+  t.style.display='block';
+  t.style.opacity='1';
+  setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},2500);
+}
+
+let _autoBackupInterval = null;
+
+function startAutoSave(){
+  if(_autoSaveInterval) clearInterval(_autoSaveInterval);
+  if(_autoBackupInterval) clearInterval(_autoBackupInterval);
+
+  // Save to localStorage every 30 seconds if changes
+  _autoSaveInterval=setInterval(()=>{
+    if(_unsavedChanges){ manualSave(); }
+  },30000);
+
+  // Sync to Supabase every 5 minutes as safety net
+  _autoBackupInterval=setInterval(()=>{
+    if(S.patients.length > 0) syncToCloud();
+  }, 5 * 60 * 1000);
+}
+
+// Warn before unload if unsaved changes
+window.addEventListener('beforeunload',function(e){
+  if(_unsavedChanges){
+    e.preventDefault();
+    e.returnValue='Du har osparade ändringar. Vill du verkligen lämna?';
+    return e.returnValue;
+  }
+});
+
+// Override savePat to mark unsaved
+const _origSavePat_real = null; // will be set after function def
+function e(s){if(s==null)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");}
+function lsg(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}}
+function lss(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+function lsd(k){try{localStorage.removeItem(k);}catch{}}
+function lsk(p){try{const r=[];for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k&&k.startsWith(p))r.push(k);}return r;}catch{return[];}}
+function getKey(){try{return localStorage.getItem("kansei:apikey")||"";}catch{return "";}}
+function setKey(k){try{localStorage.setItem("kansei:apikey",k);}catch{}}
+function savePat(p){
+  const u={...p,updatedAt:Date.now()};
+  // Write to ALL key formats so loadPats always finds it
+  try{localStorage.setItem('kansei-data:'+u.id, JSON.stringify(u));}catch{}
+  try{localStorage.setItem('pat:'+u.id, JSON.stringify(u));}catch{}
+  try{localStorage.setItem(u.id, JSON.stringify(u));}catch{}
+  const i=S.patients.findIndex(x=>x.id===u.id);
+  if(i>=0)S.patients[i]=u;else S.patients.unshift(u);
+  S.patients.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  markUnsaved();
+  // Sync to Supabase in background
+  sbUpsertPat(u).then(ok => {
+    if(ok) setSyncStatus('ok','Sparad ✓');
+    else setSyncStatus('error','Synkfel');
+    setTimeout(()=>setSyncStatus('idle',''),3000);
+  });
+  return u;
+}
+function loadPats(){
+  const seen=new Set();
+  const pats=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(!k)continue;
+    // Match ALL patient key formats: kansei-data:xxx, pat:xxx, pat_xxx, kpat_xxx
+    const isPatKey=k.startsWith('kansei-data:')||k.startsWith('pat:')||
+                   (k.startsWith('pat_')&&!k.includes(':'))||
+                   (k.startsWith('kpat_')&&!k.includes(':'));
+    if(isPatKey){
+      try{
+        const v=localStorage.getItem(k);
+        if(!v)continue;
+        const p=JSON.parse(v);
+        if(p&&p.id&&typeof p.id==='string'&&!seen.has(p.id)){
+          seen.add(p.id);pats.push(p);
+        }
+      }catch{}
+    }
+  }
+  S.patients=pats;
+  S.patients.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+  // Re-save under canonical key so future loads are consistent
+  S.patients.forEach(p=>{try{localStorage.setItem('kansei-data:'+p.id,JSON.stringify(p));}catch{}});
+}
+function go(scr){S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,settings:rSettings,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
+function rTopbar(){const r=document.getElementById("tbr");let h="";const scr=S.screen;
+if(scr==='dashboard'){h+=`<span style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em">Kansei Klinik</span>`;}
+else{h+=`<button class="btn-ghost btn" onclick="go('dashboard')" style="font-size:11px">← Hem</button>`;}
+if(scr==="detail"&&S.pat){h+=`<button class="btn-ghost btn" onclick="startMeeting()">🎙 Möte</button>`;h+=`<button class="btn-ghost btn" onclick="startManualSOAP()">✍ Journal</button>`;h+=`<button class="btn-ghost btn" onclick="go('editpat')">Redigera</button>`;h+=`<button class="btn-ghost btn" onclick="newVisit()">+ Besök</button>`;}
+if(scr==="doc"){h+=`<button class="btn-ghost btn" onclick="go('detail')">Kundkort</button>`;h+=`<button class="btn-ghost btn" onclick="initEditEx()">Byt övningar</button>`;h+=`<button class="btn-ghost btn" onclick="window.print()">Skriv ut / PDF</button>`;}
+h+=`<span id="sync-status" style="margin-right:4px"></span>`;h+=`<button class="btn-ghost btn" style="padding:7px 11px" onclick="togSettings()" title="Inställningar">&#9881;</button>`;r.innerHTML=h;}
+function goBack(){const s=S.screen;if(s==="doc"||s==="form"||s==="editex"||s==="soap"||s==="editpat"||s==="journaldoc"||s==="manualsoap")go(S.pat?"detail":"list");else if(s==="meeting"){resetMeeting();go(S.pat?"detail":"list");}else if(s==="list"||s==="detail")go("dashboard");else go("list");}
+function togSettings(){go(S.screen==="settings"?"dashboard":"settings");}
+
+function rDashboard() {
+  const today = new Date().toLocaleDateString('sv-SE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'God morgon' : hour < 17 ? 'God eftermiddag' : 'God kväll';
+
+  // Stats
+  const total = S.patients.length;
+  const active = S.patients.filter(p => (p.visits&&p.visits[0]&&p.visits[0].status)==='Aktiv').length;
+
+  // Upcoming followups (overdue)
+  const upcoming = S.patients.filter(p => {
+    if (!p.visits||!p.visits[0]||!p.visits[0].form) return false;
+    const fw = p.visits[0].form.followup||4;
+    const d = new Date(p.visits[0].date||'');
+    if (isNaN(d)) return false;
+    const due = new Date(d); due.setDate(due.getDate() + fw*7);
+    return due <= new Date();
+  }).slice(0,5);
+
+  // Recent patients
+  const recent = [...S.patients].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).slice(0,6);
+
+  // Diagnosis stats
+  const diagCount = {};
+  S.patients.forEach(p => {
+    const d = p.diagnosis || 'Okänd';
+    diagCount[d] = (diagCount[d]||0) + 1;
+  });
+  const topDiags = Object.entries(diagCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const maxDiagCount = topDiags[0]?.[1] || 1;
+  const diagHtml = topDiags.length ? topDiags.map(([d,c]) => {
+    const pct = Math.round((c/total)*100);
+    const barW = Math.round((c/maxDiagCount)*100);
+    return `<div style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px">
+        <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">${e(d)}</div>
+        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);margin-left:8px;flex-shrink:0">${c} pt · ${pct}%</div>
+      </div>
+      <div style="height:5px;background:#eef0f3;border-radius:3px;overflow:hidden">
+        <div style="height:100%;width:${barW}%;background:var(--teal);border-radius:3px;transition:width .4s"></div>
+      </div>
+    </div>`;
+  }).join('') : '<div class="dash-empty">Inga diagnoser registrerade</div>';
+
+  let upcomingHtml = upcoming.length ? upcoming.map(p => {
+    const sc = SCOL[p.visits[0].status]||{bg:'#eef0f3',col:'#5a6a7a'};
+    return `<div class="dash-row" onclick="openPat('${p.id}')">
+      <div class="dr-avatar">${(p.name||'?')[0].toUpperCase()}</div>
+      <div class="dr-info"><div class="dr-name">${e(p.name||'Namnlös')}</div><div class="dr-diag">${e(p.diagnosis||'')}</div></div>
+      <span class="dr-badge" style="background:${sc.bg};color:${sc.col}">Återbesök</span>
+    </div>`;
+  }).join('') : '<div class="dash-empty">Inga väntande återbesök</div>';
+
+  let recentHtml = recent.length ? recent.map(p => {
+    const lastDate = p.visits&&p.visits[0]&&p.visits[0].date||'—';
+    const pph=PHASES[(p.phase||1)-1];
+    return `<div class="dash-row" onclick="openPat('${p.id}')">
+      <div class="dr-avatar">${(p.name||'?')[0].toUpperCase()}</div>
+      <div class="dr-info"><div class="dr-name">${e(p.name||'Namnlös')}</div><div class="dr-diag">${e(p.diagnosis||'')}</div></div>
+      <span class="phase-badge" style="background:${pph.bg};color:${pph.color};flex-shrink:0">${pph.icon} ${pph.label}</span>
+    </div>`;
+  }).join('') : '<div class="dash-empty">Inga patienter ännu</div>';
+
+  document.getElementById('s-dashboard').innerHTML = `
+    <div class="dash-greeting">${greeting}</div>
+    <div class="dash-date">${today}</div>
+
+    <div class="dash-actions">
+      <div class="dash-action primary" onclick="go('list')">
+        <div class="da-icon">👤</div>
+        <div class="da-title">Patienter</div>
+        <div class="da-sub">Se alla patienter, skapa ny eller öppna befintlig</div>
+      </div>
+      <div class="dash-action" onclick="quickStartMeeting()">
+        <div class="da-icon">🎙</div>
+        <div class="da-title">Spela in möte</div>
+        <div class="da-sub">Transkribera samtal automatiskt och skapa journal</div>
+      </div>
+      <div class="dash-action" onclick="quickManualSOAP()">
+        <div class="da-icon">✍</div>
+        <div class="da-title">Skriv journal</div>
+        <div class="da-sub">Fyll i SOAP-anteckning manuellt</div>
+      </div>
+      <div class="dash-action" onclick="quickNewPlan()">
+        <div class="da-icon">📋</div>
+        <div class="da-title">Skapa rehabplan</div>
+        <div class="da-sub">Generera rehabplan direkt utan journal</div>
+      </div>
+</div>
+
+    <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
+      ${[['Patienter',total,''],['Aktiva',active,''],['Väntande återbesök',upcoming.length,'']].map(([l,v,_])=>`
+        <div style="background:white;border:1px solid var(--border);border-radius:8px;padding:14px 20px;flex:1;min-width:120px;">
+          <div style="font-size:24px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${v}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">${l}</div>
+        </div>`).join('')}
+      <button class="btn btn-p" style="padding:14px 20px;flex:1;min-width:120px;font-size:13px" onclick="go('list')">Alla patienter →</button>
+    </div>
+
+    <div class="dash-cols">
+      <div class="dash-panel">
+        <div class="dash-panel-hdr">
+          <div class="dash-panel-title">Väntande återbesök</div>
+        </div>
+        <div class="dash-panel-body">${upcomingHtml}</div>
+      </div>
+      <div class="dash-panel">
+        <div class="dash-panel-hdr">
+          <div class="dash-panel-title">Senaste patienter</div>
+        </div>
+        <div class="dash-panel-body">${recentHtml}</div>
+      </div>
+    </div>
+    <div class="dash-panel" style="margin-top:0">
+      <div class="dash-panel-hdr">
+        <div class="dash-panel-title">Diagnosstatistik</div>
+        <div style="font-size:11px;color:var(--text3)">${total} patienter</div>
+      </div>
+      <div class="dash-panel-body" style="padding:14px 16px">${diagHtml}</div>
+    </div>
+  `;
+}
+
+// Quick actions from dashboard — no patient required upfront
+function quickStartMeeting() {
+  // Create a temporary anonymous patient if none selected
+  S.pat = S.pat || null;
+  if (!S.pat) {
+    // Start meeting with anonymous patient — fill in details after
+    S.pat = {id:'kpat_'+Date.now(), name:'', birthYear:1980, diagnosis:DIAGS[0], visits:[], _anonymous:true};
+  }
+  resetMeeting();
+  go('meeting');
+}
+
+function quickManualSOAP() {
+  if (!S.pat) {
+    S.pat = {id:'kpat_'+Date.now(), name:'', birthYear:1980, diagnosis:DIAGS[0], visits:[], _anonymous:true};
+  }
+  startManualSOAP();
+}
+
+function quickNewPlan() {
+  S.pat = null;
+  S.visitId = null;
+  S.plan = null;
+  S.locked = {};
+  S.form = dform();
+  S.error = '';
+  go('form');
+}
+
+let _listSort = 'recent'; // recent | name | visits | phase
+
+function rList(){
+  const q=S.search.toLowerCase();
+  let list=S.patients.filter(p=>!q||p.name?.toLowerCase().includes(q)||p.diagnosis?.toLowerCase().includes(q));
+
+  // Sort
+  if(_listSort==='name') list=[...list].sort((a,b)=>(a.name||'').localeCompare(b.name||'','sv'));
+  else if(_listSort==='visits') list=[...list].sort((a,b)=>(b.visits||[]).length-(a.visits||[]).length);
+  else if(_listSort==='phase') list=[...list].sort((a,b)=>(a.phase||1)-(b.phase||1));
+  else list=[...list].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)); // recent
+
+  const sortBtns = ['recent','name','visits','phase'].map(s=>
+    `<button class="btn${_listSort===s?' btn-p':''}" style="padding:5px 12px;font-size:11px" onclick="_listSort='${s}';rList()">
+      ${{recent:'Senaste',name:'Namn A–Ö',visits:'Flest besök',phase:'Fas'}[s]}
+    </button>`
+  ).join('');
+
+  let h=`<div class="list-hdr">
+    <div><div class="list-title">Patienter</div><div class="list-sub">${S.patients.length} registrerade · ${list.length} visas</div></div>
+    <button class="btn btn-p" onclick="newPat()">+ Ny patient</button>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center">
+    <input class="search-inp" placeholder="Sök namn eller diagnos..." value="${e(S.search)}" oninput="S.search=this.value;rList()" style="flex:1;min-width:180px;margin-bottom:0">
+    <div style="display:flex;gap:4px;flex-wrap:wrap">${sortBtns}</div>
+  </div>`;
+
+  if(!list.length){
+    h+=`<div class="empty"><div class="empty-title">${S.search?"Inga träffar för '"+e(S.search)+"'":"Inga patienter ännu"}</div>`;
+    if(!S.search)h+=`<button class="btn btn-p" onclick="newPat()">+ Skapa första patienten</button>`;
+    h+=`</div>`;
+  }else{
+    h+=`<div class="pgrid">`;
+    list.forEach(p=>{
+      const st=(p.visits&&p.visits[0]&&p.visits[0].status)||"Aktiv";
+      const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};
+      const pph=PHASES[(p.phase||1)-1];
+      const lastVisit=p.visits&&p.visits[0]&&p.visits[0].date||'';
+      const unpaid=(p.visits||[]).filter(v=>v.payStatus==='unpaid'&&(v.visits||[v]).length).length;
+      h+=`<div class="pcard" onclick="openPat('${p.id}')">
+        <button class="pc-del" onclick="event.stopPropagation();confDel('pat','${p.id}','${e(p.name||"patienten")}')">✕</button>
+        <div class="pc-name">${e(p.name||"Namnlös")}</div>
+        <div class="pc-diag">${e(p.diagnosis||"")}</div>
+        <div class="pc-meta">
+          <span class="pc-tag">f. ${p.birthYear||"—"}</span>
+          <span class="phase-badge" style="background:${pph.bg};color:${pph.color}">${pph.icon} ${pph.label}</span>
+        </div>
+        <div class="pc-bot">
+          <span class="pc-visits">${(p.visits||[]).length} besök${lastVisit?' · '+lastVisit:''}</span>
+          <span class="pc-status" style="background:${sc.bg};color:${sc.col}">${st}</span>
+        </div>
+      </div>`;
+    });
+    h+=`</div>`;
+  }
+  document.getElementById("s-list").innerHTML=h;
+}
+
+// ── PHASE MANAGEMENT ──────────────────────────────────────────────────────────
+function getCurrentPhase(pat) {
+  return pat.phase || 1;
+}
+
+function setPhase(phaseId) {
+  if (!S.pat) return;
+  S.pat = savePat({...S.pat, phase: phaseId});
+  rDetail();
+}
+
+function getPhasePromptAddition(phase) {
+  const additions = {
+    1: `\n\nBEHANDLINGSFAS: Fas 1 — Smärtlindring
+Fokusera på: smärtlindrande övningar, lätt rörlighetsträning, avlastning, andning och avspänning.
+UNDVIK: tung belastning, uthållighetsövningar, styrkeövningar.
+Övningarna ska vara skonsamma, 0-3 NRS under och efter träning.`,
+    2: `\n\nBEHANDLINGSFAS: Fas 2 — Stabilisering
+Fokusera på: muskelstyrka, neuromuskulär kontroll, stabilisering, funktionella rörelsemönster.
+Progressiv belastning är OK. Inkludera proprioception och balansövningar.
+Bygga upp kapacitet steg för steg.`,
+    3: `\n\nBEHANDLINGSFAS: Fas 3 — Underhåll & friskvård
+Fokusera på: upprätthålla styrka och rörlighet, förebygga återfall, generell friskvård.
+Varierande träning, aerob kondition, livsstilsråd för långsiktig hälsa.
+Patienten ska kunna självhantera.`
+  };
+  return additions[phase] || '';
+}
+
+function renderPhaseBar(pat) {
+  const cur = getCurrentPhase(pat);
+  return `<div class="phase-bar">
+    ${PHASES.map(p => {
+      const isDone = p.id < cur;
+      const isActive = p.id === cur;
+      return `<div class="phase-step ${isActive?'active':''} ${isDone?'done':''}" onclick="setPhase(${p.id})" title="Klicka för att sätta fas">
+        <div class="ps-icon">${isDone?'✓':p.icon}</div>
+        <div class="ps-label">${p.label}</div>
+        <div class="ps-name">${p.name}</div>
+        <div class="ps-desc">${p.desc}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+function renderPhaseNext(pat) {
+  const cur = getCurrentPhase(pat);
+  const ph = PHASES[cur-1];
+  const next = PHASES[cur]; // next phase (may be undefined)
+
+  const lastVisit = pat.visits && pat.visits[0];
+  const lastDate = lastVisit && lastVisit.date;
+  const fw = lastVisit && lastVisit.form && lastVisit.form.followup;
+  let nextDue = '';
+  if (lastDate && fw) {
+    const d = new Date(lastDate); d.setDate(d.getDate() + fw*7);
+    nextDue = d.toLocaleDateString('sv-SE');
+  }
+
+  const nextPhaseHint = next
+    ? `<button class="btn btn-p" style="font-size:11px;padding:5px 12px;flex-shrink:0" onclick="setPhase(${next.id})">Avancera till ${next.label} →</button>`
+    : `<span style="font-size:11px;color:var(--green);font-weight:600">✓ Behandling slutförd</span>`;
+
+  return `<div class="phase-next">
+    <div class="phase-next-txt">
+      <strong>Aktuell fas: ${ph.icon} ${ph.label} — ${ph.name}</strong>
+      ${ph.desc}${nextDue ? ` · Återbesök planerat ${nextDue}` : ''}
+    </div>
+    ${nextPhaseHint}
+  </div>`;
+}
+
+function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().getFullYear()-(p.birthYear||0);let h=renderPhaseBar(p)+renderPhaseNext(p)+`<div class="det-hdr"><div><div class="det-name">${e(p.name||"Namnlös")}</div><div class="det-diag">${e(p.diagnosis||"")}</div><div class="det-meta"><div><div class="dml">Födelseår</div><div class="dmv">${p.birthYear||"—"}</div></div><div><div class="dml">Ålder</div><div class="dmv">${age} år</div></div><div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div><div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div></div></div><div class="det-actions">${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Tillbaka till plan</button>`:""}<button class="btn" onclick="go('patjournal')">📄 Exportera journal</button>${(p.visits||[]).length>=2?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">📊 Framstegsnotering</button>`:""}<button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera patient</button><button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button></div></div><div class="vlbl">Besökshistorik</div>${renderPainGraph(p)}`;if(!p.visits||!p.visits.length){h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:#4a9aaa">Skapa första besöket</a></div>`;}else{p.visits.forEach((v,idx)=>{const st=v.status||"Aktiv";const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};const exp=v._exp||false;const pay=v.payStatus||'unpaid';const payLabel={paid:'✓ Betald',unpaid:'⚠ Obetald',invoiced:'📄 Fakturerad'}[pay];h+=`<div class="vcard ${idx===0?"latest":""}"><div class="vhdr" onclick="togVisit('${v.id}')"><span class="vnum">0${p.visits.length-idx}</span><div class="vinfo"><div class="vdate">${v.date||"—"}</div><div class="vexs">${(v.plan&&v.plan.exercises&&v.plan.exercises.length)||0} övningar · ${e(v.form&&v.form.diagnosis||"")}</div></div><span class="pay-badge ${pay}" onclick="showPayPopup(event,'${v.id}')" style="margin-right:4px">${payLabel}</span><span class="vstatus" style="background:${sc.bg};color:${sc.col}">${st}</span><span class="vchev ${exp?"open":""}" id="ch-${v.id}">›</span></div><div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});h+=`</div><div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea><div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div><div class="vactions"><span class="pay-badge ${pay}" onclick="showPayPopup(event,'${v.id}')">${payLabel}</span> ${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)?`<button class="btn btn-p" onclick="viewDoc('${v.id}')">📋 Visa journal</button>`:v.soap?`<button class="btn" style="opacity:.5;cursor:not-allowed" title="Journal sparad men tom">📋 Visa journal</button>`:""} ${v.plan?`<button class="btn" onclick="viewPlan('${v.id}')">🏋 Visa rehabplan</button><button class="btn" onclick="sharePlan('${v.id}')">📲 Dela med patient</button><button class="btn" onclick="mailPlan('${v.id}')">✉️ Maila</button>${v.plan?`<button class="btn" onclick="printHomeCard('${v.id}')">🏠 Hemkort</button>`:""}`:""}<button class="btn" onclick="editVisit('${v.id}')">Redigera</button><button class="btn btn-d" style="margin-left:auto" onclick="confDel('visit','${v.id}','besöket ${v.date}')">Radera besök</button></div></div></div></div>`;});}h+=renderConsentBlock(p);document.getElementById("s-detail").innerHTML=h;}
+function togVisit(vid){const p=S.pat;if(!p||!p.visits)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;v._exp=!v._exp;const b=document.getElementById("vb-"+vid);const c=document.getElementById("ch-"+vid);if(b)b.style.display=v._exp?"block":"none";if(c)c.classList.toggle("open",v._exp);}
+function updNote(vid,note){if(!S.pat)return;S.pat.visits=S.pat.visits.map(v=>v.id===vid?{...v,note}:v);savePat(S.pat);S.pat=S.patients.find(x=>x.id===S.pat.id)||S.pat;}
+function updStatus(vid,status){if(!S.pat)return;S.pat.visits=S.pat.visits.map(v=>v.id===vid?{...v,status}:v);savePat(S.pat);S.pat=S.patients.find(x=>x.id===S.pat.id)||S.pat;rDetail();}
+function viewDoc(vid){
+  const p=S.pat;if(!p)return;
+  const v=p.visits.find(x=>x.id===vid);if(!v)return;
+  S.visitId=vid;
+  S.plan=v.plan||null;
+  S.form=v.form||dform();
+  if(v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P)){
+    go('journaldoc');
+  } else {
+    alert('Ingen SOAP-journal finns sparad. Skriv en via Journal-knappen i topbaren.');
+  }
+}
+function viewPlan(vid){
+  // "Visa rehabplan" -> show doc (plan)
+  const p=S.pat;if(!p)return;
+  const v=p.visits.find(x=>x.id===vid);if(!v||!v.plan){alert('Ingen rehabplan skapad för detta besök.');return;}
+  S.visitId=vid;S.plan=v.plan;S.form=v.form||dform();go('doc');
+}
+function editVisit(vid){const p=S.pat;if(!p)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;S.visitId=vid;S.form=v.form||dform();S.plan=v.plan||null;go("form");}
+function rForm(){const f=S.form;const pc=f.pain>=7?"#c07070":f.pain>=4?"#c8a030":"#5a9860";const mc=f.motivation>=7?"#5a9860":f.motivation>=4?"#c8a030":"#c07070";const title=S.visitId?"Redigera besök":S.pat?"Nytt besök — "+S.pat.name:"Ny patient";let h=`<div class="fwrap"><div class="ftitle">${e(title)}</div><div class="fsub">Fyll i uppgifter — AI genererar vetenskapligt baserade övningar</div>${S.pat?`<div class="phase-next" style="margin-bottom:16px"><div class="phase-next-txt"><strong>${PHASES[getCurrentPhase(S.pat)-1].icon} ${PHASES[getCurrentPhase(S.pat)-1].label} — ${PHASES[getCurrentPhase(S.pat)-1].name}</strong>${PHASES[getCurrentPhase(S.pat)-1].desc}</div><button class="btn" style="font-size:11px;padding:5px 12px;flex-shrink:0" onclick="go('detail')">Ändra fas</button></div>`:""}<div id="ferr"></div><span class="slabel">Patient</span><div class="twocol" style="margin-bottom:11px"><input class="field" placeholder="Namn" value="${e(f.name)}" oninput="S.form.name=this.value"><input class="field" type="number" placeholder="Födelseår (t.ex. 1972)" value="${f.birthYear}" min="1920" max="2010" oninput="S.form.birthYear=parseInt(this.value)||1980"></div><select class="field" style="margin-bottom:9px" onchange="S.form.diagnosis=this.value;rForm();setTimeout(()=>fetchClinHint(S.form.diagnosis),50)">${DIAGS.map(d=>`<option ${d===f.diagnosis?"selected":""}>${e(d)}</option>`).join("")}</select>${f.diagnosis==="Annan / fritext"?`<input class="field" style="margin-bottom:11px" placeholder="Beskriv diagnos..." value="${e(f.customDiag)}" oninput="S.form.customDiag=this.value">`:""}`;h+=`<span class="slabel">Klinisk bedömning</span>${sl("Smärtskala (NRS)","pain",0,10,pc,"")}${sl("Motivation","motivation",1,10,mc,"")}<div class="twocol">${sl("Antal övningar","exercises",3,8,"var(--teal-l)","")}${sl("Återbesök om","followup",1,12,"#8a9aaa"," v")}</div>`;h+=`<span class="slabel">Bakgrund</span><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningshistorik</div><div class="chips">${ch("history",["ingen","sporadisk","regelbunden"],["Ingen","Sporadisk","Regelbunden"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Kunskapsnivå</div><div class="chips">${ch("knowledge",["låg","medel","hög"],["Låg","Medel","Hög"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningsplats</div><div class="chips">${ch("location",["hem","gym"],["Hemma","Gym"])}</div>`;h+=`<span class="slabel">Klinisk fokus & anpassningar</span><div id="clin-suggest" style="margin-bottom:12px"></div>
+<div class="hint">Styr AI:ns övningsval. Var specifik — lokalisering, rörelsemönster, undvikanden, mål.</div><textarea class="field" rows="4" style="resize:vertical;line-height:1.6" placeholder="Exempel:&#10;— Artros medialt knäled höger sida&#10;— Fokus på höftstabilitet&#10;— Undvik axiell belastning" oninput="S.form.notes=this.value">${e(f.notes)}</textarea><button class="genbtn" id="gbtn" onclick="doGen()">${S.visitId?"Regenerera plan":"Generera rehabplan"}</button></div>`;document.getElementById("s-form").innerHTML=h;fetchClinHint(f.diagnosis);}
+function sl(label,field,min,max,color,unit){const v=S.form[field];return `<div class="slwrap"><div class="slhd"><span class="sllbl">${label}</span><span class="slval" id="sv-${field}" style="color:${color}">${v}${unit}</span></div><input type="range" min="${min}" max="${max}" value="${v}" style="accent-color:${color}" oninput="S.form.${field}=parseInt(this.value);document.getElementById('sv-${field}').textContent=this.value+'${unit}'"></div>`;}
+function ch(field,vals,labels){return vals.map((v,i)=>`<button class="chip ${S.form[field]===v?"on":""}" onclick="S.form.${field}='${v}';rForm()">${labels[i]}</button>`).join("");}
+async function doGen(){
+  // Inject phase instruction into form
+  const ph = S.pat ? getCurrentPhase(S.pat) : 1;
+  S.form.phaseInstruction = getPhasePromptAddition(ph);
+const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på ⚙ uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthYear:ff.birthYear||pat.birthYear,diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:""};const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
+function buildPr(f,locked=[]){const age=new Date().getFullYear()-f.birthYear;const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";const n=f.exercises-locked.length;return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;}
+async function callAPI(prompt,locked,key){const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4000,system:"Du är senior fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});if(!res.ok){const er=await res.json().catch(()=>({}));throw new Error(er.error?.message||"API-fel "+res.status);}const d=await res.json();const t=(d.content||[]).map(b=>b.text||"").join("");return JSON.parse(t.replace(/```json|```/g,"").trim());}
+function rLoading(){const steps=["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer klinisk rehabplan"];let h=`<div class="ldwrap"><img src="${LOGO}" style="height:50px;margin-bottom:4px"><div class="spinner"></div><div class="ldtitle">Genererar rehabplan</div><div style="display:flex;flex-direction:column;gap:7px;margin-top:4px">`;steps.forEach((s,i)=>{const c=S.loadStep>i?"done":S.loadStep===i+1?"active":"";h+=`<div class="ldstep ${c}"><span style="font-family:'DM Mono',monospace;font-size:10px">${S.loadStep>i?"✓":"○"}</span> ${s}</div>`;});h+=`</div></div>`;document.getElementById("s-loading").innerHTML=h;}
+function rEditEx(){if(!S.plan){go("doc");return;}const exs=S.plan.exercises||[];let h=`<div class="fwrap"><div class="ftitle">Välj övningar att byta</div><div class="fsub" style="margin-bottom:20px">Låsta behålls exakt. Olåsta ersätts med nya.</div><div class="ee-list">`;exs.forEach((ex,i)=>{const lk=!!S.locked[i];h+=`<div class="ee-item ${lk?"lk":"ul"}"><div class="ee-num">${i+1}</div><div class="ee-info"><div class="ee-name">${e(ex.name)}</div><div class="ee-dose">${ex.sets} set · ${ex.reps} · ${ex.rest}</div><div class="ee-st">${lk?"Behålls":"Byts ut"}</div></div><button class="lkbtn ${lk?"on":"off"}" onclick="togLock(${i})">${lk?"Lås upp":"Lås"}</button></div>`;});const nu=exs.length-Object.values(S.locked).filter(Boolean).length;h+=`</div>`;if(nu>0)h+=`<div class="rinfo" style="margin-bottom:12px">${nu} övning(ar) byts ut</div>`;h+=`<div class="twocol"><button class="btn" style="padding:12px" onclick="go('doc')">Avbryt</button><button class="btn btn-p" style="padding:12px;border-radius:8px" ${nu===0?"disabled":""} onclick="doRegen()">Regenerera ${nu} övning(ar)</button></div></div>`;document.getElementById("s-editex").innerHTML=h;}
+function togLock(i){S.locked[i]=!S.locked[i];rEditEx();}
+function initEditEx(){const exs=S.plan&&S.plan.exercises||[];exs.forEach((_,i)=>{S.locked[i]=true;});go("editex");}
+async function doRegen(){const key=getKey();if(!key){alert("API-nyckel saknas. Gå till ⚙ Inställningar.");return;}const lk=Object.entries(S.locked).filter(([,v])=>v).map(([k])=>parseInt(k));const lkList=lk.map(i=>({index:i,...S.plan.exercises[i]}));if(S.plan.exercises.length-lk.length===0){go("doc");return;}S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(S.form,lkList),[],key);S.loadStep=3;rLoading();const merged=[...S.plan.exercises];let ni=0;const nex=gen.exercises.filter((_,i)=>!lk.includes(i));for(let i=0;i<merged.length;i++)if(!S.locked[i])merged[i]=nex[ni++]||merged[i];S.plan={...S.plan,exercises:merged};S.locked={};if(S.pat&&S.visitId){S.pat.visits=S.pat.visits.map(v=>v.id===S.visitId?{...v,plan:S.plan}:v);savePat(S.pat);}go("doc");}catch(err){alert("Fel: "+err.message);go("doc");}}
+function rDoc(){const plan=S.plan;if(!plan){go(S.pat?"detail":"list");return;}const today=new Date().toLocaleDateString("sv-SE",{year:"numeric",month:"long",day:"numeric"});const age=plan.form?(new Date().getFullYear()-plan.form.birthYear):"—";let h=`<div class="doc-outer"><div class="dcontrols"><button class="btn" onclick="go(S.pat?'detail':'list')">← Kundkort</button><button class="btn" onclick="initEditEx()">Byt övningar</button><button class="btn" onclick="go('form')">Redigera</button><button class="btn" onclick="sharePlan(S.visitId)">📲 Dela med patient</button><button class="btn" onclick="mailPlan(S.visitId)">✉️ Maila patient</button><button class="btn" onclick="printHomeCard(S.visitId)">🏠 Hemkort</button><button class="btn btn-p" onclick="window.print()">Skriv ut / PDF</button><span class="dhint">Välj "Spara som PDF" · A4 · inga marginaler</span></div><div class="document"><div class="dhdr"><div class="dhdr-top"><div><div class="dtag">Rehabplan</div><div class="dpname">${e(plan.patientName||"Patient")}</div><div class="ddiag">${e(plan.diagnosis||"")}</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><img src="${LOGO}" class="dlogo"><div class="dlogo-sub">${e(CLINIC.name)}</div></div></div><div class="dmeta">${[["Datum",today],["Född",(plan.form&&plan.form.birthYear)||"—"],["Ålder",age+" år"],["Smärta (NRS)",((plan.form&&plan.form.pain)||"—")+"/10"],["Övningar",((plan.exercises&&plan.exercises.length)||0)+" st"],["Återbesök","om "+((plan.form&&plan.form.followup)||"—")+" v"]].map(([l,v])=>`<div><div class="dml">${l}</div><div class="dmv">${v}</div></div>`).join("")}</div></div><div class="dbody">`;
+if(plan.greeting)h+=`<div class="dgreet">${e(plan.greeting)}</div>`;
+if(plan.goals&&plan.goals.length){h+=`<div class="dsec">Mål med rehabiliteringen</div><div class="ggrid">`;plan.goals.forEach(g=>{h+=`<div class="gcell"><div class="glbl">${e(g.title)}</div><div class="gtxt">${e(g.text)}</div></div>`;});h+=`</div>`;}
+if(plan.exercises&&plan.exercises.length){h+=`<div class="dsec">Övningsprogram</div>`;plan.exercises.forEach((ex,i)=>{h+=`<div class="excard"><div class="exhdr"><div class="exnum">${i+1}</div><div class="exname">${e(ex.name)}</div><div class="exdose">${ex.sets} set · ${ex.reps} reps · ${ex.rest} vila</div></div><div class="exbody"><div class="expurp">${e(ex.purpose)}</div><span class="exsp-lbl">Startposition</span><div class="exsp">${e(ex.startPosition)}</div><ol class="exsteps">`;(ex.steps||[]).forEach((s,j)=>{h+=`<li><span class="stepn">0${j+1}</span><span>${e(s)}</span></li>`;});h+=`</ol>`;if(ex.tip)h+=`<div class="exnote"><span class="exnote-lbl">Tänk på</span>${e(ex.tip)}</div>`;if(ex.correctFeel)h+=`<div class="exok"><span class="exok-lbl">Rätt känsla</span>${e(ex.correctFeel)}</div>`;h+=`</div></div>`;});}
+if(plan.schedule&&plan.schedule.length){h+=`<div class="dsec">Veckoschema</div><div class="scgrid">`;plan.schedule.forEach(d=>{const act=d.activity&&(d.activity.toLowerCase().includes("övning")||d.activity.toLowerCase().includes("program"));h+=`<div class="scday ${act?"act":""}"><div class="dn">${d.day.slice(0,3).toUpperCase()}</div><div class="dt">${e(d.activity)}</div></div>`;});h+=`</div>`;}
+if(plan.painAdvice){h+=`<div class="dsec">Smärthantering</div><div class="pgrid2"><div class="pcell gr"><div class="phead"><div class="pdot"></div><span class="plbl">Grön</span></div><div class="ptxt">${e(plan.painAdvice.green)}</div></div><div class="pcell ye"><div class="phead"><div class="pdot"></div><span class="plbl">Gul</span></div><div class="ptxt">${e(plan.painAdvice.yellow)}</div></div><div class="pcell re"><div class="phead"><div class="pdot"></div><span class="plbl">Röd</span></div><div class="ptxt">${e(plan.painAdvice.red)}</div></div></div>`;}
+if(plan.lifestyleTips&&plan.lifestyleTips.length){h+=`<div class="dsec">Livsstilsråd</div><ul class="lifelist">`;plan.lifestyleTips.forEach(t=>{h+=`<li><span>${e(t)}</span></li>`;});h+=`</ul>`;}
+if(plan.followupNote)h+=`<div class="fubanner"><div class="fuline"></div><div class="futxt">${e(plan.followupNote)}</div></div>`;
+h+=`</div><div class="dftr"><div><img src="${LOGO}" class="ftrlogo"><div class="ftrclinic"><strong>${e(CLINIC.name)}</strong>${e(CLINIC.address)} · ${e(CLINIC.phone)}<br>${e(CLINIC.email)} · ${e(CLINIC.website)}</div></div><div class="ftrr"><div class="ftrslog">${e(SLOGAN)}</div><div>Rehabplan utfärdad ${today}</div></div></div></div></div>`;
+document.getElementById("s-doc").innerHTML=h;}
+function rSettings(){const key=S.apiKey;const ok=key.startsWith("sk-ant");const patCount=S.patients.length;document.getElementById("s-settings").innerHTML=`<div class="swrap"><div class="stitle">Inställningar</div><div class="ssub">Kansei Klinik — ${patCount} patienter i databasen.</div>
+<span class="slabel">Anthropic API-nyckel</span><div class="akwrap"><input class="akinp" id="akinp" type="${S.apiVis?"text":"password"}" placeholder="sk-ant-api03-..." value="${e(key)}" oninput="S.apiKey=this.value"><button class="aktgl" onclick="S.apiVis=!S.apiVis;rSettings()">${S.apiVis?"Dölj":"Visa"}</button></div><div class="akst"><div class="akdot" style="background:${ok?"#5a9860":"#4a5a6a"}"></div><span style="color:${ok?"#5a9860":"#5a6a7a"}">${ok?"Nyckel ser korrekt ut":"Ingen giltig nyckel angiven"}</span></div><div class="akhint">Hämta på <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.</div><div style="display:flex;align-items:center"><button class="btn btn-p" onclick="doSaveKey()">Spara nyckel</button><span class="svconf" id="svconf">Sparad ✓</span></div>
+<div style="margin-top:28px"><span class="slabel">Data & Backup</span>
+<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:8px">
+  <div style="font-size:12px;color:var(--text2);line-height:1.8;margin-bottom:14px">
+    <strong>Data synkas automatiskt till Supabase (EU/Frankfurt).</strong><br>
+    Appen sparar lokalt och synkar till molnet var 5:e minut samt vid varje ändring.<br>
+    <span style="color:var(--teal)">☁️ Molnsynk aktiv — data är säker även om enheten tappar bort.</span>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn btn-p" style="padding:10px 20px" onclick="syncFromCloud()">☁️ Hämta från molnet</button><button class="btn" style="padding:10px 20px" onclick="syncToCloud()">⬆️ Ladda upp alla</button><button class="btn btn-p" style="padding:10px 20px" onclick="exportBackup()">💾 Ladda ner backup nu</button>
+    <button class="btn" style="padding:10px 20px" onclick="importBackup()">📂 Importera backup</button>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--text3)">Lokalt sparad: <span id="set-lastsave">${_lastSaveTime?new Date(_lastSaveTime).toLocaleString('sv-SE'):'Aldrig denna session'}</span> &nbsp;·&nbsp; Inloggad som: <strong>${_authUser?.email||'—'}</strong></div>
+</div></div>
+<div style="margin-top:20px"><span class="slabel">Konto</span>
+<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;margin-top:8px;display:flex;justify-content:space-between;align-items:center">
+  <div style="font-size:12px;color:var(--text2)">${_authUser?.email||'Inloggad'}</div>
+  <button class="btn btn-d" style="padding:7px 16px;font-size:12px" onclick="sbSignOut()">Logga ut</button>
+</div></div>
+<div style="margin-top:20px"><span class="slabel">Om appen</span><div style="font-size:12px;color:#4a5a6a;line-height:1.8"><div>${e(CLINIC.name)}</div><div style="margin-top:7px;font-size:11px;color:#3a4a5a">AI-genererade planer är ett kliniskt stöd och ersätter inte professionell bedömning.</div></div></div></div>`;}
+function doSaveKey(){setKey(S.apiKey.trim());const c=document.getElementById("svconf");if(c){c.classList.add("show");setTimeout(()=>c.classList.remove("show"),2500);}}
+function openPat(id){const p=S.patients.find(x=>x.id===id);if(!p)return;S.pat=p;S.visitId=null;S.plan=null;go("detail");}
+function newPat(){S.pat=null;S.visitId=null;S.form=dform();S.plan=null;S.locked={};go("form");}
+function newVisit(){const p=S.pat;if(!p)return;S.visitId=null;S.plan=null;S.locked={};S.form={...dform(),name:p.name,birthYear:p.birthYear,diagnosis:p.diagnosis};go("form");}
+function confDel(type,id,label){document.getElementById("mtitle").textContent="Bekräfta borttagning";document.getElementById("mtext").textContent=type==="pat"?`Radera ${label}? All historik raderas permanent.`:`Radera ${label}? Besöket raderas permanent.`;document.getElementById("modal").classList.add("open");document.getElementById("mconfirm").onclick=()=>{closeModal();type==="pat"?delPat(id):delVisit(id);};}
+function closeModal(){document.getElementById("modal").classList.remove("open");}
+function delPat(id){
+  try{localStorage.removeItem(id);}catch{}
+  try{localStorage.removeItem('kansei-data:'+id);}catch{}
+  try{localStorage.removeItem('pat:'+id);}catch{}
+  S.patients=S.patients.filter(p=>p.id!==id);
+  if(S.pat&&S.pat.id===id){S.pat=null;S.plan=null;}
+  sbDeletePat(id); // sync delete to cloud
+  go("list");
+}
+function delVisit(vid){const p=S.pat;if(!p)return;p.visits=p.visits.filter(v=>v.id!==vid);savePat(p);S.pat=S.patients.find(x=>x.id===p.id)||p;if(S.visitId===vid){S.visitId=null;S.plan=null;}rDetail();}
+
+// ── MEETING / TRANSCRIPTION ────────────────────────────────────────────────
+let meetRecognition = null;
+let meetTranscript = [];
+let meetInterim = "";
+let meetTimer = null;
+let meetSeconds = 0;
+let meetConsented = false;
+let meetNote = "";
+let currentSOAP = null;
+
+function rMeeting() {
+  const p = S.pat;
+  if (!p) { go("list"); return; }
+  const el = document.getElementById("s-meeting");
+
+  if (!meetConsented) {
+    el.innerHTML = `<div class="meet-wrap">
+      <div class="meet-title">Starta möte — ${e(p.name)}</div>
+      <div class="meet-sub">${e(p.diagnosis||"")}</div>
+      <div class="meet-consent">
+        <div class="meet-consent-title">Samtycke krävs</div>
+        <div class="meet-consent-txt">
+          Innan inspelningen startar behöver patienten ge sitt samtycke till att mötet spelas in och transkriberas för journalföring. Transkriptionen behandlas av AI och lagras lokalt.
+        </div>
+        <div class="meet-consent-btn">
+          <button class="btn btn-p" onclick="giveConsent()">✓ Patienten har samtyckt — Starta möte</button>
+          <button class="btn" onclick="go('detail')">Avbryt</button>
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+
+  const mins = String(Math.floor(meetSeconds/60)).padStart(2,'0');
+  const secs = String(meetSeconds%60).padStart(2,'0');
+  const isListening = meetRecognition !== null;
+
+  let transcriptHtml = meetTranscript.map(t =>
+    `<div class="transcript-line"><span class="tl-time">${t.time}</span><span class="tl-text">${e(t.text)}</span></div>`
+  ).join('');
+  if (!transcriptHtml) transcriptHtml = '<div style="color:#2a3a4a;font-style:italic">Inget transkriberat ännu. Tala tydligt — Safari transkriberar automatiskt.</div>';
+
+  el.innerHTML = `<div class="meet-wrap">
+    <div class="meet-title">Möte pågår — ${e(p.name)}</div>
+    <div class="meet-sub">${e(p.diagnosis||"")} · ${new Date().toLocaleDateString('sv-SE')}</div>
+    <div class="meet-status">
+      <div class="meet-dot ${isListening?'listening':'idle'}" id="meet-dot"></div>
+      <span class="meet-status-txt" id="meet-status-txt">${isListening?'Lyssnar och transkriberar...':'Tryck Starta för att börja'}</span>
+      <span class="meet-timer" id="meet-clock">${mins}:${secs}</span>
+    </div>
+    <div class="transcript-box" id="tbox">
+      ${transcriptHtml}
+      <div class="transcript-line" id="meet-interim-line" style="${meetInterim?'':'display:none'}">
+        <span class="tl-time">--:--</span><span class="tl-text interim" id="meet-interim">${e(meetInterim)}</span>
+      </div>
+    </div>
+    <div class="meet-controls" id="meet-btn-wrap">
+      ${isListening
+        ? `<button class="rec-btn stop" onclick="stopListening()">⏹ Pausa inspelning</button>`
+        : `<button class="rec-btn start" onclick="startListening()">⏺ ${meetTranscript.length?'Fortsätt':'Starta'} inspelning</button>`
+      }
+    </div>
+    <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#4a5a6a;margin-bottom:5px">Egna noteringar</div>
+    <textarea class="meet-note" placeholder="Tilläggsnoteringar..." oninput="meetNote=this.value">${e(meetNote)}</textarea>
+    <button class="meet-done-btn" id="meet-done-btn" onclick="finishMeeting()">
+      Avsluta möte och skapa journal →
+    </button>
+    <div style="font-size:10px;color:var(--text3);margin-top:8px;text-align:center">
+      Du kan avsluta även om inget transkriberats — skriv manuellt i noteringar ovan.
+    </div>
+  </div>`;
+
+  const tbox = document.getElementById("tbox");
+  if (tbox) tbox.scrollTop = tbox.scrollHeight;
+}
+
+function giveConsent() {
+  meetConsented = true;
+  meetTranscript = [];
+  meetInterim = "";
+  meetSeconds = 0;
+  meetNote = "";
+  rMeeting();
+  // Start timer — only update the clock element, not full re-render
+  meetTimer = setInterval(() => {
+    meetSeconds++;
+    const el = document.getElementById('meet-clock');
+    if (el) {
+      const mins = String(Math.floor(meetSeconds/60)).padStart(2,'0');
+      const secs = String(meetSeconds%60).padStart(2,'0');
+      el.textContent = mins+':'+secs;
+    }
+  }, 1000);
+  startListening();
+}
+
+function startListening() {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Din webbläsare stöder inte röstinspelning. Använd Safari på Mac eller iPhone.');
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  meetRecognition = new SR();
+  meetRecognition.lang = 'sv-SE';
+  meetRecognition.continuous = true;
+  meetRecognition.interimResults = true;
+  meetRecognition.maxAlternatives = 1;
+
+  meetRecognition.onresult = (event) => {
+    let interim = '';
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        const now = new Date();
+        const time = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+        meetTranscript.push({ time, text: transcript.trim() });
+        meetInterim = '';
+        // Append new line to transcript box without full re-render
+        appendTranscriptLine(time, transcript.trim());
+      } else {
+        interim += transcript;
+      }
+    }
+    meetInterim = interim;
+    // Update interim display only
+    const intEl = document.getElementById('meet-interim');
+    if (intEl) intEl.textContent = interim;
+    // Enable done button now that we have content
+    updateDoneBtn();
+  };
+
+  meetRecognition.onerror = (event) => {
+    console.warn('Speech error:', event.error);
+    if (event.error === 'not-allowed') {
+      alert('Mikrofontillstånd saknas. Gå till Systeminställningar → Safari → Mikrofon och tillåt.');
+      meetRecognition = null;
+    } else if (event.error !== 'no-speech' && event.error !== 'aborted') {
+      meetInterim = '';
+      const intEl = document.getElementById('meet-interim');
+      if (intEl) intEl.textContent = '';
+    }
+  };
+
+  meetRecognition.onend = () => {
+    // Only auto-restart if we haven't manually stopped
+    if (meetRecognition) {
+      setTimeout(() => {
+        if (meetRecognition) {
+          try { meetRecognition.start(); } catch(e) { console.warn('restart failed', e); }
+        }
+      }, 200);
+    }
+    // Update status dot
+    const dot = document.getElementById('meet-dot');
+    const txt = document.getElementById('meet-status-txt');
+    if (meetRecognition) {
+      if (dot) { dot.className = 'meet-dot listening'; }
+      if (txt) txt.textContent = 'Lyssnar och transkriberar...';
+    }
+  };
+
+  meetRecognition.onstart = () => {
+    const dot = document.getElementById('meet-dot');
+    const txt = document.getElementById('meet-status-txt');
+    if (dot) dot.className = 'meet-dot listening';
+    if (txt) txt.textContent = 'Lyssnar och transkriberar...';
+    updateRecBtn(true);
+  };
+
+  meetRecognition.start();
+  updateRecBtn(true);
+}
+
+function stopListening() {
+  if (meetRecognition) {
+    const r = meetRecognition;
+    meetRecognition = null; // set null BEFORE calling stop so onend doesn't restart
+    r.onend = null;
+    r.onerror = null;
+    try { r.stop(); } catch(e) {}
+  }
+  meetInterim = '';
+  const intEl = document.getElementById('meet-interim');
+  if (intEl) intEl.textContent = '';
+  const dot = document.getElementById('meet-dot');
+  const txt = document.getElementById('meet-status-txt');
+  if (dot) dot.className = 'meet-dot idle';
+  if (txt) txt.textContent = 'Inspelning pausad';
+  updateRecBtn(false);
+}
+
+function appendTranscriptLine(time, text) {
+  const tbox = document.getElementById('tbox');
+  if (!tbox) return;
+  // Remove the placeholder if present
+  const placeholder = tbox.querySelector('div[style*="italic"]');
+  if (placeholder) placeholder.remove();
+  const div = document.createElement('div');
+  div.className = 'transcript-line';
+  div.innerHTML = `<span class="tl-time">${time}</span><span class="tl-text">${e(text)}</span>`;
+  tbox.appendChild(div);
+  tbox.scrollTop = tbox.scrollHeight;
+  updateDoneBtn();
+}
+
+function updateDoneBtn() {
+  const btn = document.getElementById('meet-done-btn');
+  if (btn) btn.disabled = false; // always enable — user can finish even with empty transcript
+}
+
+function updateRecBtn(isListening) {
+  const wrap = document.getElementById('meet-btn-wrap');
+  if (!wrap) return;
+  if (isListening) {
+    wrap.innerHTML = `<button class="rec-btn stop" onclick="stopListening()">⏹ Pausa inspelning</button>`;
+  } else {
+    wrap.innerHTML = `<button class="rec-btn start" onclick="startListening()">⏺ ${meetTranscript.length?'Fortsätt':'Starta'} inspelning</button>`;
+  }
+}
+
+function resetMeeting() {
+  stopListening();
+  if (meetTimer) { clearInterval(meetTimer); meetTimer = null; }
+  meetConsented = false;
+  meetTranscript = [];
+  meetInterim = '';
+  meetSeconds = 0;
+  meetNote = '';
+  currentSOAP = null;
+}
+
+async function finishMeeting() {
+  stopListening();
+  if (meetTimer) { clearInterval(meetTimer); meetTimer = null; }
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas. Gå till ⚙ Inställningar.'); return; }
+
+  const fullTranscript = meetTranscript.map(t => `[${t.time}] ${t.text}`).join('\n');
+  const extra = meetNote ? `\n\nEgna noteringar: ${meetNote}` : '';
+
+  // If nothing captured at all, open manual SOAP instead
+  if (!fullTranscript && !meetNote) {
+    alert('Ingen transkription eller noteringar. Fyller i journalen manuellt.');
+    go(S.pat ? 'detail' : 'list');
+    startManualSOAP();
+    return;
+  }
+
+  S.loadStep = 1;
+  go('loading');
+
+  const prompt = `Du är erfaren fysioterapeut och journalförare. Analysera detta medicinska samtal och skapa en strukturerad SOAP-journalanteckning på svenska.
+
+TRANSKRIPTION:
+${fullTranscript}${extra}
+
+Returnera ENBART giltig JSON utan backticks:
+{
+  "soap": {
+    "S": "Subjektivt — patientens berättelse, symtom, smärtbeskrivning, varaktighet, aggravations- och lindrande faktorer",
+    "O": "Objektivt — undersökningsfynd, tester, rörelseomfång, palpation, neurologisk status",
+    "A": "Bedömning — diagnos eller differentialdiagnos, funktionsnivå, prognos",
+    "P": "Plan — behandlingsplan, åtgärder, hemprogram, uppföljning"
+  },
+  "diagnosis": "Mest trolig diagnos (välj från: Ländryggssmärta (ospecifik), Nacksmärta / cervikalt syndrom, Rotatorkuffproblem / axelsmärta, Knäartros, Höftartros, Tennisarmbåge (lateral epikondylit), Hälseneproblem (Achillestendinopati), Plantarfasciit, Frozen shoulder (adhesiv kapsulir), Diskbråck lumbal, Patellofemoralt smärtsyndrom, Fibromyalgi, Annan / fritext)",
+  "customDiagnosis": "Om Annan/fritext — ange diagnos här, annars tom sträng",
+  "pain": 5,
+  "motivation": 6,
+  "history": "ingen",
+  "knowledge": "låg",
+  "location": "hem",
+  "exercises": 5,
+  "followup": 4,
+  "clinicalFocus": "Specifika kliniska fynd och fokusområden för rehabplanen",
+  "icd10": "Mest trolig ICD-10 kod, t.ex. M54.5",
+  "icd10desc": "Beskrivning av ICD-10 koden på svenska, t.ex. Ländryggssmärta"
+}
+
+pain ska vara 0-10 baserat på patientens beskrivning.
+motivation ska vara 1-10 baserat på vad som framkom.
+history: ingen/sporadisk/regelbunden baserat på träningsbakgrund.
+knowledge: låg/medel/hög baserat på patientens förståelse.
+location: hem/gym baserat på vad som diskuterades.
+Filtrera bort allt som INTE är medicinskt relevant — vardagsprat, hälsningar, väder, mat etc ska INTE ingå i SOAP-anteckningen.`;
+
+  try {
+    S.loadStep = 2;
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514", max_tokens: 6000,
+        system: "Du är erfaren fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",
+        messages: [{role:"user", content:prompt}]
+      })
+    });
+    S.loadStep = 3;
+    const data = await res.json();
+    const text = (data.content||[]).map(b=>b.text||'').join('');
+    let cleaned = text.replace(/```json|```/g,'').trim();
+    console.log('RAW API RESPONSE:', JSON.stringify(data));
+    console.log('CLEANED TEXT:', cleaned.slice(0,500));
+    if(!cleaned.endsWith('}')){const lb=cleaned.lastIndexOf('}');if(lb>0)cleaned=cleaned.slice(0,lb+1);}
+    if(!cleaned){throw new Error('Tomt svar från API. stop_reason: '+(data.stop_reason||'?'));}
+    const result = JSON.parse(cleaned);
+    currentSOAP = { ...result, transcript: meetTranscript, date: new Date().toISOString().slice(0,10), note: meetNote };
+    go('soap');
+  } catch(err) {
+    alert('Fel vid journalanalys: ' + err.message);
+    go('meeting');
+  }
+}
+
+function rSOAP() {
+  if (!currentSOAP) { go('detail'); return; }
+  // Check for red flags in transcript + soap text
+  const allText = [
+    currentSOAP.transcript ? currentSOAP.transcript.map(t=>t.text||'').join(' ') : '',
+    Object.values(currentSOAP.soap||{}).join(' ')
+  ].join(' ');
+  const flags = checkRedFlags(allText);
+  const flagBanner = renderRedFlagBanner(flags);
+  const soap = currentSOAP.soap || {};
+  const el = document.getElementById('s-soap');
+  el.innerHTML = `<div class="soap-wrap">${flagBanner}
+    <div class="soap-title">Journalanteckning</div>
+    <div class="soap-sub">${e(S.pat&&S.pat.name||'')} · ${currentSOAP.date}</div>
+    ${['S','O','A','P'].map(letter => {
+      const labels = {S:'Subjektivt — Patientens berättelse',O:'Objektivt — Undersökningsfynd',A:'Bedömning — Diagnos & funktionsnivå',P:'Plan — Åtgärder & uppföljning'};
+      return `<div class="soap-section">
+        <div class="soap-hdr">
+          <div class="soap-letter ${letter}">${letter}</div>
+          <div class="soap-hdr-title">${labels[letter]}</div>
+        </div>
+        <div class="soap-body">
+          <textarea class="soap-edit" id="soap-${letter}" oninput="currentSOAP.soap['${letter}']=this.value">${e(soap[letter]||'')}</textarea>
+        </div>
+      </div>`;
+    }).join('')}
+    <div style="margin-top:18px">
+      <div class="soap-diag-lbl">Diagnos från samtalet</div>
+      <div class="soap-diag-row">
+        <input class="soap-diag-field" value="${e(currentSOAP.diagnosis||'')}" placeholder="Diagnos..." oninput="currentSOAP.diagnosis=this.value">
+      </div>
+    </div>
+    <div style="margin-top:6px">
+      <div class="soap-diag-lbl">ICD-10</div>
+      <div class="soap-diag-row">
+        <input class="soap-diag-field" style="max-width:120px;font-family:'DM Mono',monospace;font-weight:600;color:#4a9aaa" value="${e(currentSOAP.icd10||'')}" placeholder="M54.5" oninput="currentSOAP.icd10=this.value">
+        <input class="soap-diag-field" value="${e(currentSOAP.icd10desc||'')}" placeholder="ICD-10 beskrivning..." oninput="currentSOAP.icd10desc=this.value">
+      </div>
+    </div>
+    <div style="margin-top:18px;margin-bottom:6px">
+      <button class="btn" style="width:100%;padding:10px;text-align:center;letter-spacing:.02em" onclick="copySOAP()" id="copy-btn">
+        📋 Kopiera journal för inklistring i journalsystem
+      </button>
+    </div>
+    <div class="soap-actions">
+      <button class="btn btn-p" style="flex:2;padding:13px;border-radius:8px;font-family:'Cormorant Garamond',serif;font-size:16px;letter-spacing:.03em" onclick="saveSOAPAndPlan()">
+        Spara journal & skapa rehabplan →
+      </button>
+      <button class="btn" style="flex:1;padding:13px" onclick="saveSOAPOnly()">Spara journal</button>
+    </div>
+  </div>`;
+}
+
+async function saveSOAPOnly() {
+  await saveSOAPToVisit(false);
+  resetMeeting();
+  go('detail');
+}
+
+async function saveSOAPAndPlan() {
+  await saveSOAPToVisit(true);
+}
+
+async function saveSOAPToVisit(goToPlan) {
+  const p = S.pat;
+  if (!p || !currentSOAP) return;
+  const vid = 'v_' + Date.now();
+  const diag = currentSOAP.diagnosis || p.diagnosis || '';
+
+  // Build SOAP text for storage
+  const soapText = ['S','O','A','P'].map(l =>
+    `${l}: ${document.getElementById('soap-'+l)&&document.getElementById('soap-'+l).value || currentSOAP.soap[l] || ''}`
+  ).join('\n\n');
+
+  const newVisit = {
+    id: vid,
+    date: currentSOAP.date,
+    form: null,
+    plan: null,
+    status: 'Aktiv',
+    note: soapText,
+    soap: currentSOAP.soap,
+    transcript: currentSOAP.transcript,
+    soapMeta: currentSOAP
+  };
+
+  const updPat = {...p, diagnosis: diag, visits: [newVisit, ...(p.visits||[])]};
+  const saved = savePat(updPat);
+  S.pat = saved;
+  S.visitId = vid;
+
+  if (goToPlan) {
+    // Pre-fill form from SOAP analysis
+    S.form = {
+      name: p.name || '',
+      birthYear: p.birthYear || 1980,
+      diagnosis: currentSOAP.diagnosis || diag,
+      customDiag: currentSOAP.customDiagnosis || '',
+      pain: currentSOAP.pain || 5,
+      history: currentSOAP.history || 'ingen',
+      knowledge: currentSOAP.knowledge || 'låg',
+      location: currentSOAP.location || 'hem',
+      motivation: currentSOAP.motivation || 6,
+      exercises: currentSOAP.exercises || 5,
+      followup: currentSOAP.followup || 4,
+      notes: currentSOAP.clinicalFocus || ''
+    };
+    resetMeeting();
+    go('form');
+  }
+}
+
+
+// ── MANUAL SOAP ENTRY ──────────────────────────────────────────────────────
+function startManualSOAP() {
+  if (!S.pat) return;
+  currentSOAP = {
+    soap: {S:'',O:'',A:'',P:''},
+    diagnosis: S.pat.diagnosis||'',
+    customDiagnosis: '',
+    icd10: '',
+    icd10desc: '',
+    pain: 5,
+    motivation: 6,
+    history: 'ingen',
+    knowledge: 'låg',
+    location: 'hem',
+    exercises: 5,
+    followup: 4,
+    clinicalFocus: '',
+    transcript: [],
+    date: new Date().toISOString().slice(0,10),
+    note: '',
+    manual: true
+  };
+  go('manualsoap');
+}
+
+function rManualSOAP() {
+  const p = S.pat;
+  if (!p) { go('list'); return; }
+  const el = document.getElementById('s-manualsoap');
+  const soap = currentSOAP&&currentSOAP.soap||{};
+  const soapFields = [
+    {l:'S', name:'Subjektivt — patientens berättelse, symtom, smärtbeskrivning', ph:'Patienten beskriver smärta i... Debut för... Aggraveras av... Lindras av...'},
+    {l:'O', name:'Objektivt — undersökningsfynd, tester, rörelseomfång', ph:'Inspektion visar... Palpation... ROM... Lasègue... Kraftnedsättning...'},
+    {l:'A', name:'Bedömning — diagnos, funktionsnivå, prognos', ph:'Bedömning: Klinisk bild förenlig med... Funktionsnivå... Prognos...'},
+    {l:'P', name:'Plan — åtgärder, hemprogram, uppföljning', ph:'Behandling: ... Hemövningar... Återbesök om...'}
+  ];
+  el.innerHTML = `<div class="msoap-wrap">
+    <div class="ftit">Manuell journalanteckning</div>
+    <div class="msoap-hint">Fyll i de fält som är relevanta. AI föreslår diagnos och rehabparametrar baserat på det du skriver. Fält kan lämnas tomma.</div>
+    
+    ${soapFields.map(f=>`
+    <div class="msoap-section">
+      <div class="msoap-hdr">
+        <div class="msoap-lbl ${f.l}">${f.l}</div>
+        <div class="msoap-name">${f.name}</div>
+      </div>
+      <textarea class="msoap-ta" id="ms-${f.l}" placeholder="${f.ph}">${e(soap[f.l]||'')}</textarea>
+    </div>`).join('')}
+    
+    <div style="margin-top:6px">
+      <span class="slabel" style="margin-top:0">Diagnos</span>
+      <div class="msoap-diag-row">
+        <select class="field" id="ms-diag">
+          ${DIAGS.map(d=>`<option ${d===(currentSOAP&&currentSOAP.diagnosis)?'selected':''}>${d}</option>`).join('')}
+        </select>
+        <input class="field" id="ms-custom" placeholder="Fritext diagnos (om valt ovan)..." value="${e(currentSOAP&&currentSOAP.customDiagnosis||'')}">
+      </div>
+    </div>
+    
+    <div style="margin-top:4px">
+      <span class="slabel">ICD-10 (valfritt)</span>
+      <div class="msoap-diag-row">
+        <input class="field" id="ms-icd" placeholder="M54.5" value="${e(currentSOAP&&currentSOAP.icd10||'')}" style="font-family:'DM Mono',monospace">
+        <input class="field" id="ms-icddesc" placeholder="ICD-10 beskrivning..." value="${e(currentSOAP&&currentSOAP.icd10desc||'')}">
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+      <button class="meet-done-btn" style="flex:2" onclick="finishManualSOAP(false)">
+        Spara journal & granska →
+      </button>
+      <button class="meet-done-btn" style="flex:2;background:#1a5a6a" onclick="finishManualSOAP(true)">
+        Spara & skapa rehabplan direkt →
+      </button>
+    </div>
+    <button class="btn" style="width:100%;margin-top:8px;padding:10px" onclick="go('detail')">Avbryt</button>
+  </div>`;
+}
+
+async function finishManualSOAP(goPlan) {
+  // Read values
+  const soap = {
+    S: document.getElementById('ms-S').value.trim(),
+    O: document.getElementById('ms-O').value.trim(),
+    A: document.getElementById('ms-A').value.trim(),
+    P: document.getElementById('ms-P').value.trim()
+  };
+  const diagnosis = document.getElementById('ms-diag').value;
+  const customDiagnosis = document.getElementById('ms-custom').value.trim();
+  const icd10 = document.getElementById('ms-icd').value.trim();
+  const icd10desc = document.getElementById('ms-icddesc').value.trim();
+  
+  // If any SOAP content exists, use AI to extract rehab params
+  const soapText = [soap.S,soap.O,soap.A,soap.P].filter(Boolean).join('\n');
+  const key = getKey();
+  
+  if (soapText && key) {
+    S.loadStep = 1; go('loading');
+    try {
+      S.loadStep = 2;
+      const prompt = `Analysera denna SOAP-journalanteckning och extrahera rehabparametrar. Svara ENBART med JSON utan backticks.
+
+SOAP:
+S: ${soap.S}
+O: ${soap.O}
+A: ${soap.A}
+P: ${soap.P}
+Diagnos: ${diagnosis}
+
+JSON:
+{"pain":5,"motivation":6,"history":"ingen","knowledge":"låg","location":"hem","exercises":5,"followup":4,"clinicalFocus":"specifika fynd och fokusområden"}
+
+pain 0-10, motivation 1-10, history: ingen/sporadisk/regelbunden, knowledge: låg/medel/hög, location: hem/gym`;
+      const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
+      S.loadStep = 3;
+      const data = await res.json();
+      const text = (data.content||[]).map(b=>b.text||'').join('');
+      const params = JSON.parse(text.replace(/```json|```/g,'').trim());
+      currentSOAP = {...currentSOAP, ...params, soap, diagnosis, customDiagnosis, icd10, icd10desc};
+    } catch(err) {
+      // Fallback without AI params
+      currentSOAP = {...currentSOAP, soap, diagnosis, customDiagnosis, icd10, icd10desc};
+    }
+  } else {
+    currentSOAP = {...currentSOAP, soap, diagnosis, customDiagnosis, icd10, icd10desc};
+  }
+
+  if (goPlan) {
+    await saveSOAPToVisit(true);
+  } else {
+    go('soap');
+  }
+}
+
+function startMeeting() {
+  if (!S.pat) return;
+  resetMeeting();
+  go('meeting');
+}
+
+
+
+// ── EDIT PATIENT ──────────────────────────────────────────────────────────────
+function rEditPat() {
+  const p = S.pat;
+  if (!p) { go('list'); return; }
+  const el = document.getElementById('s-editpat');
+  el.innerHTML = `<div class="edit-wrap">
+    <div class="ftit">Redigera patientinfo</div>
+    <div class="fsub" style="margin-bottom:22px">Ändringar sparas direkt på patientkortet.</div>
+    <span class="slabel">Namn</span>
+    <input class="field" id="ep-name" value="${e(p.name||'')}" placeholder="Patientens namn" style="margin-bottom:11px">
+    <span class="slabel">Födelseår</span>
+    <input class="field" id="ep-year" type="number" value="${p.birthYear||1980}" min="1920" max="2010" style="margin-bottom:11px">
+    <span class="slabel">Primär diagnos</span>
+    <select class="field" id="ep-diag" style="margin-bottom:11px">
+      ${DIAGS.map(d=>`<option ${d===p.diagnosis?'selected':''}>${d}</option>`).join('')}
+    </select>
+    <div id="ep-custom-wrap" style="display:${p.diagnosis==='Annan / fritext'?'block':'none'}">
+      <span class="slabel">Fritext diagnos</span>
+      <input class="field" id="ep-custom" value="${e(p.customDiag||'')}" placeholder="Beskriv diagnos..." style="margin-bottom:11px">
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px">
+      <button class="btn btn-p" style="flex:1;padding:12px" onclick="saveEditPat()">Spara ändringar</button>
+      <button class="btn" style="flex:1;padding:12px" onclick="go('detail')">Avbryt</button>
+    </div>
+  </div>`;
+  document.getElementById('ep-diag').onchange = function() {
+    document.getElementById('ep-custom-wrap').style.display = this.value==='Annan / fritext'?'block':'none';
+  };
+}
+
+function saveEditPat() {
+  const p = S.pat;
+  const name = document.getElementById('ep-name').value.trim();
+  const birthYear = parseInt(document.getElementById('ep-year').value)||1980;
+  const diagnosis = document.getElementById('ep-diag').value;
+  const customDiag = document.getElementById('ep-custom')&&document.getElementById('ep-custom').value.trim()||'';
+  const updated = {...p, name, birthYear, diagnosis, customDiag};
+  S.pat = savePat(updated);
+  go('detail');
+}
+
+// ── PAIN CHART ────────────────────────────────────────────────────────────────
+function renderPainChart(visits) {
+  const pts = [...visits].reverse().filter(v=>v.form&&v.form.pain!=null).slice(0,10);
+  if (pts.length < 2) return '';
+  const W=340, H=70, PAD=10;
+  const vals = pts.map(v=>v.form.pain);
+  const min=0, max=10;
+  const xStep = (W-PAD*2)/(pts.length-1);
+  const yScale = (H-PAD*2)/(max-min);
+  const points = vals.map((v,i)=>({
+    x: PAD+i*xStep,
+    y: H-PAD-(v-min)*yScale
+  }));
+  const path = points.map((p,i)=>(i===0?`M${p.x},${p.y}`:`L${p.x},${p.y}`)).join(' ');
+  const area = path + ` L${points[points.length-1].x},${H-PAD} L${PAD},${H-PAD} Z`;
+  const dots = points.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="3" fill="${vals[i]>=7?'#c07070':vals[i]>=4?'#c8a030':'#5a9860'}"/>`).join('');
+  const labels = points.map((p,i)=>`<text x="${p.x}" y="${H}" font-size="7" fill="#3a4a5a" text-anchor="middle">${pts[i].date.slice(5)}</text>`).join('');
+  return `<div class="chart-wrap">
+    <div class="chart-title">Smärtutveckling (NRS)</div>
+    <div class="chart-svg-wrap">
+      <svg width="100%" viewBox="0 0 ${W} ${H+12}" preserveAspectRatio="xMidYMid meet">
+        <defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a7a8a" stop-opacity="0.18"/><stop offset="100%" stop-color="#2a7a8a" stop-opacity="0"/></linearGradient></defs>
+        <line x1="${PAD}" y1="${PAD}" x2="${PAD}" y2="${H-PAD}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="${PAD}" y1="${H-PAD}" x2="${W-PAD}" y2="${H-PAD}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        ${[0,5,10].map(v=>`<text x="${PAD-3}" y="${H-PAD-(v-min)*yScale+3}" font-size="7" fill="#3a4a5a" text-anchor="end">${v}</text>`).join('')}
+        <path d="${area}" fill="url(#ag)"/>
+        <path d="${path}" fill="none" stroke="#2a7a8a" stroke-width="1.5" stroke-linejoin="round"/>
+        ${dots}
+        ${labels}
+      </svg>
+    </div>
+  </div>`;
+}
+
+// ── JOURNAL PDF ───────────────────────────────────────────────────────────────
+function rJournalDoc() {
+  const p = S.pat;
+  const vid = S.visitId;
+  if (!p||!vid) { go('detail'); return; }
+  const v = (p.visits||[]).find(x=>x.id===vid);
+  if (!v||!v.soap) { go('detail'); return; }
+  const jdocFlags = checkRedFlags(Object.values(v.soap||{}).join(' ') + ' ' + (v.transcript||[]).map(t=>t.text||'').join(' '));
+  const jdocFlagBanner = renderRedFlagBanner(jdocFlags);
+  const el = document.getElementById('s-journaldoc');
+  const today = new Date().toLocaleDateString('sv-SE',{year:'numeric',month:'long',day:'numeric'});
+  const soapLabels = {S:'Subjektivt — Patientens berättelse',O:'Objektivt — Undersökningsfynd',A:'Bedömning — Diagnos & funktionsnivå',P:'Plan — Åtgärder & uppföljning'};
+  const meta = v.soapMeta||{};
+  el.innerHTML = `
+    <div style="background:#eceae6;min-height:100vh;"><div style="max-width:680px;margin:0 auto;padding:8px 12px 0">${jdocFlagBanner}</div>
+      <div class="dcontrols">
+        <button class="btn" onclick="go('detail')">← Tillbaka</button>
+        <button class="btn" onclick="sharePlan(S.visitId)">📲 Dela med patient</button><button class="btn" onclick="mailPlan(S.visitId)">✉️ Maila patient</button><button class="btn" onclick="printHomeCard(S.visitId)">🏠 Hemkort</button><button class="btn btn-p" onclick="window.print()">Skriv ut / PDF</button>
+        <span class="dhint">Välj "Spara som PDF" · A4 · inga marginaler</span>
+      </div>
+      <div class="jdoc">
+        <div class="jdoc-hdr">
+          <div>
+            <div class="jdoc-title">Journalanteckning</div>
+            <div class="jdoc-sub">${e(p.name||'')} · ${v.date||''}</div>
+            <div class="jdoc-meta">
+              ${[['Diagnos',meta.diagnosis||p.diagnosis||'—'],['Födelseår',p.birthYear||'—'],['Ålder',(new Date().getFullYear()-(p.birthYear||0))+' år']].map(([l,v2])=>`<div><div class="dml">${l}</div><div class="dmv">${e(String(v2))}</div></div>`).join('')}
+            </div>
+          </div>
+          <img src="${LOGO}" class="jdoc-ftr-logo" style="height:44px;opacity:.6;filter:none">
+        </div>
+        <div class="jdoc-body">
+          ${meta.icd10?`<div class="jdoc-icd"><span class="jdoc-icd-code">${e(meta.icd10)}</span><span class="jdoc-icd-desc">${e(meta.icd10desc||'')}</span></div>`:''}
+          <div class="jdoc-sec">SOAP-journalanteckning</div>
+          ${['S','O','A','P'].map(l=>`
+            <div class="jdoc-soap">
+              <div class="jdoc-soap-hdr">
+                <div class="jdoc-soap-l ${l}">${l}</div>
+                <div class="jdoc-soap-title">${soapLabels[l]}</div>
+              </div>
+              <div class="jdoc-soap-body">${e(v.soap[l]||'—')}</div>
+            </div>`).join('')}
+        </div>
+        <div class="jdoc-ftr">
+          <img src="${LOGO}" class="jdoc-ftr-logo">
+          <div>${CLINIC.name} · ${CLINIC.address}</div>
+          <div>Utfärdad ${today}</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── BACKUP EXPORT ─────────────────────────────────────────────────────────────
+
+// ── BETALSTATUS ──────────────────────────────────────────────────────────────
+let _payPopupVid = null;
+function showPayPopup(evt, vid) {
+  evt.stopPropagation();
+  closePayPopup();
+  _payPopupVid = vid;
+  const opts = [{key:'paid',label:'✓ Betald',col:'#1a7a4a'},{key:'unpaid',label:'⚠ Obetald',col:'#a03030'},{key:'invoiced',label:'📄 Fakturerad',col:'#8a6000'}];
+  const div = document.createElement('div');
+  div.className = 'pay-popup';
+  div.id = 'pay-popup';
+  div.innerHTML = opts.map(o=>`<div class="pay-opt" style="color:${o.col}" onclick="setPayStatus('${vid}','${o.key}')">${o.label}</div>`).join('');
+  const r = evt.target.getBoundingClientRect();
+  div.style.top = (r.bottom+4)+'px';
+  div.style.left = r.left+'px';
+  document.body.appendChild(div);
+  setTimeout(()=>document.addEventListener('click', closePayPopup, {once:true}), 10);
+}
+function closePayPopup() {
+  const el = document.getElementById('pay-popup');
+  if (el) el.remove();
+}
+function setPayStatus(vid, status) {
+  closePayPopup();
+  if (!S.pat) return;
+  S.pat.visits = S.pat.visits.map(v=>v.id===vid?{...v,payStatus:status}:v);
+  savePat(S.pat);
+  S.pat = S.patients.find(x=>x.id===S.pat.id)||S.pat;
+  rDetail();
+}
+
+// ── SAMTYCKE ─────────────────────────────────────────────────────────────────
+const CONSENT_TYPES = [
+  {key:'behandling', label:'Behandlingssamtycke'},
+  {key:'journal',    label:'Journalföring (GDPR)'},
+  {key:'inspelning', label:'Inspelning & transkription'},
+  {key:'kontakt',    label:'Kontakt & påminnelser'},
+];
+
+function renderConsentBlock(p) {
+  const consents = p.consents || [];
+  const rows = CONSENT_TYPES.map(ct => {
+    const c = consents.find(x=>x.type===ct.key);
+    if (c) {
+      return `<div class="consent-row">
+        <div class="consent-dot" style="background:var(--green)"></div>
+        <div class="consent-type">${ct.label}</div>
+        <div class="consent-date">${c.date}</div>
+        <span class="consent-rev" onclick="revokeConsent('${ct.key}')">Återkalla</span>
+      </div>`;
+    } else {
+      return `<div class="consent-row">
+        <div class="consent-dot" style="background:var(--text4)"></div>
+        <div class="consent-type" style="color:var(--text4)">${ct.label}</div>
+        <div style="margin-left:auto"><button class="btn" style="padding:3px 10px;font-size:10px" onclick="addConsent('${ct.key}')">+ Registrera</button></div>
+      </div>`;
+    }
+  }).join('');
+  return `<div class="consent-wrap">
+    <div class="consent-hdr">
+      <div class="consent-hdr-title">🔏 Samtycken (GDPR)</div>
+    </div>
+    ${rows}
+  </div>`;
+}
+
+function addConsent(type) {
+  if (!S.pat) return;
+  const consents = (S.pat.consents||[]).filter(c=>c.type!==type);
+  consents.push({type, date:new Date().toISOString().slice(0,10), revokedAt:null});
+  S.pat = savePat({...S.pat, consents});
+  rDetail();
+}
+function revokeConsent(type) {
+  if (!S.pat || !confirm('Återkalla samtycke för '+CONSENT_TYPES.find(c=>c.key===type)?.label+'?')) return;
+  S.pat = savePat({...S.pat, consents:(S.pat.consents||[]).filter(c=>c.type!==type)});
+  rDetail();
+}
+
+// ── FULL PATIENT JOURNAL EXPORT ───────────────────────────────────────────────
+function rPatJournal() {
+  const p = S.pat;
+  if (!p) { go('detail'); return; }
+  const el = document.getElementById('s-patjournal');
+  const today = new Date().toLocaleDateString('sv-SE',{year:'numeric',month:'long',day:'numeric'});
+  const age = new Date().getFullYear() - (p.birthYear||0);
+  const visits = [...(p.visits||[])].reverse(); // chronological order
+  const consents = p.consents||[];
+
+  let visitsHtml = '';
+  if (!visits.length) {
+    visitsHtml = '<div style="font-size:13px;color:var(--text3);font-style:italic">Inga besök registrerade.</div>';
+  } else {
+    visits.forEach((v, i) => {
+      const soap = v.soap || {};
+      const soapLabels = {S:'Subjektivt',O:'Objektivt',A:'Bedömning',P:'Plan'};
+      const hasSoap = Object.values(soap).some(Boolean);
+      const hasExercises = v.plan && v.plan.exercises && v.plan.exercises.length;
+      const pay = v.payStatus || 'unpaid';
+      const payLabel = {paid:'Betald',unpaid:'Obetald',invoiced:'Fakturerad'}[pay];
+      const payCol = {paid:'#1a7a4a',unpaid:'#a03030',invoiced:'#8a6000'}[pay];
+
+      visitsHtml += `<div class="pjdoc-visit-block">
+        <div class="pjdoc-visit-hdr">
+          <div class="pjdoc-visit-n">${i+1}</div>
+          <div class="pjdoc-visit-date">${v.date||'—'}</div>
+          <div style="font-size:11px;color:var(--text3);margin-left:4px">${e(v.form&&v.form.diagnosis||v.soapMeta&&v.soapMeta.diagnosis||p.diagnosis||'')}</div>
+          <span style="margin-left:auto;font-size:10px;font-weight:700;color:${payCol}">${payLabel}</span>
+        </div>`;
+
+      if (hasSoap) {
+        ['S','O','A','P'].forEach(l => {
+          if (!soap[l]) return;
+          visitsHtml += `<div class="pjdoc-soap-row">
+            <div class="pjdoc-sl ${l}">${l}</div>
+            <div class="pjdoc-soap-text">${e(soap[l])}</div>
+          </div>`;
+        });
+      } else if (v.note) {
+        visitsHtml += `<div style="font-size:12px;color:var(--text2);line-height:1.7;padding-left:28px">${e(v.note)}</div>`;
+      }
+
+      if (hasExercises) {
+        visitsHtml += `<div class="pjdoc-exercises">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:6px">Rehabövningar</div>`;
+        v.plan.exercises.forEach((ex,xi) => {
+          visitsHtml += `<div class="pjdoc-ex-row"><span class="pjdoc-ex-n">${xi+1}.</span><span style="flex:1">${e(ex.name)}</span><span style="color:var(--text3);font-size:10px">${ex.sets} set × ${ex.reps}</span></div>`;
+        });
+        visitsHtml += `</div>`;
+      }
+
+      if (v.soapMeta && v.soapMeta.icd10) {
+        visitsHtml += `<div style="margin-top:6px;font-size:10px;font-family:monospace;color:var(--text3)">ICD-10: ${e(v.soapMeta.icd10)} — ${e(v.soapMeta.icd10desc||'')}</div>`;
+      }
+
+      visitsHtml += `</div>`;
+    });
+  }
+
+  const consentHtml = consents.length
+    ? consents.map(c=>`<div class="pjdoc-ex-row"><span style="color:var(--green);margin-right:6px">✓</span><span style="flex:1">${CONSENT_TYPES.find(t=>t.key===c.type)?.label||c.type}</span><span style="color:var(--text3);font-size:10px">${c.date}</span></div>`).join('')
+    : '<div style="font-size:12px;color:var(--text3);font-style:italic">Inga samtycken registrerade.</div>';
+
+  el.innerHTML = `
+    <div style="background:#eceae6;min-height:100vh;"><div style="max-width:680px;margin:0 auto;padding:8px 12px 0">${jdocFlagBanner}</div>
+      <div class="dcontrols">
+        <button class="btn" onclick="go('detail')">← Tillbaka</button>
+        <button class="btn btn-p" onclick="window.print()">Skriv ut / Spara PDF</button>
+        <span class="dhint">Välj "Spara som PDF" · A4 · minimala marginaler</span>
+      </div>
+      <div class="pjdoc">
+        <div class="pjdoc-cover">
+          <div class="pjdoc-clinic-name">${e(CLINIC.name)}</div>
+          <div class="pjdoc-patient-name">${e(p.name||'Patient')}</div>
+          <div class="pjdoc-diag">${e(p.diagnosis||'')}</div>
+          <div class="pjdoc-meta-row">
+            <div class="pjdoc-mi"><div class="lbl">Födelseår</div><div class="val">${p.birthYear||'—'}</div></div>
+            <div class="pjdoc-mi"><div class="lbl">Ålder</div><div class="val">${age} år</div></div>
+            <div class="pjdoc-mi"><div class="lbl">Personnummer</div><div class="val">${e(p.pnr||'—')}</div></div>
+            <div class="pjdoc-mi"><div class="lbl">Antal besök</div><div class="val">${(p.visits||[]).length}</div></div>
+            <div class="pjdoc-mi"><div class="lbl">Fas</div><div class="val">${PHASES[(p.phase||1)-1].name}</div></div>
+            <div class="pjdoc-mi"><div class="lbl">Utfärdad</div><div class="val">${today}</div></div>
+          </div>
+        </div>
+
+        <div class="pjdoc-section">
+          <div class="pjdoc-sec-title">Journalhistorik — ${visits.length} besök</div>
+          ${visitsHtml}
+        </div>
+
+        <div class="pjdoc-section">
+          <div class="pjdoc-sec-title">Samtycken (GDPR)</div>
+          ${consentHtml}
+        </div>
+
+        <div class="pjdoc-ftr">
+          <img src="${LOGO}" style="height:32px;opacity:.5">
+          <div class="pjdoc-ftr-txt">
+            <div>${e(CLINIC.name)} · ${e(CLINIC.address)}</div>
+            <div>${e(CLINIC.phone)} · ${e(CLINIC.email)}</div>
+            <div style="margin-top:2px;color:var(--text4)">Konfidentiell patientjournal — Kansei Klinik</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+
+
+function viewJournalDoc(vid) {
+  S.visitId = vid;
+  go('journaldoc');
+}
+
+function exportBackup(silent) {
+  // Collect all patients from both storage key formats
+  const seen = new Set();
+  const patients = [];
+  S.patients.forEach(p => { if (p&&p.id&&!seen.has(p.id)) { seen.add(p.id); patients.push(p); } });
+  // Also sweep localStorage for any orphaned keys
+  for (let i=0; i<localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (!k) continue;
+    if (k.startsWith('pat:') || k.startsWith('kansei-data:') || k.startsWith('kpat_')) {
+      try {
+        const p = JSON.parse(localStorage.getItem(k));
+        if (p&&p.id&&!seen.has(p.id)) { seen.add(p.id); patients.push(p); }
+      } catch(e) {}
+    }
+  }
+  // Also collect economics user entries
+  const ekEntries = (() => { try { return JSON.parse(localStorage.getItem('kansei-ek:intakter')||'[]'); } catch(e){return[];} })();
+
+  const data = {
+    appName: 'Kansei Klinik',
+    version: 2,
+    exported: new Date().toISOString(),
+    exportedReadable: new Date().toLocaleString('sv-SE'),
+    patientCount: patients.length,
+    patients,
+    
+  };
+
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const ts = new Date().toISOString().slice(0,16).replace('T','_').replace(':','-');
+  a.download = `kansei-klinik-${ts}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  if (!silent) showAutoSaveToast('💾 Backup nedladdad');
+  return patients.length;
+}
+
+function importBackup() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const text = await file.text();
+    try {
+      const data = JSON.parse(text);
+      // Support both old format (patients array) and new format (version 2)
+      const patients = data.patients;
+      if (!patients||!Array.isArray(patients)) { alert('Ogiltig backupfil — inga patienter hittades.'); return; }
+      let count = 0;
+      patients.forEach(p => {
+        if (p&&p.id) {
+          localStorage.setItem('kansei-data:'+p.id, JSON.stringify(p));
+          localStorage.setItem('pat:'+p.id, JSON.stringify(p));
+          count++;
+        }
+      });
+      // Import economics user entries if present
+      if (data.ekonomi&&data.ekonomi.userEntries&&Array.isArray(data.ekonomi.userEntries)) {
+        localStorage.setItem('kansei-ek:intakter', JSON.stringify(data.ekonomi.userEntries));
+      }
+      alert(`✓ ${count} patienter importerade från backup (${data.exportedReadable||data.exported||'okänt datum'}).\n\nSidan laddas om.`);
+      loadPats();
+      go('dashboard');
+    } catch(err) { alert('Kunde inte läsa filen: '+err.message); }
+  };
+  input.click();
+}
+
+function copySOAP() {
+  if (!currentSOAP || !S.pat) return;
+  const soap = currentSOAP.soap || {};
+
+  // Read live values from textareas if they exist
+  ['S','O','A','P'].forEach(l => {
+    const el = document.getElementById('soap-'+l);
+    if (el) soap[l] = el.value;
+  });
+
+  const icd = currentSOAP.icd10 ? `ICD-10: ${currentSOAP.icd10} — ${currentSOAP.icd10desc||''}\n` : '';
+  const diag = currentSOAP.diagnosis ? `Diagnos: ${currentSOAP.diagnosis}\n` : '';
+
+  const text = [
+    `JOURNALANTECKNING`,
+    `Patient: ${S.pat.name||''}  |  Datum: ${currentSOAP.date||new Date().toISOString().slice(0,10)}`,
+    diag + icd,
+    `S — SUBJEKTIVT`,
+    soap.S || '',
+    ``,
+    `O — OBJEKTIVT`,
+    soap.O || '',
+    ``,
+    `A — BEDÖMNING`,
+    soap.A || '',
+    ``,
+    `P — PLAN`,
+    soap.P || '',
+    ``,
+    `---`,
+    `Genererad av Kansei Rehabplan`
+  ].join('\n');
+
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copy-btn');
+    if (btn) {
+      btn.textContent = '✓ Kopierad!';
+      btn.style.color = '#4a9aaa';
+      btn.style.borderColor = 'rgba(42,122,138,0.4)';
+      setTimeout(() => {
+        btn.textContent = '📋 Kopiera journal för inklistring i journalsystem';
+        btn.style.color = '';
+        btn.style.borderColor = '';
+      }, 2500);
+    }
+  }).catch(() => {
+    // Fallback for Safari
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const btn = document.getElementById('copy-btn');
+    if (btn) { btn.textContent = '✓ Kopierad!'; setTimeout(() => { btn.textContent = '📋 Kopiera journal för inklistring i journalsystem'; }, 2500); }
+  });
+}
+
+// ── INTAKE FLOW ───────────────────────────────────────────────────────────────
+let SBS_PREV = null; // previous visit for comparison
+
+function startSBSsoap(prevVisit) {
+  SBS_PREV = prevVisit;
+  currentSOAP = {
+    soap: {S:'',O:'',A:'',P:''},
+    diagnosis: S.pat&&S.pat.diagnosis||'',
+    customDiagnosis: '',
+    icd10: '',
+    icd10desc: '',
+    pain: (prevVisit&&prevVisit.soapMeta&&prevVisit.soapMeta.pain)||5,
+    motivation: 6,
+    history: 'ingen',
+    knowledge: 'låg',
+    location: 'hem',
+    exercises: 5,
+    followup: 4,
+    clinicalFocus: '',
+    transcript: [],
+    date: new Date().toISOString().slice(0,10),
+    note: '',
+    manual: true
+  };
+  go('sbs-soap');
+}
+
+function rSBSsoap() {
+  const el = document.getElementById('s-sbs-soap');
+  if (!el || !SBS_PREV) { startManualSOAP(); return; }
+  const p = S.pat;
+  const prev = SBS_PREV;
+  const prevSoap = prev.soap||{};
+  const prevPlan = prev.plan;
+  const prevPain = prev.soapMeta&&prev.soapMeta.pain || prev.form&&prev.form.pain || '—';
+  const currSoap = currentSOAP&&currentSOAP.soap||{};
+
+  const labels = {S:'Subjektivt',O:'Objektivt',A:'Bedömning',P:'Plan'};
+  const descs = {S:'patientens berättelse',O:'undersökningsfynd',A:'diagnos & funktionsnivå',P:'åtgärder & uppföljning'};
+
+  let h = `<div class="sbs-wrap">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap">
+      <div>
+        <div class="page-title">Journal — Återbesök</div>
+        <div style="font-size:12px;color:var(--text3)">${e(p&&p.name||'')} · ${new Date().toLocaleDateString('sv-SE')}</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn" onclick="go('intake')">← Tillbaka</button>
+        <button class="btn btn-p" onclick="saveSBSsoap(false)">Spara journal</button>
+        <button class="btn btn-navy" onclick="saveSBSsoap(true)">Spara & skapa rehabplan →</button>
+      </div>
+    </div>`;
+
+  // Pain comparison row
+  const currPainEl = currentSOAP&&currentSOAP.pain||5;
+  const delta = prevPain !== '—' ? currPainEl - parseInt(prevPain) : null;
+  h += `<div class="sbs-pain-compare">
+    <div class="sbs-pain-box">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:4px">Förra besöket ${prev.date||''}</div>
+      <div class="sbs-pain-val" style="color:${parseInt(prevPain)>=7?'#c04040':parseInt(prevPain)>=4?'#8a6000':'#1a7a4a'}">${prevPain}/10</div>
+      <div class="sbs-pain-lbl">NRS Smärta</div>
+    </div>
+    <div class="sbs-pain-box" style="border-color:var(--teal)">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:4px">Nuvarande besök — ${new Date().toLocaleDateString('sv-SE')}</div>
+      <div style="display:flex;align-items:center;gap:10px;justify-content:center">
+        <input type="range" min="0" max="10" value="${currPainEl}" style="flex:1;accent-color:var(--teal)" 
+          oninput="currentSOAP.pain=parseInt(this.value);document.getElementById('sbs-pain-now').textContent=this.value+'/10'">
+        <div class="sbs-pain-val" id="sbs-pain-now" style="color:${currPainEl>=7?'#c04040':currPainEl>=4?'#8a6000':'#1a7a4a'}">${currPainEl}/10</div>
+      </div>
+      <div class="sbs-pain-lbl">Dra för att uppdatera NRS</div>
+      ${delta!==null?`<span class="sbs-delta ${delta<0?'better':delta>0?'worse':'same'}">${delta<0?'▼ '+Math.abs(delta)+' bättre':delta>0?'▲ '+delta+' sämre':'= Oförändrad'}</span>`:''}
+    </div>`;
+
+  // Previous goals if any
+  if (prevPlan && prevPlan.goals && prevPlan.goals.length) {
+    h += `<div class="sbs-pain-box">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:6px">Mål från förra planen</div>`;
+    prevPlan.goals.forEach(g => {
+      h += `<div class="sbs-goal-row"><div class="sbs-goal-lbl">${e(g.title)}</div><div class="sbs-goal-val">${e(g.text)}</div></div>`;
+    });
+    h += `</div>`;
+  }
+  h += `</div>`;
+
+  // ── SOAP columns ──
+  h += `<div class="sbs-top">
+    <div class="sbs-col-label prev">📋 Föregående besök <span class="sbs-col-detail">${prev.date||'—'}</span></div>
+    <div class="sbs-col-label curr">✏️ Aktuellt besök <span class="sbs-col-detail">${new Date().toLocaleDateString('sv-SE')}</span></div>
+  </div>`;
+
+  ['S','O','A','P'].forEach(letter => {
+    const prevText = prevSoap[letter]||'';
+    const placeholder = {
+      S:'Patientens berättelse idag — hur har det gått sedan sist? Smärtläge, funktion...',
+      O:'Objektiva fynd idag — rörelseomfång, palpation, tester...',
+      A:'Bedömning idag — progress, diagnos, funktionsnivå...',
+      P:'Plan idag — behandling, hemövningar, återbesök...'
+    }[letter];
+
+    h += `<div class="sbs-section">
+      <div class="sbs-panel">
+        <div class="sbs-phdr"><div class="sbs-letter ${letter}">${letter}</div><div class="sbs-pname">${labels[letter]} — ${descs[letter]}</div></div>
+        <div class="sbs-prev-body">${prevText ? e(prevText) : '<span style="color:var(--text4);font-size:11px">Inget dokumenterat</span>'}</div>
+      </div>
+      <div class="sbs-panel" style="border-color:var(--teal)">
+        <div class="sbs-phdr" style="background:var(--teal3)"><div class="sbs-letter ${letter}">${letter}</div><div class="sbs-pname">${labels[letter]} — skriv nu</div></div>
+        <textarea class="sbs-curr-ta" id="sbs-${letter}" placeholder="${placeholder}" oninput="currentSOAP.soap['${letter}']=this.value">${e(currSoap[letter]||'')}</textarea>
+      </div>
+    </div>`;
+  });
+
+  // Previous exercises
+  if (prevPlan && prevPlan.exercises && prevPlan.exercises.length) {
+    h += `<div class="sbs-section">
+      <div class="sbs-panel">
+        <div class="sbs-phdr"><div style="font-size:12px;font-weight:600;color:var(--navy)">Övningar förra besöket</div></div>
+        <div class="sbs-prev-exlist">`;
+    prevPlan.exercises.forEach((ex,i) => {
+      h += `<div class="sbs-ex-row"><div class="sbs-ex-n">${i+1}</div><div style="flex:1">${e(ex.name)}</div><div style="font-size:10px;color:var(--text4);font-family:'DM Mono',monospace">${ex.sets}×${ex.reps}</div></div>`;
+    });
+    h += `</div></div>
+      <div class="sbs-panel" style="border-color:var(--teal)">
+        <div class="sbs-phdr" style="background:var(--teal3)"><div style="font-size:12px;font-weight:600;color:var(--teal)">Kliniskt fokus för ny rehabplan</div></div>
+        <textarea class="sbs-curr-ta" id="sbs-focus" placeholder="Vad ska ny plan fokusera på? Vilka övningar fungerade bra/dåligt? Anpassningar..." style="min-height:120px" oninput="currentSOAP.clinicalFocus=this.value">${e(currentSOAP&&currentSOAP.clinicalFocus||'')}</textarea>
+      </div>
+    </div>`;
+  }
+
+  // ICD + Diagnos
+  h += `<div style="background:white;border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:6px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:6px">Diagnos</div>
+        <select class="ek-select" onchange="currentSOAP.diagnosis=this.value">
+          ${DIAGS.map(d=>`<option ${d===(currentSOAP&&currentSOAP.diagnosis)?'selected':''}>${d}</option>`).join('')}
+        </select>
+      </div>
+      <div>
+        <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:6px">ICD-10</div>
+        <div style="display:flex;gap:8px">
+          <input class="ek-inp" style="width:100px;font-family:'DM Mono',monospace" placeholder="M54.5" value="${e(currentSOAP&&currentSOAP.icd10||'')}" oninput="currentSOAP.icd10=this.value">
+          <input class="ek-inp" placeholder="Beskrivning..." value="${e(currentSOAP&&currentSOAP.icd10desc||'')}" oninput="currentSOAP.icd10desc=this.value">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end">
+    <button class="btn" onclick="go(S.pat?'detail':'list')">Avbryt</button>
+    <button class="btn btn-p" style="padding:12px 24px" onclick="saveSBSsoap(false)">Spara journal</button>
+    <button class="btn btn-navy" style="padding:12px 24px" onclick="saveSBSsoap(true)">Spara & skapa ny rehabplan →</button>
+  </div>
+  </div>`;
+
+  el.innerHTML = h;
+}
+
+async function saveSBSsoap(goPlan) {
+  // Read live textarea values
+  ['S','O','A','P'].forEach(l => {
+    const el = document.getElementById('sbs-'+l);
+    if (el) currentSOAP.soap[l] = el.value;
+  });
+  const focusEl = document.getElementById('sbs-focus');
+  if (focusEl) currentSOAP.clinicalFocus = focusEl.value;
+
+  await saveSOAPToVisit(goPlan);
+  if (!goPlan) go('detail');
+}
+
+// ── EKONOMI MODULE ────────────────────────────────────────────────────────────
+
+
+// ── SMÄRTGRAF ─────────────────────────────────────────────────────────────────
+
+function renderPainGraph(pat) {
+  const visits = (pat.visits||[]).slice().reverse(); // oldest first
+  const painPoints = visits.filter(v => v.form && v.form.pain != null);
+  if (painPoints.length < 2) return ''; // need at least 2 points
+
+  const W = 280, H = 60, PAD = 8;
+  const n = painPoints.length;
+  const xs = painPoints.map((_, i) => PAD + (i / (n - 1)) * (W - PAD * 2));
+  const ys = painPoints.map(v => PAD + ((10 - v.form.pain) / 10) * (H - PAD * 2));
+
+  // polyline
+  const pts = xs.map((x, i) => `${x},${ys[i]}`).join(' ');
+
+  // color: improving = green, worsening = red
+  const first = painPoints[0].form.pain;
+  const last = painPoints[painPoints.length-1].form.pain;
+  const trend = last < first ? '#4a9860' : last > first ? '#c07070' : '#4a9aaa';
+
+  // dots + labels
+  let dots = '';
+  painPoints.forEach((v, i) => {
+    dots += `<circle cx="${xs[i]}" cy="${ys[i]}" r="3" fill="${trend}" opacity="0.9"/>`;
+    if (i === 0 || i === n-1) {
+      const anchor = i === 0 ? 'start' : 'end';
+      dots += `<text x="${xs[i]}" y="${H - 1}" text-anchor="${anchor}" font-size="8" fill="#5a6a7a">${v.form.pain}/10</text>`;
+      dots += `<text x="${xs[i]}" y="${H + 9}" text-anchor="${anchor}" font-size="7" fill="#8a9aaa">${v.date||''}</text>`;
+    }
+  });
+
+  const arrow = last < first ? '↓ Förbättring' : last > first ? '↑ Försämring' : '→ Oförändrad';
+  const diff = Math.abs(last - first);
+
+  return `<div style="margin:12px 0 4px;padding:12px 14px;background:white;border:1px solid var(--border);border-radius:8px">
+    <div style="font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px">
+      Smärtutveckling (NRS) &nbsp;<span style="color:${trend};font-size:11px">${arrow} ${diff > 0 ? diff + ' enheter' : ''}</span>
+    </div>
+    <svg width="100%" viewBox="0 0 ${W} ${H + 14}" style="overflow:visible">
+      <polyline points="${pts}" fill="none" stroke="${trend}" stroke-width="2" stroke-linejoin="round" opacity="0.7"/>
+      ${dots}
+    </svg>
+  </div>`;
+}
+
+// ── DELA REHABPLAN (delbar HTML-sida) ─────────────────────────────────────────
+
+function sharePlan(vid) {
+  const p = S.pat;
+  if (!p) return;
+  const v = (p.visits||[]).find(x => x.id === vid);
+  if (!v || !v.plan) { alert('Ingen rehabplan finns för detta besök.'); return; }
+
+  const plan = v.plan;
+  const clinic = window.CLINIC || {};
+  const today = new Date().toLocaleDateString('sv-SE', {year:'numeric',month:'long',day:'numeric'});
+
+  // Build self-contained mobile-friendly HTML
+  const exercisesHtml = (plan.exercises||[]).map((ex, i) => `
+    <div class="ex">
+      <div class="ex-hdr">
+        <span class="ex-num">${i+1}</span>
+        <div>
+          <div class="ex-name">${ex.name||''}</div>
+          <div class="ex-dose">${ex.sets} set · ${ex.reps} reps · ${ex.rest} vila</div>
+        </div>
+      </div>
+      <div class="ex-purp">${ex.purpose||''}</div>
+      <div class="ex-lbl">Startposition</div>
+      <div class="ex-sp">${ex.startPosition||''}</div>
+      <ol class="ex-steps">${(ex.steps||[]).map((s,j) => `<li><span class="sn">0${j+1}</span><span>${s}</span></li>`).join('')}</ol>
+      ${ex.tip ? `<div class="ex-note">⚠ ${ex.tip}</div>` : ''}
+      ${ex.correctFeel ? `<div class="ex-feel">✓ ${ex.correctFeel}</div>` : ''}
+      <a class="yt-btn" href="https://www.youtube.com/results?search_query=${encodeURIComponent((ex.name||'')+ ' rehabilitering övning fysioterapi')}" target="_blank">▶ Se övningen på YouTube</a>
+    </div>
+  `).join('');
+
+  const schedHtml = (plan.schedule||[]).map(d => {
+    const active = d.activity && (d.activity.toLowerCase().includes('övning') || d.activity.toLowerCase().includes('program'));
+    return `<div class="day ${active ? 'act' : ''}"><div class="dn">${(d.day||'').slice(0,3).toUpperCase()}</div><div class="dt">${d.activity||''}</div></div>`;
+  }).join('');
+
+  const goalsHtml = (plan.goals||[]).map(g => `
+    <div class="goal"><div class="g-lbl">${g.title||''}</div><div class="g-txt">${g.text||''}</div></div>
+  `).join('');
+
+  const painHtml = plan.painAdvice ? `
+    <div class="pain-grid">
+      <div class="pg gr"><div class="ph">🟢 Grön</div><div>${plan.painAdvice.green||''}</div></div>
+      <div class="pg ye"><div class="ph">🟡 Gul</div><div>${plan.painAdvice.yellow||''}</div></div>
+      <div class="pg re"><div class="ph">🔴 Röd</div><div>${plan.painAdvice.red||''}</div></div>
+    </div>` : '';
+
+  const tipsHtml = (plan.lifestyleTips||[]).map(t => `<li>${t}</li>`).join('');
+
+  const shareHtml = `<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Rehabplan — ${plan.patientName||'Patient'}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0ede8;color:#2a3a4a;font-size:15px;line-height:1.6}
+  .top{background:#1a3a4a;color:white;padding:20px 18px 16px}
+  .top-tag{font-size:10px;letter-spacing:.12em;text-transform:uppercase;opacity:.6;margin-bottom:4px}
+  .top-name{font-size:22px;font-weight:300;letter-spacing:.02em;margin-bottom:2px}
+  .top-diag{font-size:13px;opacity:.7}
+  .top-meta{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+  .meta-pill{background:rgba(255,255,255,.12);border-radius:20px;padding:4px 12px;font-size:11px}
+  .card{background:white;border-radius:12px;margin:12px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .sec{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4a9aaa;margin-bottom:12px}
+  .greet{font-size:14px;color:#4a5a6a;line-height:1.7;font-style:italic}
+  .goal{margin-bottom:10px;padding:10px 12px;background:#f8f9fa;border-radius:8px;border-left:3px solid #4a9aaa}
+  .g-lbl{font-size:10px;font-weight:700;color:#4a9aaa;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+  .g-txt{font-size:13px;color:#3a4a5a}
+  .ex{border:1px solid #eef0f3;border-radius:10px;margin-bottom:12px;overflow:hidden}
+  .ex-hdr{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:#f8f9fa}
+  .ex-num{width:28px;height:28px;border-radius:50%;background:#1a3a4a;color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .ex-name{font-weight:600;font-size:15px;color:#1a3a4a}
+  .ex-dose{font-size:11px;color:#4a9aaa;margin-top:2px;font-weight:600}
+  .ex-purp{padding:10px 14px;font-size:12px;color:#5a6a7a;background:#fafafa;border-bottom:1px solid #eef0f3;font-style:italic}
+  .ex-lbl{font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px 4px}
+  .ex-sp{padding:0 14px 10px;font-size:13px;color:#3a4a5a}
+  .ex-steps{padding:0 14px 12px;list-style:none;display:flex;flex-direction:column;gap:6px}
+  .ex-steps li{display:flex;gap:10px;align-items:flex-start;font-size:13px}
+  .sn{width:20px;height:20px;border-radius:50%;background:#e8f4f6;color:#4a9aaa;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .ex-note{margin:0 14px 12px;padding:8px 12px;background:#fff8e8;border-radius:6px;font-size:12px;color:#8a6000}
+  .ex-feel{margin:0 14px 12px;padding:8px 12px;background:#e8f5ee;border-radius:6px;font-size:12px;color:#1a7a4a}
+  .sched{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .day{text-align:center;padding:8px 2px;border-radius:6px;background:#f0ede8}
+  .day.act{background:#1a3a4a;color:white}
+  .dn{font-size:9px;font-weight:700;letter-spacing:.06em;margin-bottom:4px}
+  .dt{font-size:8px;line-height:1.3;opacity:.8}
+  .pain-grid{display:flex;flex-direction:column;gap:8px}
+  .pg{padding:10px 12px;border-radius:8px;font-size:13px}
+  .pg .ph{font-weight:700;margin-bottom:3px;font-size:12px}
+  .gr{background:#e8f5ee;color:#1a5a3a}
+  .ye{background:#fdf3d8;color:#7a5000}
+  .re{background:#fde8e8;color:#7a2020}
+  ul.tips{padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13px;color:#3a4a5a}
+  .ftr{text-align:center;padding:20px;font-size:11px;color:#8a9aaa;line-height:1.8}
+  .fu{margin:16px 0 4px;padding:14px 16px;background:#e8f4f6;border-radius:10px;font-size:13px;color:#2a5a6a;text-align:center;font-style:italic}
+  .yt-btn{display:block;margin:0 14px 14px;padding:9px 14px;background:#ff0000;color:white;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600;text-align:center}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="top-tag">Rehabplan</div>
+  <div class="top-name">${plan.patientName||'Patient'}</div>
+  <div class="top-diag">${plan.diagnosis||''}</div>
+  <div class="top-meta">
+    <div class="meta-pill">📅 ${today}</div>
+    <div class="meta-pill">💊 Smärta ${(plan.form&&plan.form.pain)||'—'}/10</div>
+    <div class="meta-pill">🔄 Återbesök om ${(plan.form&&plan.form.followup)||'—'} v</div>
+  </div>
+</div>
+
+${plan.greeting ? `<div class="card"><div class="greet">${plan.greeting}</div></div>` : ''}
+
+${goalsHtml ? `<div class="card"><div class="sec">Mål med rehabiliteringen</div>${goalsHtml}</div>` : ''}
+
+${exercisesHtml ? `<div class="card"><div class="sec">Övningsprogram</div>${exercisesHtml}</div>` : ''}
+
+${schedHtml ? `<div class="card"><div class="sec">Veckoschema</div><div class="sched">${schedHtml}</div></div>` : ''}
+
+${painHtml ? `<div class="card"><div class="sec">Smärthantering</div>${painHtml}</div>` : ''}
+
+${tipsHtml ? `<div class="card"><div class="sec">Livsstilsråd</div><ul class="tips">${tipsHtml}</ul></div>` : ''}
+
+${plan.followupNote ? `<div class="card"><div class="fu">${plan.followupNote}</div></div>` : ''}
+
+<div class="card" style="text-align:center">
+  <div class="sec">Spara denna sida</div>
+  <p style="font-size:12px;color:#5a6a7a;margin-bottom:12px">Bokmärk sidan i din webbläsare för att komma åt din rehabplan igen.</p>
+</div>
+<div class="ftr">${clinic.name||'Kansei Klinik'}<br>Plan utfärdad ${today}</div>
+</body>
+</html>`;
+
+  // Generate QR code via data URL (encode filename hint)
+  const qrData = encodeURIComponent('Rehabplan: ' + (plan.patientName||'Patient') + ' — ' + today);
+  const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' + qrData;
+
+  // Create blob and trigger download
+  const blob = new Blob([shareHtml], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `rehabplan-${(plan.patientName||'patient').toLowerCase().replace(/\s+/g,'-')}-${v.date||today}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  // Show tip + offer to open mail
+  setTimeout(() => {
+    const sendMail = confirm('Filen är nedladdad!\n\nVill du öppna din Mail-app med ett förifyllt meddelande till patienten?');
+    if (sendMail) mailPlan(vid);
+  }, 300);
+}
+
+function mailPlan(vid) {
+  const p = S.pat;
+  if (!p) return;
+  const v = (p.visits||[]).find(x => x.id === vid);
+  if (!v || !v.plan) return;
+  const plan = v.plan;
+  const clinic = CLINIC;
+  const today = new Date().toLocaleDateString('sv-SE', {year:'numeric',month:'long',day:'numeric'});
+  const patName = plan.patientName || p.name || 'Hej';
+  const firstName = patName.split(' ')[0];
+  const followup = plan.form?.followup || '—';
+  const diag = plan.diagnosis || '';
+
+  const subject = encodeURIComponent(`Din rehabplan — ${clinic.name}`);
+  const body = encodeURIComponent(
+`Hej ${firstName},
+
+Tack för ditt besök hos oss idag! Här skickar vi din personliga rehabplan för ${diag}.
+
+Bifogad fil innehåller:
+• Dina övningar med detaljerade instruktioner
+• Veckoschema
+• Smärthanteringsguide
+• Livsstilsråd
+
+Öppna filen i din mobil eller dator — varje övning har en länk till en instruktionsvideo på YouTube.
+
+Vi rekommenderar ett återbesök om ${followup} veckor. Hör gärna av dig om du har frågor!
+
+Med vänliga hälsningar,
+${clinic.name}
+${clinic.phone}
+${clinic.email}`
+  );
+
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+}
+
+
+// ── RÖDA FLAGGOR ──────────────────────────────────────────────────────────────
+
+const RED_FLAGS = [
+  {pattern: /nattsmärta|natt\s*smärta/i, label: 'Nattsmärta', msg: 'Smärta som väcker patienten på natten — kan indikera inflammatorisk artrit, infektion eller malignitet.'},
+  {pattern: /oförklarlig\s*viktminskning|viktnedgång/i, label: 'Viktminskning', msg: 'Oförklarlig viktminskning — bör utredas för systemsjukdom.'},
+  {pattern: /blåspåverkan|tarmpåverkan|inkontinens|urinretention/i, label: 'Blås/tarm', msg: 'Blås- eller tarmstörning — kan indikera cauda equina-syndrom. Akut remiss.'},
+  {pattern: /sadelbedövning|perianal/i, label: 'Sadelbedövning', msg: 'Sadelbedövning — cauda equina-syndrom tills motsatsen bevisats. Akut remiss.'},
+  {pattern: /feber|frossa|svettning\s*på\s*natten/i, label: 'Feber/svettning', msg: 'Feber eller kraftig svettning — kan indikera infektion eller systemsjukdom.'},
+  {pattern: /steroidbehandling|immunosuppression|immundämpande/i, label: 'Immunosuppression', msg: 'Patient med immunosuppression — ökad risk för atypiska infektioner.'},
+  {pattern: /cancer|tumör|malignitet|onkologi/i, label: 'Cancerhistorik', msg: 'Cancerhistorik — rygg-/ledsmärta kan vara metastas.'},
+  {pattern: /neurologisk\s*bortfall|förlamning|pares|pareser/i, label: 'Neurologisk bortfall', msg: 'Neurologiska bortfall — prioritera neurologisk utredning.'},
+  {pattern: /trauma|fall\s*från\s*höjd|trafikolycka/i, label: 'Allvarligt trauma', msg: 'Allvarligt trauma — uteslut fraktur.'},
+  {pattern: /progressiv|tilltagande\s*svaghet/i, label: 'Progressiv svaghet', msg: 'Progressiv motorisk svaghet — neurologisk utredning prioriteras.'},
+];
+
+function checkRedFlags(soapText) {
+  if (!soapText) return [];
+  const found = [];
+  RED_FLAGS.forEach(f => {
+    if (f.pattern.test(soapText)) found.push(f);
+  });
+  return found;
+}
+
+function renderRedFlagBanner(flags) {
+  if (!flags || !flags.length) return '';
+  const items = flags.map(f => `<div class="rf-item"><strong>⚠ ${f.label}:</strong> ${f.msg}</div>`).join('');
+  return `<div class="rf-banner">
+    <div class="rf-title">🚩 Röda flaggor detekterade — granska innan behandling</div>
+    ${items}
+  </div>`;
+}
+
+// ── AUTOMATISK FRAMSTEGSNOTERING ──────────────────────────────────────────────
+
+async function generateProgressNote(pat) {
+  const visits = (pat.visits||[]);
+  if (visits.length < 2) return null;
+
+  const current = visits[0]; // most recent
+  const prev = visits[1];
+
+  const key = getKey();
+  if (!key) return null;
+
+  const prevSoap = prev.soap ? Object.entries(prev.soap).map(([k,v]) => `${k}: ${v}`).join('\n') : '';
+  const currSoap = current.soap ? Object.entries(current.soap).map(([k,v]) => `${k}: ${v}`).join('\n') : '';
+  const prevPain = prev.form?.pain ?? '—';
+  const currPain = current.form?.pain ?? '—';
+  const prevDate = prev.date || '—';
+  const currDate = current.date || '—';
+
+  const prompt = `Du är fysioterapeut. Skriv en kort automatisk framstegsnotering (3-5 meningar på svenska) baserat på dessa två besök.
+
+Besök 1 (${prevDate}): NRS ${prevPain}/10
+${prevSoap}
+
+Besök 2 (${currDate}): NRS ${currPain}/10  
+${currSoap}
+
+Fokusera på: förändring i smärta, funktionsförbättring, compliance med övningar. Inga rubriker, ren löptext. Max 5 meningar.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:400, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    return (data.content||[]).map(b=>b.text||'').join('').trim();
+  } catch(e) {
+    return null;
+  }
+}
+
+async function showProgressNote(patId) {
+  const pat = S.patients.find(p => p.id === patId);
+  if (!pat) return;
+
+  // Show loading state
+  const btn = document.getElementById('prog-btn-' + patId);
+  if (btn) { btn.textContent = 'Genererar...'; btn.disabled = true; }
+
+  const note = await generateProgressNote(pat);
+
+  if (btn) { btn.textContent = '📊 Framstegsnotering'; btn.disabled = false; }
+
+  if (!note) { alert('Kunde inte generera framstegsnotering. Kontrollera API-nyckeln.'); return; }
+
+  // Show in modal
+  document.getElementById('mtitle').textContent = 'Automatisk framstegsnotering';
+  document.getElementById('mtext').textContent = note;
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('mconfirm').textContent = 'Kopiera';
+  document.getElementById('mconfirm').onclick = () => {
+    navigator.clipboard.writeText(note).catch(() => {});
+    closeModal();
+    // Reset confirm button
+    document.getElementById('mconfirm').textContent = 'OK';
+    document.getElementById('mconfirm').onclick = closeModal;
+  };
+}
+
+
+// ── HEMÖVNINGSPÅMINNELSE ──────────────────────────────────────────────────────
+
+function printHomeCard(vid) {
+  const p = S.pat;
+  if (!p) return;
+  const v = (p.visits||[]).find(x => x.id === vid);
+  if (!v || !v.plan) { alert('Ingen rehabplan finns för detta besök.'); return; }
+  const plan = v.plan;
+  const today = new Date().toLocaleDateString('sv-SE', {year:'numeric',month:'long',day:'numeric'});
+  const clinic = CLINIC;
+
+  const exRows = (plan.exercises||[]).map((ex,i) => `
+    <tr>
+      <td style="padding:6px 8px;border-bottom:1px solid #eef0f3;font-size:12px;font-weight:600;color:#1a3a4a">${i+1}. ${ex.name||''}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #eef0f3;font-size:12px;color:#4a9aaa;white-space:nowrap">${ex.sets} × ${ex.reps}</td>
+      <td style="padding:6px 8px;border-bottom:1px solid #eef0f3;font-size:11px;color:#8a9aaa">${ex.rest} vila</td>
+    </tr>`).join('');
+
+  const schedRows = (plan.schedule||[]).map(d => {
+    const act = d.activity && (d.activity.toLowerCase().includes('övning') || d.activity.toLowerCase().includes('program'));
+    return `<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f0ede8">
+      <div style="width:38px;font-size:10px;font-weight:700;color:#8a9aaa;flex-shrink:0">${(d.day||'').slice(0,3).toUpperCase()}</div>
+      <div style="font-size:12px;${act?'font-weight:600;color:#1a3a4a':'color:#8a9aaa'}">${d.activity||''}</div>
+      ${act ? '<div style="margin-left:auto;font-size:10px;background:#e8f4f6;color:#4a9aaa;padding:2px 8px;border-radius:10px">Träning</div>' : ''}
+    </div>`;
+  }).join('');
+
+  const cardHtml = `<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<title>Hemövningar — ${plan.patientName||'Patient'}</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:white;color:#2a3a4a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{size:A5;margin:10mm}
+  .card{max-width:148mm;margin:0 auto;padding:0}
+  .hdr{background:#1a3a4a;color:white;padding:14px 16px;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center}
+  .hdr-name{font-size:16px;font-weight:300;letter-spacing:.02em}
+  .hdr-clinic{font-size:10px;opacity:.6;text-align:right;line-height:1.5}
+  .section{padding:12px 14px;border:1px solid #eef0f3;border-top:none}
+  .sec-lbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4a9aaa;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse}
+  .sched{padding:12px 14px;border:1px solid #eef0f3;border-top:none;border-radius:0 0 8px 8px}
+  .tip{margin-top:10px;padding:8px 12px;background:#fff8e8;border-radius:6px;font-size:11px;color:#8a6000;border:1px solid #f5e0a0}
+  .ftr{margin-top:8px;text-align:center;font-size:9px;color:#8a9aaa}
+  .login-wrap{max-width:360px;margin:80px auto;padding:0 20px}
+  .login-logo{height:48px;margin-bottom:24px}
+  .login-title{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--navy);font-weight:400;margin-bottom:4px}
+  .login-sub{font-size:13px;color:var(--text3);margin-bottom:28px}
+  .login-field{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--text);outline:none;margin-bottom:10px;background:white}
+  .login-field:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,0.08)}
+  .login-btn{width:100%;padding:13px;background:var(--navy);color:white;border:none;border-radius:8px;font-size:15px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:4px;font-weight:600;letter-spacing:.02em}
+  .login-btn:hover{background:#2a4a5a}
+  .login-err{font-size:12px;color:#c07070;margin-top:8px;min-height:18px}
+  .login-hint{font-size:11px;color:var(--text3);margin-top:16px;line-height:1.6}
+  @media print{body{background:white}}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="hdr">
+    <div>
+      <div style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:3px">Hemövningar</div>
+      <div class="hdr-name">${plan.patientName||'Patient'}</div>
+      <div style="font-size:11px;opacity:.7;margin-top:2px">${plan.diagnosis||''}</div>
+    </div>
+    <div class="hdr-clinic">${clinic.name}<br>${today}</div>
+  </div>
+
+  <div class="section">
+    <div class="sec-lbl">Övningar</div>
+    <table>${exRows}</table>
+  </div>
+
+  <div class="sched">
+    <div class="sec-lbl">Veckoschema</div>
+    ${schedRows}
+  </div>
+
+  <div class="tip">
+    ⚠ Sluta om smärtan ökar markant under träning. Kontakta kliniken vid frågor: ${clinic.phone}
+  </div>
+  <div class="ftr">${clinic.name} · ${clinic.address} · ${clinic.email}</div>
+</div>
+<script>window.onload=()=>{window.print();}<\/script>
+</body>
+</html>`;
+
+  const w = window.open('', '_blank');
+  if (w) {
+    w.document.write(cardHtml);
+    w.document.close();
+  }
+}
+
+
+// ── KLINISKT BESLUTSSTÖD ──────────────────────────────────────────────────────
+
+const CLIN_HINTS = {
+  'Ländryggssmärta (ospecifik)': {
+    phase: 'Fas 1–2 vanligt. Undvik flexion vid akut, progressiv belastning vid subakut.',
+    flags: ['Kolla neurologiska tecken (utstrålning, domningar)', 'Fråga om blås/tarmfunktion', 'Nattsmärta?'],
+    dose: 'NRS ≥7: isometriska övningar, undvik rotation. NRS 4–6: stabilisering. NRS ≤3: rörlighet + styrka.',
+    suggest: 'Bäckenbotten, transversus abdominis, hiplift, cat-camel'
+  },
+  'Nacksmärta / cervikalt syndrom': {
+    phase: 'Undvik kraftig traktion eller rotation vid akut. Cervikalt stabilisering prioriteras.',
+    flags: ['Utstrålning till arm?', 'Huvudvärk?', 'Yrsel vid rörelse?'],
+    dose: 'Börja med isometrisk hållningsträning. Undvik end-range rotation.',
+    suggest: 'Djup nackmuskler, skapulastabilisering, chin tuck'
+  },
+  'Rotatorkuffproblem / axelsmärta': {
+    phase: 'Fas 1: smärtfri ROM. Fas 2: rotatorkuffstyrka. Fas 3: funktionell last.',
+    flags: ['Smärta nattetid?', 'Impingement-test?', 'Traumatisk debut?'],
+    dose: 'Undvik abduktion >90° vid akut impingement. Progressiv excentrisk vid tendinopati.',
+    suggest: 'Yttre rotation, skapular retraction, pendel, excentrisk biceps'
+  },
+  'Knäartros': {
+    phase: 'Vattengymnastik/cykel vid hög NRS. Progressiv styrka vid NRS ≤5.',
+    flags: ['Svullnad?', 'Instabilitet?', 'Trappor/backar smärtsamt?'],
+    dose: 'Axiell belastning gradvis. Undvik djup knäböj initialt.',
+    suggest: 'Quadriceps, VMO-aktivering, straight leg raise, cykel'
+  },
+  'Höftartros': {
+    phase: 'Fokus på glutes + höftstabilitet. Undvik extremt ROM initialt.',
+    flags: ['Ljumsksmärta?', 'Kortare steg?', 'Smärta i vila?'],
+    dose: 'Belastning tolereras generellt väl vid artros. Vattengymnastik option.',
+    suggest: 'Clamshell, glute bridge, sidliggande abduktion, gångträning'
+  },
+  'Tennisarmbåge (lateral epikondylit)': {
+    phase: 'Excentrisk träning är evidensbaserad förstahandsbehandling.',
+    flags: ['Symtomduration >3 mån?', 'Utstrålning?', 'Nattsymtom?'],
+    dose: 'Excentrisk handled extension 3×15, smärta 3–5/10 acceptabel under övning.',
+    suggest: 'Excentrisk handledssträckning, Thera-Band, grip strength'
+  },
+  'Hälseneproblem (Achillestendinopati)': {
+    phase: 'Excentrisk loading = gold standard. Undvik stretching i akutfas.',
+    flags: ['Smärta vid första steg på morgonen?', 'Svullnad?', 'Trauma?'],
+    dose: 'Alfredson-protokoll: 3×15 excentrisk kalvhävning, dagligen, smärta 3–5/10 ok.',
+    suggest: 'Excentrisk kalvhävning, isometrisk kalv, proprioception'
+  },
+  'Plantarfasciit': {
+    phase: 'Intrinsic foot muscles + excentrisk töjning. Hälinlägg hjälper akut.',
+    flags: ['Värst på morgonen?', 'BMI?', 'Löpare?'],
+    dose: 'Excentrisk tåhävning på sluttande yta. Fasciamassage.',
+    suggest: 'Towel toe curl, intrinsic foot, excentrisk tåhävning'
+  },
+  'Diskbråck lumbal': {
+    phase: 'McKenzie-riktad terapi. Identifiera centralisering/perifisering.',
+    flags: ['Neurologi i ben?', 'Blås/tarm?', 'Progressiv svaghet?'],
+    dose: 'Extension-bias vanlig. Undvik flexion initialt. Bärövningar kontraindicerade akut.',
+    suggest: 'Press-up, McKenzie extension, neural mobilisering, gång'
+  },
+  'Patellofemoralt smärtsyndrom': {
+    phase: 'VMO-aktivering + höftstabilitet. Belastning via smärtfri ROM.',
+    flags: ['Trappor?', 'Sittande länge?', 'Q-vinkel?'],
+    dose: 'Undvik knäböj under 90° initialt. Lateral taping kan ge omedelbar lättnad.',
+    suggest: 'VMO-aktivering, terminal knee extension, step-down, höftstyrka'
+  },
+};
+
+async function fetchClinHint(diag) {
+  const el = document.getElementById('clin-suggest');
+  if (!el) return;
+
+  const hint = CLIN_HINTS[diag];
+  if (!hint) { el.innerHTML = ''; return; }
+
+  el.innerHTML = `<div style="background:#f0f8ff;border:1px solid #c8e0f0;border-radius:8px;padding:12px 14px;margin-bottom:4px">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4a9aaa;margin-bottom:8px">🩺 Kliniskt beslutsstöd — ${e(diag)}</div>
+    <div style="font-size:12px;color:#2a4a5a;margin-bottom:6px"><strong>Fas/approach:</strong> ${hint.phase}</div>
+    <div style="font-size:12px;color:#2a4a5a;margin-bottom:6px"><strong>Dosering:</strong> ${hint.dose}</div>
+    <div style="font-size:12px;color:#2a4a5a;margin-bottom:6px"><strong>Föreslagna övningar:</strong> <span style="color:#4a9aaa">${hint.suggest}</span></div>
+    <div style="margin-top:8px;display:flex;flex-direction:column;gap:3px">
+      ${hint.flags.map(f => `<div style="font-size:11px;color:#c07030;display:flex;gap:6px"><span>⚑</span><span>${f}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ── AUTH ──────────────────────────────────────────────────────────────────────
+let _authUser = null;
+
+async function sbSignIn(email, password) {
+  try {
+    const res = await fetch(SB_URL + '/auth/v1/token?grant_type=password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SB_KEY },
+      body: JSON.stringify({ email, password })
+    });
+    const data = await res.json();
+    if (data.access_token) {
+      _authUser = data.user;
+      localStorage.setItem('kansei:auth', JSON.stringify({ token: data.access_token, user: data.user, exp: Date.now() + (data.expires_in||3600)*1000 }));
+      return { ok: true };
+    }
+    return { ok: false, msg: data.error_description || data.msg || 'Fel e-post eller lösenord.' };
+  } catch(e) {
+    return { ok: false, msg: 'Anslutningsfel — kontrollera internet.' };
+  }
+}
+
+async function sbSignOut() {
+  localStorage.removeItem('kansei:auth');
+  _authUser = null;
+  rLogin();
+}
+
+function getStoredAuth() {
+  try {
+    const a = JSON.parse(localStorage.getItem('kansei:auth')||'null');
+    if (a && a.exp > Date.now()) return a;
+    return null;
+  } catch { return null; }
+}
+
+function rLogin() {
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  document.getElementById('s-login').classList.add('active');
+  // Hide topbar + fixed elements on login
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+  const cb = document.getElementById('crash-banner');
+  if (cb) cb.style.display = 'none';
+  const at = document.getElementById('autosave-toast');
+  if (at) at.style.display = 'none';
+  _unsavedChanges = false; // suppress unsaved warning
+  document.getElementById('s-login').innerHTML = `
+    <div class="login-wrap">
+      <img src="${LOGO}" class="login-logo">
+      <div class="login-title">Välkommen</div>
+      <div class="login-sub">Logga in på Kansei Klinik</div>
+      <input class="login-field" id="l-email" type="email" placeholder="E-postadress" autocomplete="email">
+      <input class="login-field" id="l-pass" type="password" placeholder="Lösenord" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <button class="login-btn" onclick="doLogin()">Logga in</button>
+      <div class="login-err" id="l-err"></div>
+      <div class="login-hint">Din data är krypterad och lagras på EU-servrar (Frankfurt).<br>GDPR-kompatibel hantering av patientdata.</div>
+    </div>`;
+  setTimeout(() => document.getElementById('l-email')?.focus(), 100);
+}
+
+async function doLogin() {
+  const email = document.getElementById('l-email')?.value?.trim();
+  const pass = document.getElementById('l-pass')?.value;
+  const errEl = document.getElementById('l-err');
+  if (!email || !pass) { if(errEl) errEl.textContent = 'Fyll i e-post och lösenord.'; return; }
+  const btn = document.querySelector('.login-btn');
+  if (btn) { btn.textContent = 'Loggar in...'; btn.disabled = true; }
+  const result = await sbSignIn(email, pass);
+  if (btn) { btn.textContent = 'Logga in'; btn.disabled = false; }
+  if (result.ok) {
+    const tb = document.querySelector('.topbar');
+    if (tb) tb.style.display = '';
+    const cb = document.getElementById('crash-banner');
+    if (cb) cb.style.display = 'none'; // keep hidden unless crash occurs
+    const at = document.getElementById('autosave-toast');
+    if (at) at.style.display = '';
+    loadPats(); S.apiKey = getKey(); startAutoSave(); go('dashboard');
+    setTimeout(() => syncFromCloud(), 800);
+  } else {
+    if (errEl) errEl.textContent = result.msg;
+  }
+}
+
+// ── STARTUP ───────────────────────────────────────────────────────────────────
+const _storedAuth = getStoredAuth();
+if (_storedAuth) {
+  _authUser = _storedAuth.user;
+  loadPats(); S.apiKey = getKey(); startAutoSave(); go('dashboard');
+  setTimeout(() => syncFromCloud(), 1500);
+} else {
+  const tb = document.querySelector('.topbar');
+  if (tb) tb.style.display = 'none';
+  rLogin();
+}
+
+</script>
+</body>
+</html>
