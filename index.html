@@ -600,7 +600,7 @@
   @keyframes fadeInOv{from{opacity:0}to{opacity:1}}
   @keyframes fadeScaleIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
   .npf-backdrop{position:fixed;inset:0;background:rgba(10,20,35,.65);backdrop-filter:blur(4px)}
-  .npf-sheet{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;width:calc(100% - 40px);max-width:520px;max-height:90vh;overflow-y:auto;z-index:501;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
+  .npf-sheet{position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
   .npf-header{background:var(--navy);padding:24px 24px 20px;border-radius:16px 16px 0 0}
   .npf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:white;margin-bottom:4px}
   .npf-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em}
@@ -1582,27 +1582,6 @@ function newPatientFlow() {
   ov.id = 'new-pat-flow';
   ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
   ov.innerHTML = `
-  <style>{from{opacity:0}to{opacity:1}}
-    @keyframes fadeScaleIn{from{transform:scale(.97);opacity:0}to{transform:scale(1);opacity:1}}
-    .npf-backdrop{position:fixed;inset:0;background:rgba(10,20,35,.6);backdrop-filter:blur(4px)}
-    .npf-sheet{position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
-    .npf-header{background:var(--navy);padding:24px 24px 20px;border-radius:16px}
-    .npf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:white;margin-bottom:4px}
-    .npf-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em}
-    .npf-body{padding:24px}
-    .npf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-    .npf-full{margin-bottom:10px}
-    .npf-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
-    .npf-input{width:100%;border:1px solid #dde2e8;border-radius:8px;padding:11px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fafbfc;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;outline:none}
-    .npf-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,.1);background:white}
-    .npf-input::placeholder{color:#aab0ba}
-    .npf-footer{padding:0 24px 32px;display:flex;flex-direction:column;gap:8px}
-    .npf-btn-primary{background:var(--navy);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.01em;transition:background .15s}
-    .npf-btn-primary:hover{background:var(--navy2)}
-    .npf-btn-ghost{background:transparent;border:1px solid #dde2e8;border-radius:10px;padding:12px;font-size:13px;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
-    .npf-btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
-    .npf-err{font-size:11px;color:#c07070;margin-bottom:8px;display:none;padding:8px 12px;background:#fff0f0;border-radius:6px}
-  </style>
   <div class="npf-backdrop" onclick="document.getElementById('new-pat-flow').remove()"></div>
   <div class="npf-sheet">
     <div class="npf-header">
@@ -2572,7 +2551,9 @@ pain 0-10, motivation 1-10, history: ingen/sporadisk/regelbunden, knowledge: lå
       S.loadStep = 3;
       const data = await res.json();
       const text = (data.content||[]).map(b=>b.text||'').join('');
-      const params = JSON.parse(text.replace(/```json|```/g,'').trim());
+      const cleaned = text.replace(/```json|```/g,'').trim();
+      if (!cleaned) throw new Error('Tomt svar');
+      const params = JSON.parse(cleaned);
       currentSOAP = {...currentSOAP, ...params, soap, diagnosis, customDiagnosis, icd10, icd10desc};
     } catch(err) {
       // Fallback without AI params
