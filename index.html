@@ -597,6 +597,27 @@
   .login-hint{font-size:11px;color:var(--text3);margin-top:16px;line-height:1.6}
   .pub-wrap{max-width:600px;margin:0 auto;padding:0 0 40px}
   .pub-loading{text-align:center;padding:80px 20px;color:#8a9aaa;font-size:14px}
+  @keyframes fadeInOv{from{opacity:0}to{opacity:1}}
+  @keyframes fadeScaleIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
+  .npf-backdrop{position:fixed;inset:0;background:rgba(10,20,35,.65);backdrop-filter:blur(4px)}
+  .npf-sheet{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;border-radius:16px;width:calc(100% - 40px);max-width:520px;max-height:90vh;overflow-y:auto;z-index:501;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
+  .npf-header{background:var(--navy);padding:24px 24px 20px;border-radius:16px 16px 0 0}
+  .npf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:white;margin-bottom:4px}
+  .npf-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em}
+  .npf-body{padding:24px}
+  .npf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .npf-full{margin-bottom:10px}
+  .npf-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+  .npf-input{width:100%;border:1px solid #dde2e8;border-radius:8px;padding:11px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--navy);background:#fafbfc;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;outline:none}
+  .npf-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,122,138,.1);background:white}
+  .npf-input::placeholder{color:#aab0ba}
+  .npf-footer{padding:0 24px 32px;display:flex;flex-direction:column;gap:8px}
+  .npf-btn-primary{background:var(--navy);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.01em;transition:background .15s}
+  .npf-btn-primary:hover{background:var(--navy2)}
+  .npf-btn-ghost{background:transparent;border:1px solid #dde2e8;border-radius:10px;padding:12px;font-size:13px;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .15s}
+  .npf-btn-ghost:hover{border-color:var(--teal);color:var(--teal)}
+  .npf-err{font-size:11px;color:#c07070;margin-bottom:8px;display:none;padding:8px 12px;background:#fff0f0;border-radius:6px}
+  @media(max-width:600px){.npf-row{grid-template-columns:1fr}.npf-sheet{max-height:95vh}}
   @media print{
     .dcontrols{display:none!important;}
     *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
@@ -650,8 +671,11 @@
 </div>
 <script>
 window.onerror = function(msg, src, line, col, err) {
-  document.body.innerHTML = '<div style="background:#1a2e42;color:#e8ddd0;padding:40px;font-family:sans-serif;min-height:100vh"><h2 style="color:#c07070;margin-bottom:16px">Fel vid start</h2><p style="margin-bottom:8px"><strong>Meddelande:</strong> ' + msg + '</p><p style="margin-bottom:8px"><strong>Rad:</strong> ' + line + ', Kolumn: ' + col + '</p><p style="color:#4a5a6a;font-size:12px;margin-top:20px">Skicka denna information till din tekniker.</p></div>';
-  return false;
+  const ov = document.createElement('div');
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:rgba(15,39,68,.92);display:flex;align-items:center;justify-content:center;padding:24px';
+  ov.innerHTML = '<div style="background:white;border-radius:16px;padding:28px 24px;max-width:400px;width:100%"><div style="font-size:13px;font-weight:700;color:#c07070;margin-bottom:8px">Ett oväntat fel uppstod</div><div style="font-size:12px;color:#4a5a6a;margin-bottom:16px;font-family:monospace;background:#f4f6f8;padding:8px;border-radius:6px;word-break:break-all">' + msg + '</div><button onclick="this.closest(\'div[style*=fixed]\').remove()" style="background:var(--navy,#0f2744);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:13px;cursor:pointer;font-family:inherit">Stäng och fortsätt</button></div>';
+  document.body.appendChild(ov);
+  return true;
 };
 const LOGO="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20105%2018.81%22%3E%3Cstyle%3E.zw%7Bfill%3A%23fff%3Bfill-rule%3Aevenodd%7D%3C/style%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2214.47%203.62%2014.47%200%20.23%200%20.23%204.09%208.53%204.09%200%2015.03%200%2018.81%2014.49%2018.81%2014.49%2014.73%205.82%2014.73%2014.47%203.62%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2227.32%2011%2035.81%2011%2035.81%206.96%2027.32%206.96%2027.32%204.09%2036.57%204.09%2036.57%200%2022.86%200%2022.86%206.96%2019.75%206.96%2019.75%2010.96%2022.86%2010.96%2022.86%2018.81%2036.99%2018.81%2036.99%2014.67%2027.32%2014.67%2027.32%2011%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2255.72%2011.2%2049.48%200%2044.94%200%2044.94%2018.81%2049.24%2018.81%2049.24%207.38%2055.66%2018.81%2060.02%2018.81%2060.02%200%2055.72%200%2055.72%2011.2%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2275.52%207.16%2072.19%200%2066.84%200%2073.19%2011.74%2073.19%2018.81%2077.74%2018.81%2077.74%2011.74%2083.89%200%2078.71%200%2075.52%207.16%22/%3E%3Cpath%20class%3D%22zw%22%20d%3D%22M94.45%2C11.13l1.62-5.07%2C1.57%2C5.07h-3.19ZM98.5%2C0h-4.76l-6.55%2C18.81h4.78l1.21-3.68h5.78l1.13%2C3.68h4.93L98.5%2C0Z%22/%3E%3C/svg%3E";
 const SLOGAN="Rörelse är medicin — vi guidar dig hela vägen";
@@ -1219,7 +1243,7 @@ function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().
     <span class="vchev ${exp?"open":""}" id="ch-${v.id}">›</span>
   </div><div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});h+=`</div>`;
   // Pass completions
-  if(v.plan){h+=`<div id="passlog-${v.id}" style="margin:10px 0 8px"><div style="font-size:11px;color:#8a9aaa">Läser genomförda pass...</div></div>`;setTimeout(()=>loadPassLog('${v.id}','${p.id}'),50);}
+  if(v.plan){h+=`<div id="passlog-${v.id}" style="margin:10px 0 8px"><div style="font-size:11px;color:#8a9aaa">Läser genomförda pass...</div></div>`;setTimeout(()=>loadPassLog(v.id,p.id),50);}
   h+=`<div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea><div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div><div class="vactions">
   ${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)
     ? `<button class="btn btn-p" onclick="viewDoc('${v.id}')">Visa journal</button>`
@@ -1279,7 +1303,7 @@ async function doGen(){
   S.form.phaseInstruction = getPhasePromptAddition(ph);
 const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:""};const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
 function buildPr(f,locked=[]){const age=new Date().getFullYear()-birthdateToYear(f.birthdate||f.birthYear);const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";const n=f.exercises-locked.length;return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;}
-async function callAPI(prompt,locked,key){const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4000,system:"Du är senior fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});if(!res.ok){const er=await res.json().catch(()=>({}));throw new Error(er.error?.message||"API-fel "+res.status);}const d=await res.json();const t=(d.content||[]).map(b=>b.text||"").join("");return JSON.parse(t.replace(/```json|```/g,"").trim());}
+async function callAPI(prompt,locked,key){const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4000,system:"Du är senior fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});if(!res.ok){const er=await res.json().catch(()=>({}));throw new Error(er.error?.message||"API-fel "+res.status);}const d=await res.json();const t=(d.content||[]).map(b=>b.text||"").join("").replace(/```json|```/g,"").trim();if(!t)throw new Error("Tomt svar från API — försök igen.");return JSON.parse(t);}
 function rLoading(){
   const steps=["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer klinisk rehabplan"];
   const pct = Math.round((S.loadStep/3)*100);
@@ -1516,12 +1540,14 @@ function prepVisitForm(patId) {
 function newPat(){S.pat=null;S.visitId=null;S.form=dform();S.plan=null;S.locked={};go("form");}
 function newVisit(){
   const p=S.pat;if(!p)return;
+  const prevWithSoap = (p.visits||[]).find(v => v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P));
+  window._sbsPrevVisit = prevWithSoap || null;
   const ov=document.createElement('div');
   ov.id='new-visit-overlay';
   ov.style.cssText='position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
   ov.innerHTML=`
   <div class="npf-backdrop" onclick="document.getElementById('new-visit-overlay').remove()"></div>
-  <div style="position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:400px;padding:24px 20px 20px;box-shadow:0 8px 40px rgba(0,0,0,.18)">
+  <div style="position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;padding:24px 20px 20px;box-shadow:0 8px 40px rgba(0,0,0,.18)">
     <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:4px">Nytt besök</div>
     <div style="font-size:13px;color:var(--text3);margin-bottom:20px">${e(p.name)} — ${e(p.diagnosis||'')}</div>
     <div style="display:flex;flex-direction:column;gap:10px">
@@ -1529,10 +1555,16 @@ function newVisit(){
         <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Spela in möte</div>
         <div style="font-size:12px;color:var(--text3)">Transkribera samtal automatiskt och skapa journal</div>
       </button>
-      <button onclick="document.getElementById('new-visit-overlay').remove();startManualSOAP()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skriv journal manuellt</div>
-        <div style="font-size:12px;color:var(--text3)">Fyll i SOAP-anteckning direkt</div>
-      </button>
+      ${prevWithSoap
+        ? `<button onclick="document.getElementById('new-visit-overlay').remove();startSBSsoap(window._sbsPrevVisit)" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
+            <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skriv journal</div>
+            <div style="font-size:12px;color:var(--text3)">Jämför med förra besöket (${prevWithSoap.date||''})</div>
+           </button>`
+        : `<button onclick="document.getElementById('new-visit-overlay').remove();startManualSOAP()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
+            <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skriv journal manuellt</div>
+            <div style="font-size:12px;color:var(--text3)">Fyll i SOAP-anteckning direkt</div>
+           </button>`
+      }
       <button onclick="document.getElementById('new-visit-overlay').remove();prepVisitForm(S.pat?.id);go('form')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
         <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skapa rehabplan</div>
         <div style="font-size:12px;color:var(--text3)">Generera ny träningsplan utan journal</div>
@@ -1548,13 +1580,12 @@ function newVisit(){
 function newPatientFlow() {
   const ov = document.createElement('div');
   ov.id = 'new-pat-flow';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .18s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
   ov.innerHTML = `
-  <style>
-    @keyframes fadeInOv{from{opacity:0}to{opacity:1}}
-    @keyframes fadeScaleIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
-    .npf-backdrop{position:absolute;inset:0;background:rgba(10,20,35,.6);backdrop-filter:blur(4px)}
-    .npf-sheet{position:relative;background:white;border-radius:16px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
+  <style>{from{opacity:0}to{opacity:1}}
+    @keyframes fadeScaleIn{from{transform:scale(.97);opacity:0}to{transform:scale(1);opacity:1}}
+    .npf-backdrop{position:fixed;inset:0;background:rgba(10,20,35,.6);backdrop-filter:blur(4px)}
+    .npf-sheet{position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
     .npf-header{background:var(--navy);padding:24px 24px 20px;border-radius:16px}
     .npf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:white;margin-bottom:4px}
     .npf-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em}
@@ -1634,10 +1665,10 @@ function createNewPatientAndChoose() {
 function returningPatientFlow() {
   const ov = document.createElement('div');
   ov.id = 'returning-pat-flow';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .18s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
   ov.innerHTML = `
   <div class="npf-backdrop" onclick="document.getElementById('returning-pat-flow').remove()"></div>
-  <div class="npf-sheet">
+  <div class="npf-sheet" style="width:100%;max-width:520px;max-height:90vh;overflow-y:auto">
     <div class="npf-header">
       <div class="npf-title">Återkommande patient</div>
       <div class="npf-sub">Sök på namn eller personnummer</div>
@@ -1697,15 +1728,19 @@ function showVisitActionChooser() {
   document.getElementById('new-visit-overlay')?.remove();
   const ov = document.createElement('div');
   ov.id = 'new-visit-overlay';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .18s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
+  const prevWithSoap = (p.visits||[]).find(v => v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P));
+  window._sbsPrevVisit = prevWithSoap || null;
   const actions = [
     {label:'Spela in möte', sub:'Transkribera samtal och skapa journal automatiskt', fn:`document.getElementById('new-visit-overlay').remove();startMeeting()`},
-    {label:'Skriv journal manuellt', sub:'Fyll i SOAP-anteckning direkt', fn:`document.getElementById('new-visit-overlay').remove();startManualSOAP()`},
+    prevWithSoap
+      ? {label:'Skriv journal', sub:`Jämför med förra besöket (${prevWithSoap.date||''})`, fn:`document.getElementById('new-visit-overlay').remove();startSBSsoap(window._sbsPrevVisit)`}
+      : {label:'Skriv journal manuellt', sub:'Fyll i SOAP-anteckning direkt', fn:`document.getElementById('new-visit-overlay').remove();startManualSOAP()`},
     {label:'Skapa rehabplan', sub:'Generera träningsplan utan journal', fn:`document.getElementById('new-visit-overlay').remove();prepVisitForm('${p.id}');go('form')`},
   ];
   ov.innerHTML = `
   <div class="npf-backdrop" onclick="document.getElementById('new-visit-overlay').remove();go('detail')"></div>
-  <div class="npf-sheet">
+  <div class="npf-sheet" style="width:100%;max-width:480px;max-height:90vh;overflow-y:auto">
     <div class="npf-header" style="display:flex;align-items:center;gap:14px">
       <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:white;flex-shrink:0">${(p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
       <div>
@@ -2038,14 +2073,13 @@ function stopListening() {
 // ── KLINISK AI-ASSISTENT ──────────────────────────────────────────────────────
 function clinicalPanelHTML() {
   return `<div style="margin-top:16px;background:#f8fafc;border:1px solid #dde6ee;border-radius:12px;overflow:hidden">
-    <div onclick="toggleClinicalPanel()" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;cursor:pointer;background:var(--navy);user-select:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--navy)">
       <div style="display:flex;align-items:center;gap:8px">
         <div style="width:6px;height:6px;border-radius:50%;background:#4af0b0;animation:pulse 2s infinite"></div>
-        <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:white">Klinisk AI-assistent</span>
+        <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:white">Klinisk AI-assistent — analyserar i realtid</span>
       </div>
-      <span id="clinical-chevron" style="color:rgba(255,255,255,.6);font-size:14px;transition:transform .2s">▾</span>
     </div>
-    <div id="clinical-panel-body" style="padding:12px;max-height:420px;overflow-y:auto">
+    <div id="clinical-panel-body" style="padding:12px;max-height:480px;overflow-y:auto">
       <div style="font-size:12px;color:#8a9aaa;text-align:center;padding:16px">Börja tala eller skriv — analysen startar automatiskt.</div>
     </div>
   </div>`;
@@ -2357,27 +2391,42 @@ async function saveSOAPAndPlan() {
 async function saveSOAPToVisit(goToPlan) {
   const p = S.pat;
   if (!p || !currentSOAP) return;
-  const vid = 'v_' + Date.now();
   const diag = currentSOAP.diagnosis || p.diagnosis || '';
 
-  // Build SOAP text for storage
-  const soapText = ['S','O','A','P'].map(l =>
-    `${l}: ${document.getElementById('soap-'+l)&&document.getElementById('soap-'+l).value || currentSOAP.soap[l] || ''}`
-  ).join('\n\n');
+  // Read SOAP from live DOM if available, otherwise from currentSOAP
+  const liveSoap = {};
+  ['S','O','A','P'].forEach(l => {
+    const el = document.getElementById('soap-'+l) || document.getElementById('ms-'+l) || document.getElementById('sbs-'+l);
+    liveSoap[l] = (el && el.value) || (currentSOAP.soap && currentSOAP.soap[l]) || '';
+  });
+  const mergedSoap = {...(currentSOAP.soap||{}), ...liveSoap};
+  const soapText = ['S','O','A','P'].map(l => `${l}: ${mergedSoap[l]||''}`).join('\n\n');
 
-  const newVisit = {
-    id: vid,
-    date: currentSOAP.date,
-    form: null,
-    plan: null,
-    status: 'Aktiv',
-    note: soapText,
-    soap: currentSOAP.soap,
-    transcript: currentSOAP.transcript,
-    soapMeta: currentSOAP
-  };
+  // If adding to an existing visit, update it in place
+  const existingId = currentSOAP.existingVisitId;
+  let vid;
+  let updVisits;
+  if (existingId && (p.visits||[]).find(v => v.id === existingId)) {
+    vid = existingId;
+    updVisits = (p.visits||[]).map(v => v.id === existingId
+      ? {...v, soap: mergedSoap, note: soapText, transcript: currentSOAP.transcript, soapMeta: {...currentSOAP, soap: mergedSoap}}
+      : v
+    );
+  } else {
+    vid = 'v_' + Date.now();
+    const newVisit = {
+      id: vid,
+      date: currentSOAP.date,
+      form: null, plan: null, status: 'Aktiv',
+      note: soapText,
+      soap: mergedSoap,
+      transcript: currentSOAP.transcript,
+      soapMeta: {...currentSOAP, soap: mergedSoap}
+    };
+    updVisits = [newVisit, ...(p.visits||[])];
+  }
 
-  const updPat = {...p, diagnosis: diag, visits: [newVisit, ...(p.visits||[])]};
+  const updPat = {...p, diagnosis: diag, visits: updVisits};
   const saved = savePat(updPat);
   S.pat = saved;
   S.visitId = vid;
@@ -3069,7 +3118,7 @@ function rSBSsoap() {
         <div style="font-size:12px;color:var(--text3)">${e(p&&p.name||'')} · ${new Date().toLocaleDateString('sv-SE')}</div>
       </div>
       <div style="display:flex;gap:8px">
-        <button class="btn" onclick="go('intake')">← Tillbaka</button>
+        <button class="btn" onclick="go('detail')">← Tillbaka</button>
         <button class="btn btn-p" onclick="saveSBSsoap(false)">Spara journal</button>
         <button class="btn btn-navy" onclick="saveSBSsoap(true)">Spara & skapa rehabplan →</button>
       </div>
