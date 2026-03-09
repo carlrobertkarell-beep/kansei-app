@@ -600,7 +600,7 @@
   @keyframes fadeInOv{from{opacity:0}to{opacity:1}}
   @keyframes fadeScaleIn{from{transform:scale(.96);opacity:0}to{transform:scale(1);opacity:1}}
   .npf-backdrop{position:fixed;inset:0;background:rgba(10,20,35,.65);backdrop-filter:blur(4px)}
-  .npf-sheet{position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1)}
+  .npf-sheet{background:white;border-radius:16px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;flex-shrink:0;animation:fadeScaleIn .18s cubic-bezier(.2,.8,.4,1);position:relative;z-index:1}
   .npf-header{background:var(--navy);padding:24px 24px 20px;border-radius:16px 16px 0 0}
   .npf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:white;margin-bottom:4px}
   .npf-sub{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:.04em}
@@ -921,7 +921,10 @@ function loadPats(){
   // Re-save under canonical key so future loads are consistent
   S.patients.forEach(p=>{try{localStorage.setItem('kansei-data:'+p.id,JSON.stringify(p));}catch{}});
 }
-function go(scr){S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
+function go(scr){
+  // Auto-save journal draft when navigating away
+  if((S.screen==='manualsoap'||S.screen==='sbs-soap') && scr!==S.screen) autoSaveJournalDraft();
+  S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
 function rTopbar(){const r=document.getElementById("tbr");let h="";const scr=S.screen;
 if(scr==='dashboard'){h+=`<span style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em">Zenya</span>`;}
 else{h+=`<button class="btn-ghost btn" onclick="if(S.screen==='meeting'){resetMeeting();}go('dashboard')" style="font-size:11px">← Hem</button>`;}
@@ -1544,10 +1547,10 @@ function newVisit(){
   window._sbsPrevVisit = prevWithSoap || null;
   const ov=document.createElement('div');
   ov.id='new-visit-overlay';
-  ov.style.cssText='position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
+  ov.style.cssText='position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .15s ease';
+  ov.onclick=function(e){if(e.target===ov)ov.remove();};
   ov.innerHTML=`
-  <div class="npf-backdrop" onclick="document.getElementById('new-visit-overlay').remove()"></div>
-  <div style="position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;padding:24px 20px 20px;box-shadow:0 8px 40px rgba(0,0,0,.18)">
+  <div style="position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;padding:24px 20px 20px;box-shadow:0 8px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
     <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:4px">Nytt besök</div>
     <div style="font-size:13px;color:var(--text3);margin-bottom:20px">${e(p.name)} — ${e(p.diagnosis||'')}</div>
     <div style="display:flex;flex-direction:column;gap:10px">
@@ -1580,10 +1583,10 @@ function newVisit(){
 function newPatientFlow() {
   const ov = document.createElement('div');
   ov.id = 'new-pat-flow';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .15s ease';
+  ov.onclick = function(e){ if(e.target===ov) ov.remove(); };
   ov.innerHTML = `
-  <div class="npf-backdrop" onclick="document.getElementById('new-pat-flow').remove()"></div>
-  <div class="npf-sheet">
+  <div class="npf-sheet" onclick="event.stopPropagation()">
     <div class="npf-header">
       <div class="npf-title">Ny patient</div>
       <div class="npf-sub">Registrera basuppgifter</div>
@@ -1644,10 +1647,10 @@ function createNewPatientAndChoose() {
 function returningPatientFlow() {
   const ov = document.createElement('div');
   ov.id = 'returning-pat-flow';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .15s ease';
+  ov.onclick = function(e){ if(e.target===ov) ov.remove(); };
   ov.innerHTML = `
-  <div class="npf-backdrop" onclick="document.getElementById('returning-pat-flow').remove()"></div>
-  <div class="npf-sheet" style="width:100%;max-width:520px;max-height:90vh;overflow-y:auto">
+  <div class="npf-sheet" style="width:100%;max-width:520px;max-height:90vh;overflow-y:auto" onclick="event.stopPropagation()">
     <div class="npf-header">
       <div class="npf-title">Återkommande patient</div>
       <div class="npf-sub">Sök på namn eller personnummer</div>
@@ -1707,7 +1710,8 @@ function showVisitActionChooser() {
   document.getElementById('new-visit-overlay')?.remove();
   const ov = document.createElement('div');
   ov.id = 'new-visit-overlay';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .15s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .15s ease';
+  ov.onclick = function(e){ if(e.target===ov){ov.remove();} };
   const prevWithSoap = (p.visits||[]).find(v => v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P));
   window._sbsPrevVisit = prevWithSoap || null;
   const actions = [
@@ -1718,8 +1722,7 @@ function showVisitActionChooser() {
     {label:'Skapa rehabplan', sub:'Generera träningsplan utan journal', fn:`document.getElementById('new-visit-overlay').remove();prepVisitForm('${p.id}');go('form')`},
   ];
   ov.innerHTML = `
-  <div class="npf-backdrop" onclick="document.getElementById('new-visit-overlay').remove();go('detail')"></div>
-  <div class="npf-sheet" style="width:100%;max-width:480px;max-height:90vh;overflow-y:auto">
+  <div class="npf-sheet" style="width:100%;max-width:480px;max-height:90vh;overflow-y:auto" onclick="event.stopPropagation()">
     <div class="npf-header" style="display:flex;align-items:center;gap:14px">
       <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:white;flex-shrink:0">${(p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
       <div>
@@ -2100,10 +2103,13 @@ async function runClinicalAnalysis(text) {
     const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1200,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
     const data = await res.json();
     const txt = (data.content||[]).map(b=>b.text||'').join('');
-    const result = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    const cleaned = txt.replace(/```json|```/g,'').trim();
+    if (!cleaned) throw new Error('Tomt API-svar (stop_reason: '+(data.stop_reason||'?')+')');
+    const result = JSON.parse(cleaned);
     renderClinicalPanel(result);
   } catch(err) {
-    if (panel) panel.innerHTML = `<div style="padding:12px;font-size:11px;color:#8a9aaa">Analys misslyckades.</div>`;
+    console.error('Clinical AI error:', err);
+    if (panel) panel.innerHTML = `<div style="padding:12px;font-size:11px;color:#8a9aaa">Analys misslyckades: ${e(err.message||'okänt fel')}</div>`;
   }
 }
 
@@ -2433,8 +2439,55 @@ async function saveSOAPToVisit(goToPlan) {
 
 
 // ── MANUAL SOAP ENTRY ──────────────────────────────────────────────────────
+function collectMSOAPText() {
+  return ['ms-S','ms-O','ms-A','ms-P'].map(id => {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+  }).join('\n');
+}
+
+function autoSaveJournalDraft() {
+  if (S.screen !== 'manualsoap' && S.screen !== 'sbs-soap') return;
+  const draft = {
+    patId: S.pat && S.pat.id,
+    screen: S.screen,
+    soap: {
+      S: (document.getElementById('ms-S')||document.getElementById('sbs-S')||{}).value||'',
+      O: (document.getElementById('ms-O')||document.getElementById('sbs-O')||{}).value||'',
+      A: (document.getElementById('ms-A')||document.getElementById('sbs-A')||{}).value||'',
+      P: (document.getElementById('ms-P')||document.getElementById('sbs-P')||{}).value||''
+    },
+    savedAt: Date.now()
+  };
+  try { sessionStorage.setItem('zenya:journaldraft', JSON.stringify(draft)); } catch{}
+}
+
+function checkJournalDraft() {
+  try {
+    const raw = sessionStorage.getItem('zenya:journaldraft');
+    if (!raw) return false;
+    const d = JSON.parse(raw);
+    if (!d || !S.pat || d.patId !== S.pat.id) return false;
+    if (Date.now() - d.savedAt > 2*60*60*1000) return false; // 2h expiry
+    return d;
+  } catch { return false; }
+}
+
+function restoreJournalDraft(draft) {
+  setTimeout(() => {
+    ['S','O','A','P'].forEach(l => {
+      const el = document.getElementById('ms-'+l) || document.getElementById('sbs-'+l);
+      if (el && draft.soap[l]) { el.value = draft.soap[l]; el.dispatchEvent(new Event('input')); }
+    });
+    sessionStorage.removeItem('zenya:journaldraft');
+    showAutoSaveToast('Utkast återställt ✓');
+  }, 200);
+}
+
+
 function startManualSOAP() {
   if (!S.pat) return;
+  const draft = checkJournalDraft();
   currentSOAP = {
     soap: {S:'',O:'',A:'',P:''},
     diagnosis: S.pat.diagnosis||'',
@@ -2455,6 +2508,7 @@ function startManualSOAP() {
     manual: true
   };
   go('manualsoap');
+  if (draft) restoreJournalDraft(draft);
 }
 
 function rManualSOAP() {
@@ -2478,7 +2532,7 @@ function rManualSOAP() {
         <div class="msoap-lbl ${f.l}">${f.l}</div>
         <div class="msoap-name">${f.name}</div>
       </div>
-      <textarea class="msoap-ta" id="ms-${f.l}" placeholder="${f.ph}" oninput="triggerClinicalAnalysis(['ms-S','ms-O','ms-A','ms-P'].map(id=>{const el=document.getElementById(id);return el?el.value:''}).join('\n'))">${e(soap[f.l]||'')}</textarea>
+      <textarea class="msoap-ta" id="ms-${f.l}" placeholder="${f.ph}" oninput="triggerClinicalAnalysis(collectMSOAPText());autoSaveJournalDraft()">${e(soap[f.l]||'')}</textarea>
     </div>`).join('')}
     
     <div style="margin-top:6px">
