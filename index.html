@@ -1546,7 +1546,27 @@ async function doGen(){
   const ph = S.pat ? getCurrentPhase(S.pat) : 1;
   S.form.phaseInstruction = getPhasePromptAddition(ph);
 const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:"",service:(window._pendingService||{}).name||"",servicePrice:(window._pendingService||{}).price||0};window._pendingService=null;const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);if(ei<0)setTimeout(()=>aiExtractDiagnoses(sv.id),1200);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
-function buildPr(f,locked=[]){const age=new Date().getFullYear()-birthdateToYear(f.birthdate||f.birthYear);const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";const n=f.exercises-locked.length;return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;}
+function buildPr(f,locked=[]){
+  const age=new Date().getFullYear()-birthdateToYear(f.birthdate||f.birthYear);
+  const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";
+  const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";
+  const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";
+  const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";
+  const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";
+  const n=f.exercises-locked.length;
+
+  // Pull in current SOAP journal if available
+  let soapContext = '';
+  if (S.pat && S.visitId) {
+    const v = (S.pat.visits||[]).find(x=>x.id===S.visitId);
+    if (v && v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P)) {
+      const s = v.soap;
+      soapContext = `\n\nJOURNAL FRÅN DETTA BESÖK (använd som primär klinisk grund):\nS: ${s.S||''}\nO: ${s.O||''}\nA: ${s.A||''}\nP: ${s.P||''}`;
+    }
+  }
+
+  return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${soapContext}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;
+}
 // ── API MODELS ────────────────────────────────────────────────────────────────
 const MODEL_SONNET = 'claude-sonnet-4-20250514'; // Komplex planering, SOAP-analys
 const MODEL_HAIKU  = 'claude-haiku-4-5-20251001'; // Snabba enkla anrop — 80% billigare
@@ -1667,7 +1687,7 @@ function rDoc(){
           <div style="width:34px;height:34px;border-radius:10px;background:var(--navy);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i+1}</div>
           <div style="flex:1;min-width:0">
             <div style="font-size:15px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span data-ex-name="${i}">${e(ex.name)}</span>${S.pat?renderExHistoryBadge(ex.name,S.pat):""}</div>
-            <div style="font-size:11px;color:var(--teal);margin-top:2px;font-weight:600">${ex.sets} set · ${ex.reps} reps · ${ex.rest} vila</div>
+            <div style="font-size:11px;color:var(--teal);margin-top:2px;font-weight:600;font-family:'DM Mono',monospace">${[ex.sets&&(ex.sets+' set'), ex.reps&&(ex.reps+' reps'), ex.rest&&(ex.rest+' vila')].filter(Boolean).join(' · ')||'—'}</div>
           </div>
           <div style="color:#8a9aaa;font-size:18px;flex-shrink:0;transition:transform .2s" class="ex-chevron">›</div>
         </div>
@@ -1748,13 +1768,16 @@ function rDoc(){
 
   document.getElementById("s-doc").innerHTML=h;
 
-  // First exercise card open, rest closed
-  document.querySelectorAll('.mob-exbody').forEach((body, idx) => {
-    body.style.display = idx === 0 ? 'block' : 'none';
-    const hdr = body.previousElementSibling;
-    if (hdr && idx === 0) {
-      const chevron = hdr.querySelector('div:last-child');
+  // First exercise open, rest closed — use explicit IDs via data attributes
+  document.querySelectorAll('.mob-excard').forEach((card, idx) => {
+    const body = card.querySelector('.mob-exbody');
+    const chevron = card.querySelector('.ex-chevron');
+    if (idx === 0) {
+      if (body) body.style.display = 'block';
       if (chevron) chevron.style.transform = 'rotate(90deg)';
+    } else {
+      if (body) body.style.display = 'none';
+      if (chevron) chevron.style.transform = '';
     }
   });
 }
@@ -2786,7 +2809,7 @@ function restoreJournalDraft(draft) {
       if (el && draft.soap[l]) { el.value = draft.soap[l]; el.dispatchEvent(new Event('input')); }
     });
     sessionStorage.removeItem('zenya:journaldraft');
-    showAutoSaveToast('Utkast återställt ✓');
+    showAutoSaveToast('Utkast återställt');
   }, 200);
 }
 
@@ -3443,7 +3466,7 @@ function sbsGetText() {
 
 function sbsAutoSaveAndNotify() {
   autoSaveJournalDraft();
-  showAutoSaveToast('Utkast sparat ✓');
+  showAutoSaveToast('Utkast sparat');
 }
 
 function startSBSsoap(prevVisit) {
@@ -4147,16 +4170,17 @@ async function showProgressNote(patId) {
   ov.onclick = e => { if(e.target===ov) ov.remove(); };
 
   const sections = [
-    { key:'trend',      icon:'📈', label:'Smärta & förlopp',         color:'#dceef8', tc:'#1a4a7a' },
-    { key:'function',   icon:'🏃', label:'Funktion & compliance',    color:'#dcf0e4', tc:'#1a4a2a' },
-    { key:'findings',   icon: note.flag ? '⚠️' : '🔍', label:'Kliniska fynd', color: note.flag ? '#fde8e8' : '#f4f6f9', tc: note.flag ? '#8a2020' : '#3a4a5a' },
-    { key:'recommendation', icon:'📋', label:'Rekommendation inför nästa besök', color:'#ede0f8', tc:'#5a208a' },
-    { key:'phase',      icon:'🎯', label:'Fas & status',              color:'#fdf3d8', tc:'#7a5000' },
+    { key:'trend',        icon:'', label:'Smärta & förlopp',               color:'#dceef8', tc:'#1a4a7a',  dot:'#1a6a9a' },
+    { key:'function',     icon:'', label:'Funktion & compliance',           color:'#dcf0e4', tc:'#1a4a2a',  dot:'#1a7a4a' },
+    { key:'findings',     icon:'', label:'Kliniska fynd',                   color: note.flag ? '#fde8e8' : '#f4f6f9', tc: note.flag ? '#8a2020' : '#3a4a5a', dot: note.flag ? '#c07070' : '#6a7a8a' },
+    { key:'recommendation',icon:'',label:'Rekommendation inför nästa besök',color:'#ede0f8', tc:'#5a208a',  dot:'#7a40aa' },
+    { key:'phase',        icon:'', label:'Fas & status',                    color:'#fdf3d8', tc:'#7a5000',  dot:'#c8a030' },
   ];
 
   const pat2 = S.patients.find(p=>p.id===patId)||S.pat;
   const visits = (pat2?.visits||[]).length;
   const plainText = sections.map(s=>`${s.label}:\n${note[s.key]||'—'}`).join('\n\n');
+  window._progressNotePlainText = plainText;
 
   ov.innerHTML = `
   <div style="background:white;border-radius:16px;width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 8px 48px rgba(0,0,0,.22)" onclick="event.stopPropagation()">
@@ -4170,16 +4194,16 @@ async function showProgressNote(patId) {
     </div>
     <div style="flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
       ${sections.map(s => `
-        <div style="border-radius:12px;padding:13px 15px;background:${s.color}">
+        <div style="border-radius:10px;padding:13px 15px;background:${s.color}">
           <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
-            <span style="font-size:16px">${s.icon}</span>
-            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${s.tc}">${s.label}</span>
+            <div style="width:6px;height:6px;border-radius:50%;background:${s.dot};flex-shrink:0"></div>
+            <span style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${s.tc}">${s.label}</span>
           </div>
           <div style="font-size:13px;line-height:1.65;color:#1a2030">${e(note[s.key]||'—')}</div>
         </div>`).join('')}
     </div>
     <div style="padding:12px 18px 20px;border-top:1px solid #eef0f3;display:flex;gap:8px;flex-shrink:0">
-      <button onclick="navigator.clipboard.writeText(${JSON.stringify(plainText)}).then(()=>showAutoSaveToast('Kopierat ✓')).catch(()=>{})" style="flex:1;background:var(--navy);color:white;border:none;border-radius:9px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Kopiera text</button>
+      <button onclick="copyProgressNote()" style="flex:1;background:var(--navy);color:white;border:none;border-radius:9px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Kopiera text</button>
       <button onclick="document.getElementById('progress-note-ov').remove()" style="background:none;border:1px solid var(--border);border-radius:9px;padding:11px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text3)">Stäng</button>
     </div>
   </div>`;
@@ -4187,7 +4211,12 @@ async function showProgressNote(patId) {
 }
 
 
-// ── HEMÖVNINGSPÅMINNELSE ──────────────────────────────────────────────────────
+function copyProgressNote() {
+  const txt = window._progressNotePlainText || '';
+  navigator.clipboard.writeText(txt).then(() => showAutoSaveToast('Kopierat')).catch(() => {});
+}
+
+
 
 function printHomeCard(vid) {
   const p = S.pat;
@@ -4904,7 +4933,7 @@ function renderPublicPlan(plan, pat) {
     <div class="zp-pass-bar">
       <button class="zp-pass-btn" id="pub-pass-btn"
         onclick="pubLogPassDone('${patIdSafe}','${visitIdSafe}')">
-        ✓ &nbsp;Klar med dagens pass
+        Klar med dagens pass
       </button>
     </div>`;
 
@@ -5046,9 +5075,9 @@ JSON-format (använd null om fältet inte finns):
     if (parsed.exercises) S.form.exercises = parseInt(parsed.exercises)||5;
     if (parsed.notes) S.form.notes = parsed.notes;
 
-    if (statusEl) statusEl.textContent = '✓ Formulär ifyllt';
+    if (statusEl) statusEl.textContent = 'Formulär ifyllt';
     rForm();
-    showAutoSaveToast('Formulär ifyllt av AI ✓');
+    showAutoSaveToast('Formulär ifyllt');
   } catch(err) {
     if (statusEl) statusEl.textContent = 'Fel — prova igen';
     console.error('Smart intake error:', err);
@@ -5170,7 +5199,7 @@ function saveSOAPDraftFromIntake() {
     currentSOAP.soap = {...(currentSOAP.soap||{}), ...soap};
   }
   document.getElementById('soap-preview-ov')?.remove();
-  showAutoSaveToast('SOAP-utkast sparat — öppnas automatiskt i journalvyn ✓');
+  showAutoSaveToast('SOAP-utkast sparat');
 }
 
 let _qiSR = null;
@@ -5199,7 +5228,7 @@ function smartIntakeHTML() {
     <textarea class="qi-ta" id="qi-textarea" placeholder="T.ex: Anna Lindqvist 1978, diskbråck L4, smärta höger ben NRS 7, strålar till foten, förvärras vid framåtböjning. Kontorsarbete. Tränar sällan. Hemträning." rows="3"></textarea>
     <div class="qi-actions">
       <button class="qi-btn qi-btn-parse" id="qi-parse-btn" onclick="aiParseIntake()" style="background:rgba(255,255,255,.15);color:white">Fyll i formuläret</button>
-      <button class="qi-btn" id="qi-soap-btn" onclick="aiGenerateSOAPFromIntake()" style="background:rgba(26,200,150,.25);color:rgba(200,255,230,.95);border:1px solid rgba(26,200,150,.3)">✦ Generera SOAP</button>
+      <button class="qi-btn" id="qi-soap-btn" onclick="aiGenerateSOAPFromIntake()" style="background:rgba(26,200,150,.25);color:rgba(200,255,230,.95);border:1px solid rgba(26,200,150,.3)">Generera SOAP</button>
       <button class="mic-btn" id="qi-mic-btn" onclick="toggleQiDictation()" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)">
         <span class="mic-btn-dot"></span> Diktera
       </button>
@@ -5331,7 +5360,7 @@ function openDictationModal(fieldId, letter) {
         <span id="dict-rec-dot" style="width:8px;height:8px;border-radius:50%;background:white;display:inline-block"></span>
         <span id="dict-rec-label">Spela in</span>
       </button>
-      <button id="dict-ai-btn" onclick="dictReformulate('${letter}')" style="display:none;background:var(--teal);color:white;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">✦ Omformulera kliniskt</button>
+      <button id="dict-ai-btn" onclick="dictReformulate('${letter}')" style="display:none;background:var(--teal);color:white;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Omformulera kliniskt</button>
       <button id="dict-raw-btn" onclick="dictInsertRaw()" style="display:none;background:white;color:var(--text2);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Infoga som den är</button>
       <div id="dict-ai-status" style="font-size:11px;color:var(--text3)"></div>
       <div style="flex:1"></div>
@@ -5479,7 +5508,7 @@ function dictInsert() {
     field.dispatchEvent(new Event('input'));
   }
   closeDictModal();
-  showAutoSaveToast('Text infogad ✓');
+  showAutoSaveToast('Text infogad');
 }
 
 function dictInsertRaw() {
@@ -5491,7 +5520,7 @@ function dictInsertRaw() {
     field.dispatchEvent(new Event('input'));
   }
   closeDictModal();
-  showAutoSaveToast('Text infogad ✓');
+  showAutoSaveToast('Text infogad');
 }
 
 // Editable prompt structure overlay
@@ -5531,7 +5560,7 @@ function savePromptEditor(letter) {
   prompts[letter] = lines;
   saveSoapPrompts(prompts);
   document.getElementById('prompt-editor-ov')?.remove();
-  showAutoSaveToast('Struktur sparad ✓');
+  showAutoSaveToast('Struktur sparad');
   // Refresh dict modal if open
   const dictModal = document.getElementById('dict-modal');
   if (dictModal) {
@@ -5572,7 +5601,7 @@ function detectAnomalies(patients) {
     if (visits.length >= 2) {
       const prevPain = visits[1].form?.pain ?? visits[1].soapMeta?.pain;
       if (latestPain != null && prevPain != null && latestPain - prevPain >= 3) {
-        alerts.push({pat:p, icon:'📈', msg:`NRS ökade ${prevPain}→${latestPain} sedan förra besöket`, tag:'Smärtökning', tagColor:'#fde8e8', tagText:'#8a2020', severity:2});
+        alerts.push({pat:p, icon:'high', msg:`NRS ökade ${prevPain}→${latestPain} sedan förra besöket`, tag:'Smärtökning', tagColor:'#fde8e8', tagText:'#8a2020', severity:2});
       }
     }
 
@@ -5580,7 +5609,7 @@ function detectAnomalies(patients) {
     if (visits.length >= 3) {
       const pains = visits.slice(0,3).map(v => v.form?.pain ?? v.soapMeta?.pain).filter(x=>x!=null);
       if (pains.length === 3 && pains[0] >= pains[1] && pains[1] >= pains[2] && pains[0] >= 5) {
-        alerts.push({pat:p, icon:'⚠️', msg:`NRS stagnerad/ökande tre besök i rad (${[...pains].reverse().join('→')})`, tag:'Ingen progress', tagColor:'#fdf3d8', tagText:'#7a5000', severity:2});
+        alerts.push({pat:p, icon:'med', msg:`NRS stagnerad/ökande tre besök i rad (${[...pains].reverse().join('→')})`, tag:'Ingen progress', tagColor:'#fdf3d8', tagText:'#7a5000', severity:2});
       }
     }
 
@@ -5590,13 +5619,13 @@ function detectAnomalies(patients) {
       const dueDate = new Date(latestDate); dueDate.setDate(dueDate.getDate() + fw * 7);
       const overdueDays = Math.round((now - dueDate) / (1000*60*60*24));
       if (overdueDays > 60) {
-        alerts.push({pat:p, icon:'📅', msg:`Återbesök ${overdueDays} dagar försenat (planerat ${dueDate.toLocaleDateString('sv-SE')})`, tag:'Försenat', tagColor:'#e8f0fe', tagText:'#1a3a8a', severity:1});
+        alerts.push({pat:p, icon:'low', msg:`Återbesök ${overdueDays} dagar försenat (planerat ${dueDate.toLocaleDateString('sv-SE')})`, tag:'Försenat', tagColor:'#e8f0fe', tagText:'#1a3a8a', severity:1});
       }
     }
 
     // 4. Hög smärta (≥8) utan plan
     if (latestPain >= 8 && !latestVisit.plan) {
-      alerts.push({pat:p, icon:'🔴', msg:`Smärta NRS ${latestPain}/10 — ingen rehabplan skapad`, tag:'Åtgärd krävs', tagColor:'#fde8e8', tagText:'#8a2020', severity:3});
+      alerts.push({pat:p, icon:'crit', msg:`Smärta NRS ${latestPain}/10 — ingen rehabplan skapad`, tag:'Åtgärd krävs', tagColor:'#fde8e8', tagText:'#8a2020', severity:3});
     }
   });
 
@@ -5614,7 +5643,7 @@ function renderAnomalySection(patients) {
     </div>
     ${alerts.map(a => `
       <div class="anomaly-row" onclick="openPat('${a.pat.id}')">
-        <div class="anomaly-icon">${a.icon}</div>
+        <div class="anomaly-icon"><div style="width:8px;height:8px;border-radius:50%;background:${a.icon==='crit'?'#c07070':a.icon==='high'?'#c07070':a.icon==='med'?'#c8a030':'#4a7aaa'};margin-top:2px"></div></div>
         <div style="flex:1;min-width:0">
           <div class="anomaly-name">${e(a.pat.name||'Namnlös')}</div>
           <div class="anomaly-msg">${a.msg}</div>
@@ -5810,7 +5839,7 @@ async function submitCheckIn(patId, visitId) {
   const trendStr = painTrend === null ? '' : painTrend < 0
     ? `<div style="color:#1a7a4a;font-weight:600">📉 Smärta ↓${Math.abs(painTrend)} poäng sedan start</div>`
     : painTrend > 0
-      ? `<div style="color:#c07070;font-weight:600">📈 Smärta +${painTrend} poäng sedan start</div>`
+      ? `<div style="color:#c07070;font-weight:600">Smärta +${painTrend} poäng sedan start</div>`
       : `<div style="color:#7a5000">→ Smärta oförändrad sedan start</div>`;
 
   const feedbackMsg = pain >= 7
@@ -5945,8 +5974,8 @@ function renderPatientReportsPanel(patId) {
           <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1">
             <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;background:#eef0f3;color:var(--navy)">NRS ${l.pain}</span>
             ${l.energy ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:${l.energy==='3'?'#e8f5ee':l.energy==='1'?'#fde8e8':'#fdf3d8'};color:${l.energy==='3'?'#1a6a3a':l.energy==='1'?'#8a2020':'#7a5000'}">⚡ ${energyLabel[l.energy]||l.energy}</span>` : ''}
-            ${l.move ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0f2f4;color:var(--text2)">🏃 ${moveLabel[l.move]||l.move}</span>` : ''}
-            ${l.done ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0f2f4;color:${doneColor[l.done]||'var(--text2)'}">✓ ${doneLabel[l.done]||l.done}</span>` : ''}
+            ${l.move ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0f2f4;color:var(--text2)">${moveLabel[l.move]||l.move}</span>` : ''}
+            ${l.done ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0f2f4;color:${doneColor[l.done]||'var(--text2)'}">${doneLabel[l.done]||l.done}</span>` : ''}
           </div>
           ${l.note ? `<div style="font-size:11px;color:var(--text3);font-style:italic;max-width:180px;flex-shrink:0">"${e(l.note.slice(0,80))}${l.note.length>80?'…':''}"</div>` : ''}
         </div>`;
@@ -5973,7 +6002,7 @@ async function checkAdaptivePlanAlerts(patients) {
     // Completion dropping
     const notDone = recent.filter(l=>l.done==='few').length;
     if (notDone >= 2)
-      warnPats.push({pat:p, icon:'⚠️', msg:`Klarar bara delar av övningarna — programmet kan vara för krävande`, tag:'Svår belastning', bg:'#fdf3d8', col:'#7a5000', sev:2});
+      warnPats.push({pat:p, icon:'med', msg:`Klarar bara delar av övningarna — programmet kan vara för krävande`, tag:'Svår belastning', bg:'#fdf3d8', col:'#7a5000', sev:2});
 
     // Consistently low energy
     const lowEnergy = recent.filter(l=>l.energy==='1').length;
@@ -5985,7 +6014,7 @@ async function checkAdaptivePlanAlerts(patients) {
   warnPats.sort((a,b)=>b.sev-a.sev);
   alertEl.innerHTML = `<div class="anomaly-hdr"><div class="anomaly-dot"></div><div style="font-size:12px;font-weight:700;color:#7a5000">Patientrapporter — ${warnPats.length} signaler</div></div>` +
     warnPats.map(w => `<div class="anomaly-row" onclick="openPat('${w.pat.id}')">
-      <div class="anomaly-icon">${w.icon}</div>
+      <div class="anomaly-icon"><div style="width:8px;height:8px;border-radius:50%;background:${w.sev>=3?'#c07070':w.sev>=2?'#c8a030':'#4a7aaa'};margin-top:2px"></div></div>
       <div style="flex:1"><div class="anomaly-name">${e(w.pat.name)}</div><div class="anomaly-msg">${w.msg}</div></div>
       <span class="anomaly-tag" style="background:${w.bg};color:${w.col}">${w.tag}</span>
     </div>`).join('');
@@ -6026,7 +6055,9 @@ Ge kliniskt välgrundade svar. Var konkret och direkt. Referera gärna till spec
   ov.innerHTML = `
   <div class="consult-sheet" onclick="event.stopPropagation()">
     <div class="consult-header">
-      <div style="width:32px;height:32px;border-radius:8px;background:var(--teal3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🩺</div>
+      <div style="width:32px;height:32px;background:var(--teal3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <div style="width:8px;height:8px;background:var(--teal)"></div>
+          </div>
       <div style="flex:1">
         <div style="font-size:14px;font-weight:600;color:var(--navy)">AI-konsultation</div>
         <div style="font-size:11px;color:var(--text3)">${e(pat.name)} · ${e(pat.diagnosis||'')}</div>
