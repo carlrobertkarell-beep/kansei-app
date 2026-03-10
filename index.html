@@ -53,38 +53,47 @@
   .btn:disabled{opacity:.4;cursor:not-allowed;}
 
   /* ── LAYOUT ── */
-  .main{max-width:1100px;margin:0 auto;padding:28px 24px 80px;}
+  .main{max-width:1200px;margin:0 auto;padding:20px 24px 80px;}
   .screen{display:none;}.screen.active{display:block;}
 
   /* ── DASHBOARD ── */
-  .dash-greeting{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);font-weight:300;margin-bottom:2px;}
-  .dash-date{font-size:12px;color:var(--text3);margin-bottom:24px;}
-  .dash-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
-  .dash-action{background:white;border:1px solid var(--border);border-radius:10px;padding:20px;cursor:pointer;transition:all .2s;text-align:left;}
-  .dash-action:hover{border-color:var(--teal);box-shadow:0 2px 12px rgba(26,122,138,0.1);transform:translateY(-1px);}
-  .dash-action.primary{background:var(--navy);border-color:var(--navy);}
-  .dash-action.primary:hover{background:var(--navy2);}
-  .da-icon{font-size:22px;margin-bottom:10px;}
-  .da-title{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:3px;}
-  .dash-action.primary .da-title{color:white;}
-  .da-sub{font-size:11px;color:var(--text3);line-height:1.5;}
-  .dash-action.primary .da-sub{color:rgba(255,255,255,0.5);}
-  .dash-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-  .dash-panel{background:white;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
-  .dash-panel-hdr{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-  .dash-panel-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);}
+  .dash-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+  .dash-greeting{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--navy);font-weight:300;}
+  .dash-date{font-size:11px;color:var(--text3);margin-top:1px;}
+  .dash-quickbar{display:flex;gap:8px;align-items:center;}
+  .dash-qbtn{padding:8px 20px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;letter-spacing:.01em;white-space:nowrap;transition:all .15s;}
+  .dash-qbtn-primary{background:var(--navy);color:white;}
+  .dash-qbtn-primary:hover{background:var(--navy2);}
+  .dash-qbtn-secondary{background:white;color:var(--navy);border:1px solid var(--border);}
+  .dash-qbtn-secondary:hover{border-color:var(--teal);color:var(--teal);}
+  .dash-kpis{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);background:white;overflow:hidden;}
+  .dash-kpi{flex:1;padding:14px 18px;border-right:1px solid var(--border);}
+  .dash-kpi:last-child{border-right:none;}
+  .dash-kpi-val{font-size:24px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy);line-height:1;}
+  .dash-kpi-lbl{font-size:10px;color:var(--text3);margin-top:4px;letter-spacing:.07em;text-transform:uppercase;}
+  .dash-kpi-link{font-size:10px;color:var(--teal);cursor:pointer;margin-top:2px;}
+  .dash-grid{display:grid;grid-template-columns:1fr 1fr 280px;gap:16px;margin-bottom:16px;}
+  .dash-panel{background:white;border:1px solid var(--border);overflow:hidden;}
+  .dash-panel-hdr{padding:11px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+  .dash-panel-title{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);}
   .dash-panel-body{padding:0;}
-  .dash-row{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;}
+  .dash-row{display:flex;align-items:center;gap:10px;padding:9px 14px;border-bottom:1px solid var(--bg2);cursor:pointer;transition:background .1s;}
   .dash-row:last-child{border-bottom:none;}
   .dash-row:hover{background:var(--teal3);}
-  .dr-avatar{width:32px;height:32px;border-radius:50%;background:var(--navy);color:white;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;}
+  .dr-initials{width:28px;height:28px;background:var(--navy);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;}
   .dr-info{flex:1;min-width:0;}
-  .dr-name{font-size:13px;font-weight:500;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .dr-diag{font-size:11px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .dr-badge{font-size:9px;padding:2px 7px;border-radius:3px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0;}
+  .dr-name{font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dr-diag{font-size:10px;color:var(--text3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .dr-badge{font-size:9px;padding:2px 6px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0;}
   .dr-date{font-size:10px;color:var(--text4);font-family:'DM Mono',monospace;flex-shrink:0;}
-  .dash-empty{padding:24px 16px;text-align:center;font-size:12px;color:var(--text4);}
-
+  .dash-avatar{width:28px;height:28px;border-radius:50%;background:var(--navy);color:white;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;}
+  .dash-empty{padding:20px 14px;text-align:center;font-size:11px;color:var(--text4);}
+  .dash-stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--bg2);font-size:12px;}
+  .dash-stat-row:last-child{border-bottom:none;}
+  .dash-bar{height:3px;background:#eef0f3;margin-top:4px;overflow:hidden;}
+  .dash-bar-fill{height:100%;background:var(--teal);}
+  @media(max-width:900px){.dash-grid{grid-template-columns:1fr 1fr;}.dash-grid .dash-panel:last-child{display:none;}}
+  @media(max-width:600px){.dash-grid{grid-template-columns:1fr;}}
   /* ── PATIENT LIST ── */
   .page-hdr{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px;}
   .page-title{font-family:'Cormorant Garamond',serif;font-size:26px;color:var(--navy);font-weight:400;}
@@ -456,8 +465,8 @@
   .anomaly-msg{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.4;}
   .anomaly-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;}
   /* Konsultation chat overlay */
-  .consult-ov{position:fixed;inset:0;z-index:600;display:flex;align-items:flex-end;justify-content:center;padding:0;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .18s ease;}
-  .consult-sheet{background:white;border-radius:16px 16px 0 0;width:100%;max-width:600px;height:82vh;display:flex;flex-direction:column;}
+  .consult-ov{position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .18s ease;}
+  .consult-sheet{background:white;border-radius:16px;width:100%;max-width:600px;height:82vh;max-height:700px;display:flex;flex-direction:column;box-shadow:0 8px 48px rgba(0,0,0,.25);}
   .consult-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
   .consult-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:12px;}
   .consult-bubble{max-width:85%;padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.6;}
@@ -588,8 +597,8 @@
   .zp-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,.8);white-space:nowrap;}
   .zp-chip.accent{background:rgba(26,200,150,.15);border-color:rgba(26,200,150,.25);color:rgba(140,240,200,.95);}
   .zp-section{background:white;border-radius:16px;margin:10px 14px 0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
-  .zp-sec-hdr{display:flex;align-items:center;gap:9px;padding:14px 16px 10px;border-bottom:1px solid #f2f4f7;}
-  .zp-sec-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:#f0f2f6;}
+  .zp-sec-hdr{padding:20px 18px 11px;}
+  .zp-sec-title{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--navy);padding-left:10px;border-left:2px solid var(--teal);line-height:1.2;}
   .zp-sec-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);}
   .zp-excard{border-bottom:1px solid #f2f4f7;}
   .zp-excard:last-child{border-bottom:none;}
@@ -846,6 +855,20 @@ async function syncFromCloud() {
 
 const CLINIC={name:"Kansei Ortopedi & Rehabcenter",address:"Upplandsgatan 26, 113 60 Stockholm",phone:"073 398 858 88",email:"info@kansei.se",website:"kansei.se"};
 const DIAGS=["Ländryggssmärta (ospecifik)","Nacksmärta / cervikalt syndrom","Rotatorkuffproblem / axelsmärta","Knäartros","Höftartros","Tennisarmbåge (lateral epikondylit)","Hälseneproblem (Achillestendinopati)","Plantarfasciit","Frozen shoulder (adhesiv kapsulir)","Diskbråck lumbal","Patellofemoralt smärtsyndrom","Fibromyalgi","Annan / fritext"];
+
+const SERVICES = [
+  {name:'Naprapati',           price:890},
+  {name:'Friskvård',           price:980},
+  {name:'Ultraljud',           price:1290},
+  {name:'Kampanj',             price:1290},
+  {name:'PRP-konsultation',    price:890},
+  {name:'PRP-injektion',       price:3490},
+  {name:'Hyaluron-injektion',  price:2190},
+  {name:'PRP + Hyaluron',      price:4590},
+  {name:'Kortisoninjektion',   price:1900},
+  {name:'Konsultation kortisoninjektion', price:1290},
+  {name:'Övrigt',              price:0},
+];
 const SOPTS=["Aktiv","Uppföljning","Avslutad"];
 const SCOL={Aktiv:{bg:'#e8f5ee',col:'#1a7a4a'},Uppföljning:{bg:'#fdf3d8',col:'#8a6000'},Avslutad:{bg:'#eef0f3',col:'#5a6a7a'}};
 const PHASES=[
@@ -1033,26 +1056,32 @@ function togSettings(){
 }
 
 function rDashboard() {
-  const today = new Date().toLocaleDateString('sv-SE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const hour = new Date().getHours();
+  const now = new Date();
+  const today = now.toLocaleDateString('sv-SE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const hour = now.getHours();
   const greeting = hour < 12 ? 'God morgon' : hour < 17 ? 'God eftermiddag' : 'God kväll';
 
-  // Stats
   const total = S.patients.length;
   const active = S.patients.filter(p => (p.visits&&p.visits[0]&&p.visits[0].status)==='Aktiv').length;
+
+  // Revenue this month
+  const thisMonth = now.getMonth(); const thisYear = now.getFullYear();
+  let monthRevenue = 0;
+  S.patients.forEach(p => (p.visits||[]).forEach(v => {
+    const d = new Date(v.date||''); if(isNaN(d)) return;
+    if(d.getMonth()===thisMonth && d.getFullYear()===thisYear) monthRevenue += (v.servicePrice||0);
+  }));
 
   // Upcoming followups (overdue)
   const upcoming = S.patients.filter(p => {
     if (!p.visits||!p.visits[0]) return false;
     const fw = (p.visits[0].form&&p.visits[0].form.followup)||4;
-    const d = new Date(p.visits[0].date||'');
-    if (isNaN(d)) return false;
+    const d = new Date(p.visits[0].date||''); if (isNaN(d)) return false;
     const due = new Date(d); due.setDate(due.getDate() + fw*7);
-    return due <= new Date();
-  }).slice(0,5);
+    return due <= now;
+  }).slice(0,8);
 
-  // Recent patients
-  const recent = [...S.patients].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).slice(0,6);
+  const recent = [...S.patients].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).slice(0,8);
 
   // Diagnosis stats
   const diagCount = {};
@@ -1060,115 +1089,120 @@ function rDashboard() {
     const d = p.diagnosis || 'Okänd';
     diagCount[d] = (diagCount[d]||0) + 1;
   });
-  const topDiags = Object.entries(diagCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
-  const maxDiagCount = topDiags[0]?.[1] || 1;
-  const diagHtml = topDiags.length ? topDiags.map(([d,c]) => {
-    const pct = Math.round((c/total)*100);
-    const barW = Math.round((c/maxDiagCount)*100);
-    return `<div style="margin-bottom:9px">
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:3px">
-        <div style="font-size:12px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">${e(d)}</div>
-        <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);margin-left:8px;flex-shrink:0">${c} pt · ${pct}%</div>
-      </div>
-      <div style="height:5px;background:#eef0f3;border-radius:3px;overflow:hidden">
-        <div style="height:100%;width:${barW}%;background:var(--teal);border-radius:3px;transition:width .4s"></div>
-      </div>
-    </div>`;
-  }).join('') : '<div class="dash-empty">Inga diagnoser registrerade</div>';
+  const topDiags = Object.entries(diagCount).sort((a,b)=>b[1]-a[1]).slice(0,7);
+  const maxD = topDiags[0]?.[1] || 1;
 
-  let upcomingHtml = upcoming.length ? upcoming.map(p => {
+  const upcomingHtml = upcoming.length ? upcoming.map(p => {
     const fw = (p.visits[0].form&&p.visits[0].form.followup)||4;
     const d = new Date(p.visits[0].date||''); d.setDate(d.getDate()+fw*7);
-    const dateStr = d.toLocaleDateString('sv-SE',{day:'numeric',month:'short'});
-    const overdueDays = Math.round((new Date()-d)/(1000*60*60*24));
-    const overdueLabel = overdueDays > 0 ? `${overdueDays} dagar sedan` : 'Idag';
+    const overdueDays = Math.round((now-d)/(1000*60*60*24));
+    const initials = (p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
     return `<div class="dash-row" onclick="openPat('${p.id}')">
-      <div class="dr-avatar">${(p.name||'?')[0].toUpperCase()}</div>
-      <div class="dr-info"><div class="dr-name">${e(p.name||'Namnlös')}</div><div class="dr-diag">${e(p.diagnosis||'')} · återbesök var ${dateStr}</div></div>
-      <span class="dr-badge" style="background:#fde8e8;color:#c07070;flex-shrink:0">${overdueLabel}</span>
+      <div class="dr-initials">${initials}</div>
+      <div class="dr-info"><div class="dr-name">${e(p.name||'Namnlös')}</div><div class="dr-diag">${e(p.diagnosis||'')} · planerat ${d.toLocaleDateString('sv-SE',{day:'numeric',month:'short'})}</div></div>
+      <span class="dr-badge" style="background:var(--red-bg);color:var(--red)">${overdueDays}d</span>
     </div>`;
   }).join('') : '<div class="dash-empty">Inga förfallna återbesök</div>';
 
-  let recentHtml = recent.length ? recent.map(p => {
-    const lastDate = p.visits&&p.visits[0]&&p.visits[0].date||'—';
-    const pph=PHASES[(p.phase||1)-1];
+  const recentHtml = recent.length ? recent.map(p => {
+    const pph = PHASES[(p.phase||1)-1];
+    const lastDate = p.visits&&p.visits[0]&&p.visits[0].date||'';
+    const initials = (p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const svc = p.visits&&p.visits[0]&&p.visits[0].service||'';
     return `<div class="dash-row" onclick="openPat('${p.id}')">
-      <div class="dr-avatar">${(p.name||'?')[0].toUpperCase()}</div>
-      <div class="dr-info"><div class="dr-name">${e(p.name||'Namnlös')}</div><div class="dr-diag">${e(p.diagnosis||'')}</div></div>
-      <span class="phase-badge" style="background:${pph.bg};color:${pph.color};flex-shrink:0">${pph.icon} ${pph.label}</span>
+      <div class="dr-initials">${initials}</div>
+      <div class="dr-info"><div class="dr-name">${e(p.name||'Namnlös')}</div><div class="dr-diag">${e(p.diagnosis||'')}${svc?' · '+svc:''}</div></div>
+      <div style="text-align:right;flex-shrink:0">
+        <div class="dr-badge" style="background:${pph.bg};color:${pph.color};display:block;margin-bottom:2px">${pph.label}</div>
+        ${lastDate?`<div class="dr-date">${lastDate}</div>`:''}
+      </div>
     </div>`;
   }).join('') : '<div class="dash-empty">Inga patienter ännu</div>';
 
-  document.getElementById('s-dashboard').innerHTML = `
-    <div class="dash-greeting">${greeting}</div>
-    <div class="dash-date">${today}</div>
+  const diagHtml = topDiags.length ? topDiags.map(([d,c]) => `
+    <div class="dash-stat-row">
+      <div style="flex:1;min-width:0">
+        <div style="font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(d)}</div>
+        <div class="dash-bar"><div class="dash-bar-fill" style="width:${Math.round((c/maxD)*100)}%"></div></div>
+      </div>
+      <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-left:12px;flex-shrink:0">${c}</div>
+    </div>`).join('') : '<div class="dash-empty">—</div>';
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px">
-      <button onclick="newPatientFlow()" style="background:var(--navy);color:white;border:none;border-radius:14px;padding:22px 16px;text-align:left;cursor:pointer;font-family:inherit">
-        <div style="font-size:22px;font-weight:300;margin-bottom:4px">Ny patient</div>
-        <div style="font-size:12px;opacity:.6;line-height:1.4">Registrera och påbörja ett nytt kundkort</div>
-      </button>
-      <button onclick="returningPatientFlow()" style="background:white;border:1px solid var(--border);border-radius:14px;padding:22px 16px;text-align:left;cursor:pointer;font-family:inherit">
-        <div style="font-size:22px;font-weight:300;color:var(--navy);margin-bottom:4px">Återkommande</div>
-        <div style="font-size:12px;color:var(--text3);line-height:1.4">Sök befintlig patient och starta besök</div>
-      </button>
+  document.getElementById('s-dashboard').innerHTML = `
+    <!-- TOP BAR: greeting + actions -->
+    <div class="dash-topbar">
+      <div>
+        <div class="dash-greeting">${greeting}</div>
+        <div class="dash-date">${today}</div>
+      </div>
+      <div class="dash-quickbar">
+        <button class="dash-qbtn dash-qbtn-secondary" onclick="go('list')">Alla patienter</button>
+        <button class="dash-qbtn dash-qbtn-secondary" onclick="returningPatientFlow()">Återkommande</button>
+        <button class="dash-qbtn dash-qbtn-primary" onclick="newPatientFlow()">+ Ny patient</button>
+      </div>
     </div>
 
-    <div style="display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;">
-      ${[['Patienter',total,''],['Aktiva',active,''],['Väntande återbesök',upcoming.length,'']].map(([l,v,_])=>`
-        <div style="background:white;border:1px solid var(--border);border-radius:8px;padding:14px 20px;flex:1;min-width:120px;">
-          <div style="font-size:24px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${v}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px">${l}</div>
-        </div>`).join('')}
-      <button class="btn btn-p" style="padding:14px 20px;flex:1;min-width:120px;font-size:13px" onclick="go('list')">Alla patienter →</button>
+    <!-- KPI STRIP -->
+    <div class="dash-kpis">
+      <div class="dash-kpi">
+        <div class="dash-kpi-val">${total}</div>
+        <div class="dash-kpi-lbl">Patienter</div>
+      </div>
+      <div class="dash-kpi">
+        <div class="dash-kpi-val">${active}</div>
+        <div class="dash-kpi-lbl">Aktiva</div>
+      </div>
+      <div class="dash-kpi">
+        <div class="dash-kpi-val" style="color:${upcoming.length>0?'var(--red)':'var(--navy)'}">${upcoming.length}</div>
+        <div class="dash-kpi-lbl">Väntande återbesök</div>
+      </div>
+      <div class="dash-kpi">
+        <div class="dash-kpi-val">${monthRevenue>0?monthRevenue.toLocaleString('sv-SE')+' kr':'—'}</div>
+        <div class="dash-kpi-lbl">Intäkter ${now.toLocaleDateString('sv-SE',{month:'long'})}</div>
+      </div>
     </div>
 
     ${renderAnomalySection(S.patients)}
-
     <div id="adaptive-alerts" class="anomaly-section" style="display:none"></div>
 
-    <div class="dash-cols">
+    <!-- MAIN GRID: followups | recent | stats -->
+    <div class="dash-grid">
       <div class="dash-panel">
         <div class="dash-panel-hdr">
           <div class="dash-panel-title">Väntande återbesök</div>
+          <div style="font-size:10px;color:var(--text3)">${upcoming.length} st</div>
         </div>
         <div class="dash-panel-body">${upcomingHtml}</div>
       </div>
       <div class="dash-panel">
         <div class="dash-panel-hdr">
-          <div class="dash-panel-title">Senaste patienter</div>
+          <div class="dash-panel-title">Senaste aktivitet</div>
+          <button onclick="go('list')" style="background:none;border:none;font-size:10px;color:var(--teal);cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">Visa alla →</button>
         </div>
         <div class="dash-panel-body">${recentHtml}</div>
       </div>
-    </div>
-    <div class="dash-panel" style="margin-top:0">
-      <div class="dash-panel-hdr">
-        <div class="dash-panel-title">Diagnosstatistik</div>
-        <div style="font-size:11px;color:var(--text3)">${total} patienter</div>
+      <div class="dash-panel">
+        <div class="dash-panel-hdr"><div class="dash-panel-title">Diagnoser</div></div>
+        <div class="dash-panel-body">${diagHtml}</div>
       </div>
-      <div class="dash-panel-body" style="padding:14px 16px">${diagHtml}</div>
     </div>
+
     ${renderClinicInsightsHTML(S.patients)}
   `;
-  // Async: check for pass_log pain reports
   setTimeout(() => checkAdaptivePlanAlerts(S.patients), 800);
 }
 
 // Quick actions from dashboard — no patient required upfront
 function quickStartMeeting() {
-  // Create a temporary anonymous patient if none selected
-  S.pat = S.pat || null;
-  if (!S.pat) {
-    // Start meeting with anonymous patient — fill in details after
-    S.pat = {id:'kpat_'+Date.now(), name:'', birthYear:1980, diagnosis:DIAGS[0], visits:[], _anonymous:true};
-  }
+  if (!S.pat) { returningPatientFlow(); return; }
   resetMeeting();
   go('meeting');
 }
 
 function quickManualSOAP() {
   if (!S.pat) {
-    S.pat = {id:'kpat_'+Date.now(), name:'', birthYear:1980, diagnosis:DIAGS[0], visits:[], _anonymous:true};
+    returningPatientFlow();
+    return;
   }
   startManualSOAP();
 }
@@ -1308,35 +1342,135 @@ function renderPhaseBar(pat) {
 
 function renderPhaseNext(pat) { return ''; }
 
-function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().getFullYear()-birthdateToYear(p.birthdate||p.birthYear||"");let h=renderPhaseBar(p)+renderPhaseNext(p)+`<div class="det-hdr"><div><div class="det-name">${e(p.name||"Namnlös")}</div><div class="det-diag">${e(p.diagnosis||"")}</div><div class="det-meta"><div><div class="dml">Födelsedatum</div><div class="dmv">${p.birthdate||"—"}</div></div><div><div class="dml">E-post</div><div class="dmv">${p.email||"—"}</div></div><div><div class="dml">Ålder</div><div class="dmv">${age} år</div></div><div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div><div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div></div></div><div class="det-actions">${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Tillbaka till plan</button>`:""}<button class="btn" onclick="go('patjournal')">Exportera journal</button>${(p.visits||[]).length>=1?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}<button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera patient</button><button class="btn" onclick="openConsultation('${p.id}')">🩺 AI-konsultation</button>${(p.visits||[]).length>=1?`<button class="btn" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">Generera epikris</button>`:""}${(p.visits||[]).length>=1?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}<button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button></div></div><div class="vlbl">Besökshistorik</div>${renderPainGraph(p)}${renderPatientReportsPanel(p.id)}`;if(!p.visits||!p.visits.length){h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:#4a9aaa">Skapa första besöket</a></div>`;}else{p.visits.forEach((v,idx)=>{const st=v.status||"Aktiv";const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};const exp=v._exp||false;const pay=v.payStatus||'unpaid';const payLabel={paid:'Betald',unpaid:'Obetald',invoiced:'Fakturerad'}[pay];h+=`<div class="vcard ${idx===0?"latest":""}">
+function rDetail(){
+  const p = S.pat; if(!p){go("list");return;}
+  const age = new Date().getFullYear() - birthdateToYear(p.birthdate||p.birthYear||"");
+  const totalRevenue = (p.visits||[]).reduce((s,v)=>s+(v.servicePrice||0),0);
+  const hasSoap = (p.visits||[]).some(v=>v.soap&&(v.soap.S||v.soap.O));
+
+  // Diagnoses section — multi-diagnosis with AI-extract + manual edit
+  const diagList = p.diagnoses?.length ? p.diagnoses : (p.diagnosis ? [p.diagnosis] : []);
+  const diagHtml = `<div id="det-diag-block" style="margin-bottom:14px">
+    <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text4);margin-bottom:7px">
+      Diagnoser
+      <button onclick="openDiagEditor('${p.id}')" style="margin-left:8px;background:none;border:none;font-size:10px;color:var(--teal);cursor:pointer;font-family:'DM Sans',sans-serif;padding:0;font-weight:600">Redigera</button>
+      ${!hasSoap?'':''}<button onclick="aiExtractDiagnoses('${p.id}')" style="margin-left:4px;background:none;border:none;font-size:10px;color:var(--text4);cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">↻ AI</button>
+    </div>
+    ${diagList.length ? diagList.map((d,i)=>`<span style="display:inline-block;margin:0 5px 5px 0;padding:3px 10px;background:${i===0?'var(--navy)':'var(--bg2)'};color:${i===0?'white':'var(--text2)'};font-size:11px;font-weight:${i===0?'600':'400'}">${e(d)}</span>`).join('') : '<span style="font-size:12px;color:var(--text4)">Ingen diagnos angiven — registreras automatiskt efter första journal</span>'}
+  </div>`;
+
+  let h = renderPhaseBar(p) + renderPhaseNext(p);
+  h += `<div class="det-hdr">
+    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <div class="det-name">${e(p.name||"Namnlös")}</div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:12px">${p.birthdate||""}${age&&!isNaN(age)?' · '+age+' år':''}</div>
+        ${diagHtml}
+        <div class="det-meta">
+          ${p.phone?`<div><div class="dml">Telefon</div><div class="dmv">${e(p.phone)}</div></div>`:''}
+          ${p.email?`<div><div class="dml">E-post</div><div class="dmv">${e(p.email)}</div></div>`:''}
+          ${p.address?`<div><div class="dml">Adress</div><div class="dmv" style="font-size:11px">${e(p.address)}</div></div>`:''}
+          <div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div>
+          <div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div>
+          ${totalRevenue?`<div><div class="dml">Köpt för</div><div class="dmv">${totalRevenue.toLocaleString('sv-SE')} kr</div></div>`:''}
+        </div>
+      </div>
+    </div>
+    <div class="det-actions">
+      ${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Plan</button>`:""}
+      <button class="btn" onclick="go('editpat')">Redigera</button>
+      <button class="btn" onclick="go('patjournal')">Exportera</button>
+      <button class="btn" onclick="openConsultation('${p.id}')">AI-konsultation</button>
+      ${(p.visits||[]).length>=1?`<button class="btn" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">Epikris</button>`:""}
+      ${(p.visits||[]).length>=1?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}
+      <button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera</button>
+      <button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button>
+    </div>
+  </div>`;
+
+  h += `<div class="vlbl">Besökshistorik</div>`;
+  h += renderPainGraph(p) + renderPatientReportsPanel(p.id);
+
+  if(!p.visits||!p.visits.length){
+    h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:var(--teal)">Skapa första besöket</a></div>`;
+  } else {
+    p.visits.forEach((v,idx)=>{
+      const st=v.status||"Aktiv";
+      const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};
+      const exp=v._exp||false;
+      const pay=v.payStatus||'unpaid';
+      const payLabel={paid:'Betald',unpaid:'Obetald',invoiced:'Fakturerad'}[pay];
+      const hasSoap = v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P);
+      h+=`<div class="vcard ${idx===0?"latest":""}">
   <div class="vhdr" onclick="togVisit('${v.id}')">
     <span class="vnum">0${p.visits.length-idx}</span>
     <div class="vinfo">
-      <div class="vdate">${v.date||"—"}</div>
+      <div class="vdate">${v.date||"—"}${v.service?` <span style="font-size:10px;color:var(--text3);font-weight:400;margin-left:6px">${e(v.service)}${v.servicePrice?' · '+v.servicePrice.toLocaleString('sv-SE')+' kr':''}</span>`:''}</div>
       <div style="display:flex;gap:5px;margin-top:3px;flex-wrap:wrap">
-        <span style="font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;background:${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)?"#e8f4f6":"#f0f0f0"};color:${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)?"#1a7a8a":"#aaa"}">
-          ${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)?"Journal":"Ingen journal"}
-        </span>
-        <span style="font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;background:${v.plan?"#e8f5ee":"#f0f0f0"};color:${v.plan?"#1a7a4a":"#aaa"}">
-          ${v.plan?"Rehabplan ("+((v.plan.exercises||[]).length)+" övn)":"Ingen plan"}
-        </span>
+        <span style="font-size:10px;padding:2px 7px;font-weight:600;background:${hasSoap?"#e8f4f6":"#f0f0f0"};color:${hasSoap?"var(--teal)":"#aaa"}">${hasSoap?"Journal":"Ingen journal"}</span>
+        <span style="font-size:10px;padding:2px 7px;font-weight:600;background:${v.plan?"#e8f5ee":"#f0f0f0"};color:${v.plan?"#1a7a4a":"#aaa"}">${v.plan?"Plan ("+((v.plan.exercises||[]).length)+" övn)":"Ingen plan"}</span>
       </div>
     </div>
     <span class="vstatus" style="background:${sc.bg};color:${sc.col}">${st}</span>
     <span class="vchev ${exp?"open":""}" id="ch-${v.id}">›</span>
-  </div><div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});h+=`</div>`;
-  // Pass completions
-  if(v.plan){h+=`<div id="passlog-${v.id}" style="margin:10px 0 8px"><div style="font-size:11px;color:#8a9aaa">Läser genomförda pass...</div></div>`;setTimeout(()=>loadPassLog(v.id,p.id),50);}
-  h+=`<div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea><div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div><div class="vactions">
-  ${v.soap&&(v.soap.S||v.soap.O||v.soap.A||v.soap.P)
+  </div>
+  <div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;
+      if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});
+      h+=`</div>`;
+      if(v.plan){h+=`<div id="passlog-${v.id}" style="margin:10px 0 8px"><div style="font-size:11px;color:#8a9aaa">Läser genomförda pass...</div></div>`;setTimeout(()=>loadPassLog(v.id,p.id),50);}
+      h+=`<div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea>`;
+      h+=`<div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div>`;
+      h+=`<div class="vactions">
+  ${hasSoap
     ? `<button class="btn btn-p" onclick="viewDoc('${v.id}')">Visa journal</button>`
     : `<button class="btn" onclick="addJournalToVisit('${v.id}')">+ Skapa journal</button>`}
   ${v.plan
-    ? `<button class="btn" onclick="viewPlan('${v.id}')">Visa rehabplan</button><button class="btn" onclick="sharePlan('${v.id}')">Dela länk</button><button class="btn" onclick="mailPlan('${v.id}')">Maila</button><button class="btn" onclick="printHomeCard('${v.id}')">Hemkort</button>`
-    : `<button class="btn" onclick="addPlanToVisit('${v.id}')">+ Skapa rehabplan</button>`}
-  <button class="btn btn-d" style="margin-left:auto" onclick="confDel('visit','${v.id}','besöket ${v.date}')">Radera besök</button>
-</div></div></div></div>`;});}h+=renderConsentBlock(p);document.getElementById("s-detail").innerHTML=h;}
+    ? `<button class="btn" onclick="viewPlan('${v.id}')">Visa plan</button><button class="btn" onclick="sharePlan('${v.id}')">Dela</button><button class="btn" onclick="mailPlan('${v.id}')">Maila</button><button class="btn" onclick="printHomeCard('${v.id}')">Hemkort</button>`
+    : `<button class="btn" onclick="addPlanToVisit('${v.id}')">+ Skapa plan</button>`}
+  <button class="btn btn-d" style="margin-left:auto" onclick="confDel('visit','${v.id}','besöket ${v.date}')">Radera</button>
+</div></div></div></div>`;
+    });
+  }
+  h += renderConsentBlock(p);
+  document.getElementById("s-detail").innerHTML=h;
+}
 function togVisit(vid){const p=S.pat;if(!p||!p.visits)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;v._exp=!v._exp;const b=document.getElementById("vb-"+vid);const c=document.getElementById("ch-"+vid);if(b)b.style.display=v._exp?"block":"none";if(c)c.classList.toggle("open",v._exp);}
+
+function openDiagEditor(patId) {
+  const p = S.patients.find(x=>x.id===patId)||S.pat; if(!p) return;
+  const current = (p.diagnoses||[]).length ? p.diagnoses.join('\n') : (p.diagnosis||'');
+  const ov = document.createElement('div');
+  ov.id = 'diag-edit-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px)';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+  ov.innerHTML = `
+  <div style="background:white;width:100%;max-width:400px;position:relative;z-index:1;box-shadow:0 8px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
+    <div style="background:var(--navy);padding:18px 20px">
+      <div style="font-size:16px;font-weight:600;color:white">Diagnoser</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:2px">En diagnos per rad · Första raden = primärdiagnos</div>
+    </div>
+    <div style="padding:18px 20px">
+      <textarea id="diag-edit-ta" style="width:100%;border:1px solid var(--border);padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;line-height:1.7;resize:vertical;min-height:100px;outline:none;color:var(--text)">${e(current)}</textarea>
+      <div style="display:flex;gap:8px;margin-top:14px">
+        <button onclick="saveDiagEdit('${patId}')" style="flex:1;background:var(--navy);color:white;border:none;padding:11px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Spara</button>
+        <button onclick="document.getElementById('diag-edit-ov').remove()" style="flex:1;background:white;color:var(--text2);border:1px solid var(--border);padding:11px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif">Avbryt</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  setTimeout(()=>document.getElementById('diag-edit-ta')?.focus(),150);
+}
+
+function saveDiagEdit(patId) {
+  const raw = document.getElementById('diag-edit-ta')?.value||'';
+  const arr = raw.split('\n').map(s=>s.trim()).filter(Boolean);
+  const p = S.patients.find(x=>x.id===patId)||S.pat; if(!p) return;
+  const updated = {...p, diagnoses: arr, diagnosis: arr[0]||p.diagnosis||''};
+  const saved = savePat(updated);
+  if(S.pat&&S.pat.id===patId) S.pat=saved;
+  document.getElementById('diag-edit-ov')?.remove();
+  if(S.screen==='detail') rDetail();
+}
 function updNote(vid,note){if(!S.pat)return;S.pat.visits=S.pat.visits.map(v=>v.id===vid?{...v,note}:v);savePat(S.pat);S.pat=S.patients.find(x=>x.id===S.pat.id)||S.pat;}
 function updStatus(vid,status){if(!S.pat)return;S.pat.visits=S.pat.visits.map(v=>v.id===vid?{...v,status}:v);savePat(S.pat);S.pat=S.patients.find(x=>x.id===S.pat.id)||S.pat;rDetail();}
 
@@ -1376,15 +1510,42 @@ function viewPlan(vid){
   S.visitId=vid;S.plan=v.plan;S.form=v.form||dform();go('doc');
 }
 function editVisit(vid){const p=S.pat;if(!p)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;S.visitId=vid;S.form=v.form||dform();S.plan=v.plan||null;go("form");}
-function rForm(){const f=S.form;const pc=f.pain>=7?"#c07070":f.pain>=4?"#c8a030":"#5a9860";const mc=f.motivation>=7?"#5a9860":f.motivation>=4?"#c8a030":"#c07070";const title=S.visitId?"Redigera besök":S.pat?"Nytt besök — "+S.pat.name:"Ny patient";let h=`<div class="fwrap"><div class="ftitle">${e(title)}</div><div class="fsub">Fyll i uppgifter — AI genererar vetenskapligt baserade övningar</div>${S.pat?`<div class="phase-next" style="margin-bottom:16px"><div class="phase-next-txt"><strong>${PHASES[getCurrentPhase(S.pat)-1].icon} ${PHASES[getCurrentPhase(S.pat)-1].label} — ${PHASES[getCurrentPhase(S.pat)-1].name}</strong>${PHASES[getCurrentPhase(S.pat)-1].desc}</div><button class="btn" style="font-size:11px;padding:5px 12px;flex-shrink:0" onclick="go('detail')">Ändra fas</button></div>`:""}${smartIntakeHTML()}<div id="ferr"></div><span class="slabel">Patient</span><div class="twocol" style="margin-bottom:11px"><input class="field" placeholder="Namn" value="${e(f.name)}" oninput="S.form.name=this.value"><input class="field" placeholder="Födelsedatum (891022 eller 1989-10-22)" value="${e(f.birthdate||S.pat?.birthdate||'')}" oninput="S.form.birthdate=parseBirthdate(this.value)"></div><select class="field" style="margin-bottom:9px" onchange="S.form.diagnosis=this.value;rForm();setTimeout(()=>fetchClinHint(S.form.diagnosis),50)">${DIAGS.map(d=>`<option ${d===f.diagnosis?"selected":""}>${e(d)}</option>`).join("")}</select>${f.diagnosis==="Annan / fritext"?`<input class="field" style="margin-bottom:11px" placeholder="Beskriv diagnos..." value="${e(f.customDiag)}" oninput="S.form.customDiag=this.value">`:""}`;h+=`<span class="slabel">Klinisk bedömning</span>${sl("Smärtskala (NRS)","pain",0,10,pc,"")}${sl("Motivation","motivation",1,10,mc,"")}<div class="twocol">${sl("Antal övningar","exercises",3,8,"var(--teal-l)","")}${sl("Återbesök om","followup",1,12,"#8a9aaa"," v")}</div>`;h+=`<span class="slabel">Bakgrund</span><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningshistorik</div><div class="chips">${ch("history",["ingen","sporadisk","regelbunden"],["Ingen","Sporadisk","Regelbunden"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Kunskapsnivå</div><div class="chips">${ch("knowledge",["låg","medel","hög"],["Låg","Medel","Hög"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningsplats</div><div class="chips">${ch("location",["hem","gym"],["Hemma","Gym"])}</div>`;h+=`<span class="slabel">Klinisk fokus & anpassningar</span><div id="clin-suggest" style="margin-bottom:12px"></div>
-<div class="hint">Styr AI:ns övningsval. Var specifik — lokalisering, rörelsemönster, undvikanden, mål.</div><textarea class="field" rows="4" style="resize:vertical;line-height:1.6" placeholder="Exempel:&#10;— Artros medialt knäled höger sida&#10;— Fokus på höftstabilitet&#10;— Undvik axiell belastning" oninput="S.form.notes=this.value">${e(f.notes)}</textarea><button class="genbtn" id="gbtn" onclick="doGen()">${S.visitId?"Regenerera plan":"Generera rehabplan"}</button></div>`;document.getElementById("s-form").innerHTML=h;fetchClinHint(f.diagnosis);}
+function rForm(){
+  if(!S.pat){go('dashboard');return;}
+  const f=S.form;const pc=f.pain>=7?"#c07070":f.pain>=4?"#c8a030":"#5a9860";const mc=f.motivation>=7?"#5a9860":f.motivation>=4?"#c8a030":"#c07070";
+  const title=S.visitId?"Redigera rehabplan":"Rehabplan — "+S.pat.name;
+  const ph = S.pat ? getCurrentPhase(S.pat) : 1;
+  let h=`<div class="fwrap">
+    <div class="ftitle">${e(title)}</div>
+    <div class="fsub">AI genererar en vetenskapligt baserad, individuell plan</div>
+    ${S.pat?`<div class="phase-next" style="margin-bottom:16px"><div class="phase-next-txt"><strong>${PHASES[ph-1].label} — ${PHASES[ph-1].name}</strong>${PHASES[ph-1].desc}</div><button class="btn" style="font-size:11px;padding:5px 12px;flex-shrink:0" onclick="go('detail')">Ändra fas</button></div>`:""}
+    <div id="ferr"></div>
+    <span class="slabel">Patient</span>
+    <div style="background:#f4f6f9;border:1px solid var(--border);padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy)">${e(S.pat.name)}</div>
+        <div style="font-size:11px;color:var(--text3)">${S.pat.birthdate||''}${S.pat.diagnosis?' · '+S.pat.diagnosis:''}</div>
+      </div>
+      <button onclick="go('detail')" style="background:none;border:none;font-size:11px;color:var(--teal);cursor:pointer;font-family:inherit">Byt patient</button>
+    </div>
+    <span class="slabel">Diagnos</span>
+    <select class="field" style="margin-bottom:9px" onchange="S.form.diagnosis=this.value;rForm();setTimeout(()=>fetchClinHint(S.form.diagnosis),50)">${DIAGS.map(d=>`<option ${d===f.diagnosis?"selected":""}>${e(d)}</option>`).join("")}</select>
+    ${f.diagnosis==="Annan / fritext"?`<input class="field" style="margin-bottom:11px" placeholder="Beskriv diagnos..." value="${e(f.customDiag)}" oninput="S.form.customDiag=this.value">`:""}`;
+  h+=`<span class="slabel">Klinisk bedömning</span>${sl("Smärtskala (NRS)","pain",0,10,pc,"")}${sl("Motivation","motivation",1,10,mc,"")}<div class="twocol">${sl("Antal övningar","exercises",3,8,"var(--teal-l)","")}${sl("Återbesök om","followup",1,12,"#8a9aaa"," v")}</div>`;
+  h+=`<span class="slabel">Bakgrund</span><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningshistorik</div><div class="chips">${ch("history",["ingen","sporadisk","regelbunden"],["Ingen","Sporadisk","Regelbunden"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Kunskapsnivå</div><div class="chips">${ch("knowledge",["låg","medel","hög"],["Låg","Medel","Hög"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningsplats</div><div class="chips">${ch("location",["hem","gym"],["Hemma","Gym"])}</div>`;
+  h+=`<span class="slabel">Kliniskt fokus</span><div id="clin-suggest" style="margin-bottom:12px"></div>
+<div class="hint">Styr AI:ns övningsval — lokalisering, rörelsemönster, undvikanden, mål.</div><textarea class="field" rows="4" style="resize:vertical;line-height:1.6" placeholder="Exempel:&#10;— Artros medialt knäled höger sida&#10;— Fokus på höftstabilitet&#10;— Undvik axiell belastning" oninput="S.form.notes=this.value">${e(f.notes)}</textarea>
+<button class="genbtn" id="gbtn" onclick="doGen()">${S.visitId?"Regenerera plan":"Generera rehabplan"}</button></div>`;
+  document.getElementById("s-form").innerHTML=h;
+  fetchClinHint(f.diagnosis);
+}
 function sl(label,field,min,max,color,unit){const v=S.form[field];return `<div class="slwrap"><div class="slhd"><span class="sllbl">${label}</span><span class="slval" id="sv-${field}" style="color:${color}">${v}${unit}</span></div><input type="range" min="${min}" max="${max}" value="${v}" style="accent-color:${color}" oninput="S.form.${field}=parseInt(this.value);document.getElementById('sv-${field}').textContent=this.value+'${unit}'"></div>`;}
 function ch(field,vals,labels){return vals.map((v,i)=>`<button class="chip ${S.form[field]===v?"on":""}" onclick="S.form.${field}='${v}';rForm()">${labels[i]}</button>`).join("");}
 async function doGen(){
   // Inject phase instruction into form
   const ph = S.pat ? getCurrentPhase(S.pat) : 1;
   S.form.phaseInstruction = getPhasePromptAddition(ph);
-const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:""};const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
+const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:"",service:(window._pendingService||{}).name||"",servicePrice:(window._pendingService||{}).price||0};window._pendingService=null;const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);if(ei<0)setTimeout(()=>aiExtractDiagnoses(sv.id),1200);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
 function buildPr(f,locked=[]){const age=new Date().getFullYear()-birthdateToYear(f.birthdate||f.birthYear);const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";const n=f.exercises-locked.length;return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;}
 // ── API MODELS ────────────────────────────────────────────────────────────────
 const MODEL_SONNET = 'claude-sonnet-4-20250514'; // Komplex planering, SOAP-analys
@@ -1682,38 +1843,50 @@ function newPatientFlow() {
   ov.innerHTML = `
   <div class="npf-sheet" onclick="event.stopPropagation()">
     <div class="npf-header">
-      <div class="npf-title">Ny patient</div>
-      <div class="npf-sub">Registrera basuppgifter</div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="npf-title">Ny patient</div>
+          <div class="npf-sub">Namn och personnummer är obligatoriska</div>
+        </div>
+        <button onclick="document.getElementById('new-pat-flow').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:rgba(255,255,255,.5);line-height:1;padding:0">×</button>
+      </div>
     </div>
     <div class="npf-body">
-      <div class="npf-row">
+      <!-- Required -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px">Obligatoriskt</div>
+      <div class="npf-row" style="margin-bottom:12px">
         <div>
           <div class="npf-label">Namn *</div>
           <input id="npf-name" class="npf-input" placeholder="Fullständigt namn" oninput="document.getElementById('npf-err').style.display='none'">
         </div>
         <div>
-          <div class="npf-label">Födelsedatum</div>
-          <input id="npf-birthdate" class="npf-input" placeholder="891022 eller 1989-10-22">
+          <div class="npf-label">Personnummer *</div>
+          <input id="npf-birthdate" class="npf-input" placeholder="890122-1234 eller 19890122">
         </div>
       </div>
-      <div class="npf-row">
+      <!-- Optional -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text4);margin-bottom:10px">Valfritt — kan kompletteras senare</div>
+      <div class="npf-row" style="margin-bottom:10px">
+        <div>
+          <div class="npf-label">Telefon</div>
+          <input id="npf-phone" class="npf-input" type="tel" placeholder="070-000 00 00">
+        </div>
         <div>
           <div class="npf-label">E-post</div>
           <input id="npf-email" class="npf-input" type="email" placeholder="patient@mail.se">
         </div>
-        <div></div>
       </div>
-      <div class="npf-full">
-        <div class="npf-label">Primär diagnos</div>
-        <select id="npf-diag" class="npf-input">${DIAGS.map(d=>`<option>${e(d)}</option>`).join('')}</select>
+      <div class="npf-full" style="margin-bottom:10px">
+        <div class="npf-label">Adress</div>
+        <input id="npf-address" class="npf-input" placeholder="Gatuadress, postnummer, stad">
       </div>
-      <div class="npf-full">
+      <div class="npf-full" style="margin-bottom:10px">
         <div class="npf-label">Anteckningar</div>
-        <textarea id="npf-notes" class="npf-input" placeholder="Relevanta bakgrundsuppgifter, mediciner, kontraindikationer..." style="height:80px;resize:vertical"></textarea>
+        <textarea id="npf-notes" class="npf-input" placeholder="Mediciner, kontraindikationer, relevant bakgrund..." style="height:66px;resize:vertical"></textarea>
       </div>
     </div>
     <div class="npf-footer">
-      <div class="npf-err" id="npf-err">Namn är obligatoriskt.</div>
+      <div class="npf-err" id="npf-err">Namn och personnummer är obligatoriska.</div>
       <button class="npf-btn-primary" onclick="createNewPatientAndChoose()">Skapa kundkort →</button>
       <button class="npf-btn-ghost" onclick="document.getElementById('new-pat-flow').remove()">Avbryt</button>
     </div>
@@ -1724,14 +1897,17 @@ function newPatientFlow() {
 }
 
 function createNewPatientAndChoose() {
-  const name = document.getElementById('npf-name').value.trim();
-  if (!name) { document.getElementById('npf-err').style.display='block'; return; }
-  const birthdate = parseBirthdate(document.getElementById('npf-birthdate').value.trim());
-  const email = document.getElementById('npf-email').value.trim();
+  const name = document.getElementById('npf-name')?.value.trim();
+  const bdRaw = document.getElementById('npf-birthdate')?.value.trim();
+  const errEl = document.getElementById('npf-err');
+  if (!name || !bdRaw) { if(errEl) errEl.style.display='block'; return; }
+  const birthdate = parseBirthdate(bdRaw);
+  const email = document.getElementById('npf-email')?.value.trim();
+  const phone = document.getElementById('npf-phone')?.value.trim();
+  const address = document.getElementById('npf-address')?.value.trim();
   const birthYear = birthdateToYear(birthdate);
-  const diagnosis = document.getElementById('npf-diag').value;
-  const notes = document.getElementById('npf-notes').value.trim();
-  const pat = { id:'pat_'+Date.now(), name, birthdate, email, birthYear, diagnosis, notes, visits:[], consents:[], phase:1 };
+  const notes = document.getElementById('npf-notes')?.value.trim();
+  const pat = { id:'pat_'+Date.now(), name, birthdate, email, phone, address, birthYear, diagnosis:'', diagnoses:[], notes, visits:[], consents:[], phase:1 };
   const saved = savePat(pat);
   S.pat = saved;
   document.getElementById('new-pat-flow').remove();
@@ -1808,44 +1984,75 @@ function showVisitActionChooser() {
   ov.onclick = function(e){ if(e.target===ov){ov.remove();} };
   const prevWithSoap = (p.visits||[]).find(v => v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P));
   window._sbsPrevVisit = prevWithSoap || null;
+
+  const svcOptions = SERVICES.map(s => `<option value="${e(s.name)}" data-price="${s.price}">${e(s.name)}${s.price?' — '+s.price+' kr':''}</option>`).join('');
+
   const actions = [
-    {label:'Spela in möte', sub:'Transkribera samtal och skapa journal automatiskt', fn:`document.getElementById('new-visit-overlay').remove();startMeeting()`},
+    {label:'Spela in möte', sub:'Transkribera samtal och skapa journal automatiskt', fn:`document.getElementById('new-visit-overlay').remove();_applySelectedService();startMeeting()`},
     prevWithSoap
-      ? {label:'Skriv journal', sub:`Jämför med förra besöket (${prevWithSoap.date||''})`, fn:`document.getElementById('new-visit-overlay').remove();startSBSsoap(window._sbsPrevVisit)`}
-      : {label:'Skriv journal manuellt', sub:'Fyll i SOAP-anteckning direkt', fn:`document.getElementById('new-visit-overlay').remove();startManualSOAP()`},
-    {label:'Skapa rehabplan', sub:'Generera träningsplan utan journal', fn:`document.getElementById('new-visit-overlay').remove();prepVisitForm('${p.id}');go('form')`},
+      ? {label:'Skriv journal', sub:`Jämför med förra besöket (${prevWithSoap.date||''})`, fn:`document.getElementById('new-visit-overlay').remove();_applySelectedService();startSBSsoap(window._sbsPrevVisit)`}
+      : {label:'Skriv journal', sub:'SOAP-anteckning', fn:`document.getElementById('new-visit-overlay').remove();_applySelectedService();startManualSOAP()`},
+    {label:'Skapa rehabplan', sub:'Generera träningsplan utan journal', fn:`document.getElementById('new-visit-overlay').remove();_applySelectedService();prepVisitForm('${p.id}');go('form')`},
   ];
+
+  const initials = (p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const totalRevenue = (p.visits||[]).reduce((s,v)=>s+(v.servicePrice||0),0);
+
   ov.innerHTML = `
   <div class="npf-sheet" style="width:100%;max-width:480px;max-height:90vh;overflow-y:auto" onclick="event.stopPropagation()">
     <div class="npf-header" style="display:flex;align-items:center;gap:14px">
-      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:white;flex-shrink:0">${(p.name||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
-      <div>
-        <div class="npf-title" style="font-size:22px">${e(p.name)}</div>
-        <div class="npf-sub">${e(p.diagnosis||'')}${p.birthdate?' · '+p.birthdate:''}</div>
+      <div style="width:40px;height:40px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;flex-shrink:0;font-family:'DM Mono',monospace">${initials}</div>
+      <div style="flex:1">
+        <div class="npf-title" style="font-size:20px">${e(p.name)}</div>
+        <div class="npf-sub">${p.birthdate||''}${totalRevenue?' · '+totalRevenue.toLocaleString('sv-SE')+' kr totalt':''}</div>
       </div>
+      <button onclick="document.getElementById('new-visit-overlay').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:rgba(255,255,255,.5);line-height:1;padding:0">×</button>
     </div>
     <div class="npf-body">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:12px">Välj åtgärd</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        ${actions.map((a,i)=>`
-        <button onclick="${a.fn}" style="display:flex;align-items:center;gap:14px;background:white;border:1px solid #e8ecf0;border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:all .12s" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal3)'" onmouseout="this.style.borderColor='#e8ecf0';this.style.background='white'">
-          <div style="width:32px;height:32px;border-radius:8px;background:var(--teal3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <div style="width:10px;height:10px;border-radius:50%;background:var(--teal);opacity:${1-i*0.2}"></div>
-          </div>
+      <!-- Service -->
+      <div style="margin-bottom:18px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Tjänst</div>
+        <select id="visit-service-select" class="npf-input" style="margin:0" onchange="_previewServicePrice(this)">
+          <option value="" data-price="0">— Välj tjänst —</option>
+          ${svcOptions}
+        </select>
+        <div id="visit-service-price" style="font-size:11px;color:var(--teal);margin-top:5px;font-family:'DM Mono',monospace"></div>
+      </div>
+      <!-- Actions -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:10px">Åtgärd</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        ${actions.map(a=>`
+        <button onclick="${a.fn}" style="display:flex;align-items:center;gap:14px;background:white;border:1px solid #e8ecf0;padding:12px 14px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:all .12s" onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal3)'" onmouseout="this.style.borderColor='#e8ecf0';this.style.background='white'">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0;margin-top:1px"></div>
           <div>
             <div style="font-size:13px;font-weight:600;color:var(--navy)">${a.label}</div>
-            <div style="font-size:11px;color:#8a9aaa;margin-top:2px">${a.sub}</div>
+            <div style="font-size:11px;color:#8a9aaa;margin-top:1px">${a.sub}</div>
           </div>
         </button>`).join('')}
       </div>
     </div>
-    <div style="padding:8px 24px 32px;display:flex;gap:8px">
+    <div style="padding:8px 24px 28px;display:flex;gap:8px">
       <button onclick="document.getElementById('new-visit-overlay').remove();go('detail')" class="npf-btn-ghost" style="flex:1">Öppna kundkort</button>
       <button onclick="document.getElementById('new-visit-overlay').remove()" class="npf-btn-ghost" style="flex:1">Stäng</button>
     </div>
   </div>`;
   document.body.appendChild(ov);
   addOverlayEsc('new-visit-overlay');
+}
+
+function _previewServicePrice(sel) {
+  const opt = sel.options[sel.selectedIndex];
+  const price = parseInt(opt.dataset.price||'0');
+  const el = document.getElementById('visit-service-price');
+  if (el) el.textContent = price > 0 ? price.toLocaleString('sv-SE') + ' kr' : '';
+}
+
+// Called before any visit action to store the selected service on S
+function _applySelectedService() {
+  const sel = document.getElementById('visit-service-select');
+  if (!sel || !sel.value) return;
+  const opt = sel.options[sel.selectedIndex];
+  window._pendingService = {name: sel.value, price: parseInt(opt.dataset.price||'0')};
 }
 
 function addJournalToVisit(vid) {
@@ -2477,6 +2684,7 @@ async function saveSOAPToVisit(goToPlan) {
     );
   } else {
     vid = 'v_' + Date.now();
+    const svc = window._pendingService || {};
     const newVisit = {
       id: vid,
       date: currentSOAP.date,
@@ -2484,15 +2692,23 @@ async function saveSOAPToVisit(goToPlan) {
       note: soapText,
       soap: mergedSoap,
       transcript: currentSOAP.transcript,
-      soapMeta: {...currentSOAP, soap: mergedSoap}
+      soapMeta: {...currentSOAP, soap: mergedSoap},
+      service: svc.name || '',
+      servicePrice: svc.price || 0,
     };
+    window._pendingService = null;
     updVisits = [newVisit, ...(p.visits||[])];
   }
 
+  const isFirstVisit = !(p.visits||[]).length;
   const updPat = {...p, diagnosis: diag, visits: updVisits};
   const saved = savePat(updPat);
   S.pat = saved;
   S.visitId = vid;
+
+  if (isFirstVisit || !(p.diagnoses||[]).length) {
+    setTimeout(() => aiExtractDiagnoses(saved.id), 1500);
+  }
 
   if (goToPlan) {
     // Pre-fill form from SOAP analysis
@@ -3861,35 +4077,33 @@ async function generateProgressNote(pat) {
         : `Besöken sträcker sig över ${totalMonths} månader.`)
     : '';
 
-  const prompt = `Du är leg. fysioterapeut. Skriv en klinisk patientanalys på svenska som passar som:
-- Underlag inför nästa besök
-- Kollegauppdatering vid överlämning
-- Intern journalanteckning
+  const prompt = `Du är leg. fysioterapeut. Analysera patientens besökshistorik och svara ENBART med JSON utan backticks.
 
-Patient: ${pat.name||'Okänd'}
-Diagnos: ${pat.diagnosis||'—'}
+Patient: ${pat.name||'Okänd'}, ${pat.diagnosis||'—'}
 ${timeContext}
 
 Besöksöversikt:
 ${visitSummaries}
 
-Skriv analysen som löpande klinisk text (ej rubriker, ej punktlista) i 4–6 meningar. Inkludera:
-1. Sammanfattning av sjukdomsförlopp och trend i smärtskala
-2. Funktionsutveckling och compliance med övningsprogram
-3. Viktiga kliniska fynd eller varningssignaler
-4. Rekommendation inför nästa besök
-
-Om det finns långa tidsgap (>6 månader) mellan besök — nämn det och att en ny bedömning kan vara aktuell.
-Inga hälsningsfraser. Direkt klinisk ton.`;
+JSON-format:
+{
+  "trend": "1-2 meningar om smärttrend och förlopp (NRS-värden, riktning)",
+  "function": "1-2 meningar om funktionsutveckling och compliance med övningsprogram",
+  "findings": "1-2 meningar om viktiga kliniska fynd eller varningssignaler (skriv 'Inga röda flaggor noterade.' om inget anmärkningsvärt)",
+  "recommendation": "1-2 meningar om konkret rekommendation inför nästa besök",
+  "phase": "Aktuell fas och motivering i en mening",
+  "flag": true eller false (true om det finns röda flaggor eller remissbehov)
+}`;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({model:MODEL_HAIKU, max_tokens:600, messages:[{role:'user',content:prompt}]})
+      body: JSON.stringify({model:MODEL_HAIKU, max_tokens:700, messages:[{role:'user',content:prompt}]})
     });
     const data = await res.json();
-    return (data.content||[]).map(b=>b.text||'').join('').trim();
+    const raw = (data.content||[]).map(b=>b.text||'').join('').trim();
+    return JSON.parse(raw.replace(/```json|```/g,'').trim());
   } catch(e) {
     return null;
   }
@@ -3905,19 +4119,53 @@ async function showProgressNote(patId) {
   const note = await generateProgressNote(pat);
 
   if (btn) { btn.textContent = 'Patientanalys'; btn.disabled = false; }
-
   if (!note) { alert('Kunde inte generera analys. Kontrollera API-nyckeln.'); return; }
 
-  document.getElementById('mtitle').textContent = 'Klinisk patientanalys';
-  document.getElementById('mtext').textContent = note;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('mconfirm').textContent = 'Kopiera text';
-  document.getElementById('mconfirm').onclick = () => {
-    navigator.clipboard.writeText(note).catch(() => {});
-    closeModal();
-    document.getElementById('mconfirm').textContent = 'OK';
-    document.getElementById('mconfirm').onclick = closeModal;
-  };
+  // Render as structured cards in a custom overlay
+  document.getElementById('progress-note-ov')?.remove();
+  const ov = document.createElement('div');
+  ov.id = 'progress-note-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .18s ease';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+
+  const sections = [
+    { key:'trend',      icon:'📈', label:'Smärta & förlopp',         color:'#dceef8', tc:'#1a4a7a' },
+    { key:'function',   icon:'🏃', label:'Funktion & compliance',    color:'#dcf0e4', tc:'#1a4a2a' },
+    { key:'findings',   icon: note.flag ? '⚠️' : '🔍', label:'Kliniska fynd', color: note.flag ? '#fde8e8' : '#f4f6f9', tc: note.flag ? '#8a2020' : '#3a4a5a' },
+    { key:'recommendation', icon:'📋', label:'Rekommendation inför nästa besök', color:'#ede0f8', tc:'#5a208a' },
+    { key:'phase',      icon:'🎯', label:'Fas & status',              color:'#fdf3d8', tc:'#7a5000' },
+  ];
+
+  const pat2 = S.patients.find(p=>p.id===patId)||S.pat;
+  const visits = (pat2?.visits||[]).length;
+  const plainText = sections.map(s=>`${s.label}:\n${note[s.key]||'—'}`).join('\n\n');
+
+  ov.innerHTML = `
+  <div style="background:white;border-radius:16px;width:100%;max-width:560px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 8px 48px rgba(0,0,0,.22)" onclick="event.stopPropagation()">
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #eef0f3;flex-shrink:0;display:flex;align-items:flex-start;gap:12px">
+      <div style="flex:1">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:3px">Klinisk patientanalys</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--navy)">${e(pat2?.name||'')}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">${e(pat2?.diagnosis||'')} · ${visits} besök</div>
+      </div>
+      <button onclick="document.getElementById('progress-note-ov').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);line-height:1;flex-shrink:0">×</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+      ${sections.map(s => `
+        <div style="border-radius:12px;padding:13px 15px;background:${s.color}">
+          <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+            <span style="font-size:16px">${s.icon}</span>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${s.tc}">${s.label}</span>
+          </div>
+          <div style="font-size:13px;line-height:1.65;color:#1a2030">${e(note[s.key]||'—')}</div>
+        </div>`).join('')}
+    </div>
+    <div style="padding:12px 18px 20px;border-top:1px solid #eef0f3;display:flex;gap:8px;flex-shrink:0">
+      <button onclick="navigator.clipboard.writeText(${JSON.stringify(plainText)}).then(()=>showAutoSaveToast('Kopierat ✓')).catch(()=>{})" style="flex:1;background:var(--navy);color:white;border:none;border-radius:9px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Kopiera text</button>
+      <button onclick="document.getElementById('progress-note-ov').remove()" style="background:none;border:1px solid var(--border);border-radius:9px;padding:11px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text3)">Stäng</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
 }
 
 
@@ -4380,35 +4628,34 @@ async function loadPublicPlan(patId, visitId) {
 
 function pubLogPassDone(patId, visitId) {
   const btn = document.getElementById('pub-pass-btn');
-  if (btn) { btn.disabled = true; btn.innerHTML = '✓ &nbsp;Sparar...'; btn.style.opacity='.7'; }
+  if (btn && btn.disabled) return; // prevent double-tap
+  if (btn) { btn.disabled = true; btn.textContent = 'Sparar...'; btn.style.opacity='.6'; }
   const ts = new Date().toISOString();
+
+  // Save locally
+  try {
+    const key = 'zenya:passdone:'+patId+':'+visitId;
+    localStorage.setItem(key, ts);
+  } catch(e) {}
 
   (async () => {
     try {
       await fetch(`${SB_URL}/rest/v1/pass_log`, {
         method: 'POST',
-        headers: {
-          'apikey': SB_KEY,
-          'Authorization': 'Bearer ' + SB_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify({ pat_id: patId, visit_id: visitId, logged_at: ts })
+        headers: {'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+        body: JSON.stringify({ pat_id:patId, visit_id:visitId, logged_at:ts })
       });
     } catch(e) {}
   })();
 
-  const el = document.getElementById('s-public-plan');
-  if (!el) return;
-  el.innerHTML = `<div style="background:var(--navy);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:36px;color:white;margin-bottom:12px">Bra jobbat.</div>
-    <div style="font-size:15px;color:rgba(255,255,255,.65);line-height:1.7;max-width:300px;margin-bottom:32px">Du har klarat ditt träningspass. Varje pass för dig ett steg närmare målet.</div>
-    <div style="background:rgba(255,255,255,.08);border-radius:14px;padding:20px 24px;margin-bottom:28px;max-width:320px;width:100%">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Noterat</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.8);font-family:'DM Mono',monospace">${new Date(ts).toLocaleString('sv-SE',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}</div>
-    </div>
-    <button onclick="if(_publicPlanCache){renderPublicPlan(_publicPlanCache.plan,_publicPlanCache.pat);}else{loadPublicPlan('${patId}','${visitId}');}" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;font-size:14px;font-weight:600;padding:13px 28px;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif">← Tillbaka till planen</button>
-  </div>`;
+  // Replace pass bar with quiet confirmation
+  const passBar = document.querySelector('.zp-pass-bar');
+  if (passBar) {
+    passBar.innerHTML = `<div style="border-top:1px solid rgba(255,255,255,.1);padding:18px 20px;text-align:center">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px">Pass registrerat</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.7)">${new Date(ts).toLocaleDateString('sv-SE',{weekday:'long',day:'numeric',month:'long'})} · ${new Date(ts).toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'})}</div>
+    </div>`;
+  }
 }
 
 function renderPublicPlanProgressGraph(pat) {
@@ -4509,37 +4756,30 @@ function renderPublicPlan(plan, pat) {
         <span class="zp-chevron">›</span>
       </div>
       <div class="zp-exbody${i===0?' open':''}">
-        ${ex.purpose ? `<div style="background:#f4f7fa;border-radius:9px;padding:11px 13px;font-size:13px;color:#4a5a6a;font-style:italic;line-height:1.65;margin-bottom:12px;margin-top:4px">${e(ex.purpose)}</div>` : ''}
-        ${ex.startPosition ? `<div style="font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.09em;text-transform:uppercase;margin-bottom:6px">Startposition</div>
-          <div style="font-size:14px;color:#3a4a5a;line-height:1.6;margin-bottom:12px">${e(ex.startPosition)}</div>` : ''}
-        ${(ex.steps||[]).length ? `<div style="font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px">Utförande</div>
+        ${ex.purpose ? `<div style="font-size:12px;color:#4a5a6a;font-style:italic;line-height:1.65;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0f2f5">${e(ex.purpose)}</div>` : ''}
+        ${ex.startPosition ? `<div style="font-size:9px;font-weight:700;color:#8a9aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px">Startposition</div>
+          <div style="font-size:13px;color:#3a4a5a;line-height:1.6;margin-bottom:12px">${e(ex.startPosition)}</div>` : ''}
+        ${(ex.steps||[]).length ? `<div style="font-size:9px;font-weight:700;color:#8a9aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Utförande</div>
           <div style="margin-bottom:12px">${(ex.steps||[]).map((s,j)=>`
             <div class="zp-step">
               <div class="zp-step-num">${j+1}</div>
-              <div style="font-size:14px;color:#2a3a4a;line-height:1.55">${e(s)}</div>
+              <div style="font-size:13px;color:#2a3a4a;line-height:1.55">${e(s)}</div>
             </div>`).join('')}
           </div>` : ''}
-        ${ex.tip ? `<div style="background:#fff8e8;border-left:3px solid #e8b800;border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:#6a5000;line-height:1.55;margin-bottom:8px">💡 ${e(ex.tip)}</div>` : ''}
-        ${ex.correctFeel ? `<div style="background:#e8f5ee;border-left:3px solid #3a9860;border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:#1a4a28;line-height:1.55">✓ ${e(ex.correctFeel)}</div>` : ''}
+        ${ex.tip ? `<div style="border-left:2px solid #c8a030;padding:9px 13px;font-size:12px;color:#6a5000;line-height:1.55;margin-bottom:8px;background:#fffcf0"><span style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:3px;color:#a87000">Tänk på</span>${e(ex.tip)}</div>` : ''}
+        ${ex.correctFeel ? `<div style="border-left:2px solid #3a9860;padding:9px 13px;font-size:12px;color:#1a4428;line-height:1.55;background:#f5faf6"><span style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:3px;color:#2a7a48">Rätt känsla</span>${e(ex.correctFeel)}</div>` : ''}
       </div>
     </div>`).join('');
 
   // ── GOALS ─────────────────────────────────────────────────────────────────
-  const goalIcons = ['🎯','⚡','🌿'];
   const goalsHtml = plan.goals?.length ? `
     <div class="zp-section">
-      <div class="zp-sec-hdr">
-        <div class="zp-sec-icon">🎯</div>
-        <div class="zp-sec-title">Mål med rehabiliteringen</div>
-      </div>
-      <div style="padding:10px 16px 14px;display:flex;flex-direction:column;gap:9px">
+      <div class="zp-sec-hdr"><div class="zp-sec-title">Mål med rehabiliteringen</div></div>
+      <div style="padding:4px 18px 16px;display:flex;flex-direction:column;gap:0">
         ${plan.goals.map((g,i) => `
-          <div style="display:flex;gap:12px;padding:12px 14px;background:#f8f9fb;border-radius:10px;align-items:flex-start">
-            <div style="font-size:20px;flex-shrink:0">${goalIcons[i]||'•'}</div>
-            <div>
-              <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px">${e(g.title||'')}</div>
-              <div style="font-size:14px;color:#2a3a4a;line-height:1.6">${e(g.text||'')}</div>
-            </div>
+          <div style="padding:12px 0;${i<plan.goals.length-1?'border-bottom:1px solid #f0f2f5':''}">
+            <div style="font-size:9px;font-weight:700;color:var(--teal);letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px">${e(g.title||'')}</div>
+            <div style="font-size:14px;color:#2a3a4a;line-height:1.6">${e(g.text||'')}</div>
           </div>`).join('')}
       </div>
     </div>` : '';
@@ -4547,22 +4787,19 @@ function renderPublicPlan(plan, pat) {
   // ── PAIN ADVICE ───────────────────────────────────────────────────────────
   const painHtml = plan.painAdvice ? `
     <div class="zp-section">
-      <div class="zp-sec-hdr">
-        <div class="zp-sec-icon">⚠️</div>
-        <div class="zp-sec-title">Smärthantering</div>
-      </div>
-      <div style="padding:10px 16px 14px;display:flex;flex-direction:column;gap:8px">
-        <div style="padding:12px 14px;border-radius:10px;background:#e8f5ee;border-left:3px solid #3a9860">
-          <div style="font-size:10px;font-weight:700;color:#1a5a30;letter-spacing:.06em;margin-bottom:4px">🟢 Grön — träna på</div>
-          <div style="font-size:14px;color:#1a4428;line-height:1.55">${e(plan.painAdvice.green||'')}</div>
+      <div class="zp-sec-hdr"><div class="zp-sec-title">Smärthantering</div></div>
+      <div style="padding:4px 18px 16px;display:flex;flex-direction:column;gap:8px">
+        <div style="border-left:3px solid #3a9860;padding:10px 14px;background:#f5faf6">
+          <div style="font-size:9px;font-weight:700;color:#1a5a30;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Grön — fortsätt träna</div>
+          <div style="font-size:13px;color:#1a4428;line-height:1.55">${e(plan.painAdvice.green||'')}</div>
         </div>
-        <div style="padding:12px 14px;border-radius:10px;background:#fdf3d8;border-left:3px solid #c8a030">
-          <div style="font-size:10px;font-weight:700;color:#7a5000;letter-spacing:.06em;margin-bottom:4px">🟡 Gul — modifiera</div>
-          <div style="font-size:14px;color:#5a3800;line-height:1.55">${e(plan.painAdvice.yellow||'')}</div>
+        <div style="border-left:3px solid #c8a030;padding:10px 14px;background:#fffcf0">
+          <div style="font-size:9px;font-weight:700;color:#7a5000;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Gul — modifiera</div>
+          <div style="font-size:13px;color:#5a3800;line-height:1.55">${e(plan.painAdvice.yellow||'')}</div>
         </div>
-        <div style="padding:12px 14px;border-radius:10px;background:#fde8e8;border-left:3px solid #c05050">
-          <div style="font-size:10px;font-weight:700;color:#7a2020;letter-spacing:.06em;margin-bottom:4px">🔴 Röd — pausa & kontakta oss</div>
-          <div style="font-size:14px;color:#5a1010;line-height:1.55">${e(plan.painAdvice.red||'')}</div>
+        <div style="border-left:3px solid #c05050;padding:10px 14px;background:#fdf5f5">
+          <div style="font-size:9px;font-weight:700;color:#7a2020;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">Röd — pausa och kontakta oss</div>
+          <div style="font-size:13px;color:#5a1010;line-height:1.55">${e(plan.painAdvice.red||'')}</div>
         </div>
       </div>
     </div>` : '';
@@ -4570,15 +4807,12 @@ function renderPublicPlan(plan, pat) {
   // ── LIFESTYLE TIPS ────────────────────────────────────────────────────────
   const tipsHtml = plan.lifestyleTips?.length ? `
     <div class="zp-section">
-      <div class="zp-sec-hdr">
-        <div class="zp-sec-icon">💡</div>
-        <div class="zp-sec-title">Livsstilsråd</div>
-      </div>
-      <div style="padding:10px 16px 14px;display:flex;flex-direction:column;gap:7px">
-        ${plan.lifestyleTips.map(t => `
-          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 13px;background:#f8f9fb;border-radius:9px">
-            <div style="color:var(--teal);font-size:14px;font-weight:700;flex-shrink:0;margin-top:1px">→</div>
-            <div style="font-size:14px;color:#3a4a5a;line-height:1.55">${e(t)}</div>
+      <div class="zp-sec-hdr"><div class="zp-sec-title">Livsstilsråd</div></div>
+      <div style="padding:4px 18px 16px;display:flex;flex-direction:column;gap:0">
+        ${plan.lifestyleTips.map((t,i) => `
+          <div style="display:flex;gap:12px;align-items:flex-start;padding:11px 0;${i<plan.lifestyleTips.length-1?'border-bottom:1px solid #f0f2f5':''}">
+            <div style="color:var(--teal);font-size:12px;font-weight:700;flex-shrink:0;margin-top:2px;font-family:'DM Mono',monospace">→</div>
+            <div style="font-size:13px;color:#3a4a5a;line-height:1.6">${e(t)}</div>
           </div>`).join('')}
       </div>
     </div>` : '';
@@ -4586,16 +4820,13 @@ function renderPublicPlan(plan, pat) {
   // ── SCHEDULE ──────────────────────────────────────────────────────────────
   const schedHtml = plan.schedule?.length ? `
     <div class="zp-section">
-      <div class="zp-sec-hdr">
-        <div class="zp-sec-icon">📅</div>
-        <div class="zp-sec-title">Veckoschema</div>
-      </div>
-      <div style="padding:12px 16px 16px;display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+      <div class="zp-sec-hdr"><div class="zp-sec-title">Veckoschema</div></div>
+      <div style="padding:4px 18px 16px;display:grid;grid-template-columns:repeat(7,1fr);gap:3px">
         ${plan.schedule.map(d => {
           const active = d.activity && (d.activity.toLowerCase().includes('övning') || d.activity.toLowerCase().includes('program'));
-          return `<div style="text-align:center;padding:9px 2px;border-radius:9px;background:${active?'var(--navy)':'#f4f6f9'}">
-            <div style="font-size:8px;font-weight:700;letter-spacing:.05em;color:${active?'rgba(255,255,255,.6)':'#9aaabb'};margin-bottom:3px">${d.day.slice(0,3).toUpperCase()}</div>
-            <div style="font-size:8px;line-height:1.35;color:${active?'white':'#6a7a8a'}">${e(d.activity)}</div>
+          return `<div style="text-align:center;padding:9px 2px;background:${active?'var(--navy)':'#f4f6f9'}">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.05em;color:${active?'rgba(255,255,255,.55)':'#9aaabb'};margin-bottom:3px">${d.day.slice(0,3).toUpperCase()}</div>
+            <div style="font-size:8px;line-height:1.35;color:${active?'white':'#7a8a9a'}">${e(d.activity)}</div>
           </div>`;
         }).join('')}
       </div>
@@ -4613,20 +4844,17 @@ function renderPublicPlan(plan, pat) {
 
   const clinicalBgHtml = bgItems.length ? `
     <div class="zp-section">
-      <div class="zp-sec-hdr">
-        <div class="zp-sec-icon">📋</div>
-        <div class="zp-sec-title">Bakgrund — varför denna plan</div>
-      </div>
-      <div style="padding:12px 16px 16px">
-        <div style="font-size:13px;color:#4a5a6a;line-height:1.7;margin-bottom:12px">
+      <div class="zp-sec-hdr"><div class="zp-sec-title">Underlag — varför denna plan</div></div>
+      <div style="padding:4px 18px 16px">
+        <div style="font-size:12px;color:#4a5a6a;line-height:1.7;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0f2f5">
           Planen är utformad individuellt utifrån din diagnos, smärtnivå och förutsättningar. 
           Alla övningar är valda av din fysioterapeut för att passa just din situation.
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-          ${bgItems.map(item => `
-            <div style="background:#f4f6f9;border-radius:9px;padding:9px 12px">
-              <div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a9aaa;margin-bottom:3px">${item.label}</div>
-              <div style="font-size:13px;font-weight:600;color:var(--navy)">${e(item.val)}</div>
+        <div style="display:flex;flex-direction:column;gap:0">
+          ${bgItems.map((item,i) => `
+            <div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;${i<bgItems.length-1?'border-bottom:1px solid #f0f2f5':''}">
+              <div style="font-size:11px;color:#8a9aaa">${item.label}</div>
+              <div style="font-size:13px;font-weight:600;color:var(--navy);text-align:right;max-width:60%">${e(item.val)}</div>
             </div>`).join('')}
         </div>
       </div>
@@ -4634,12 +4862,12 @@ function renderPublicPlan(plan, pat) {
 
   // ── FOLLOWUP ──────────────────────────────────────────────────────────────
   const followupHtml = (plan.followupNote || followupStr) ? `
-    <div style="margin:10px 14px 0;background:linear-gradient(135deg,#0f2744,#1a4a5a);border-radius:16px;padding:22px 20px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:10px">Nästa steg</div>
-      ${plan.followupNote ? `<div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;line-height:1.7;font-style:italic;margin-bottom:${followupStr?'14px':'0'}">${e(plan.followupNote)}</div>` : ''}
-      ${followupStr ? `<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(26,200,150,.15);border:1px solid rgba(26,200,150,.25);border-radius:10px;padding:10px 16px;font-size:13px;color:rgba(160,255,210,.95);font-weight:600">
-        📅 Boka återbesök — ${followupStr}
-        ${CLINIC.phone ? `<a href="tel:${CLINIC.phone}" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:4px 10px;font-size:11px;text-decoration:none;font-weight:700;font-family:'DM Sans',sans-serif">Ring</a>` : ''}
+    <div style="margin:10px 14px 0;background:var(--navy);padding:22px 20px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px">Nästa steg</div>
+      ${plan.followupNote ? `<div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;line-height:1.7;font-style:italic;margin-bottom:${followupStr?'16px':'0'}">${e(plan.followupNote)}</div>` : ''}
+      ${followupStr ? `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <div style="font-size:13px;color:rgba(255,255,255,.75);font-weight:500">Återbesök — ${followupStr}</div>
+        ${CLINIC.phone ? `<a href="tel:${CLINIC.phone}" style="background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.2);padding:5px 14px;font-size:12px;text-decoration:none;font-weight:600;font-family:'DM Sans',sans-serif;letter-spacing:.01em">Ring kliniken</a>` : ''}
       </div>` : ''}
     </div>` : '';
 
@@ -4676,10 +4904,11 @@ function renderPublicPlan(plan, pat) {
 
       <!-- Patient + Diagnosis -->
       <div style="margin-bottom:16px">
-        <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Din personliga rehabplan</div>
+        <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Personlig rehabplan</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:400;color:white;line-height:1.05;margin-bottom:5px">${patName}</div>
         <div style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:14px">${diag}</div>
-        <div style="display:flex;gap:7px;flex-wrap:wrap">${chips}</div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">${chips}${plan.visitDate||plan.visitId?`<span style="font-size:10px;color:rgba(255,255,255,.28);padding-left:4px">${plan.visitDate?'Journal '+plan.visitDate:''}</span>`:''}
+        </div>
       </div>
 
       <!-- Greeting -->
@@ -4698,10 +4927,7 @@ function renderPublicPlan(plan, pat) {
     <!-- EXERCISES -->
     ${(plan.exercises||[]).length ? `
     <div class="zp-section">
-      <div class="zp-sec-hdr">
-        <div class="zp-sec-icon">💪</div>
-        <div class="zp-sec-title">Övningsprogram — ${plan.exercises.length} övningar</div>
-      </div>
+      <div class="zp-sec-hdr"><div class="zp-sec-title">Övningsprogram — ${plan.exercises.length} övningar</div></div>
       ${exHtml}
     </div>` : ''}
 
@@ -4867,7 +5093,7 @@ function openSOAPPreviewModal(soap) {
 
   const ov = document.createElement('div');
   ov.id = 'soap-preview-ov';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,20,35,.72);backdrop-filter:blur(4px);animation:fadeInOv .15s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(4px);animation:fadeInOv .15s ease';
   ov.onclick = e => { if(e.target===ov) ov.remove(); };
 
   const fields = ['S','O','A','P'].map(l => {
@@ -4883,7 +5109,7 @@ function openSOAPPreviewModal(soap) {
   }).join('');
 
   ov.innerHTML = `
-  <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 -4px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
+  <div style="background:white;border-radius:16px;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 8px 48px rgba(0,0,0,.22)" onclick="event.stopPropagation()">
     <div style="padding:16px 18px 12px;border-bottom:1px solid #eef0f3;display:flex;align-items:center;gap:10px;flex-shrink:0">
       <div style="flex:1">
         <div style="font-size:14px;font-weight:600;color:var(--navy)">SOAP-utkast — granska och redigera</div>
@@ -5033,11 +5259,11 @@ function openDictationModal(fieldId, letter) {
 
   const ov = document.createElement('div');
   ov.id = 'dict-modal';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,20,35,.7);backdrop-filter:blur(4px);animation:fadeInOv .15s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.7);backdrop-filter:blur(4px);animation:fadeInOv .15s ease';
   ov.onclick = e => { if(e.target===ov) closeDictModal(); };
 
   ov.innerHTML = `
-  <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 -4px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
+  <div style="background:white;border-radius:16px;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 8px 48px rgba(0,0,0,.22)" onclick="event.stopPropagation()">
 
     <!-- Header -->
     <div style="display:flex;align-items:center;gap:10px;padding:16px 18px 12px;border-bottom:1px solid #eef0f3;flex-shrink:0">
@@ -5075,12 +5301,13 @@ function openDictationModal(fieldId, letter) {
     </div>
 
     <!-- Controls -->
-    <div style="padding:12px 16px 24px;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap">
+    <div style="padding:12px 16px 20px;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap;border-top:1px solid #eef0f3">
       <button id="dict-rec-btn" onclick="dictToggleRec()" class="qi-btn" style="background:var(--navy);color:white;display:flex;align-items:center;gap:6px;flex-shrink:0">
         <span id="dict-rec-dot" style="width:8px;height:8px;border-radius:50%;background:white;display:inline-block"></span>
         <span id="dict-rec-label">Spela in</span>
       </button>
-      <button id="dict-ai-btn" onclick="dictReformulate('${letter}')" style="display:none" class="qi-btn" style="background:var(--teal);color:white">✦ Omformulera kliniskt</button>
+      <button id="dict-ai-btn" onclick="dictReformulate('${letter}')" style="display:none;background:var(--teal);color:white;border:none;border-radius:7px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">✦ Omformulera kliniskt</button>
+      <button id="dict-raw-btn" onclick="dictInsertRaw()" style="display:none;background:white;color:var(--text2);border:1px solid var(--border);border-radius:7px;padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Infoga som den är</button>
       <div id="dict-ai-status" style="font-size:11px;color:var(--text3)"></div>
       <div style="flex:1"></div>
       <button id="dict-insert-btn" onclick="dictInsert()" style="display:none;background:var(--teal);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Infoga i journal →</button>
@@ -5117,9 +5344,12 @@ function dictToggleRec() {
     if (btn) { btn.style.background = '#1a5a3a'; }
     if (label) label.textContent = 'Fortsätt spela in';
     if (dot) { dot.style.background = 'white'; dot.style.animation = ''; }
-    // Show AI button if we have text
+    // Show AI and raw buttons if we have text
+    const hasText = _dictRawText.trim().length > 0;
     const aiBtn = document.getElementById('dict-ai-btn');
-    if (aiBtn && _dictRawText.trim()) { aiBtn.style.display = 'inline-flex'; }
+    const rawBtn = document.getElementById('dict-raw-btn');
+    if (aiBtn) aiBtn.style.display = hasText ? 'inline-flex' : 'none';
+    if (rawBtn) rawBtn.style.display = hasText ? 'inline-flex' : 'none';
     return;
   }
 
@@ -5147,7 +5377,11 @@ function dictToggleRec() {
   sr.onend = () => {
     if (_dictSR) return; // was manually stopped
     const aiBtn = document.getElementById('dict-ai-btn');
-    if (aiBtn && _dictRawText.trim()) aiBtn.style.display = 'inline-flex';
+    const rawBtn = document.getElementById('dict-raw-btn');
+    if (_dictRawText.trim()) {
+      if (aiBtn) aiBtn.style.display = 'inline-flex';
+      if (rawBtn) rawBtn.style.display = 'inline-flex';
+    }
     if (label) label.textContent = 'Spela in igen';
     if (btn) btn.style.background = '#1a5a3a';
     if (dot) { dot.style.animation = ''; }
@@ -5159,6 +5393,8 @@ function dictToggleRec() {
   if (dot) dot.style.animation = 'pulse 1s infinite';
   const aiBtn = document.getElementById('dict-ai-btn');
   if (aiBtn) aiBtn.style.display = 'none';
+  const rawBtn2 = document.getElementById('dict-raw-btn');
+  if (rawBtn2) rawBtn2.style.display = 'none';
   const previewWrap = document.getElementById('dict-preview-wrap');
   if (previewWrap) previewWrap.style.display = 'none';
   const insertBtn = document.getElementById('dict-insert-btn');
@@ -5179,17 +5415,16 @@ async function dictReformulate(letter) {
   if (aiBtn) aiBtn.disabled = true;
 
   const sectionName = {S:'Subjektivt (patientens berättelse)',O:'Objektivt (undersökningsfynd)',A:'Bedömning (diagnos och prognos)',P:'Plan (åtgärder och uppföljning)'}[letter];
-  const prompt = `Du är leg. fysioterapeut och skriver en klinisk journalanteckning. Omformulera nedanstående diktering till kliniskt korrekt svenska i journalstil för sektionen "${sectionName}".
+  const prompt = `Du är leg. fysioterapeut som skriver kliniska journalanteckningar. Nedanstående text är en rösttranskription — den kan innehålla talspråk, taligenkänningsfel, dialektala uttryck eller ofullständiga meningar. Producera alltid en klinisk text utan att kommentera transkriptionskvaliteten.
 
-Regler:
-- Använd anatomiska/latinska termer där relevant: höger→ dextra/dx, vänster→sinistra/sin, framsida→anteriort, baksida→posteriort, insida→medialt, utsida→lateralt, knä→genu, axel→humeroscapulärt, nacke→cervikalt, rygg→lumbalt/thorakalt
-- Byt ut vardagliga beskrivningar mot kliniska: knäskål→patella, sena→tendo/ligament, menisk insida→medial menisk, korsbandet→ACL/PCL (specificera), inklämning→impingement, hälsena→tendo Achillis
-- Behåll faktainnehållet exakt — lägg ingenting till, ta inget bort
-- Skriv i löpande meningar, journalstil, utan rubriker
-- Avsluta inte med punkt om meningen är ofullständig
-- Svar ENBART med den omformulerade texten, inget annat
+Instruktioner:
+- Tolka sannolika kliniska innebörder även vid fel (t.ex. "hösena"→tendo Achillis, "diskbrock"→diskbråck, "insidan knät"→medialt om genu)
+- Anatomiska termer: höger→dextra/dx, vänster→sinistra/sin, framsida→anteriort, baksida→posteriort, insida→medialt, utsida→lateralt, knäskål→patella, hälsena→tendo Achillis, inklämning→impingement, menisk insida→medial menisk, korsbandet fram→ACL, bak→PCL, axelled→glenohumeralt, nacke→cervikalt, ländrygg→lumbalt, bröstrygg→thorakalt
+- Journalstil: löpande meningar, direkt ton, inga rubriker
+- Sektion: ${sectionName}
+- Svara ENBART med den kliniska texten — ingen inledning, inga kommentarer
 
-Diktering: "${text}"`;
+Transkription: "${text}"`;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
@@ -5212,6 +5447,18 @@ Diktering: "${text}"`;
 function dictInsert() {
   const ta = document.getElementById('dict-preview-ta');
   const text = ta ? ta.value.trim() : _dictRawText.trim();
+  if (!text || !_dictTargetField) return;
+  const field = document.getElementById(_dictTargetField);
+  if (field) {
+    field.value = (field.value.trim() ? field.value.trim() + '\n' : '') + text;
+    field.dispatchEvent(new Event('input'));
+  }
+  closeDictModal();
+  showAutoSaveToast('Text infogad ✓');
+}
+
+function dictInsertRaw() {
+  const text = _dictRawText.trim();
   if (!text || !_dictTargetField) return;
   const field = document.getElementById(_dictTargetField);
   if (field) {
@@ -5428,61 +5675,61 @@ function savePassLog(patId, entry) {
 // Render multi-metric patient check-in widget (shown in public plan after exercises)
 function pubCheckInHTML(patId, visitId) {
   return `
-  <div id="pub-checkin" style="margin:0 14px 12px;background:white;border-radius:16px;padding:18px 18px 16px;box-shadow:0 1px 6px rgba(0,0,0,.07)">
-    <div style="font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-bottom:14px">Hur gick passet?</div>
+  <div id="pub-checkin" style="margin:0 14px 12px;background:white;border-top:2px solid var(--navy);padding:18px 18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:16px">Rapport efter passet</div>
 
     <!-- Pain -->
     <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">💊 Smärta under passet</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Smärta under passet</div>
       <div style="display:flex;align-items:center;gap:10px">
         <span style="font-size:11px;color:#4a9860;font-weight:600;flex-shrink:0">Ingen</span>
         <input type="range" id="ci-pain" min="0" max="10" value="3" style="flex:1;accent-color:var(--teal)"
           oninput="document.getElementById('ci-pain-val').textContent=this.value">
         <span style="font-size:11px;color:#c07070;font-weight:600;flex-shrink:0">Svår</span>
-        <span id="ci-pain-val" style="font-size:15px;font-weight:700;color:var(--navy);min-width:18px;text-align:right">3</span>
+        <span id="ci-pain-val" style="font-size:15px;font-weight:700;color:var(--navy);min-width:18px;text-align:right;font-family:'DM Mono',monospace">3</span>
       </div>
     </div>
 
     <!-- Energy -->
     <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">⚡ Energi & ork</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Energi & ork</div>
       <div style="display:flex;gap:7px" id="ci-energy-btns">
-        ${[['1','Låg 😔'],['2','OK 😐'],['3','Bra 😊']].map(([v,l])=>`
+        ${[['1','Låg'],['2','OK'],['3','Bra']].map(([v,l])=>`
           <button onclick="ciSelect('energy','${v}',this)" data-val="${v}"
-            style="flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
+            style="flex:1;padding:9px 4px;border:1px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
       </div>
     </div>
 
     <!-- Movement -->
     <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">🏃 Hur rörde du dig?</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Rörlighet</div>
       <div style="display:flex;gap:7px" id="ci-move-btns">
-        ${[['1','Stelt 😬'],['2','Gick bra 🙂'],['3','Flöt på 💪']].map(([v,l])=>`
+        ${[['1','Stelt'],['2','Gick bra'],['3','Flöt på']].map(([v,l])=>`
           <button onclick="ciSelect('move','${v}',this)" data-val="${v}"
-            style="flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
+            style="flex:1;padding:9px 4px;border:1px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
       </div>
     </div>
 
     <!-- Completion -->
     <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">✅ Klarade du alla övningar?</div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px">Genomförde du alla övningar?</div>
       <div style="display:flex;gap:7px" id="ci-done-btns">
-        ${[['all','Alla ✓'],['partial','Delvis'],['few','Bara några']].map(([v,l])=>`
+        ${[['all','Alla'],['partial','Delvis'],['few','Bara några']].map(([v,l])=>`
           <button onclick="ciSelect('done','${v}',this)" data-val="${v}"
-            style="flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
+            style="flex:1;padding:9px 4px;border:1px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
       </div>
     </div>
 
     <!-- Free note -->
     <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px">💬 Något att tillägga? <span style="font-weight:400;color:var(--text3)">(valfritt)</span></div>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--navy);margin-bottom:6px">Anteckning <span style="font-weight:400;color:var(--text3);text-transform:none;letter-spacing:0">(valfritt)</span></div>
       <textarea id="ci-note" placeholder="T.ex: Knät kändes stelt i början men lättnade, höll nere på reps 3..." 
-        style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;line-height:1.55;resize:none;outline:none;min-height:56px;color:var(--text)"></textarea>
+        style="width:100%;border:1px solid var(--border);padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;line-height:1.55;resize:none;outline:none;min-height:56px;color:var(--text)"></textarea>
     </div>
 
     <button onclick="submitCheckIn('${e(patId)}','${e(visitId)}')"
-      style="width:100%;background:var(--navy);color:white;border:none;border-radius:11px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">
-      Skicka in rapport →
+      style="width:100%;background:var(--navy);color:white;border:none;padding:13px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;letter-spacing:.01em">
+      Skicka rapport
     </button>
   </div>`;
 }
@@ -5542,38 +5789,19 @@ async function submitCheckIn(patId, visitId) {
       : `<div style="color:#7a5000">→ Smärta oförändrad sedan start</div>`;
 
   const feedbackMsg = pain >= 7
-    ? '⚠️ Du rapporterar hög smärta — ta det lugnt och hör av dig till kliniken om det håller i sig.'
+    ? 'Du rapporterar hög smärta — ta det lugnt och hör av dig till kliniken om det håller i sig.'
     : done === 'few'
-      ? '🙂 Bra att du rapporterade. Ditt program kan behöva justeras — din fysioterapeut får koll.'
+      ? 'Du klarade bara delar av passet — det kan vara ett tecken på att programmet behöver justeras. Din fysioterapeut ser detta.'
       : energy === '1'
-        ? '😴 Låg energi kan vara ett tecken på att kroppen behöver mer återhämtning.'
-        : '✅ Bra jobbat! Varje pass du loggar ger din fysioterapeut bättre underlag.';
+        ? 'Låg energi kan vara ett tecken på att kroppen behöver mer återhämtning.'
+        : 'Pass registrerat. Varje pass ger din fysioterapeut bättre underlag för din behandling.';
 
   box.innerHTML = `
-    <div style="text-align:center;padding:6px 0 4px">
-      <div style="font-size:28px;margin-bottom:8px">${streak >= 3 ? '🔥' : '✅'}</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);margin-bottom:4px">
-        ${streak >= 3 ? `${streak} pass i rad!` : 'Pass loggat'}
-      </div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:14px">${new Date(ts).toLocaleString('sv-SE',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}</div>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
-        <div style="background:#f4f6f9;border-radius:10px;padding:10px 6px">
-          <div style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${totalSessions}</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px">Pass totalt</div>
-        </div>
-        <div style="background:#f4f6f9;border-radius:10px;padding:10px 6px">
-          <div style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${streak}${streak>=3?'🔥':''}</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px">I rad</div>
-        </div>
-        <div style="background:#f4f6f9;border-radius:10px;padding:10px 6px">
-          <div style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${pain}/10</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px">NRS idag</div>
-        </div>
-      </div>
-
-      <div style="font-size:12px;line-height:1.7;margin-bottom:10px">${trendStr}</div>
-      <div style="font-size:12px;color:var(--text3);line-height:1.65;background:#f8f9fb;border-radius:10px;padding:11px 13px;text-align:left">${feedbackMsg}</div>
+    <div style="padding:6px 0">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px">Rapport mottagen</div>
+      <div style="font-size:13px;color:var(--navy);font-weight:600;margin-bottom:4px">${new Date(ts).toLocaleDateString('sv-SE',{weekday:'long',day:'numeric',month:'long'})} · ${new Date(ts).toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'})}</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.65;margin-top:8px;padding-top:8px;border-top:1px solid #f0f2f5">${feedbackMsg}</div>
+      ${totalSessions > 1 ? `<div style="font-size:11px;color:var(--text3);margin-top:8px">${totalSessions} pass loggade totalt${streak>=3?' · '+streak+' pass i rad':''}</div>` : ''}
     </div>`;
 }
 
@@ -5611,45 +5839,41 @@ function pubProgressSectionHTML(patId) {
 
   return `
   <div class="zp-section">
-    <div class="zp-sec-hdr">
-      <div class="zp-sec-icon">📊</div>
-      <div class="zp-sec-title">Din progress</div>
-    </div>
-    <div style="padding:12px 16px 16px">
+    <div class="zp-sec-hdr"><div class="zp-sec-title">Din progress</div></div>
+    <div style="padding:4px 18px 16px">
 
       <!-- Stats row -->
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
-        <div style="background:#f4f6f9;border-radius:10px;padding:11px 8px;text-align:center">
+        <div style="background:#f4f6f9;padding:11px 8px;text-align:center">
           <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${totalSessions}</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px">Pass loggade</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:.05em">Pass loggade</div>
         </div>
-        <div style="background:#f4f6f9;border-radius:10px;padding:11px 8px;text-align:center">
-          <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${streak}${streak>=3?'🔥':''}</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px">Pass i rad</div>
+        <div style="background:#f4f6f9;padding:11px 8px;text-align:center">
+          <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${streak}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:.05em">Pass i rad</div>
         </div>
-        <div style="background:#f4f6f9;border-radius:10px;padding:11px 8px;text-align:center">
+        <div style="background:#f4f6f9;padding:11px 8px;text-align:center">
           <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:${trendColor}">${painDelta>0?'+':''}${painDelta}</div>
-          <div style="font-size:10px;color:var(--text3);margin-top:2px">NRS sedan start</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:.05em">NRS sedan start</div>
         </div>
       </div>
 
       <!-- Sparkline -->
-      <div style="background:#f8f9fb;border-radius:10px;padding:12px 14px">
-        <div style="font-size:10px;font-weight:700;color:var(--text4);letter-spacing:.08em;margin-bottom:8px">SMÄRTKURVA (senaste ${recent.length} pass)</div>
+      <div style="background:#f8f9fb;padding:12px 14px">
+        <div style="font-size:9px;font-weight:700;color:var(--text4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Smärttrend (senaste ${recent.length} pass)</div>
         <svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;overflow:visible">
           <polyline points="${points}" fill="none" stroke="${trendColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
           ${xs.map((x,i) => `<circle cx="${x}" cy="${ys[i]}" r="3" fill="${trendColor}" opacity=".9"/>`).join('')}
         </svg>
-        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text4);margin-top:4px">
-          <span>Start: NRS ${painFirst}</span><span>Nu: NRS ${painLatest}</span>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text4);margin-top:4px;font-family:'DM Mono',monospace">
+          <span>Start NRS ${painFirst}</span><span>Nu NRS ${painLatest}</span>
         </div>
       </div>
 
-      <!-- Motivational message -->
-      ${painDelta <= -2 ? `<div style="margin-top:10px;background:#e8f5ee;border-radius:10px;padding:11px 13px;font-size:13px;color:#1a4428;line-height:1.6">
-        🎉 Din smärta har minskat ${Math.abs(painDelta)} poäng sedan du startade — det är ett riktigt bra resultat. Fortsätt!
-      </div>` : avgCompletion >= 0.8 ? `<div style="margin-top:10px;background:#e8f0fe;border-radius:10px;padding:11px 13px;font-size:13px;color:#1a2a6a;line-height:1.6">
-        💪 Du klarar ${Math.round(avgCompletion*100)}% av dina pass fullt ut — det visar på hög disciplin.
+      ${painDelta <= -2 ? `<div style="margin-top:10px;border-left:2px solid #3a9860;padding:10px 13px;font-size:12px;color:#1a4428;line-height:1.6;background:#f5faf6">
+        Din smärta har minskat ${Math.abs(painDelta)} poäng sedan du startade.
+      </div>` : avgCompletion >= 0.8 ? `<div style="margin-top:10px;border-left:2px solid var(--teal);padding:10px 13px;font-size:12px;color:var(--navy);line-height:1.6;background:#f2f8f9">
+        Du genomför ${Math.round(avgCompletion*100)}% av dina pass fullt ut.
       </div>` : ''}
     </div>
   </div>`;
@@ -5836,6 +6060,37 @@ async function sendConsultMessage(patId) {
     const typingEl = document.getElementById(typingId);
     if (typingEl) typingEl.textContent = 'Fel — kontrollera API-nyckel.';
   }
+}
+
+// ── AI-EXTRAHERADE DIAGNOSER ──────────────────────────────────────────────
+async function aiExtractDiagnoses(patId) {
+  const pat = S.patients.find(p=>p.id===patId) || S.pat;
+  if (!pat) return;
+  const key = getKey(); if (!key) return;
+
+  // Build context: SOAP + plan diagnosis
+  const soapTexts = (pat.visits||[]).slice(0,3).map(v => {
+    const s = v.soap||{};
+    return [s.S,s.O,s.A,s.P].filter(Boolean).join(' ');
+  }).join(' ');
+  const planDiags = (pat.visits||[]).map(v => v.form?.diagnosis||v.plan?.diagnosis||'').filter(Boolean).join(', ');
+  const context = [pat.notes||'', planDiags, soapTexts].filter(Boolean).join('\n');
+  if (!context.trim()) return;
+
+  const prompt = `Baserat på följande patientinformation, lista de troligaste diagnoserna/tillstånden i fallande prioritet. Returnera ENBART en JSON-array med strängar, max 5 diagnoser, inga kommentarer, inga backticks.\n\n${context.slice(0,1500)}`;
+  try {
+    const raw = await callAPI(prompt, [], key, MODEL_HAIKU);
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const arr = JSON.parse(clean);
+    if (!Array.isArray(arr)) return;
+    const p2 = S.patients.find(p=>p.id===patId)||S.pat;
+    if (!p2) return;
+    const updated = {...p2, diagnoses: arr, diagnosis: arr[0]||p2.diagnosis||''};
+    const saved = savePat(updated);
+    if (S.pat && S.pat.id === patId) S.pat = saved;
+    // Refresh detail view if open
+    if (S.screen === 'detail' && S.pat?.id === patId) rDetail();
+  } catch(e) {}
 }
 
 // ── 7. AUTOGENERERAD EPIKRIS ─────────────────────────────────────────────
