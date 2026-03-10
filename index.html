@@ -419,15 +419,58 @@
   .phase-next-txt{font-size:12px;color:var(--text2);line-height:1.5;}
   .phase-next-txt strong{color:var(--navy);display:block;margin-bottom:2px;}
 @media print{
-
   .mob-exbody{display:block!important;}
-      .tb,.dcontrols{display:none!important;}
-    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
-    .doc-outer,.jdoc{background:white;}
-    .document,.jdoc{max-width:100%;border:none;}
-  }
+  .tb,.dcontrols,.doc-actions{display:none!important;}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
+  .doc-outer,.jdoc{background:white;}
+  .document,.jdoc{max-width:100%;border:none;}
+}
 
   /* ── EKONOMI ── */
+
+  /* ── AI FEATURES ─────────────────────────────────────────────────────── */
+  /* Mic button */
+  .mic-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:white;color:var(--text3);font-family:'DM Sans',sans-serif;transition:all .15s;flex-shrink:0;}
+  .mic-btn:hover{border-color:var(--teal);color:var(--teal);}
+  .mic-btn.listening{background:#fde8e8;border-color:#c07070;color:#8a2020;animation:pulse 1.2s infinite;}
+  .mic-btn-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0;}
+  /* Snabbintag */
+  .qi-wrap{background:linear-gradient(135deg,var(--navy),#1a4a5a);border-radius:12px;padding:16px 18px;margin-bottom:18px;}
+  .qi-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:8px;}
+  .qi-ta{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:11px 13px;font-size:13px;color:white;font-family:'DM Sans',sans-serif;line-height:1.6;resize:none;min-height:70px;}
+  .qi-ta::placeholder{color:rgba(255,255,255,.35);}
+  .qi-actions{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+  .qi-btn{padding:8px 16px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .15s;}
+  .qi-btn-parse{background:rgba(255,255,255,.15);color:white;}
+  .qi-btn-parse:hover{background:rgba(255,255,255,.25);}
+  .qi-status{font-size:11px;color:rgba(255,255,255,.5);margin-left:4px;}
+  /* Anomaly cards on dashboard */
+  .anomaly-section{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px;}
+  .anomaly-hdr{display:flex;align-items:center;gap:8px;padding:11px 16px;background:#fff8e8;border-bottom:1px solid #f5e0a0;}
+  .anomaly-dot{width:8px;height:8px;border-radius:50%;background:#c8a030;flex-shrink:0;animation:pulse 2s infinite;}
+  .anomaly-row{display:flex;align-items:flex-start;gap:12px;padding:10px 16px;border-bottom:1px solid var(--bg);cursor:pointer;}
+  .anomaly-row:last-child{border-bottom:none;}
+  .anomaly-row:hover{background:var(--bg);}
+  .anomaly-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+  .anomaly-name{font-size:13px;font-weight:600;color:var(--navy);}
+  .anomaly-msg{font-size:11px;color:var(--text3);margin-top:2px;line-height:1.4;}
+  .anomaly-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;}
+  /* Konsultation chat overlay */
+  .consult-ov{position:fixed;inset:0;z-index:600;display:flex;align-items:flex-end;justify-content:center;padding:0;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .18s ease;}
+  .consult-sheet{background:white;border-radius:16px 16px 0 0;width:100%;max-width:600px;height:82vh;display:flex;flex-direction:column;}
+  .consult-header{padding:16px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .consult-messages{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:12px;}
+  .consult-bubble{max-width:85%;padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.6;}
+  .consult-bubble.user{background:var(--navy);color:white;align-self:flex-end;border-radius:12px 12px 3px 12px;}
+  .consult-bubble.ai{background:#f4f6f9;color:var(--text);align-self:flex-start;border-radius:12px 12px 12px 3px;}
+  .consult-input-row{padding:12px 16px 20px;border-top:1px solid var(--border);display:flex;gap:8px;flex-shrink:0;}
+  .consult-inp{flex:1;border:1px solid var(--border);border-radius:8px;padding:10px 13px;font-size:13px;font-family:'DM Sans',sans-serif;outline:none;}
+  .consult-inp:focus{border-color:var(--teal);}
+  /* Clinic insights panel */
+  .insights-panel{background:white;border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:16px;}
+  .insights-ex-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f2f4f7;}
+  .insights-ex-row:last-child{border-bottom:none;}
+  .insights-bar{height:5px;border-radius:3px;background:var(--teal);transition:width .4s;}
 
   /* ── INTAG-FLÖDE ── */
   .ipb-avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.15);color:white;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -538,6 +581,32 @@
   .pub-exbody.open{display:block;}
   .pub-chevron{transition:transform .2s ease;display:inline-block;color:#8a9aaa;font-size:20px;line-height:1;}
   .pub-exhdr.open .pub-chevron{transform:rotate(90deg);}
+  /* ── PUBLIC PLAN REDESIGN ──────────────────────────────────────── */
+  .zp-page{background:#f0f2f6;min-height:100vh;font-family:'DM Sans',sans-serif;}
+  .zp-hero{background:var(--navy);padding:28px 18px 0;position:relative;overflow:hidden;}
+  .zp-hero::before{content:'';position:absolute;top:-80px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(26,122,138,.15);pointer-events:none;}
+  .zp-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,.8);white-space:nowrap;}
+  .zp-chip.accent{background:rgba(26,200,150,.15);border-color:rgba(26,200,150,.25);color:rgba(140,240,200,.95);}
+  .zp-section{background:white;border-radius:16px;margin:10px 14px 0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .zp-sec-hdr{display:flex;align-items:center;gap:9px;padding:14px 16px 10px;border-bottom:1px solid #f2f4f7;}
+  .zp-sec-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:#f0f2f6;}
+  .zp-sec-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);}
+  .zp-excard{border-bottom:1px solid #f2f4f7;}
+  .zp-excard:last-child{border-bottom:none;}
+  .zp-exhdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .zp-exhdr:active{background:#f8f9fa;}
+  .zp-exnum{width:32px;height:32px;border-radius:9px;background:var(--navy);color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .zp-exbody{display:none;padding:0 16px 16px;border-top:1px solid #f2f4f7;}
+  .zp-exbody.open{display:block;}
+  .zp-exhdr.open .zp-chevron{transform:rotate(90deg);}
+  .zp-chevron{font-size:18px;color:#c8d0d8;flex-shrink:0;transition:transform .18s;display:inline-block;}
+  .zp-step{display:flex;gap:10px;align-items:flex-start;padding:6px 0;}
+  .zp-step-num{width:22px;height:22px;border-radius:6px;background:var(--teal);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .zp-pass-bar{position:sticky;bottom:0;background:linear-gradient(to top,#f0f2f6 85%,transparent);padding:14px 14px 22px;z-index:10;}
+  .zp-pass-btn{width:100%;background:linear-gradient(135deg,#1a7a8a,#16a8b8);color:white;font-size:16px;font-weight:700;padding:17px;border-radius:14px;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(26,122,138,.38);-webkit-tap-highlight-color:transparent;transition:transform .1s,opacity .1s;letter-spacing:.01em;}
+  .zp-pass-btn:active{transform:scale(.98);opacity:.9;}
+  .zp-footer{margin:10px 14px 0;background:var(--navy);border-radius:16px;padding:22px 20px;}
+  @media print{.zp-pass-bar{display:none!important;}.zp-exbody{display:block!important;}}
   /* ── BETALSTATUS ── */
   .pay-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:opacity .12s;user-select:none;}
   .pay-badge:hover{opacity:.8;}
@@ -652,12 +721,7 @@
   <div id="s-sbs-soap" class="screen"></div>
   <div id="s-patjournal" class="screen"></div>
 </div>
-<div id="crash-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#8a2020;color:white;padding:10px 20px;font-size:12px;z-index:999;display:flex;align-items:center;gap:10px">
-  <span>Osparade ändringar — senast sparad: <span id="last-saved-txt">aldrig</span></span>
-  <button onclick="manualSave()" style="background:white;color:#8a2020;border:none;border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer;font-weight:600">Spara nu</button>
-  <button onclick="exportBackup()" style="background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:4px 10px;font-size:11px;cursor:pointer">Ladda ner backup</button>
-  <button onclick="document.getElementById('crash-banner').style.display='none'" style="background:transparent;border:none;color:rgba(255,255,255,0.6);cursor:pointer;margin-left:auto;font-size:16px">×</button>
-</div>
+
 <div id="autosave-toast" style="display:none;position:fixed;bottom:16px;right:16px;background:var(--navy);color:white;padding:8px 16px;border-radius:6px;font-size:11px;z-index:998;opacity:0;transition:opacity .3s">Autosparad</div>
 <div class="modal-ov" id="modal">
   <div class="modal">
@@ -815,6 +879,7 @@ let _unsavedChanges=false;
 let _autoSaveInterval=null;
 
 function markUnsaved(){
+  if (window._isPublicPlan) return;
   _unsavedChanges=true;
   const b=document.getElementById('crash-banner');
   if(b) b.style.display='flex';
@@ -1058,6 +1123,10 @@ function rDashboard() {
       <button class="btn btn-p" style="padding:14px 20px;flex:1;min-width:120px;font-size:13px" onclick="go('list')">Alla patienter →</button>
     </div>
 
+    ${renderAnomalySection(S.patients)}
+
+    <div id="adaptive-alerts" class="anomaly-section" style="display:none"></div>
+
     <div class="dash-cols">
       <div class="dash-panel">
         <div class="dash-panel-hdr">
@@ -1079,7 +1148,10 @@ function rDashboard() {
       </div>
       <div class="dash-panel-body" style="padding:14px 16px">${diagHtml}</div>
     </div>
+    ${renderClinicInsightsHTML(S.patients)}
   `;
+  // Async: check for pass_log pain reports
+  setTimeout(() => checkAdaptivePlanAlerts(S.patients), 800);
 }
 
 // Quick actions from dashboard — no patient required upfront
@@ -1176,6 +1248,11 @@ function getCurrentPhase(pat) {
 
 function setPhase(phaseId) {
   if (!S.pat) return;
+  const cur = getCurrentPhase(S.pat);
+  if (phaseId < cur) {
+    // Downgrade — ask for confirmation
+    if (!confirm(`Justera ner till Fas ${phaseId}? Patienten återgår till en tidigare fas.`)) return;
+  }
   S.pat = savePat({...S.pat, phase: phaseId});
   rDetail();
 }
@@ -1216,19 +1293,22 @@ function renderPhaseBar(pat) {
     const bg = active ? 'var(--navy)' : done ? 'var(--teal)' : 'var(--border)';
     return `<div onclick="setPhase(${p.id})" title="${p.name}" style="width:8px;height:8px;border-radius:50%;background:${bg};cursor:pointer;flex-shrink:0;transition:background .15s"></div>`;
   }).join('');
+  const back = cur > 1
+    ? `<button class="btn" style="font-size:11px;padding:4px 10px;flex-shrink:0;color:var(--text3)" onclick="setPhase(${cur-1})">← Fas ${cur-1}</button>`
+    : '';
   const advance = next
     ? `<button class="btn btn-p" style="font-size:11px;padding:4px 10px;flex-shrink:0" onclick="setPhase(${next.id})">→ ${next.label}</button>`
     : `<span style="font-size:11px;color:var(--green);font-weight:600">Slutförd</span>`;
   return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--teal3);border:1px solid var(--teal);border-radius:8px;margin-bottom:12px">
     <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">${dots}</div>
     <div style="font-size:12px;font-weight:600;color:var(--navy);flex:1">${ph.label} — ${ph.name}${nextDue?`<span style="font-weight:400;color:var(--teal);margin-left:6px">· ${nextDue}</span>`:''}</div>
-    ${advance}
+    ${back}${advance}
   </div>`;
 }
 
 function renderPhaseNext(pat) { return ''; }
 
-function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().getFullYear()-birthdateToYear(p.birthdate||p.birthYear||"");let h=renderPhaseBar(p)+renderPhaseNext(p)+`<div class="det-hdr"><div><div class="det-name">${e(p.name||"Namnlös")}</div><div class="det-diag">${e(p.diagnosis||"")}</div><div class="det-meta"><div><div class="dml">Födelsedatum</div><div class="dmv">${p.birthdate||"—"}</div></div><div><div class="dml">E-post</div><div class="dmv">${p.email||"—"}</div></div><div><div class="dml">Ålder</div><div class="dmv">${age} år</div></div><div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div><div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div></div></div><div class="det-actions">${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Tillbaka till plan</button>`:""}<button class="btn" onclick="go('patjournal')">Exportera journal</button>${(p.visits||[]).length>=2?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Framstegsnotering</button>`:""}<button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera patient</button><button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button></div></div><div class="vlbl">Besökshistorik</div>${renderPainGraph(p)}`;if(!p.visits||!p.visits.length){h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:#4a9aaa">Skapa första besöket</a></div>`;}else{p.visits.forEach((v,idx)=>{const st=v.status||"Aktiv";const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};const exp=v._exp||false;const pay=v.payStatus||'unpaid';const payLabel={paid:'Betald',unpaid:'Obetald',invoiced:'Fakturerad'}[pay];h+=`<div class="vcard ${idx===0?"latest":""}">
+function rDetail(){const p=S.pat;if(!p){go("list");return;}const age=new Date().getFullYear()-birthdateToYear(p.birthdate||p.birthYear||"");let h=renderPhaseBar(p)+renderPhaseNext(p)+`<div class="det-hdr"><div><div class="det-name">${e(p.name||"Namnlös")}</div><div class="det-diag">${e(p.diagnosis||"")}</div><div class="det-meta"><div><div class="dml">Födelsedatum</div><div class="dmv">${p.birthdate||"—"}</div></div><div><div class="dml">E-post</div><div class="dmv">${p.email||"—"}</div></div><div><div class="dml">Ålder</div><div class="dmv">${age} år</div></div><div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div><div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div></div></div><div class="det-actions">${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Tillbaka till plan</button>`:""}<button class="btn" onclick="go('patjournal')">Exportera journal</button>${(p.visits||[]).length>=1?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}<button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera patient</button><button class="btn" onclick="openConsultation('${p.id}')">🩺 AI-konsultation</button>${(p.visits||[]).length>=1?`<button class="btn" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">Generera epikris</button>`:""}${(p.visits||[]).length>=1?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}<button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button></div></div><div class="vlbl">Besökshistorik</div>${renderPainGraph(p)}${renderPatientReportsPanel(p.id)}`;if(!p.visits||!p.visits.length){h+=`<div style="color:#4a5a6a;font-size:13px;padding:26px 0;text-align:center">Inga besök ännu. <a href="#" onclick="newVisit();return false" style="color:#4a9aaa">Skapa första besöket</a></div>`;}else{p.visits.forEach((v,idx)=>{const st=v.status||"Aktiv";const sc=SCOL[st]||{bg:'#eef0f3',col:'#5a6a7a'};const exp=v._exp||false;const pay=v.payStatus||'unpaid';const payLabel={paid:'Betald',unpaid:'Obetald',invoiced:'Fakturerad'}[pay];h+=`<div class="vcard ${idx===0?"latest":""}">
   <div class="vhdr" onclick="togVisit('${v.id}')">
     <span class="vnum">0${p.visits.length-idx}</span>
     <div class="vinfo">
@@ -1296,7 +1376,7 @@ function viewPlan(vid){
   S.visitId=vid;S.plan=v.plan;S.form=v.form||dform();go('doc');
 }
 function editVisit(vid){const p=S.pat;if(!p)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;S.visitId=vid;S.form=v.form||dform();S.plan=v.plan||null;go("form");}
-function rForm(){const f=S.form;const pc=f.pain>=7?"#c07070":f.pain>=4?"#c8a030":"#5a9860";const mc=f.motivation>=7?"#5a9860":f.motivation>=4?"#c8a030":"#c07070";const title=S.visitId?"Redigera besök":S.pat?"Nytt besök — "+S.pat.name:"Ny patient";let h=`<div class="fwrap"><div class="ftitle">${e(title)}</div><div class="fsub">Fyll i uppgifter — AI genererar vetenskapligt baserade övningar</div>${S.pat?`<div class="phase-next" style="margin-bottom:16px"><div class="phase-next-txt"><strong>${PHASES[getCurrentPhase(S.pat)-1].icon} ${PHASES[getCurrentPhase(S.pat)-1].label} — ${PHASES[getCurrentPhase(S.pat)-1].name}</strong>${PHASES[getCurrentPhase(S.pat)-1].desc}</div><button class="btn" style="font-size:11px;padding:5px 12px;flex-shrink:0" onclick="go('detail')">Ändra fas</button></div>`:""}<div id="ferr"></div><span class="slabel">Patient</span><div class="twocol" style="margin-bottom:11px"><input class="field" placeholder="Namn" value="${e(f.name)}" oninput="S.form.name=this.value"><input class="field" placeholder="Födelsedatum (891022 eller 1989-10-22)" value="${e(f.birthdate||S.pat?.birthdate||'')}" oninput="S.form.birthdate=parseBirthdate(this.value)"></div><select class="field" style="margin-bottom:9px" onchange="S.form.diagnosis=this.value;rForm();setTimeout(()=>fetchClinHint(S.form.diagnosis),50)">${DIAGS.map(d=>`<option ${d===f.diagnosis?"selected":""}>${e(d)}</option>`).join("")}</select>${f.diagnosis==="Annan / fritext"?`<input class="field" style="margin-bottom:11px" placeholder="Beskriv diagnos..." value="${e(f.customDiag)}" oninput="S.form.customDiag=this.value">`:""}`;h+=`<span class="slabel">Klinisk bedömning</span>${sl("Smärtskala (NRS)","pain",0,10,pc,"")}${sl("Motivation","motivation",1,10,mc,"")}<div class="twocol">${sl("Antal övningar","exercises",3,8,"var(--teal-l)","")}${sl("Återbesök om","followup",1,12,"#8a9aaa"," v")}</div>`;h+=`<span class="slabel">Bakgrund</span><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningshistorik</div><div class="chips">${ch("history",["ingen","sporadisk","regelbunden"],["Ingen","Sporadisk","Regelbunden"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Kunskapsnivå</div><div class="chips">${ch("knowledge",["låg","medel","hög"],["Låg","Medel","Hög"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningsplats</div><div class="chips">${ch("location",["hem","gym"],["Hemma","Gym"])}</div>`;h+=`<span class="slabel">Klinisk fokus & anpassningar</span><div id="clin-suggest" style="margin-bottom:12px"></div>
+function rForm(){const f=S.form;const pc=f.pain>=7?"#c07070":f.pain>=4?"#c8a030":"#5a9860";const mc=f.motivation>=7?"#5a9860":f.motivation>=4?"#c8a030":"#c07070";const title=S.visitId?"Redigera besök":S.pat?"Nytt besök — "+S.pat.name:"Ny patient";let h=`<div class="fwrap"><div class="ftitle">${e(title)}</div><div class="fsub">Fyll i uppgifter — AI genererar vetenskapligt baserade övningar</div>${S.pat?`<div class="phase-next" style="margin-bottom:16px"><div class="phase-next-txt"><strong>${PHASES[getCurrentPhase(S.pat)-1].icon} ${PHASES[getCurrentPhase(S.pat)-1].label} — ${PHASES[getCurrentPhase(S.pat)-1].name}</strong>${PHASES[getCurrentPhase(S.pat)-1].desc}</div><button class="btn" style="font-size:11px;padding:5px 12px;flex-shrink:0" onclick="go('detail')">Ändra fas</button></div>`:""}${smartIntakeHTML()}<div id="ferr"></div><span class="slabel">Patient</span><div class="twocol" style="margin-bottom:11px"><input class="field" placeholder="Namn" value="${e(f.name)}" oninput="S.form.name=this.value"><input class="field" placeholder="Födelsedatum (891022 eller 1989-10-22)" value="${e(f.birthdate||S.pat?.birthdate||'')}" oninput="S.form.birthdate=parseBirthdate(this.value)"></div><select class="field" style="margin-bottom:9px" onchange="S.form.diagnosis=this.value;rForm();setTimeout(()=>fetchClinHint(S.form.diagnosis),50)">${DIAGS.map(d=>`<option ${d===f.diagnosis?"selected":""}>${e(d)}</option>`).join("")}</select>${f.diagnosis==="Annan / fritext"?`<input class="field" style="margin-bottom:11px" placeholder="Beskriv diagnos..." value="${e(f.customDiag)}" oninput="S.form.customDiag=this.value">`:""}`;h+=`<span class="slabel">Klinisk bedömning</span>${sl("Smärtskala (NRS)","pain",0,10,pc,"")}${sl("Motivation","motivation",1,10,mc,"")}<div class="twocol">${sl("Antal övningar","exercises",3,8,"var(--teal-l)","")}${sl("Återbesök om","followup",1,12,"#8a9aaa"," v")}</div>`;h+=`<span class="slabel">Bakgrund</span><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningshistorik</div><div class="chips">${ch("history",["ingen","sporadisk","regelbunden"],["Ingen","Sporadisk","Regelbunden"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Kunskapsnivå</div><div class="chips">${ch("knowledge",["låg","medel","hög"],["Låg","Medel","Hög"])}</div><div style="font-size:11px;color:#5a6a7a;margin-bottom:5px">Träningsplats</div><div class="chips">${ch("location",["hem","gym"],["Hemma","Gym"])}</div>`;h+=`<span class="slabel">Klinisk fokus & anpassningar</span><div id="clin-suggest" style="margin-bottom:12px"></div>
 <div class="hint">Styr AI:ns övningsval. Var specifik — lokalisering, rörelsemönster, undvikanden, mål.</div><textarea class="field" rows="4" style="resize:vertical;line-height:1.6" placeholder="Exempel:&#10;— Artros medialt knäled höger sida&#10;— Fokus på höftstabilitet&#10;— Undvik axiell belastning" oninput="S.form.notes=this.value">${e(f.notes)}</textarea><button class="genbtn" id="gbtn" onclick="doGen()">${S.visitId?"Regenerera plan":"Generera rehabplan"}</button></div>`;document.getElementById("s-form").innerHTML=h;fetchClinHint(f.diagnosis);}
 function sl(label,field,min,max,color,unit){const v=S.form[field];return `<div class="slwrap"><div class="slhd"><span class="sllbl">${label}</span><span class="slval" id="sv-${field}" style="color:${color}">${v}${unit}</span></div><input type="range" min="${min}" max="${max}" value="${v}" style="accent-color:${color}" oninput="S.form.${field}=parseInt(this.value);document.getElementById('sv-${field}').textContent=this.value+'${unit}'"></div>`;}
 function ch(field,vals,labels){return vals.map((v,i)=>`<button class="chip ${S.form[field]===v?"on":""}" onclick="S.form.${field}='${v}';rForm()">${labels[i]}</button>`).join("");}
@@ -1306,7 +1386,21 @@ async function doGen(){
   S.form.phaseInstruction = getPhasePromptAddition(ph);
 const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:""};const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
 function buildPr(f,locked=[]){const age=new Date().getFullYear()-birthdateToYear(f.birthdate||f.birthYear);const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";const n=f.exercises-locked.length;return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;}
-async function callAPI(prompt,locked,key){const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:4000,system:"Du är senior fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});if(!res.ok){const er=await res.json().catch(()=>({}));throw new Error(er.error?.message||"API-fel "+res.status);}const d=await res.json();const t=(d.content||[]).map(b=>b.text||"").join("").replace(/```json|```/g,"").trim();if(!t)throw new Error("Tomt svar från API — försök igen.");return JSON.parse(t);}
+// ── API MODELS ────────────────────────────────────────────────────────────────
+const MODEL_SONNET = 'claude-sonnet-4-20250514'; // Komplex planering, SOAP-analys
+const MODEL_HAIKU  = 'claude-haiku-4-5-20251001'; // Snabba enkla anrop — 80% billigare
+
+async function callAPI(prompt,locked,key){
+  // Split prompt: cache the static schema part, dynamic patient data stays live
+  const staticPart = prompt.slice(prompt.indexOf('\n\nGenerera'));
+  const dynPart = prompt.slice(0, prompt.indexOf('\n\nGenerera'));
+  const res=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-beta":"prompt-caching-2024-07-31","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:MODEL_SONNET,max_tokens:4000,system:[{type:"text",text:"Du är senior fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",cache_control:{type:"ephemeral"}}],messages:[{role:"user",content:[{type:"text",text:dynPart},{type:"text",text:staticPart,cache_control:{type:"ephemeral"}}]}]})});
+  if(!res.ok){const er=await res.json().catch(()=>({}));throw new Error(er.error?.message||"API-fel "+res.status);}
+  const d=await res.json();
+  const t=(d.content||[]).map(b=>b.text||"").join("").replace(/```json|```/g,"").trim();
+  if(!t)throw new Error("Tomt svar från API — försök igen.");
+  return JSON.parse(t);
+}
 function rLoading(){
   const steps=["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer klinisk rehabplan"];
   const pct = Math.round((S.loadStep/3)*100);
@@ -1370,7 +1464,7 @@ function rDoc(){
         <div style="background:rgba(255,255,255,.1);border-radius:20px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,.8)">${exCount} övningar</div>
       </div>
     </div>
-    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch">
+    <div class="doc-actions" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch">
       <button class="btn" onclick="initEditEx()" style="white-space:nowrap;font-size:12px;padding:8px 14px;flex-shrink:0">Byt övningar</button>
       <button class="btn" onclick="togglePlanEdit()" style="white-space:nowrap;font-size:12px;padding:8px 14px;flex-shrink:0">Redigera</button>
       <button class="btn btn-p" onclick="sharePlan(S.visitId)" style="white-space:nowrap;font-size:12px;padding:8px 14px;flex-shrink:0">Dela länk</button>
@@ -2100,7 +2194,7 @@ async function runClinicalAnalysis(text) {
   })() : '';
   const prompt = `Du är erfaren klinisk fysioterapeut som handleder en kollega i realtid. Analysera materialet nedan. Svara ENBART med JSON utan backticks.\n\n${patInfo}\n\nTEXT/TRANSKRIPT:\n${text.slice(-2000)}\n\nJSON-format:\n{"tentativeDiagnosis":[{"name":"Diagnos","icd10":"M54.5","probability":"Hög","reasoning":"kortfattad motivering"}],"redFlags":[],"missingInfo":["fråga 1","fråga 2"],"priorityTests":[{"test":"Testnamn","rationale":"varför","finding":"förväntat fynd"}],"treatmentGuidelines":["riktlinje 1","riktlinje 2"],"nextStep":"Vad du bör göra härnäst"}\n\nViktigt: icd10 ska vara exakt ICD-10 kod (t.ex. M54.5, M75.1, S83.2). Inkludera alltid icd10 i varje diagnos.`;
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1200,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
+    const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:MODEL_HAIKU,max_tokens:1200,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
     const data = await res.json();
     const txt = (data.content||[]).map(b=>b.text||'').join('');
     const cleaned = txt.replace(/```json|```/g,'').trim();
@@ -2270,10 +2364,10 @@ Filtrera bort allt som INTE är medicinskt relevant — vardagsprat, hälsningar
     S.loadStep = 2;
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: {"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+      headers: {"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-beta":"prompt-caching-2024-07-31","anthropic-dangerous-direct-browser-access":"true"},
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514", max_tokens: 6000,
-        system: "Du är erfaren fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",
+        model: MODEL_SONNET, max_tokens: 6000,
+        system: [{type:"text",text:"Du är erfaren fysioterapeut. Svara ALLTID med giltig JSON. Inga backticks.",cache_control:{type:"ephemeral"}}],
         messages: [{role:"user", content:prompt}]
       })
     });
@@ -2350,23 +2444,7 @@ function rSOAP() {
 async function saveSOAPOnly() {
   await saveSOAPToVisit(false);
   resetMeeting();
-  // Show option to create rehab plan
-  const ov = document.createElement('div');
-  ov.id = 'post-journal-overlay';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:20px';
-  ov.innerHTML = `<div style="background:white;border-radius:16px 16px 0 0;width:100%;max-width:540px;padding:24px 20px 40px">
-    <div style="font-size:17px;font-weight:600;color:var(--navy);margin-bottom:6px">Journal sparad</div>
-    <div style="font-size:13px;color:var(--text3);margin-bottom:20px">Vill du skapa en rehabplan för detta besök?</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button onclick="document.getElementById('post-journal-overlay').remove();prepVisitForm(S.pat?.id);go('form')" style="background:var(--navy);color:white;border:none;border-radius:10px;padding:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit">
-        Skapa rehabplan
-      </button>
-      <button onclick="document.getElementById('post-journal-overlay').remove();go('detail')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px;font-size:14px;color:var(--text2);cursor:pointer;font-family:inherit">
-        Tillbaka till kundkort
-      </button>
-    </div>
-  </div>`;
-  document.body.appendChild(ov);
+  go('detail');
 }
 
 async function saveSOAPAndPlan() {
@@ -2528,9 +2606,12 @@ function rManualSOAP() {
     
     ${soapFields.map(f=>`
     <div class="msoap-section">
-      <div class="msoap-hdr">
-        <div class="msoap-lbl ${f.l}">${f.l}</div>
-        <div class="msoap-name">${f.name}</div>
+      <div class="msoap-hdr" style="justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="msoap-lbl ${f.l}">${f.l}</div>
+          <div class="msoap-name">${f.name}</div>
+        </div>
+        ${micBtnHTML('ms-'+f.l, f.l)}
       </div>
       <textarea class="msoap-ta" id="ms-${f.l}" placeholder="${f.ph}" oninput="triggerClinicalAnalysis(collectMSOAPText());autoSaveJournalDraft()">${e(soap[f.l]||'')}</textarea>
     </div>`).join('')}
@@ -2601,7 +2682,7 @@ JSON:
 {"pain":5,"motivation":6,"history":"ingen","knowledge":"låg","location":"hem","exercises":5,"followup":4,"clinicalFocus":"specifika fynd och fokusområden"}
 
 pain 0-10, motivation 1-10, history: ingen/sporadisk/regelbunden, knowledge: låg/medel/hög, location: hem/gym`;
-      const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:500,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
+      const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:MODEL_HAIKU,max_tokens:500,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
       S.loadStep = 3;
       const data = await res.json();
       const text = (data.content||[]).map(b=>b.text||'').join('');
@@ -3109,8 +3190,34 @@ function copySOAP() {
 // ── INTAKE FLOW ───────────────────────────────────────────────────────────────
 let SBS_PREV = null; // previous visit for comparison
 
+function sbsSwitchPrev(visitId) {
+  const v = (S.pat&&S.pat.visits||[]).find(x=>x.id===visitId);
+  if (!v) return;
+  // Save current textarea values before re-render
+  ['S','O','A','P'].forEach(l => {
+    const el = document.getElementById('sbs-'+l);
+    if (el) currentSOAP.soap[l] = el.value;
+  });
+  const fe = document.getElementById('sbs-focus');
+  if (fe) currentSOAP.clinicalFocus = fe.value;
+  SBS_PREV = v;
+  rSBSsoap();
+}
+
+function sbsGetText() {
+  return ['S','O','A','P'].map(l => {
+    const el = document.getElementById('sbs-'+l); return el ? el.value : '';
+  }).join('\n');
+}
+
+function sbsAutoSaveAndNotify() {
+  autoSaveJournalDraft();
+  showAutoSaveToast('Utkast sparat ✓');
+}
+
 function startSBSsoap(prevVisit) {
   SBS_PREV = prevVisit;
+  const draft = checkJournalDraft();
   currentSOAP = {
     soap: {S:'',O:'',A:'',P:''},
     diagnosis: S.pat&&S.pat.diagnosis||'',
@@ -3131,6 +3238,7 @@ function startSBSsoap(prevVisit) {
     manual: true
   };
   go('sbs-soap');
+  if (draft) restoreJournalDraft(draft);
 }
 
 function rSBSsoap() {
@@ -3143,6 +3251,10 @@ function rSBSsoap() {
   const prevPain = prev.soapMeta&&prev.soapMeta.pain || prev.form&&prev.form.pain || '—';
   const currSoap = currentSOAP&&currentSOAP.soap||{};
 
+  // All visits with soap for navigator
+  const allVisits = (p&&p.visits||[]).filter(v => v.soap || v.plan);
+  const currIdx = allVisits.findIndex(v => v.id === prev.id);
+
   const labels = {S:'Subjektivt',O:'Objektivt',A:'Bedömning',P:'Plan'};
   const descs = {S:'patientens berättelse',O:'undersökningsfynd',A:'diagnos & funktionsnivå',P:'åtgärder & uppföljning'};
 
@@ -3152,12 +3264,25 @@ function rSBSsoap() {
         <div class="page-title">Journal — Återbesök</div>
         <div style="font-size:12px;color:var(--text3)">${e(p&&p.name||'')} · ${new Date().toLocaleDateString('sv-SE')}</div>
       </div>
-      <div style="display:flex;gap:8px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn" onclick="go('detail')">← Tillbaka</button>
+        <button class="btn" onclick="sbsAutoSaveAndNotify()" style="background:#e8f5ee;color:#1a5a30;border-color:#a0d8b0">Spara utkast</button>
         <button class="btn btn-p" onclick="saveSBSsoap(false)">Spara journal</button>
         <button class="btn btn-navy" onclick="saveSBSsoap(true)">Spara & skapa rehabplan →</button>
       </div>
-    </div>`;
+    </div>
+
+    ${allVisits.length > 1 ? `
+    <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+      <div style="font-size:11px;font-weight:600;color:var(--text3);white-space:nowrap">Jämför med:</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1">
+        ${allVisits.map((v,i) => `
+          <button onclick="sbsSwitchPrev('${v.id}')" style="padding:5px 11px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${v.id===prev.id?'var(--teal)':'var(--border)'};background:${v.id===prev.id?'var(--teal3)':'white'};color:${v.id===prev.id?'var(--teal)':'var(--text3)'};font-family:inherit">
+            ${v.date||'Besök '+(i+1)}
+          </button>`).join('')}
+      </div>
+      <div style="font-size:11px;color:var(--text4)">${allVisits.length} besök</div>
+    </div>` : ''}`;
 
   // Pain comparison row
   const currPainEl = currentSOAP&&currentSOAP.pain||5;
@@ -3179,7 +3304,6 @@ function rSBSsoap() {
       ${delta!==null?`<span class="sbs-delta ${delta<0?'better':delta>0?'worse':'same'}">${delta<0?'▼ '+Math.abs(delta)+' bättre':delta>0?'▲ '+delta+' sämre':'= Oförändrad'}</span>`:''}
     </div>`;
 
-  // Previous goals if any
   if (prevPlan && prevPlan.goals && prevPlan.goals.length) {
     h += `<div class="sbs-pain-box">
       <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);margin-bottom:6px">Mål från förra planen</div>`;
@@ -3190,7 +3314,7 @@ function rSBSsoap() {
   }
   h += `</div>`;
 
-  // ── SOAP columns ──
+  // SOAP columns
   h += `<div class="sbs-top">
     <div class="sbs-col-label prev">Föregående besök <span class="sbs-col-detail">${prev.date||'—'}</span></div>
     <div class="sbs-col-label curr">Aktuellt besök <span class="sbs-col-detail">${new Date().toLocaleDateString('sv-SE')}</span></div>
@@ -3211,13 +3335,14 @@ function rSBSsoap() {
         <div class="sbs-prev-body">${prevText ? e(prevText) : '<span style="color:var(--text4);font-size:11px">Inget dokumenterat</span>'}</div>
       </div>
       <div class="sbs-panel" style="border-color:var(--teal)">
-        <div class="sbs-phdr" style="background:var(--teal3)"><div class="sbs-letter ${letter}">${letter}</div><div class="sbs-pname">${labels[letter]} — skriv nu</div></div>
-        <textarea class="sbs-curr-ta" id="sbs-${letter}" placeholder="${placeholder}" oninput="currentSOAP.soap['${letter}']=this.value">${e(currSoap[letter]||'')}</textarea>
+        <div class="sbs-phdr" style="background:var(--teal3);justify-content:space-between"><div style="display:flex;align-items:center;gap:6px"><div class="sbs-letter ${letter}">${letter}</div><div class="sbs-pname">${labels[letter]} — skriv nu</div></div>${micBtnHTML('sbs-'+letter, letter)}</div>
+        <textarea class="sbs-curr-ta" id="sbs-${letter}" placeholder="${placeholder}"
+          oninput="currentSOAP.soap['${letter}']=this.value;triggerClinicalAnalysis(sbsGetText());autoSaveJournalDraft()">${e(currSoap[letter]||'')}</textarea>
       </div>
     </div>`;
   });
 
-  // Previous exercises
+  // Previous exercises + clinical focus
   if (prevPlan && prevPlan.exercises && prevPlan.exercises.length) {
     h += `<div class="sbs-section">
       <div class="sbs-panel">
@@ -3229,7 +3354,8 @@ function rSBSsoap() {
     h += `</div></div>
       <div class="sbs-panel" style="border-color:var(--teal)">
         <div class="sbs-phdr" style="background:var(--teal3)"><div style="font-size:12px;font-weight:600;color:var(--teal)">Kliniskt fokus för ny rehabplan</div></div>
-        <textarea class="sbs-curr-ta" id="sbs-focus" placeholder="Vad ska ny plan fokusera på? Vilka övningar fungerade bra/dåligt? Anpassningar..." style="min-height:120px" oninput="currentSOAP.clinicalFocus=this.value">${e(currentSOAP&&currentSOAP.clinicalFocus||'')}</textarea>
+        <textarea class="sbs-curr-ta" id="sbs-focus" placeholder="Vad ska ny plan fokusera på? Vilka övningar fungerade bra/dåligt? Anpassningar..."
+          style="min-height:120px" oninput="currentSOAP.clinicalFocus=this.value;autoSaveJournalDraft()">${e(currentSOAP&&currentSOAP.clinicalFocus||'')}</textarea>
       </div>
     </div>`;
   }
@@ -3253,8 +3379,11 @@ function rSBSsoap() {
     </div>
   </div>
 
-  <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end">
+  ${clinicalPanelHTML()}
+
+  <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;flex-wrap:wrap">
     <button class="btn" onclick="go(S.pat?'detail':'list')">Avbryt</button>
+    <button class="btn" onclick="sbsAutoSaveAndNotify()" style="background:#e8f5ee;color:#1a5a30;border-color:#a0d8b0">Spara utkast</button>
     <button class="btn btn-p" style="padding:12px 24px" onclick="saveSBSsoap(false)">Spara journal</button>
     <button class="btn btn-navy" style="padding:12px 24px" onclick="saveSBSsoap(true)">Spara & skapa ny rehabplan →</button>
   </div>
@@ -3262,6 +3391,7 @@ function rSBSsoap() {
 
   el.innerHTML = h;
 }
+
 
 async function saveSBSsoap(goPlan) {
   // Read live textarea values
@@ -3601,7 +3731,7 @@ Tack för ditt besök hos ${clinic.name} ${visitDate||''}.
 Din personliga rehabplan finns här:
 ${liveUrl}
 
-Öppna länken i din telefon — planen innehåller alla övningar med instruktioner, veckoschema och smärthanteringsråd. Planen uppdateras automatiskt om vi gör ändringar.
+Vi använder Zenya — ett digitalt verktyg från Kansei — för att skicka din rehabplan direkt till din telefon. Öppna länken för att se alla övningar med instruktioner, veckoschema och smärthanteringsråd. Planen uppdateras automatiskt om vi gör ändringar.
 `;
   }
 
@@ -3699,40 +3829,64 @@ function renderRedFlagBanner(flags) {
   </div>`;
 }
 
-// ── AUTOMATISK FRAMSTEGSNOTERING ──────────────────────────────────────────────
+// ── PATIENTANALYS (tidigare: framstegsnotering) ───────────────────────────────
 
 async function generateProgressNote(pat) {
-  const visits = (pat.visits||[]);
-  if (visits.length < 2) return null;
-
-  const current = visits[0]; // most recent
-  const prev = visits[1];
-
+  const visits = (pat.visits||[]).slice(); // newest first
+  if (visits.length < 1) return null;
   const key = getKey();
   if (!key) return null;
 
-  const prevSoap = prev.soap ? Object.entries(prev.soap).map(([k,v]) => `${k}: ${v}`).join('\n') : '';
-  const currSoap = current.soap ? Object.entries(current.soap).map(([k,v]) => `${k}: ${v}`).join('\n') : '';
-  const prevPain = prev.form?.pain ?? '—';
-  const currPain = current.form?.pain ?? '—';
-  const prevDate = prev.date || '—';
-  const currDate = current.date || '—';
+  // Build a structured summary of ALL visits
+  const visitSummaries = visits.map((v, i) => {
+    const soap = v.soap ? Object.entries(v.soap).filter(([,val])=>val).map(([k,val])=>`  ${k}: ${val}`).join('\n') : '';
+    const pain = v.form?.pain ?? v.soapMeta?.pain ?? '—';
+    const diag = v.form?.diagnosis || v.plan?.diagnosis || '';
+    const planSummary = v.plan?.exercises?.length
+      ? `  Plan: ${v.plan.exercises.length} övningar (${v.plan.exercises.slice(0,3).map(e=>e.name).join(', ')}${v.plan.exercises.length>3?'...':''})`
+      : '';
+    return `Besök ${visits.length - i} (${v.date||'okänt datum'})${diag?' — '+diag:''}:\n  NRS: ${pain}/10\n${soap}${planSummary}`;
+  }).join('\n\n');
 
-  const prompt = `Du är fysioterapeut. Skriv en kort automatisk framstegsnotering (3-5 meningar på svenska) baserat på dessa två besök.
+  // Detect time gaps
+  const dateFirst = visits[visits.length-1]?.date;
+  const dateLast = visits[0]?.date;
+  const totalMonths = (dateFirst && dateLast)
+    ? Math.round((new Date(dateLast)-new Date(dateFirst)) / (1000*60*60*24*30))
+    : null;
 
-Besök 1 (${prevDate}): NRS ${prevPain}/10
-${prevSoap}
+  const timeContext = totalMonths !== null
+    ? (totalMonths > 12
+        ? `Patienten har ett långt uppföljningsförlopp (${totalMonths} månader) med möjliga uppehåll. Ta hänsyn till tidsgapen mellan besök.`
+        : `Besöken sträcker sig över ${totalMonths} månader.`)
+    : '';
 
-Besök 2 (${currDate}): NRS ${currPain}/10  
-${currSoap}
+  const prompt = `Du är leg. fysioterapeut. Skriv en klinisk patientanalys på svenska som passar som:
+- Underlag inför nästa besök
+- Kollegauppdatering vid överlämning
+- Intern journalanteckning
 
-Fokusera på: förändring i smärta, funktionsförbättring, compliance med övningar. Inga rubriker, ren löptext. Max 5 meningar.`;
+Patient: ${pat.name||'Okänd'}
+Diagnos: ${pat.diagnosis||'—'}
+${timeContext}
+
+Besöksöversikt:
+${visitSummaries}
+
+Skriv analysen som löpande klinisk text (ej rubriker, ej punktlista) i 4–6 meningar. Inkludera:
+1. Sammanfattning av sjukdomsförlopp och trend i smärtskala
+2. Funktionsutveckling och compliance med övningsprogram
+3. Viktiga kliniska fynd eller varningssignaler
+4. Rekommendation inför nästa besök
+
+Om det finns långa tidsgap (>6 månader) mellan besök — nämn det och att en ny bedömning kan vara aktuell.
+Inga hälsningsfraser. Direkt klinisk ton.`;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body: JSON.stringify({model:'claude-sonnet-4-20250514', max_tokens:400, messages:[{role:'user',content:prompt}]})
+      body: JSON.stringify({model:MODEL_HAIKU, max_tokens:600, messages:[{role:'user',content:prompt}]})
     });
     const data = await res.json();
     return (data.content||[]).map(b=>b.text||'').join('').trim();
@@ -3745,25 +3899,22 @@ async function showProgressNote(patId) {
   const pat = S.patients.find(p => p.id === patId);
   if (!pat) return;
 
-  // Show loading state
   const btn = document.getElementById('prog-btn-' + patId);
-  if (btn) { btn.textContent = 'Genererar...'; btn.disabled = true; }
+  if (btn) { btn.textContent = 'Analyserar...'; btn.disabled = true; }
 
   const note = await generateProgressNote(pat);
 
-  if (btn) { btn.textContent = 'Framstegsnotering'; btn.disabled = false; }
+  if (btn) { btn.textContent = 'Patientanalys'; btn.disabled = false; }
 
-  if (!note) { alert('Kunde inte generera framstegsnotering. Kontrollera API-nyckeln.'); return; }
+  if (!note) { alert('Kunde inte generera analys. Kontrollera API-nyckeln.'); return; }
 
-  // Show in modal
-  document.getElementById('mtitle').textContent = 'Automatisk framstegsnotering';
+  document.getElementById('mtitle').textContent = 'Klinisk patientanalys';
   document.getElementById('mtext').textContent = note;
   document.getElementById('modal').classList.add('open');
-  document.getElementById('mconfirm').textContent = 'Kopiera';
+  document.getElementById('mconfirm').textContent = 'Kopiera text';
   document.getElementById('mconfirm').onclick = () => {
     navigator.clipboard.writeText(note).catch(() => {});
     closeModal();
-    // Reset confirm button
     document.getElementById('mconfirm').textContent = 'OK';
     document.getElementById('mconfirm').onclick = closeModal;
   };
@@ -4105,7 +4256,7 @@ Svara ENBART med JSON utan backticks — EN ny övning som ersätter den gamla:
 {"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering","swapReason":"kort förklaring varför detta val"}`;
 
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:800,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
+    const res = await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:MODEL_HAIKU,max_tokens:800,system:"Svara ALLTID med giltig JSON. Inga backticks.",messages:[{role:"user",content:prompt}]})});
     const data = await res.json();
     const txt = (data.content||[]).map(b=>b.text||'').join('');
     const newEx = JSON.parse(txt.replace(/```json|```/g,'').trim());
@@ -4178,9 +4329,19 @@ function savePlanEdits() {
 }
 
 // ── PUBLIC PLAN LOADER ────────────────────────────────────────────────────────
+// Cache for public plan — avoids re-fetching when user clicks "Tillbaka till planen"
+let _publicPlanCache = null;
+
 async function loadPublicPlan(patId, visitId) {
   const el = document.getElementById('s-public-plan');
   if (!el) return;
+
+  // Use in-memory cache if available (e.g. after "Klar med dagens pass")
+  if (_publicPlanCache && _publicPlanCache.patId === patId && _publicPlanCache.visitId === visitId) {
+    renderPublicPlan(_publicPlanCache.plan, _publicPlanCache.pat);
+    return;
+  }
+
   // Try Supabase first
   try {
     const r = await fetch(`${SB_URL}/rest/v1/patients?id=eq.${patId}&select=data`, { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } });
@@ -4189,13 +4350,15 @@ async function loadPublicPlan(patId, visitId) {
       if (rows && rows[0]?.data) {
         const pat = rows[0].data;
         const visit = pat?.visits?.find(v=>v.id===visitId);
-        if (visit?.plan) { renderPublicPlan(visit.plan, pat); return; }
+        if (visit?.plan) {
+          _publicPlanCache = { patId, visitId, plan: visit.plan, pat };
+          renderPublicPlan(visit.plan, pat); return;
+        }
       }
     }
   } catch(e) {}
   // Fallback: try localStorage
   try {
-    // Try per-patient key first, then legacy bulk key
     let pat = null;
     const perPat = localStorage.getItem('kansei-data:'+patId);
     if (perPat) { pat = JSON.parse(perPat); }
@@ -4204,10 +4367,12 @@ async function loadPublicPlan(patId, visitId) {
       pat = local.find(p=>p.id===patId) || null;
     }
     const visit = pat?.visits?.find(v=>v.id===visitId);
-    if (visit?.plan) { renderPublicPlan(visit.plan, pat); return; }
+    if (visit?.plan) {
+      _publicPlanCache = { patId, visitId, plan: visit.plan, pat };
+      renderPublicPlan(visit.plan, pat); return;
+    }
   } catch(e) {}
   el.innerHTML = `<div style="text-align:center;padding:80px 24px">
-    
     <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);margin-bottom:10px">Plan ej tillgänglig</div>
     <div style="font-size:14px;color:#8a9aaa;line-height:1.6">Länken fungerar när enheten som skapade planen är online. Kontakta din fysioterapeut om du behöver tillgång till planen.</div>
   </div>`;
@@ -4215,7 +4380,7 @@ async function loadPublicPlan(patId, visitId) {
 
 function pubLogPassDone(patId, visitId) {
   const btn = document.getElementById('pub-pass-btn');
-  if (btn) { btn.disabled = true; btn.innerHTML = 'Sparar...'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = '✓ &nbsp;Sparar...'; btn.style.opacity='.7'; }
   const ts = new Date().toISOString();
 
   (async () => {
@@ -4242,7 +4407,7 @@ function pubLogPassDone(patId, visitId) {
       <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Noterat</div>
       <div style="font-size:13px;color:rgba(255,255,255,.8);font-family:'DM Mono',monospace">${new Date(ts).toLocaleString('sv-SE',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}</div>
     </div>
-    <button onclick="window.history.back()" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;font-size:14px;font-weight:600;padding:13px 28px;border-radius:10px;cursor:pointer">Tillbaka till planen</button>
+    <button onclick="if(_publicPlanCache){renderPublicPlan(_publicPlanCache.plan,_publicPlanCache.pat);}else{loadPublicPlan('${patId}','${visitId}');}" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:white;font-size:14px;font-weight:600;padding:13px 28px;border-radius:10px;cursor:pointer;font-family:'DM Sans',sans-serif">← Tillbaka till planen</button>
   </div>`;
 }
 
@@ -4291,150 +4456,1453 @@ function pubToggleEx(btn) {
   if (!isOpen) { body.classList.add('open'); btn.classList.add('open'); }
 }
 
+function zpToggleEx(btn) {
+  const card = btn.closest('.zp-excard');
+  const body = card.querySelector('.zp-exbody');
+  const isOpen = body.classList.contains('open');
+  // Accordion: close all first
+  const section = card.closest('.zp-section');
+  section.querySelectorAll('.zp-exbody').forEach(b => b.classList.remove('open'));
+  section.querySelectorAll('.zp-exhdr').forEach(h => h.classList.remove('open'));
+  if (!isOpen) { body.classList.add('open'); btn.classList.add('open'); }
+}
+
 function renderPublicPlan(plan, pat) {
   const el = document.getElementById('s-public-plan');
   if (!el || !plan) return;
 
-  // ── HEADER ────────────────────────────────────────────────────────
-  const pain = plan.form?.pain;
-  const fw   = plan.form?.followup;
-  const visitDate = pat?.visits?.[0]?.date;
+  const pain     = plan.form?.pain;
+  const fw       = plan.form?.followup;
+  const patName  = e(plan.patientName || pat?.name || '');
+  const diag     = e(plan.diagnosis || '');
+  const today    = new Date().toLocaleDateString('sv-SE', {day:'numeric', month:'long', year:'numeric'});
+
+  // Followup date
   let followupStr = '';
+  const visitDate = pat?.visits?.[0]?.date;
   if (fw && visitDate) {
     const d = new Date(visitDate); d.setDate(d.getDate() + fw * 7);
-    followupStr = 'Återbesök ' + d.toLocaleDateString('sv-SE', {day:'numeric', month:'long'});
+    followupStr = d.toLocaleDateString('sv-SE', {day:'numeric', month:'long'});
   }
-  const chips = [
-    pain ? `NRS ${pain}/10` : '',
-    followupStr,
-    plan.exercises?.length ? `${plan.exercises.length} övningar` : ''
-  ].filter(Boolean).map(c => `<div style="background:rgba(255,255,255,.12);border-radius:20px;padding:5px 13px;font-size:11px;color:rgba(255,255,255,.85);white-space:nowrap">${c}</div>`).join('');
 
-  // ── EXERCISES ─────────────────────────────────────────────────────
+  // Progress graph
+  const progressGraph = pat ? renderPublicPlanProgressGraph(pat) : '';
+
+  // ── CHIPS ──────────────────────────────────────────────────────────────────
+  const chips = [
+    pain != null ? `NRS ${pain}/10` : '',
+    plan.exercises?.length ? `${plan.exercises.length} övningar` : '',
+    followupStr ? `Återbesök ${followupStr}` : ''
+  ].filter(Boolean).map((c,i) =>
+    `<div class="zp-chip${i===0&&pain>=7?' accent':''}">${c}</div>`
+  ).join('');
+
+  // ── EXERCISES ─────────────────────────────────────────────────────────────
   const exHtml = (plan.exercises||[]).map((ex,i) => `
-    <div class="pub-excard" style="background:white;border-radius:14px;margin-bottom:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)">
-      <div class="pub-exhdr${i===0?' open':''}" onclick="pubToggleEx(this)"
-           style="display:flex;align-items:center;gap:14px;padding:16px;cursor:pointer;-webkit-tap-highlight-color:transparent">
-        <div style="width:36px;height:36px;border-radius:10px;background:var(--navy);color:white;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${i+1}</div>
+    <div class="zp-excard">
+      <div class="zp-exhdr${i===0?' open':''}" onclick="zpToggleEx(this)">
+        <div class="zp-exnum">${i+1}</div>
         <div style="flex:1;min-width:0">
           <div style="font-size:15px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
-          <div style="font-size:11px;color:var(--teal);margin-top:3px;font-weight:600">${ex.sets||''}${ex.sets?' set · ':''}${ex.reps||''}${ex.reps?' reps':''}${ex.rest?' · '+ex.rest+' vila':''}</div>
+          <div style="font-size:11px;color:var(--teal);margin-top:2px;font-weight:600">${[ex.sets&&ex.sets+' set', ex.reps&&ex.reps+' reps', ex.rest&&ex.rest+' vila'].filter(Boolean).join(' · ')}</div>
         </div>
-        <span class="pub-chevron">›</span>
+        <span class="zp-chevron">›</span>
       </div>
-      <div class="pub-exbody${i===0?' open':''}" style="padding:0 16px 16px;border-top:1px solid #f0f2f4">
-        ${ex.purpose?`<div style="font-size:13px;color:#5a6a7a;font-style:italic;margin:12px 0;padding:11px 14px;background:#f8f9fa;border-radius:9px;line-height:1.6">${e(ex.purpose)}</div>`:''}
-        ${ex.startPosition?`<div style="font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.08em;text-transform:uppercase;margin:12px 0 5px">Startposition</div><div style="font-size:13px;color:#3a4a5a;line-height:1.6;margin-bottom:12px">${e(ex.startPosition)}</div>`:''}
-        ${(ex.steps||[]).length?`<div style="font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.08em;text-transform:uppercase;margin:12px 0 9px">Utförande</div>
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px">
-          ${(ex.steps||[]).map((s,j)=>`<div style="display:flex;gap:11px;align-items:flex-start">
-            <div style="width:24px;height:24px;border-radius:7px;background:var(--navy);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px">${j+1}</div>
-            <div style="font-size:14px;color:#2a3a4a;line-height:1.55;padding-top:2px">${e(s)}</div>
-          </div>`).join('')}
-        </div>`:''}
-        ${ex.tip?`<div style="background:#fff8e8;border-left:3px solid #f5c842;border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:#7a5000;margin-bottom:8px;line-height:1.5">${e(ex.tip)}</div>`:''}
-        ${ex.correctFeel?`<div style="background:#e8f5ee;border-left:3px solid #4a9860;border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:#1a5a30;line-height:1.5">${e(ex.correctFeel)}</div>`:''}
+      <div class="zp-exbody${i===0?' open':''}">
+        ${ex.purpose ? `<div style="background:#f4f7fa;border-radius:9px;padding:11px 13px;font-size:13px;color:#4a5a6a;font-style:italic;line-height:1.65;margin-bottom:12px;margin-top:4px">${e(ex.purpose)}</div>` : ''}
+        ${ex.startPosition ? `<div style="font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.09em;text-transform:uppercase;margin-bottom:6px">Startposition</div>
+          <div style="font-size:14px;color:#3a4a5a;line-height:1.6;margin-bottom:12px">${e(ex.startPosition)}</div>` : ''}
+        ${(ex.steps||[]).length ? `<div style="font-size:10px;font-weight:700;color:#8a9aaa;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px">Utförande</div>
+          <div style="margin-bottom:12px">${(ex.steps||[]).map((s,j)=>`
+            <div class="zp-step">
+              <div class="zp-step-num">${j+1}</div>
+              <div style="font-size:14px;color:#2a3a4a;line-height:1.55">${e(s)}</div>
+            </div>`).join('')}
+          </div>` : ''}
+        ${ex.tip ? `<div style="background:#fff8e8;border-left:3px solid #e8b800;border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:#6a5000;line-height:1.55;margin-bottom:8px">💡 ${e(ex.tip)}</div>` : ''}
+        ${ex.correctFeel ? `<div style="background:#e8f5ee;border-left:3px solid #3a9860;border-radius:0 9px 9px 0;padding:10px 13px;font-size:13px;color:#1a4a28;line-height:1.55">✓ ${e(ex.correctFeel)}</div>` : ''}
       </div>
     </div>`).join('');
 
-  // ── GOALS ─────────────────────────────────────────────────────────
-  let goalsHtml = '';
-  if (plan.goals?.length) {
-    const icons = ['','','','',''];
-    goalsHtml = `<div style="margin:12px 16px 0;background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
-      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px">Mål med rehabiliteringen</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        ${plan.goals.map((g,i)=>`<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:#f8f9fa;border-radius:10px">
-          <div style="font-size:20px;flex-shrink:0;margin-top:1px">${icons[i]||'•'}</div>
-          <div><div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px">${e(g.title||'')}</div>
-          <div style="font-size:14px;color:#3a4a5a;line-height:1.55">${e(g.text||'')}</div></div>
-        </div>`).join('')}
-      </div></div>`;
-  }
+  // ── GOALS ─────────────────────────────────────────────────────────────────
+  const goalIcons = ['🎯','⚡','🌿'];
+  const goalsHtml = plan.goals?.length ? `
+    <div class="zp-section">
+      <div class="zp-sec-hdr">
+        <div class="zp-sec-icon">🎯</div>
+        <div class="zp-sec-title">Mål med rehabiliteringen</div>
+      </div>
+      <div style="padding:10px 16px 14px;display:flex;flex-direction:column;gap:9px">
+        ${plan.goals.map((g,i) => `
+          <div style="display:flex;gap:12px;padding:12px 14px;background:#f8f9fb;border-radius:10px;align-items:flex-start">
+            <div style="font-size:20px;flex-shrink:0">${goalIcons[i]||'•'}</div>
+            <div>
+              <div style="font-size:10px;font-weight:700;color:var(--teal);letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px">${e(g.title||'')}</div>
+              <div style="font-size:14px;color:#2a3a4a;line-height:1.6">${e(g.text||'')}</div>
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>` : '';
 
-  // ── PAIN ADVICE ───────────────────────────────────────────────────
-  let painHtml = '';
-  if (plan.painAdvice) {
-    painHtml = `<div style="margin:12px 16px 0;background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
-      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px">Smärthantering</div>
-      <div style="display:flex;flex-direction:column;gap:9px">
-        <div style="padding:13px 15px;border-radius:10px;background:#e8f5ee;border-left:4px solid #4a9860"><div style="font-size:10px;font-weight:700;color:#1a5a30;margin-bottom:4px">Grön — fortsätt träna</div><div style="font-size:14px;color:#1a4a28;line-height:1.5">${e(plan.painAdvice.green||'')}</div></div>
-        <div style="padding:13px 15px;border-radius:10px;background:#fdf3d8;border-left:4px solid #c8a030"><div style="font-size:10px;font-weight:700;color:#7a5000;margin-bottom:4px">Gul — modifiera</div><div style="font-size:14px;color:#6a4000;line-height:1.5">${e(plan.painAdvice.yellow||'')}</div></div>
-        <div style="padding:13px 15px;border-radius:10px;background:#fde8e8;border-left:4px solid #c07070"><div style="font-size:10px;font-weight:700;color:#7a2020;margin-bottom:4px">Röd — pausa och kontakta kliniken</div><div style="font-size:14px;color:#6a1010;line-height:1.5">${e(plan.painAdvice.red||'')}</div></div>
-      </div></div>`;
-  }
+  // ── PAIN ADVICE ───────────────────────────────────────────────────────────
+  const painHtml = plan.painAdvice ? `
+    <div class="zp-section">
+      <div class="zp-sec-hdr">
+        <div class="zp-sec-icon">⚠️</div>
+        <div class="zp-sec-title">Smärthantering</div>
+      </div>
+      <div style="padding:10px 16px 14px;display:flex;flex-direction:column;gap:8px">
+        <div style="padding:12px 14px;border-radius:10px;background:#e8f5ee;border-left:3px solid #3a9860">
+          <div style="font-size:10px;font-weight:700;color:#1a5a30;letter-spacing:.06em;margin-bottom:4px">🟢 Grön — träna på</div>
+          <div style="font-size:14px;color:#1a4428;line-height:1.55">${e(plan.painAdvice.green||'')}</div>
+        </div>
+        <div style="padding:12px 14px;border-radius:10px;background:#fdf3d8;border-left:3px solid #c8a030">
+          <div style="font-size:10px;font-weight:700;color:#7a5000;letter-spacing:.06em;margin-bottom:4px">🟡 Gul — modifiera</div>
+          <div style="font-size:14px;color:#5a3800;line-height:1.55">${e(plan.painAdvice.yellow||'')}</div>
+        </div>
+        <div style="padding:12px 14px;border-radius:10px;background:#fde8e8;border-left:3px solid #c05050">
+          <div style="font-size:10px;font-weight:700;color:#7a2020;letter-spacing:.06em;margin-bottom:4px">🔴 Röd — pausa & kontakta oss</div>
+          <div style="font-size:14px;color:#5a1010;line-height:1.55">${e(plan.painAdvice.red||'')}</div>
+        </div>
+      </div>
+    </div>` : '';
 
-  // ── LIFESTYLE TIPS ────────────────────────────────────────────────
-  let tipsHtml = '';
-  if (plan.lifestyleTips?.length) {
-    tipsHtml = `<div style="margin:12px 16px 0;background:white;border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.07)">
-      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:14px">Livsstilsråd</div>
-      <div style="display:flex;flex-direction:column;gap:9px">
-        ${plan.lifestyleTips.map(t=>`<div style="display:flex;gap:11px;align-items:flex-start;padding:11px 14px;background:#f8f9fa;border-radius:9px">
-          <div style="color:var(--teal);font-size:16px;flex-shrink:0;margin-top:1px;font-weight:700">→</div>
-          <div style="font-size:14px;color:#3a4a5a;line-height:1.55">${e(t)}</div>
-        </div>`).join('')}
-      </div></div>`;
-  }
+  // ── LIFESTYLE TIPS ────────────────────────────────────────────────────────
+  const tipsHtml = plan.lifestyleTips?.length ? `
+    <div class="zp-section">
+      <div class="zp-sec-hdr">
+        <div class="zp-sec-icon">💡</div>
+        <div class="zp-sec-title">Livsstilsråd</div>
+      </div>
+      <div style="padding:10px 16px 14px;display:flex;flex-direction:column;gap:7px">
+        ${plan.lifestyleTips.map(t => `
+          <div style="display:flex;gap:10px;align-items:flex-start;padding:10px 13px;background:#f8f9fb;border-radius:9px">
+            <div style="color:var(--teal);font-size:14px;font-weight:700;flex-shrink:0;margin-top:1px">→</div>
+            <div style="font-size:14px;color:#3a4a5a;line-height:1.55">${e(t)}</div>
+          </div>`).join('')}
+      </div>
+    </div>` : '';
 
-  // ── FOLLOWUP BANNER ───────────────────────────────────────────────
-  let followupHtml = '';
-  if (plan.followupNote) {
-    followupHtml = `<div style="margin:12px 16px 0;background:linear-gradient(135deg,#1a3a4a,#2a5a6a);border-radius:14px;padding:22px 20px">
-      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:10px">Nästa steg</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:white;line-height:1.7;font-style:italic">${e(plan.followupNote)}</div>
+  // ── SCHEDULE ──────────────────────────────────────────────────────────────
+  const schedHtml = plan.schedule?.length ? `
+    <div class="zp-section">
+      <div class="zp-sec-hdr">
+        <div class="zp-sec-icon">📅</div>
+        <div class="zp-sec-title">Veckoschema</div>
+      </div>
+      <div style="padding:12px 16px 16px;display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+        ${plan.schedule.map(d => {
+          const active = d.activity && (d.activity.toLowerCase().includes('övning') || d.activity.toLowerCase().includes('program'));
+          return `<div style="text-align:center;padding:9px 2px;border-radius:9px;background:${active?'var(--navy)':'#f4f6f9'}">
+            <div style="font-size:8px;font-weight:700;letter-spacing:.05em;color:${active?'rgba(255,255,255,.6)':'#9aaabb'};margin-bottom:3px">${d.day.slice(0,3).toUpperCase()}</div>
+            <div style="font-size:8px;line-height:1.35;color:${active?'white':'#6a7a8a'}">${e(d.activity)}</div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>` : '';
+
+  // ── CLINICAL BACKGROUND ───────────────────────────────────────────────────
+  const form = plan.form || {};
+  const bgItems = [
+    form.diagnosis && form.diagnosis !== 'Annan / fritext' ? { label: 'Diagnos', val: form.customDiag || form.diagnosis } : null,
+    form.pain != null ? { label: 'Smärtnivå vid besök', val: `NRS ${form.pain}/10` } : null,
+    form.history ? { label: 'Träningsbakgrund', val: { ingen:'Ingen tidigare träning', sporadisk:'Sporadisk träning', regelbunden:'Regelbunden träning' }[form.history] || form.history } : null,
+    form.location ? { label: 'Träningsplats', val: form.location === 'hem' ? 'Hemträning' : 'Gym' } : null,
+    form.followup ? { label: 'Planerat återbesök', val: `Om ${form.followup} veckor` } : null,
+  ].filter(Boolean);
+
+  const clinicalBgHtml = bgItems.length ? `
+    <div class="zp-section">
+      <div class="zp-sec-hdr">
+        <div class="zp-sec-icon">📋</div>
+        <div class="zp-sec-title">Bakgrund — varför denna plan</div>
+      </div>
+      <div style="padding:12px 16px 16px">
+        <div style="font-size:13px;color:#4a5a6a;line-height:1.7;margin-bottom:12px">
+          Planen är utformad individuellt utifrån din diagnos, smärtnivå och förutsättningar. 
+          Alla övningar är valda av din fysioterapeut för att passa just din situation.
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+          ${bgItems.map(item => `
+            <div style="background:#f4f6f9;border-radius:9px;padding:9px 12px">
+              <div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8a9aaa;margin-bottom:3px">${item.label}</div>
+              <div style="font-size:13px;font-weight:600;color:var(--navy)">${e(item.val)}</div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>` : '';
+
+  // ── FOLLOWUP ──────────────────────────────────────────────────────────────
+  const followupHtml = (plan.followupNote || followupStr) ? `
+    <div style="margin:10px 14px 0;background:linear-gradient(135deg,#0f2744,#1a4a5a);border-radius:16px;padding:22px 20px">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:10px">Nästa steg</div>
+      ${plan.followupNote ? `<div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;line-height:1.7;font-style:italic;margin-bottom:${followupStr?'14px':'0'}">${e(plan.followupNote)}</div>` : ''}
+      ${followupStr ? `<div style="display:inline-flex;align-items:center;gap:8px;background:rgba(26,200,150,.15);border:1px solid rgba(26,200,150,.25);border-radius:10px;padding:10px 16px;font-size:13px;color:rgba(160,255,210,.95);font-weight:600">
+        📅 Boka återbesök — ${followupStr}
+        ${CLINIC.phone ? `<a href="tel:${CLINIC.phone}" style="background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:4px 10px;font-size:11px;text-decoration:none;font-weight:700;font-family:'DM Sans',sans-serif">Ring</a>` : ''}
+      </div>` : ''}
+    </div>` : '';
+
+  // ── PASS BUTTON + CHECK-IN ────────────────────────────────────────────────
+  const patIdSafe = e(pat?.id||'');
+  const visitIdSafe = e(plan.visitId||'');
+  const passBtn = `
+    ${pubCheckInHTML(patIdSafe, visitIdSafe)}
+    <div class="zp-pass-bar">
+      <button class="zp-pass-btn" id="pub-pass-btn"
+        onclick="pubLogPassDone('${patIdSafe}','${visitIdSafe}')">
+        ✓ &nbsp;Klar med dagens pass
+      </button>
     </div>`;
-  }
 
-  // ── FOOTER ────────────────────────────────────────────────────────
-  const clinicLine = [CLINIC.name, CLINIC.phone, CLINIC.email].filter(Boolean).join(' · ');
+  // ── MAIN HTML ─────────────────────────────────────────────────────────────
+  el.innerHTML = `<div class="zp-page">
 
-  // ── PROGRESS GRAPH ────────────────────────────────────────────────
-  const progressGraph = pat ? renderPublicPlanProgressGraph(pat) : '';
+    <!-- HERO HEADER -->
+    <div class="zp-hero">
 
-  // ── PASS COMPLETION BUTTON ────────────────────────────────────────
-  const passBtn = `<div style="position:sticky;bottom:20px;padding:0 16px;margin-top:20px">
-    <button id="pub-pass-btn" onclick="pubLogPassDone('${e(pat?.id||'')}','${e(plan.visitId||'')}');this.disabled=true"
-      style="width:100%;background:var(--teal);color:white;font-size:16px;font-weight:700;padding:16px;border-radius:14px;border:none;cursor:pointer;box-shadow:0 4px 20px rgba(26,122,138,.4);-webkit-tap-highlight-color:transparent;transition:opacity .15s"
-      ontouchstart="this.style.opacity='.8'" ontouchend="this.style.opacity='1'">
-      Klar med dagens pass
-    </button>
-  </div>`;
+      <!-- Brand strip: Kansei + Zenya -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div>
+            <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.38)">En tjänst från</div>
+            <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.01em">${e(CLINIC.name)}</div>
+          </div>
+          <div style="width:1px;height:28px;background:rgba(255,255,255,.12)"></div>
+          <img src="${LOGO}" style="height:20px;opacity:.6">
+        </div>
+        <div style="font-size:9px;color:rgba(255,255,255,.28);text-align:right;line-height:1.5">${today}</div>
+      </div>
 
-  el.innerHTML = `<div style="background:var(--bg);min-height:100vh;padding-bottom:48px">
+      <!-- Patient + Diagnosis -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Din personliga rehabplan</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:400;color:white;line-height:1.05;margin-bottom:5px">${patName}</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:14px">${diag}</div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">${chips}</div>
+      </div>
 
-    <div style="background:var(--navy);padding:28px 20px 22px">
-      <div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:10px">Din rehabplan</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:30px;color:white;margin-bottom:4px;line-height:1.1">${e(plan.patientName||pat?.name||'')}</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:${chips?'14px':'0'}">${e(plan.diagnosis||'')}</div>
-      ${chips?`<div style="display:flex;gap:7px;flex-wrap:wrap">${chips}</div>`:''}
+      <!-- Greeting -->
+      ${plan.greeting ? `<div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:16px">${e(plan.greeting)}</div>` : ''}
+
+      <!-- Tab spacer -->
+      <div style="height:16px"></div>
     </div>
 
     ${progressGraph}
+    ${pubProgressSectionHTML(pat?.id||'')}
 
-    ${plan.greeting?`<div style="margin:12px 16px 0;background:white;border-radius:14px;padding:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);font-size:14px;color:#3a4a5a;line-height:1.75">${e(plan.greeting)}</div>`:''}
-
+    <!-- GOALS -->
     ${goalsHtml}
 
-    ${(plan.exercises||[]).length?`<div style="margin:12px 16px 0">
-      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:10px;padding-left:2px">Övningsprogram</div>
-      <div class="pub-exlist">${exHtml}</div>
-    </div>`:''}
+    <!-- EXERCISES -->
+    ${(plan.exercises||[]).length ? `
+    <div class="zp-section">
+      <div class="zp-sec-hdr">
+        <div class="zp-sec-icon">💪</div>
+        <div class="zp-sec-title">Övningsprogram — ${plan.exercises.length} övningar</div>
+      </div>
+      ${exHtml}
+    </div>` : ''}
 
     ${painHtml}
     ${tipsHtml}
+    ${schedHtml}
+    ${clinicalBgHtml}
     ${followupHtml}
 
+    <!-- PASS BUTTON -->
     ${passBtn}
 
-    <div style="margin:20px 16px 0;background:var(--navy);border-radius:14px;padding:22px 20px;text-align:center">
-      <img src="${LOGO}" style="height:26px;opacity:.7;margin-bottom:10px">
-      <div style="font-size:12px;color:rgba(255,255,255,.45);line-height:1.9">${e(clinicLine)}</div>
-      ${CLINIC.phone?`<a href="tel:${CLINIC.phone}" style="display:inline-block;margin-top:12px;background:rgba(255,255,255,.1);color:white;font-size:13px;font-weight:600;padding:10px 24px;border-radius:8px;text-decoration:none">Ring oss</a>`:''}
+    <!-- FOOTER -->
+    <div class="zp-footer" style="text-align:center;margin-bottom:20px">
+      <img src="${LOGO}" style="height:24px;opacity:.55;margin-bottom:12px;display:block;margin-left:auto;margin-right:auto">
+      <div style="font-size:12px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:4px">${e(CLINIC.name)}</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.35);line-height:1.9">${e(CLINIC.address)}<br>${e(CLINIC.phone)} · ${e(CLINIC.email)}</div>
+      ${CLINIC.phone ? `<a href="tel:${CLINIC.phone}" style="display:inline-block;margin-top:14px;background:rgba(255,255,255,.1);color:white;font-size:13px;font-weight:600;padding:10px 24px;border-radius:9px;text-decoration:none;border:1px solid rgba(255,255,255,.12)">Ring oss</a>` : ''}
     </div>
 
   </div>`;
 }
+
+
+
+
+// ════════════════════════════════════════════════════════════════════════════
+// AI FEATURES MODULE — Zenya Intelligence Layer
+// 1. Smart intag   2. Röstjournal   3. Avvikelsedetektering
+// 4. Klinikinsikter  5. Adaptiv plan  6. Kollegakonsultation  7. Epikris
+// ════════════════════════════════════════════════════════════════════════════
+
+// ── 1. SMART INTAG — Fri text → ifyllt formulär ───────────────────────────
+
+function showSmartIntake() {
+  const box = document.getElementById('smart-intake-box');
+  if (box) box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+async function aiParseIntake() {
+  const ta = document.getElementById('qi-textarea');
+  const text = ta ? ta.value.trim() : '';
+  if (!text) return;
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas.'); return; }
+  const statusEl = document.getElementById('qi-status');
+  if (statusEl) statusEl.textContent = 'Tolkar…';
+  const btn = document.getElementById('qi-parse-btn');
+  if (btn) btn.disabled = true;
+
+  const prompt = `Du är en assistent som tolkar kliniska noteringar. Extrahera följande fält från texten nedan och svara ENBART med JSON utan backticks eller förklaringar.
+
+Text: "${text}"
+
+JSON-format (använd null om fältet inte finns):
+{
+  "name": "Patientens fullständiga namn",
+  "birthdate": "Personnummer/födelsedatum i formatet YYYYMMDD eller YYYY-MM-DD, annars null",
+  "diagnosis": "Närmaste match från listan: Ländryggssmärta, Nacksmärta/whiplash, Knäbesvär, Höftbesvär, Axelbesvär, Tennisarmbåge, Hälseneproblem, Plantarfasciit, Frozen shoulder, Spinal stenos, Diskbråck, Postoperativ rehab, Fibromyalgi, Osteoporos, Artros, Annan / fritext",
+  "customDiag": "Om diagnosen är Annan / fritext, beskriv kort här annars null",
+  "pain": 0-10 som heltal,
+  "motivation": 1-10 som heltal (uppskatta om ej angett: 6),
+  "history": "ingen" | "sporadisk" | "regelbunden",
+  "knowledge": "låg" | "medel" | "hög",
+  "location": "hem" | "gym",
+  "followup": antal veckor som heltal (4 om ej angett),
+  "exercises": antal övningar som heltal (5 om ej angett),
+  "notes": "Övrig klinisk information som inte passar i ovanstående fält, annars tom sträng"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:MODEL_HAIKU, max_tokens:600, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const raw = (data.content||[]).map(b=>b.text||'').join('').trim();
+    const parsed = JSON.parse(raw.replace(/```json|```/g,'').trim());
+
+    if (parsed.name) S.form.name = parsed.name;
+    if (parsed.birthdate) S.form.birthdate = parseBirthdate(parsed.birthdate);
+    if (parsed.diagnosis) S.form.diagnosis = parsed.diagnosis;
+    if (parsed.customDiag) S.form.customDiag = parsed.customDiag;
+    if (parsed.pain != null) S.form.pain = parseInt(parsed.pain)||5;
+    if (parsed.motivation != null) S.form.motivation = parseInt(parsed.motivation)||6;
+    if (parsed.history) S.form.history = parsed.history;
+    if (parsed.knowledge) S.form.knowledge = parsed.knowledge;
+    if (parsed.location) S.form.location = parsed.location;
+    if (parsed.followup) S.form.followup = parseInt(parsed.followup)||4;
+    if (parsed.exercises) S.form.exercises = parseInt(parsed.exercises)||5;
+    if (parsed.notes) S.form.notes = parsed.notes;
+
+    if (statusEl) statusEl.textContent = '✓ Formulär ifyllt';
+    rForm();
+    showAutoSaveToast('Formulär ifyllt av AI ✓');
+  } catch(err) {
+    if (statusEl) statusEl.textContent = 'Fel — prova igen';
+    console.error('Smart intake error:', err);
+  }
+  if (btn) btn.disabled = false;
+}
+
+// Generate SOAP draft from free text → preview modal → save to currentSOAP
+async function aiGenerateSOAPFromIntake() {
+  const ta = document.getElementById('qi-textarea');
+  const text = ta ? ta.value.trim() : '';
+  if (!text) { alert('Skriv eller diktera text först.'); return; }
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas.'); return; }
+
+  const statusEl = document.getElementById('qi-status');
+  const soapBtn = document.getElementById('qi-soap-btn');
+  if (statusEl) statusEl.textContent = 'Genererar SOAP…';
+  if (soapBtn) soapBtn.disabled = true;
+
+  const prompt = `Du är leg. fysioterapeut. Omstrukturera nedanstående fritext till en klinisk SOAP-journalanteckning på svenska. Svara ENBART med JSON utan backticks.
+
+Regler för klinisk terminologi:
+- höger → dextra/dx, vänster → sinistra/sin
+- framsida → anteriort, baksida → posteriort, insida → medialt, utsida → lateralt
+- knäskål → patella, hälsena → tendo Achillis, inklämning → impingement
+- menisk insida → medial menisk, menisk utsida → lateral menisk
+- korsbandet fram → ACL (ligamentum cruciatum anterius), bak → PCL
+- axelled → glenohumeralt, axelblad → scapula, nyckelben → clavicula
+- rygg (länd) → lumbalt, rygg (bröst) → thorakalt, nacke → cervikalt
+- Skriv löpande meningar i journalstil, inga liststrecken, inga rubriker inuti fälten
+- Lägg bara information i det fält det hör hemma — hitta ingenting på
+- Lämna fält som tom sträng om info saknas
+
+Fritext: "${text}"
+
+JSON:
+{
+  "S": "Subjektivt — patientens berättelse, symtom, smärtbeskrivning på klinisk svenska",
+  "O": "Objektivt — undersökningsfynd, tester, rörelseomfång om angivet",
+  "A": "Bedömning — klinisk diagnos med korrekt terminologi, funktionsnivå, ev differentialdiagnos",
+  "P": "Plan — behandling, hemprogram, återbesök"
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:MODEL_HAIKU, max_tokens:900, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const raw = (data.content||[]).map(b=>b.text||'').join('').trim();
+    const soap = JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if (statusEl) statusEl.textContent = '';
+    openSOAPPreviewModal(soap);
+  } catch(err) {
+    if (statusEl) statusEl.textContent = 'Fel — prova igen';
+    console.error('SOAP from intake error:', err);
+  }
+  if (soapBtn) soapBtn.disabled = false;
+}
+
+function openSOAPPreviewModal(soap) {
+  document.getElementById('soap-preview-ov')?.remove();
+  const LABELS = {S:'Subjektivt',O:'Objektivt',A:'Bedömning',P:'Plan'};
+  const COLORS = {S:{bg:'#dceef8',c:'#1a5a8a'},O:{bg:'#dcf0e4',c:'#1a6a3a'},A:{bg:'#fdf3d8',c:'#7a5a00'},P:{bg:'#ede0f8',c:'#5a20a0'}};
+
+  const ov = document.createElement('div');
+  ov.id = 'soap-preview-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,20,35,.72);backdrop-filter:blur(4px);animation:fadeInOv .15s ease';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+
+  const fields = ['S','O','A','P'].map(l => {
+    const col = COLORS[l];
+    const val = soap[l]||'';
+    return `<div style="margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+        <div style="width:22px;height:22px;border-radius:4px;background:${col.bg};color:${col.c};font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;flex-shrink:0">${l}</div>
+        <div style="font-size:11px;font-weight:600;color:var(--text3)">${LABELS[l]}</div>
+      </div>
+      <textarea id="soapp-${l}" style="width:100%;border:1px solid var(--border);border-radius:7px;padding:9px 12px;font-size:13px;line-height:1.65;font-family:'DM Sans',sans-serif;resize:vertical;min-height:${val?'64':'36'}px;outline:none;color:var(--text);background:${val?'white':'#fafbfc'}" placeholder="(inget innehåll — lämna tomt eller skriv till)">${e(val)}</textarea>
+    </div>`;
+  }).join('');
+
+  ov.innerHTML = `
+  <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-width:600px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 -4px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
+    <div style="padding:16px 18px 12px;border-bottom:1px solid #eef0f3;display:flex;align-items:center;gap:10px;flex-shrink:0">
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--navy)">SOAP-utkast — granska och redigera</div>
+        <div style="font-size:11px;color:var(--text3)">AI har strukturerat och reformulerat din text kliniskt. Redigera innan du sparar.</div>
+      </div>
+      <button onclick="document.getElementById('soap-preview-ov').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);line-height:1">×</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px 18px">${fields}</div>
+    <div style="padding:12px 18px 24px;border-top:1px solid #eef0f3;display:flex;gap:8px;flex-shrink:0">
+      <button onclick="saveSOAPDraftFromIntake()" style="flex:1;background:var(--navy);color:white;border:none;border-radius:9px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Spara som journalutkast →</button>
+      <button onclick="document.getElementById('soap-preview-ov').remove()" style="background:none;border:1px solid var(--border);border-radius:9px;padding:12px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text3)">Avbryt</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+}
+
+function saveSOAPDraftFromIntake() {
+  const soap = {};
+  ['S','O','A','P'].forEach(l => {
+    const ta = document.getElementById('soapp-'+l);
+    if (ta) soap[l] = ta.value.trim();
+  });
+  // Store as journal draft in sessionStorage — same key as autoSaveJournalDraft
+  const draftData = {
+    patId: S.pat?.id || '',
+    ts: Date.now(),
+    soap,
+    source: 'smart-intake'
+  };
+  try { sessionStorage.setItem('zenya:journaldraft', JSON.stringify(draftData)); } catch {}
+  // Also pre-fill currentSOAP if it exists
+  if (typeof currentSOAP !== 'undefined' && currentSOAP) {
+    currentSOAP.soap = {...(currentSOAP.soap||{}), ...soap};
+  }
+  document.getElementById('soap-preview-ov')?.remove();
+  showAutoSaveToast('SOAP-utkast sparat — öppnas automatiskt i journalvyn ✓');
+}
+
+let _qiSR = null;
+function toggleQiDictation() {
+  const btn = document.getElementById('qi-mic-btn');
+  if (_qiSR) {
+    _qiSR.stop(); _qiSR = null;
+    if (btn) { btn.classList.remove('listening'); btn.innerHTML = '<span class="mic-btn-dot"></span> Diktera'; }
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Kräver Chrome.'); return; }
+  const sr = new SR(); sr.lang='sv-SE'; sr.continuous=true; sr.interimResults=false;
+  sr.onresult = ev => {
+    const ta = document.getElementById('qi-textarea'); if (!ta) return;
+    for (let i=ev.resultIndex;i<ev.results.length;i++) if (ev.results[i].isFinal) { ta.value += (ta.value?' ':'') + ev.results[i][0].transcript; }
+  };
+  sr.onend = () => { _qiSR=null; if(btn){btn.classList.remove('listening');btn.innerHTML='<span class="mic-btn-dot"></span> Diktera';} };
+  sr.start(); _qiSR=sr;
+  if (btn) { btn.classList.add('listening'); btn.innerHTML='<span class="mic-btn-dot"></span> Stoppa'; }
+}
+
+function smartIntakeHTML() {
+  return `<div class="qi-wrap" id="smart-intake-box">
+    <div class="qi-title">⚡ Snabbintag — beskriv fritt</div>
+    <textarea class="qi-ta" id="qi-textarea" placeholder="T.ex: Anna Lindqvist 1978, diskbråck L4, smärta höger ben NRS 7, strålar till foten, förvärras vid framåtböjning. Kontorsarbete. Tränar sällan. Hemträning." rows="3"></textarea>
+    <div class="qi-actions">
+      <button class="qi-btn qi-btn-parse" id="qi-parse-btn" onclick="aiParseIntake()" style="background:rgba(255,255,255,.15);color:white">Fyll i formuläret</button>
+      <button class="qi-btn" id="qi-soap-btn" onclick="aiGenerateSOAPFromIntake()" style="background:rgba(26,200,150,.25);color:rgba(200,255,230,.95);border:1px solid rgba(26,200,150,.3)">✦ Generera SOAP</button>
+      <button class="mic-btn" id="qi-mic-btn" onclick="toggleQiDictation()" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.7)">
+        <span class="mic-btn-dot"></span> Diktera
+      </button>
+      <span class="qi-status" id="qi-status" style="color:rgba(255,255,255,.5)"></span>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.6">
+      <strong style="color:rgba(255,255,255,.45)">Formuläret</strong> fyller i sliders och val. &nbsp;·&nbsp;
+      <strong style="color:rgba(255,255,255,.45)">SOAP</strong> strukturerar texten kliniskt och sparar som journalutkast.
+    </div>
+  </div>`;
+}
+
+// ── 2. RÖSTJOURNAL — Strukturerad diktering med AI-reformulering ─────────
+
+// Default structured prompts per SOAP letter — editable per clinic
+const SOAP_PROMPT_DEFAULTS = {
+  S: [
+    'Var sitter smärtan? Strålar den? (t.ex. höger, vänster, bilateral)',
+    'Smärtkaraktär: huggande, molande, brännande, stickande?',
+    'Debut och förlopp — när, hur, vad utlöste det?',
+    'Aggraveras av: rörelse, belastning, stillasittande, nattsmärta?',
+    'Lindras av: vila, värme, kyla, specifik position?',
+    'Tidigare besvär / behandlingar?',
+    'Funktion: påverkar arbete, sömn, ADL?'
+  ],
+  O: [
+    'Inspektion: hållning, muskeldystrofi, svullnad, rodnad?',
+    'ROM: rörelseomfång i grader om möjligt',
+    'Palpation: öm, svullen, krepitation, muskelhypertonus?',
+    'Neuro: reflexer, sensibilitet, kraft (0–5)?',
+    'Specifika tester: Lasègue, FADIR, Neer, Hawkins, McMurray etc.',
+    'Gång/balans: avvikelser?'
+  ],
+  A: [
+    'Klinisk diagnos och ICD-10',
+    'Funktionsnivå: lätt/måttlig/svår påverkan',
+    'Differentialdiagnoser om relevanta',
+    'Riskfaktorer / röda flaggor?',
+    'Prognos: akut, subakut, kronisk?'
+  ],
+  P: [
+    'Behandling idag: manuell, TENS, träning, tejpning?',
+    'Hemprogram: övningar, dos, frekvens',
+    'Rörelserestriktioner / försiktighetsåtgärder',
+    'Remiss eller samordning med annan vårdgivare?',
+    'Återbesök om — veckor/dagar'
+  ]
+};
+
+const SOAP_PROMPT_KEY = 'zenya:soap-prompts';
+
+function getSoapPrompts() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(SOAP_PROMPT_KEY)||'{}');
+    return {
+      S: saved.S || SOAP_PROMPT_DEFAULTS.S,
+      O: saved.O || SOAP_PROMPT_DEFAULTS.O,
+      A: saved.A || SOAP_PROMPT_DEFAULTS.A,
+      P: saved.P || SOAP_PROMPT_DEFAULTS.P
+    };
+  } catch { return SOAP_PROMPT_DEFAULTS; }
+}
+
+function saveSoapPrompts(prompts) {
+  try { localStorage.setItem(SOAP_PROMPT_KEY, JSON.stringify(prompts)); } catch {}
+}
+
+let _dictSR = null;
+let _dictRawText = '';
+let _dictTargetField = null;
+
+function openDictationModal(fieldId, letter) {
+  if (_dictSR) { try { _dictSR.stop(); } catch(e) {} _dictSR = null; }
+  _dictTargetField = fieldId;
+  _dictRawText = '';
+  document.getElementById('dict-modal')?.remove();
+
+  const prompts = getSoapPrompts();
+  const fieldPrompts = prompts[letter] || [];
+  const labelColor = {S:'#1a5a8a',O:'#1a6a3a',A:'#7a5a00',P:'#5a20a0'}[letter]||'var(--navy)';
+  const labelBg = {S:'#dceef8',O:'#dcf0e4',A:'#fdf3d8',P:'#ede0f8'}[letter]||'#eef0f3';
+
+  const ov = document.createElement('div');
+  ov.id = 'dict-modal';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:flex-end;justify-content:center;background:rgba(10,20,35,.7);backdrop-filter:blur(4px);animation:fadeInOv .15s ease';
+  ov.onclick = e => { if(e.target===ov) closeDictModal(); };
+
+  ov.innerHTML = `
+  <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-width:600px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 -4px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;gap:10px;padding:16px 18px 12px;border-bottom:1px solid #eef0f3;flex-shrink:0">
+      <div style="width:28px;height:28px;border-radius:6px;background:${labelBg};color:${labelColor};font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace">${letter}</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--navy)">Diktera ${{S:'Subjektivt',O:'Objektivt',A:'Bedömning',P:'Plan'}[letter]}</div>
+        <div style="font-size:11px;color:var(--text3)">Prata fritt — AI omformulerar kliniskt</div>
+      </div>
+      <button onclick="openPromptEditor('${letter}')" style="font-size:10px;background:#f4f6f9;border:1px solid #dde6ee;border-radius:6px;padding:4px 9px;cursor:pointer;color:var(--text3);font-family:'DM Sans',sans-serif">✏️ Redigera struktur</button>
+      <button onclick="closeDictModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text3);line-height:1;padding:0 2px">×</button>
+    </div>
+
+    <!-- Guidestrukturer -->
+    <div style="padding:12px 16px 10px;flex-shrink:0;background:#f9fafc;border-bottom:1px solid #eef0f3">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text4);margin-bottom:8px">Täck gärna in</div>
+      <div id="dict-prompts" style="display:flex;flex-direction:column;gap:5px">
+        ${fieldPrompts.map((p,i) => `<div class="dict-prompt-row" id="dprow-${i}" onclick="markPromptDone(${i})" style="display:flex;align-items:flex-start;gap:7px;cursor:pointer;padding:4px 6px;border-radius:6px">
+          <div class="dict-prompt-check" id="dpchk-${i}" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #b8c4d4;flex-shrink:0;margin-top:1px"></div>
+          <div style="font-size:12px;color:var(--text2);line-height:1.45">${p}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- Live transkription -->
+    <div style="flex:1;overflow-y:auto;padding:14px 16px 0;min-height:80px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text4);margin-bottom:6px">Inspelad text</div>
+      <div id="dict-live" style="font-size:13px;color:var(--text);line-height:1.7;min-height:60px;white-space:pre-wrap;word-break:break-word"></div>
+      <div id="dict-interim" style="font-size:13px;color:var(--text4);font-style:italic;margin-top:2px"></div>
+    </div>
+
+    <!-- AI-förhandsgranskning -->
+    <div id="dict-preview-wrap" style="display:none;padding:0 16px;margin-top:8px">
+      <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Klinisk text — granska och redigera</div>
+      <textarea id="dict-preview-ta" style="width:100%;border:1.5px solid var(--teal);border-radius:8px;padding:11px 13px;font-size:13px;line-height:1.65;font-family:'DM Sans',sans-serif;resize:vertical;min-height:90px;outline:none;color:var(--text)" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+    </div>
+
+    <!-- Controls -->
+    <div style="padding:12px 16px 24px;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap">
+      <button id="dict-rec-btn" onclick="dictToggleRec()" class="qi-btn" style="background:var(--navy);color:white;display:flex;align-items:center;gap:6px;flex-shrink:0">
+        <span id="dict-rec-dot" style="width:8px;height:8px;border-radius:50%;background:white;display:inline-block"></span>
+        <span id="dict-rec-label">Spela in</span>
+      </button>
+      <button id="dict-ai-btn" onclick="dictReformulate('${letter}')" style="display:none" class="qi-btn" style="background:var(--teal);color:white">✦ Omformulera kliniskt</button>
+      <div id="dict-ai-status" style="font-size:11px;color:var(--text3)"></div>
+      <div style="flex:1"></div>
+      <button id="dict-insert-btn" onclick="dictInsert()" style="display:none;background:var(--teal);color:white;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Infoga i journal →</button>
+    </div>
+  </div>`;
+
+  document.body.appendChild(ov);
+}
+
+function closeDictModal() {
+  if (_dictSR) { try { _dictSR.stop(); } catch(e) {} _dictSR = null; }
+  document.getElementById('dict-modal')?.remove();
+}
+
+function markPromptDone(i) {
+  const row = document.getElementById('dprow-'+i);
+  const chk = document.getElementById('dpchk-'+i);
+  if (!row || !chk) return;
+  const done = row.dataset.done === '1';
+  row.dataset.done = done ? '0' : '1';
+  chk.style.background = done ? '' : 'var(--teal)';
+  chk.style.borderColor = done ? '#b8c4d4' : 'var(--teal)';
+  chk.innerHTML = done ? '' : '<svg width="9" height="7" viewBox="0 0 9 7"><polyline points="1,4 3.5,6.5 8,1" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  row.style.opacity = done ? '' : '.55';
+}
+
+function dictToggleRec() {
+  const btn = document.getElementById('dict-rec-btn');
+  const label = document.getElementById('dict-rec-label');
+  const dot = document.getElementById('dict-rec-dot');
+
+  if (_dictSR) {
+    _dictSR.stop(); _dictSR = null;
+    if (btn) { btn.style.background = '#1a5a3a'; }
+    if (label) label.textContent = 'Fortsätt spela in';
+    if (dot) { dot.style.background = 'white'; dot.style.animation = ''; }
+    // Show AI button if we have text
+    const aiBtn = document.getElementById('dict-ai-btn');
+    if (aiBtn && _dictRawText.trim()) { aiBtn.style.display = 'inline-flex'; }
+    return;
+  }
+
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Röstinmatning kräver Chrome på desktop.'); return; }
+  const sr = new SR();
+  sr.lang = 'sv-SE';
+  sr.continuous = true;
+  sr.interimResults = true;
+  sr.onresult = (ev) => {
+    const liveEl = document.getElementById('dict-live');
+    const interimEl = document.getElementById('dict-interim');
+    let interim = '';
+    for (let i = ev.resultIndex; i < ev.results.length; i++) {
+      if (ev.results[i].isFinal) {
+        _dictRawText += ((_dictRawText && !_dictRawText.endsWith(' ')) ? ' ' : '') + ev.results[i][0].transcript;
+        if (liveEl) liveEl.textContent = _dictRawText;
+        if (interimEl) interimEl.textContent = '';
+      } else {
+        interim += ev.results[i][0].transcript;
+      }
+    }
+    if (interimEl) interimEl.textContent = interim;
+  };
+  sr.onend = () => {
+    if (_dictSR) return; // was manually stopped
+    const aiBtn = document.getElementById('dict-ai-btn');
+    if (aiBtn && _dictRawText.trim()) aiBtn.style.display = 'inline-flex';
+    if (label) label.textContent = 'Spela in igen';
+    if (btn) btn.style.background = '#1a5a3a';
+    if (dot) { dot.style.animation = ''; }
+  };
+  sr.start();
+  _dictSR = sr;
+  if (btn) btn.style.background = '#8a2020';
+  if (label) label.textContent = 'Stoppa inspelning';
+  if (dot) dot.style.animation = 'pulse 1s infinite';
+  const aiBtn = document.getElementById('dict-ai-btn');
+  if (aiBtn) aiBtn.style.display = 'none';
+  const previewWrap = document.getElementById('dict-preview-wrap');
+  if (previewWrap) previewWrap.style.display = 'none';
+  const insertBtn = document.getElementById('dict-insert-btn');
+  if (insertBtn) insertBtn.style.display = 'none';
+}
+
+async function dictReformulate(letter) {
+  const text = _dictRawText.trim();
+  if (!text) return;
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas.'); return; }
+  const statusEl = document.getElementById('dict-ai-status');
+  const aiBtn = document.getElementById('dict-ai-btn');
+  const insertBtn = document.getElementById('dict-insert-btn');
+  const previewWrap = document.getElementById('dict-preview-wrap');
+  const previewTa = document.getElementById('dict-preview-ta');
+  if (statusEl) statusEl.textContent = 'Omformulerar…';
+  if (aiBtn) aiBtn.disabled = true;
+
+  const sectionName = {S:'Subjektivt (patientens berättelse)',O:'Objektivt (undersökningsfynd)',A:'Bedömning (diagnos och prognos)',P:'Plan (åtgärder och uppföljning)'}[letter];
+  const prompt = `Du är leg. fysioterapeut och skriver en klinisk journalanteckning. Omformulera nedanstående diktering till kliniskt korrekt svenska i journalstil för sektionen "${sectionName}".
+
+Regler:
+- Använd anatomiska/latinska termer där relevant: höger→ dextra/dx, vänster→sinistra/sin, framsida→anteriort, baksida→posteriort, insida→medialt, utsida→lateralt, knä→genu, axel→humeroscapulärt, nacke→cervikalt, rygg→lumbalt/thorakalt
+- Byt ut vardagliga beskrivningar mot kliniska: knäskål→patella, sena→tendo/ligament, menisk insida→medial menisk, korsbandet→ACL/PCL (specificera), inklämning→impingement, hälsena→tendo Achillis
+- Behåll faktainnehållet exakt — lägg ingenting till, ta inget bort
+- Skriv i löpande meningar, journalstil, utan rubriker
+- Avsluta inte med punkt om meningen är ofullständig
+- Svar ENBART med den omformulerade texten, inget annat
+
+Diktering: "${text}"`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:MODEL_HAIKU, max_tokens:600, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const result = (data.content||[]).map(b=>b.text||'').join('').trim();
+    if (previewWrap) previewWrap.style.display = 'block';
+    if (previewTa) { previewTa.value = result; setTimeout(()=>{ previewTa.style.height='auto'; previewTa.style.height=previewTa.scrollHeight+'px'; },50); }
+    if (insertBtn) insertBtn.style.display = 'inline-flex';
+    if (statusEl) statusEl.textContent = '';
+  } catch(err) {
+    if (statusEl) statusEl.textContent = 'Fel — prova igen';
+  }
+  if (aiBtn) aiBtn.disabled = false;
+}
+
+function dictInsert() {
+  const ta = document.getElementById('dict-preview-ta');
+  const text = ta ? ta.value.trim() : _dictRawText.trim();
+  if (!text || !_dictTargetField) return;
+  const field = document.getElementById(_dictTargetField);
+  if (field) {
+    field.value = (field.value.trim() ? field.value.trim() + '\n' : '') + text;
+    field.dispatchEvent(new Event('input'));
+  }
+  closeDictModal();
+  showAutoSaveToast('Text infogad ✓');
+}
+
+// Editable prompt structure overlay
+function openPromptEditor(letter) {
+  document.getElementById('prompt-editor-ov')?.remove();
+  const prompts = getSoapPrompts();
+  const current = prompts[letter] || [];
+  const ov = document.createElement('div');
+  ov.id = 'prompt-editor-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:800;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.75);backdrop-filter:blur(4px)';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+  ov.innerHTML = `
+  <div style="background:white;border-radius:14px;width:100%;max-width:480px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.2)" onclick="event.stopPropagation()">
+    <div style="padding:18px 20px 14px;border-bottom:1px solid #eef0f3;flex-shrink:0">
+      <div style="font-size:15px;font-weight:600;color:var(--navy);margin-bottom:2px">Redigera struktur — ${letter}</div>
+      <div style="font-size:12px;color:var(--text3)">En punkt per rad. Används som guidestruktur vid diktering.</div>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px 20px">
+      <textarea id="prompt-editor-ta" style="width:100%;border:1px solid var(--border);border-radius:8px;padding:11px 13px;font-size:13px;line-height:1.8;font-family:'DM Sans',sans-serif;resize:vertical;min-height:240px;outline:none;color:var(--text)" oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'">${current.join('\n')}</textarea>
+      <div style="margin-top:10px;display:flex;justify-content:flex-end">
+        <button onclick="resetSoapPrompts('${letter}')" style="font-size:11px;background:none;border:1px solid #dde6ee;border-radius:6px;padding:5px 12px;cursor:pointer;color:var(--text3);font-family:'DM Sans',sans-serif">↺ Återställ standard</button>
+      </div>
+    </div>
+    <div style="padding:12px 20px 20px;border-top:1px solid #eef0f3;display:flex;gap:8px;flex-shrink:0">
+      <button onclick="savePromptEditor('${letter}')" style="flex:1;background:var(--teal);color:white;border:none;border-radius:9px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Spara</button>
+      <button onclick="document.getElementById('prompt-editor-ov').remove()" style="background:none;border:1px solid var(--border);border-radius:9px;padding:11px 18px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text3)">Avbryt</button>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+}
+
+function savePromptEditor(letter) {
+  const ta = document.getElementById('prompt-editor-ta');
+  if (!ta) return;
+  const lines = ta.value.split('\n').map(l=>l.trim()).filter(Boolean);
+  const prompts = getSoapPrompts();
+  prompts[letter] = lines;
+  saveSoapPrompts(prompts);
+  document.getElementById('prompt-editor-ov')?.remove();
+  showAutoSaveToast('Struktur sparad ✓');
+  // Refresh dict modal if open
+  const dictModal = document.getElementById('dict-modal');
+  if (dictModal) {
+    const promptsDiv = document.getElementById('dict-prompts');
+    if (promptsDiv) promptsDiv.innerHTML = lines.map((p,i) => `<div class="dict-prompt-row" id="dprow-${i}" onclick="markPromptDone(${i})" style="display:flex;align-items:flex-start;gap:7px;cursor:pointer;padding:4px 6px;border-radius:6px">
+      <div class="dict-prompt-check" id="dpchk-${i}" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #b8c4d4;flex-shrink:0;margin-top:1px"></div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.45">${p}</div>
+    </div>`).join('');
+  }
+}
+
+function resetSoapPrompts(letter) {
+  const ta = document.getElementById('prompt-editor-ta');
+  if (ta) ta.value = SOAP_PROMPT_DEFAULTS[letter]?.join('\n') || '';
+}
+
+function micBtnHTML(fieldId, letter) {
+  return `<button class="mic-btn" onclick="openDictationModal('${fieldId}','${letter}')" title="Strukturerad diktering för ${letter}">
+    <span class="mic-btn-dot"></span> Diktera
+  </button>`;
+}
+
+// ── 3. AVVIKELSEDETEKTERING — Proaktiva kliniska varningar ────────────────
+
+function detectAnomalies(patients) {
+  const alerts = [];
+  const now = new Date();
+
+  patients.forEach(p => {
+    const visits = (p.visits||[]);
+    if (!visits.length) return;
+
+    const latestVisit = visits[0];
+    const latestPain = latestVisit.form?.pain ?? latestVisit.soapMeta?.pain;
+    const latestDate = latestVisit.date ? new Date(latestVisit.date) : null;
+
+    // 1. NRS ökar mellan senaste besöken
+    if (visits.length >= 2) {
+      const prevPain = visits[1].form?.pain ?? visits[1].soapMeta?.pain;
+      if (latestPain != null && prevPain != null && latestPain - prevPain >= 3) {
+        alerts.push({pat:p, icon:'📈', msg:`NRS ökade ${prevPain}→${latestPain} sedan förra besöket`, tag:'Smärtökning', tagColor:'#fde8e8', tagText:'#8a2020', severity:2});
+      }
+    }
+
+    // 2. Tre besök i rad utan förbättring
+    if (visits.length >= 3) {
+      const pains = visits.slice(0,3).map(v => v.form?.pain ?? v.soapMeta?.pain).filter(x=>x!=null);
+      if (pains.length === 3 && pains[0] >= pains[1] && pains[1] >= pains[2] && pains[0] >= 5) {
+        alerts.push({pat:p, icon:'⚠️', msg:`NRS stagnerad/ökande tre besök i rad (${[...pains].reverse().join('→')})`, tag:'Ingen progress', tagColor:'#fdf3d8', tagText:'#7a5000', severity:2});
+      }
+    }
+
+    // 3. Missat återbesök >60 dagar
+    if (latestDate) {
+      const fw = latestVisit.form?.followup || 4;
+      const dueDate = new Date(latestDate); dueDate.setDate(dueDate.getDate() + fw * 7);
+      const overdueDays = Math.round((now - dueDate) / (1000*60*60*24));
+      if (overdueDays > 60) {
+        alerts.push({pat:p, icon:'📅', msg:`Återbesök ${overdueDays} dagar försenat (planerat ${dueDate.toLocaleDateString('sv-SE')})`, tag:'Försenat', tagColor:'#e8f0fe', tagText:'#1a3a8a', severity:1});
+      }
+    }
+
+    // 4. Hög smärta (≥8) utan plan
+    if (latestPain >= 8 && !latestVisit.plan) {
+      alerts.push({pat:p, icon:'🔴', msg:`Smärta NRS ${latestPain}/10 — ingen rehabplan skapad`, tag:'Åtgärd krävs', tagColor:'#fde8e8', tagText:'#8a2020', severity:3});
+    }
+  });
+
+  // Sort by severity
+  return alerts.sort((a,b) => b.severity - a.severity).slice(0,8);
+}
+
+function renderAnomalySection(patients) {
+  const alerts = detectAnomalies(patients);
+  if (!alerts.length) return '';
+  return `<div class="anomaly-section">
+    <div class="anomaly-hdr">
+      <div class="anomaly-dot"></div>
+      <div style="font-size:12px;font-weight:700;color:#7a5000">Kliniska varningar — ${alerts.length} patient${alerts.length>1?'er':''} kräver uppmärksamhet</div>
+    </div>
+    ${alerts.map(a => `
+      <div class="anomaly-row" onclick="openPat('${a.pat.id}')">
+        <div class="anomaly-icon">${a.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div class="anomaly-name">${e(a.pat.name||'Namnlös')}</div>
+          <div class="anomaly-msg">${a.msg}</div>
+        </div>
+        <span class="anomaly-tag" style="background:${a.tagColor};color:${a.tagText}">${a.tag}</span>
+      </div>`).join('')}
+  </div>`;
+}
+
+// ── 4. KLINIKINSIKTER — Datadrivna mönster ───────────────────────────────
+
+function analyzeClinicInsights(patients) {
+  const exCount = {};
+  const exImprovedCount = {};
+
+  patients.forEach(p => {
+    const visits = (p.visits||[]);
+    // Find visits with plans where NRS improved vs previous
+    visits.forEach((v, i) => {
+      if (!v.plan?.exercises) return;
+      const currPain = v.form?.pain;
+      const prevPain = visits[i+1]?.form?.pain;
+      const improved = currPain != null && prevPain != null && prevPain > currPain;
+      v.plan.exercises.forEach(ex => {
+        const key = (ex.name||'').toLowerCase().trim();
+        exCount[key] = (exCount[key]||0) + 1;
+        if (improved) exImprovedCount[key] = (exImprovedCount[key]||0) + 1;
+      });
+    });
+  });
+
+  // Score: times used + bonus for improvement correlation
+  const scored = Object.entries(exCount).map(([name, count]) => ({
+    name, count, improved: exImprovedCount[name]||0,
+    score: count + (exImprovedCount[name]||0) * 1.5
+  })).filter(x => x.count >= 2)
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 6);
+
+  return scored;
+}
+
+function renderClinicInsightsHTML(patients) {
+  const insights = analyzeClinicInsights(patients);
+  if (!insights.length) return '';
+  const maxScore = insights[0]?.score || 1;
+  return `<div class="insights-panel">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:12px;font-weight:700;color:var(--navy)">Klinikens mest använda övningar</div>
+      <div style="font-size:10px;color:var(--text3)">${patients.length} patienter · egna data</div>
+    </div>
+    ${insights.map(ex => `
+      <div class="insights-ex-row">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:12px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
+          <div style="margin-top:4px;height:4px;background:#eef0f3;border-radius:2px"><div class="insights-bar" style="width:${Math.round((ex.score/maxScore)*100)}%"></div></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:10px">
+          <div style="font-size:11px;font-family:'DM Mono',monospace;color:var(--text3)">${ex.count}×</div>
+          ${ex.improved ? `<div style="font-size:9px;color:#1a7a4a;font-weight:600">${ex.improved} förbättr.</div>` : ''}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
+// ── 5. ADAPTIV PLAN — Utökat flerdimensionellt uppföljningssystem ─────────
+
+// Storage helpers for pass logs (localStorage + Supabase sync)
+const PASSLOG_KEY = (patId) => `zenya:passlogs:${patId}`;
+
+function getPassLogs(patId) {
+  try { return JSON.parse(localStorage.getItem(PASSLOG_KEY(patId))||'[]'); } catch { return []; }
+}
+
+function savePassLog(patId, entry) {
+  try {
+    const logs = getPassLogs(patId);
+    logs.unshift(entry); // newest first
+    localStorage.setItem(PASSLOG_KEY(patId), JSON.stringify(logs.slice(0,60)));
+  } catch {}
+}
+
+// Render multi-metric patient check-in widget (shown in public plan after exercises)
+function pubCheckInHTML(patId, visitId) {
+  return `
+  <div id="pub-checkin" style="margin:0 14px 12px;background:white;border-radius:16px;padding:18px 18px 16px;box-shadow:0 1px 6px rgba(0,0,0,.07)">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-bottom:14px">Hur gick passet?</div>
+
+    <!-- Pain -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">💊 Smärta under passet</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:#4a9860;font-weight:600;flex-shrink:0">Ingen</span>
+        <input type="range" id="ci-pain" min="0" max="10" value="3" style="flex:1;accent-color:var(--teal)"
+          oninput="document.getElementById('ci-pain-val').textContent=this.value">
+        <span style="font-size:11px;color:#c07070;font-weight:600;flex-shrink:0">Svår</span>
+        <span id="ci-pain-val" style="font-size:15px;font-weight:700;color:var(--navy);min-width:18px;text-align:right">3</span>
+      </div>
+    </div>
+
+    <!-- Energy -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">⚡ Energi & ork</div>
+      <div style="display:flex;gap:7px" id="ci-energy-btns">
+        ${[['1','Låg 😔'],['2','OK 😐'],['3','Bra 😊']].map(([v,l])=>`
+          <button onclick="ciSelect('energy','${v}',this)" data-val="${v}"
+            style="flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
+      </div>
+    </div>
+
+    <!-- Movement -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">🏃 Hur rörde du dig?</div>
+      <div style="display:flex;gap:7px" id="ci-move-btns">
+        ${[['1','Stelt 😬'],['2','Gick bra 🙂'],['3','Flöt på 💪']].map(([v,l])=>`
+          <button onclick="ciSelect('move','${v}',this)" data-val="${v}"
+            style="flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
+      </div>
+    </div>
+
+    <!-- Completion -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:7px">✅ Klarade du alla övningar?</div>
+      <div style="display:flex;gap:7px" id="ci-done-btns">
+        ${[['all','Alla ✓'],['partial','Delvis'],['few','Bara några']].map(([v,l])=>`
+          <button onclick="ciSelect('done','${v}',this)" data-val="${v}"
+            style="flex:1;padding:9px 4px;border-radius:9px;border:1.5px solid var(--border);background:white;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .12s">${l}</button>`).join('')}
+      </div>
+    </div>
+
+    <!-- Free note -->
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:6px">💬 Något att tillägga? <span style="font-weight:400;color:var(--text3)">(valfritt)</span></div>
+      <textarea id="ci-note" placeholder="T.ex: Knät kändes stelt i början men lättnade, höll nere på reps 3..." 
+        style="width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-size:13px;font-family:'DM Sans',sans-serif;line-height:1.55;resize:none;outline:none;min-height:56px;color:var(--text)"></textarea>
+    </div>
+
+    <button onclick="submitCheckIn('${e(patId)}','${e(visitId)}')"
+      style="width:100%;background:var(--navy);color:white;border:none;border-radius:11px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">
+      Skicka in rapport →
+    </button>
+  </div>`;
+}
+
+// Track selected button values
+const _ciSelections = {};
+function ciSelect(group, val, btn) {
+  _ciSelections[group] = val;
+  const container = document.getElementById('ci-'+group+'-btns');
+  if (!container) return;
+  container.querySelectorAll('button').forEach(b => {
+    const isSelected = b.dataset.val === val;
+    b.style.background = isSelected ? 'var(--navy)' : 'white';
+    b.style.color = isSelected ? 'white' : 'var(--text2)';
+    b.style.borderColor = isSelected ? 'var(--navy)' : 'var(--border)';
+  });
+}
+
+async function submitCheckIn(patId, visitId) {
+  const pain = parseInt(document.getElementById('ci-pain')?.value||'5');
+  const energy = _ciSelections['energy'] || null;
+  const move = _ciSelections['move'] || null;
+  const done = _ciSelections['done'] || null;
+  const note = document.getElementById('ci-note')?.value?.trim() || '';
+  const ts = new Date().toISOString();
+
+  const entry = { visitId, ts, pain, energy, move, done, note };
+  savePassLog(patId, entry);
+
+  // Try to sync to Supabase
+  try {
+    await fetch(`${SB_URL}/rest/v1/pass_log`, {
+      method:'POST',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=minimal'},
+      body: JSON.stringify({pat_id:patId, visit_id:visitId, logged_at:ts, pain_after:pain,
+        energy_level: energy ? parseInt(energy) : null,
+        movement_quality: move ? parseInt(move) : null,
+        completion: done || null,
+        patient_note: note || null
+      })
+    });
+  } catch(err) {}
+
+  // Show confirmation + progress
+  const box = document.getElementById('pub-checkin');
+  if (!box) return;
+
+  const logs = getPassLogs(patId);
+  const totalSessions = logs.length;
+  const streak = calcStreak(logs);
+  const painFirst = logs.length >= 2 ? logs[logs.length-1].pain : null;
+  const painTrend = painFirst != null ? pain - painFirst : null;
+  const trendStr = painTrend === null ? '' : painTrend < 0
+    ? `<div style="color:#1a7a4a;font-weight:600">📉 Smärta ↓${Math.abs(painTrend)} poäng sedan start</div>`
+    : painTrend > 0
+      ? `<div style="color:#c07070;font-weight:600">📈 Smärta +${painTrend} poäng sedan start</div>`
+      : `<div style="color:#7a5000">→ Smärta oförändrad sedan start</div>`;
+
+  const feedbackMsg = pain >= 7
+    ? '⚠️ Du rapporterar hög smärta — ta det lugnt och hör av dig till kliniken om det håller i sig.'
+    : done === 'few'
+      ? '🙂 Bra att du rapporterade. Ditt program kan behöva justeras — din fysioterapeut får koll.'
+      : energy === '1'
+        ? '😴 Låg energi kan vara ett tecken på att kroppen behöver mer återhämtning.'
+        : '✅ Bra jobbat! Varje pass du loggar ger din fysioterapeut bättre underlag.';
+
+  box.innerHTML = `
+    <div style="text-align:center;padding:6px 0 4px">
+      <div style="font-size:28px;margin-bottom:8px">${streak >= 3 ? '🔥' : '✅'}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--navy);margin-bottom:4px">
+        ${streak >= 3 ? `${streak} pass i rad!` : 'Pass loggat'}
+      </div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:14px">${new Date(ts).toLocaleString('sv-SE',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'})}</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+        <div style="background:#f4f6f9;border-radius:10px;padding:10px 6px">
+          <div style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${totalSessions}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">Pass totalt</div>
+        </div>
+        <div style="background:#f4f6f9;border-radius:10px;padding:10px 6px">
+          <div style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${streak}${streak>=3?'🔥':''}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">I rad</div>
+        </div>
+        <div style="background:#f4f6f9;border-radius:10px;padding:10px 6px">
+          <div style="font-size:20px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${pain}/10</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">NRS idag</div>
+        </div>
+      </div>
+
+      <div style="font-size:12px;line-height:1.7;margin-bottom:10px">${trendStr}</div>
+      <div style="font-size:12px;color:var(--text3);line-height:1.65;background:#f8f9fb;border-radius:10px;padding:11px 13px;text-align:left">${feedbackMsg}</div>
+    </div>`;
+}
+
+function calcStreak(logs) {
+  if (!logs.length) return 0;
+  // Count consecutive days (within 2-day windows to allow rest days)
+  let streak = 1;
+  for (let i = 1; i < logs.length; i++) {
+    const diffDays = (new Date(logs[i-1].ts) - new Date(logs[i].ts)) / (1000*60*60*24);
+    if (diffDays <= 2) streak++; else break;
+  }
+  return streak;
+}
+
+// Patient progress section in public plan — shows history
+function pubProgressSectionHTML(patId) {
+  const logs = getPassLogs(patId);
+  if (logs.length < 2) return '';
+
+  const recent = logs.slice(0, 8).reverse(); // oldest first for chart
+  const totalSessions = logs.length;
+  const streak = calcStreak(logs);
+  const painFirst = logs[logs.length-1].pain;
+  const painLatest = logs[0].pain;
+  const painDelta = painLatest - painFirst;
+  const avgCompletion = logs.filter(l=>l.done==='all').length / logs.length;
+
+  // Sparkline SVG for pain
+  const W=200, H=36, PAD=4;
+  const pains = recent.map(l=>l.pain);
+  const xs = pains.map((_,i) => PAD + (i/(pains.length-1||1))*(W-PAD*2));
+  const ys = pains.map(p => PAD + ((10-p)/10)*(H-PAD*2));
+  const points = xs.map((x,i)=>`${x},${ys[i]}`).join(' ');
+  const trendColor = painDelta < 0 ? '#1a7a4a' : painDelta > 0 ? '#c07070' : '#4a9aaa';
+
+  return `
+  <div class="zp-section">
+    <div class="zp-sec-hdr">
+      <div class="zp-sec-icon">📊</div>
+      <div class="zp-sec-title">Din progress</div>
+    </div>
+    <div style="padding:12px 16px 16px">
+
+      <!-- Stats row -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+        <div style="background:#f4f6f9;border-radius:10px;padding:11px 8px;text-align:center">
+          <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${totalSessions}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">Pass loggade</div>
+        </div>
+        <div style="background:#f4f6f9;border-radius:10px;padding:11px 8px;text-align:center">
+          <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy)">${streak}${streak>=3?'🔥':''}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">Pass i rad</div>
+        </div>
+        <div style="background:#f4f6f9;border-radius:10px;padding:11px 8px;text-align:center">
+          <div style="font-size:22px;font-weight:700;font-family:'DM Mono',monospace;color:${trendColor}">${painDelta>0?'+':''}${painDelta}</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:2px">NRS sedan start</div>
+        </div>
+      </div>
+
+      <!-- Sparkline -->
+      <div style="background:#f8f9fb;border-radius:10px;padding:12px 14px">
+        <div style="font-size:10px;font-weight:700;color:var(--text4);letter-spacing:.08em;margin-bottom:8px">SMÄRTKURVA (senaste ${recent.length} pass)</div>
+        <svg width="100%" viewBox="0 0 ${W} ${H}" style="display:block;overflow:visible">
+          <polyline points="${points}" fill="none" stroke="${trendColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>
+          ${xs.map((x,i) => `<circle cx="${x}" cy="${ys[i]}" r="3" fill="${trendColor}" opacity=".9"/>`).join('')}
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--text4);margin-top:4px">
+          <span>Start: NRS ${painFirst}</span><span>Nu: NRS ${painLatest}</span>
+        </div>
+      </div>
+
+      <!-- Motivational message -->
+      ${painDelta <= -2 ? `<div style="margin-top:10px;background:#e8f5ee;border-radius:10px;padding:11px 13px;font-size:13px;color:#1a4428;line-height:1.6">
+        🎉 Din smärta har minskat ${Math.abs(painDelta)} poäng sedan du startade — det är ett riktigt bra resultat. Fortsätt!
+      </div>` : avgCompletion >= 0.8 ? `<div style="margin-top:10px;background:#e8f0fe;border-radius:10px;padding:11px 13px;font-size:13px;color:#1a2a6a;line-height:1.6">
+        💪 Du klarar ${Math.round(avgCompletion*100)}% av dina pass fullt ut — det visar på hög disciplin.
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+// Clinician: render patient's self-reported data in detail view
+function renderPatientReportsPanel(patId) {
+  const logs = getPassLogs(patId);
+  if (!logs.length) return '';
+  const recent = logs.slice(0, 10);
+
+  const energyLabel = {1:'Låg',2:'OK',3:'Bra'};
+  const moveLabel = {1:'Stelt',2:'OK',3:'Flöt på'};
+  const doneLabel = {all:'Alla',partial:'Delvis',few:'Bara några'};
+  const doneColor = {all:'#1a7a4a',partial:'#8a6000',few:'#8a2020'};
+
+  // Mini sparkline
+  const pains = recent.slice().reverse().map(l=>l.pain);
+  const W=120, H=28, PAD=3;
+  const xs = pains.map((_,i) => PAD + (i/(pains.length-1||1))*(W-PAD*2));
+  const ys = pains.map(p => PAD + ((10-p)/10)*(H-PAD*2));
+  const points = xs.map((x,i)=>`${x},${ys[i]}`).join(' ');
+  const trend = pains[pains.length-1] < pains[0] ? '#1a7a4a' : pains[pains.length-1] > pains[0] ? '#c07070' : '#4a9aaa';
+
+  return `<div style="margin:16px 0">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Patientrapporter — ${logs.length} pass loggade</div>
+    <div style="background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden">
+      <div style="padding:12px 16px;border-bottom:1px solid var(--bg);display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="flex-shrink:0">
+          <polyline points="${points}" fill="none" stroke="${trend}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          ${xs.map((x,i)=>`<circle cx="${x}" cy="${ys[i]}" r="2.5" fill="${trend}"/>`).join('')}
+        </svg>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <div><div style="font-size:9px;color:var(--text4);text-transform:uppercase;letter-spacing:.08em">Senaste NRS</div><div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace">${recent[0].pain}/10</div></div>
+          <div><div style="font-size:9px;color:var(--text4);text-transform:uppercase;letter-spacing:.08em">Pass totalt</div><div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace">${logs.length}</div></div>
+          <div><div style="font-size:9px;color:var(--text4);text-transform:uppercase;letter-spacing:.08em">I rad</div><div style="font-size:18px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace">${calcStreak(logs)}</div></div>
+        </div>
+      </div>
+      ${recent.map(l => {
+        const d = new Date(l.ts).toLocaleDateString('sv-SE',{day:'numeric',month:'short'});
+        const time = new Date(l.ts).toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
+        return `<div style="padding:9px 16px;border-bottom:1px solid var(--bg);display:flex;align-items:flex-start;gap:10px">
+          <div style="font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;flex-shrink:0;min-width:68px">${d} ${time}</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap;flex:1">
+            <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:8px;background:#eef0f3;color:var(--navy)">NRS ${l.pain}</span>
+            ${l.energy ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:${l.energy==='3'?'#e8f5ee':l.energy==='1'?'#fde8e8':'#fdf3d8'};color:${l.energy==='3'?'#1a6a3a':l.energy==='1'?'#8a2020':'#7a5000'}">⚡ ${energyLabel[l.energy]||l.energy}</span>` : ''}
+            ${l.move ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0f2f4;color:var(--text2)">🏃 ${moveLabel[l.move]||l.move}</span>` : ''}
+            ${l.done ? `<span style="font-size:11px;padding:2px 8px;border-radius:8px;background:#f0f2f4;color:${doneColor[l.done]||'var(--text2)'}">✓ ${doneLabel[l.done]||l.done}</span>` : ''}
+          </div>
+          ${l.note ? `<div style="font-size:11px;color:var(--text3);font-style:italic;max-width:180px;flex-shrink:0">"${e(l.note.slice(0,80))}${l.note.length>80?'…':''}"</div>` : ''}
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+// Check patient's pass_log for multi-metric alerts on dashboard
+async function checkAdaptivePlanAlerts(patients) {
+  const alertEl = document.getElementById('adaptive-alerts');
+  if (!alertEl || !patients.length) return;
+  const warnPats = [];
+
+  patients.forEach(p => {
+    const logs = getPassLogs(p.id);
+    if (logs.length < 2) return;
+    const recent = logs.slice(0, 4);
+
+    // High pain 2+ sessions
+    if (recent.length >= 2 && recent[0].pain >= 6 && recent[1].pain >= 6)
+      warnPats.push({pat:p, icon:'📱', msg:`NRS ${recent[0].pain}/10 senaste ${Math.min(recent.filter(l=>l.pain>=6).length,recent.length)} pass — plan kan behöva justeras`, tag:'Hög smärta', bg:'#fde8e8', col:'#8a2020', sev:3});
+
+    // Completion dropping
+    const notDone = recent.filter(l=>l.done==='few').length;
+    if (notDone >= 2)
+      warnPats.push({pat:p, icon:'⚠️', msg:`Klarar bara delar av övningarna — programmet kan vara för krävande`, tag:'Svår belastning', bg:'#fdf3d8', col:'#7a5000', sev:2});
+
+    // Consistently low energy
+    const lowEnergy = recent.filter(l=>l.energy==='1').length;
+    if (lowEnergy >= 3)
+      warnPats.push({pat:p, icon:'😴', msg:`Rapporterar låg energi ${lowEnergy} pass i rad — kontrollera återhämtning`, tag:'Låg energi', bg:'#f0f2f4', col:'#4a5a6a', sev:1});
+  });
+
+  if (!warnPats.length) return;
+  warnPats.sort((a,b)=>b.sev-a.sev);
+  alertEl.innerHTML = `<div class="anomaly-hdr"><div class="anomaly-dot"></div><div style="font-size:12px;font-weight:700;color:#7a5000">Patientrapporter — ${warnPats.length} signaler</div></div>` +
+    warnPats.map(w => `<div class="anomaly-row" onclick="openPat('${w.pat.id}')">
+      <div class="anomaly-icon">${w.icon}</div>
+      <div style="flex:1"><div class="anomaly-name">${e(w.pat.name)}</div><div class="anomaly-msg">${w.msg}</div></div>
+      <span class="anomaly-tag" style="background:${w.bg};color:${w.col}">${w.tag}</span>
+    </div>`).join('');
+  alertEl.style.display = 'block';
+}
+
+// ── 6. KOLLEGAKONSULTATION — AI-chat om patienten ────────────────────────
+
+let _consultHistory = [];
+
+function openConsultation(patId) {
+  const pat = S.patients.find(p=>p.id===patId) || S.pat;
+  if (!pat) return;
+  _consultHistory = [];
+  document.getElementById('consult-overlay')?.remove();
+  const ov = document.createElement('div');
+  ov.id = 'consult-overlay';
+  ov.className = 'consult-ov';
+  ov.onclick = e => { if(e.target===ov) ov.remove(); };
+
+  // Build patient context
+  const visits = (pat.visits||[]).slice(0, 5);
+  const visitCtx = visits.map((v,i) => {
+    const soap = v.soap ? Object.entries(v.soap).filter(([,val])=>val).map(([k,val])=>`${k}: ${val}`).join('\n') : '';
+    return `Besök ${visits.length-i} (${v.date||'?'}): NRS ${v.form?.pain??'?'}/10\n${soap}`;
+  }).join('\n\n');
+
+  const sysPrompt = `Du är en erfaren leg. fysioterapeut som konsulteras av en kollega. Du har tillgång till patientens journal.
+
+Patient: ${pat.name||'Okänd'}, ${pat.diagnosis||'okänd diagnos'}
+Fas: ${PHASES[(pat.phase||1)-1]?.label||'Fas 1'}
+
+Besökshistorik:
+${visitCtx||'Inga journaler ännu.'}
+
+Ge kliniskt välgrundade svar. Var konkret och direkt. Referera gärna till specifika fynd i journalen. Om du ser röda flaggor — lyft dem. Svara alltid på svenska.`;
+
+  ov.innerHTML = `
+  <div class="consult-sheet" onclick="event.stopPropagation()">
+    <div class="consult-header">
+      <div style="width:32px;height:32px;border-radius:8px;background:var(--teal3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🩺</div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:var(--navy)">AI-konsultation</div>
+        <div style="font-size:11px;color:var(--text3)">${e(pat.name)} · ${e(pat.diagnosis||'')}</div>
+      </div>
+      <button onclick="document.getElementById('consult-overlay').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--text3);padding:4px">×</button>
+    </div>
+    <div class="consult-messages" id="consult-msgs">
+      <div class="consult-bubble ai">Hej! Jag har läst journalen för ${e(pat.name)}. Vad vill du diskutera?</div>
+    </div>
+    <div class="consult-input-row">
+      <input class="consult-inp" id="consult-inp" placeholder="Ställ en klinisk fråga…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendConsultMessage('${patId}');}">
+      <button class="btn btn-p" onclick="sendConsultMessage('${patId}')" style="padding:10px 16px;flex-shrink:0">Skicka</button>
+    </div>
+  </div>`;
+  ov.setAttribute('data-sys', sysPrompt);
+  document.body.appendChild(ov);
+  setTimeout(() => document.getElementById('consult-inp')?.focus(), 100);
+}
+
+async function sendConsultMessage(patId) {
+  const inp = document.getElementById('consult-inp');
+  const msgs = document.getElementById('consult-msgs');
+  const ov = document.getElementById('consult-overlay');
+  const userText = inp?.value?.trim();
+  if (!userText || !msgs || !ov) return;
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas.'); return; }
+  inp.value = '';
+  // Add user bubble
+  msgs.innerHTML += `<div class="consult-bubble user">${e(userText)}</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+  // Add typing indicator
+  const typingId = 'consult-typing-'+Date.now();
+  msgs.innerHTML += `<div class="consult-bubble ai" id="${typingId}" style="color:var(--text3);font-style:italic">Analyserar…</div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+
+  _consultHistory.push({role:'user', content:userText});
+  const sysPrompt = ov.getAttribute('data-sys');
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:MODEL_SONNET, max_tokens:800,
+        system: sysPrompt,
+        messages: _consultHistory
+      })
+    });
+    const data = await res.json();
+    const reply = (data.content||[]).map(b=>b.text||'').join('').trim();
+    _consultHistory.push({role:'assistant', content:reply});
+    const typingEl = document.getElementById(typingId);
+    if (typingEl) typingEl.innerHTML = reply.replace(/\n/g,'<br>');
+    msgs.scrollTop = msgs.scrollHeight;
+  } catch(err) {
+    const typingEl = document.getElementById(typingId);
+    if (typingEl) typingEl.textContent = 'Fel — kontrollera API-nyckel.';
+  }
+}
+
+// ── 7. AUTOGENERERAD EPIKRIS ─────────────────────────────────────────────
+
+async function generateEpikris(patId) {
+  const pat = S.patients.find(p=>p.id===patId) || S.pat;
+  if (!pat) return;
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas.'); return; }
+  const btn = document.getElementById('epikris-btn-'+patId);
+  if (btn) { btn.textContent = 'Genererar epikris…'; btn.disabled = true; }
+
+  const visits = (pat.visits||[]);
+  const visitSummaries = visits.map((v,i) => {
+    const soap = v.soap ? Object.entries(v.soap).filter(([,val])=>val).map(([k,val])=>`  ${k}: ${val}`).join('\n') : '';
+    const plan = v.plan?.exercises?.length ? `  Plan: ${v.plan.exercises.length} övningar, ${v.plan.diagnosis||''}` : '';
+    return `Besök ${visits.length-i} — ${v.date||'?'}: NRS ${v.form?.pain??'?'}/10\n${soap}${plan}`;
+  }).join('\n\n');
+
+  const dateFirst = visits[visits.length-1]?.date || '—';
+  const dateLast = visits[0]?.date || '—';
+  const phase = PHASES[(pat.phase||1)-1]?.label || 'Fas 1';
+
+  const prompt = `Skriv en professionell epikris/remissunderlag på svenska för nedanstående patient. Dokumentet ska vara kliniskt korrekt och formellt, lämpligt att bifoga en remiss eller överlämning till annan vårdgivare.
+
+Patient: ${pat.name||'Okänd'}
+Personnummer/Ålder: ${pat.birthdate||pat.birthYear||'—'}
+Diagnos: ${pat.diagnosis||'—'}
+Aktuell fas: ${phase}
+Behandlingsperiod: ${dateFirst} – ${dateLast} (${visits.length} besök)
+Klinik: ${CLINIC.name}, ${CLINIC.address}
+
+Besöksöversikt:
+${visitSummaries||'Inga journaler dokumenterade.'}
+
+Strukturera epikrisen med dessa rubriker (inga onödiga fyllnadsfraser):
+REMITTERANDE ENHET | PATIENTDATA | DIAGNOS OCH ANAMNES | UNDERSÖKNINGSFYND | BEHANDLING OCH FÖRLOPP | AKTUELLT STATUS | REKOMMENDATION`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:MODEL_SONNET, max_tokens:1200, messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const epikris = (data.content||[]).map(b=>b.text||'').join('').trim();
+    if (btn) { btn.textContent = 'Generera epikris'; btn.disabled = false; }
+    // Show in modal with copy + pre-formatted
+    document.getElementById('mtitle').textContent = 'Epikris — ' + (pat.name||'Patient');
+    document.getElementById('mtext').style.cssText = 'white-space:pre-wrap;font-family:"DM Mono",monospace;font-size:11px;line-height:1.7;max-height:55vh;overflow-y:auto';
+    document.getElementById('mtext').textContent = epikris;
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('mconfirm').textContent = 'Kopiera epikris';
+    document.getElementById('mconfirm').onclick = () => {
+      navigator.clipboard.writeText(epikris).catch(()=>{});
+      closeModal();
+      document.getElementById('mtext').style.cssText = '';
+      document.getElementById('mconfirm').textContent = 'OK';
+      document.getElementById('mconfirm').onclick = closeModal;
+    };
+  } catch(err) {
+    if (btn) { btn.textContent = 'Generera epikris'; btn.disabled = false; }
+    alert('Fel vid generering: ' + err.message);
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 
 // ── CHECK FOR PUBLIC PLAN LINK (#plan=xxx&visit=yyy)
 const _hashParams = new URLSearchParams(window.location.hash.replace('#',''));
@@ -4443,8 +5911,11 @@ const _hashVisitId = _hashParams.get('visit');
 
 if (_hashPatId && _hashVisitId) {
   // Public plan view — no login needed
+  window._isPublicPlan = true; // suppress all clinic UI
   const tb = document.querySelector('.topbar');
   if (tb) tb.style.display = 'none';
+  const at = document.getElementById('autosave-toast');
+  if (at) at.style.display = 'none';
   document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
   document.getElementById('s-public-plan').classList.add('active');
   document.getElementById('s-public-plan').innerHTML = '<div class="pub-loading">Hämtar din rehabplan...</div>';
