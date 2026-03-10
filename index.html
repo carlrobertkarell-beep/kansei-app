@@ -602,13 +602,13 @@
   .zp-sec-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);}
   .zp-excard{border-bottom:1px solid #f2f4f7;}
   .zp-excard:last-child{border-bottom:none;}
-  .zp-exhdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .zp-exhdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .1s;}
   .zp-exhdr:active{background:#f8f9fa;}
-  .zp-exnum{width:32px;height:32px;border-radius:9px;background:var(--navy);color:white;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .zp-exbody{display:none;padding:0 16px 16px;border-top:1px solid #f2f4f7;}
-  .zp-exbody.open{display:block;}
+  .zp-exnum{width:28px;height:28px;background:var(--navy);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Mono',monospace;}
+  .zp-exbody{max-height:0;overflow:hidden;transition:max-height .3s ease, padding .3s ease;padding:0 16px;}
+  .zp-exbody.open{max-height:600px;padding:12px 16px 16px;}
   .zp-exhdr.open .zp-chevron{transform:rotate(90deg);}
-  .zp-chevron{font-size:18px;color:#c8d0d8;flex-shrink:0;transition:transform .18s;display:inline-block;}
+  .zp-chevron{font-size:18px;color:#c8d0d8;flex-shrink:0;transition:transform .25s ease;display:inline-block;}
   .zp-step{display:flex;gap:10px;align-items:flex-start;padding:6px 0;}
   .zp-step-num{width:22px;height:22px;border-radius:6px;background:var(--teal);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
   .zp-pass-bar{position:sticky;bottom:0;background:linear-gradient(to top,#f0f2f6 85%,transparent);padding:14px 14px 22px;z-index:10;}
@@ -4707,11 +4707,14 @@ function zpToggleEx(btn) {
   const card = btn.closest('.zp-excard');
   const body = card.querySelector('.zp-exbody');
   const isOpen = body.classList.contains('open');
-  // Accordion: close all first
-  const section = card.closest('.zp-section');
+  // Close all in section
+  const section = card.closest('.zp-section') || card.parentElement;
   section.querySelectorAll('.zp-exbody').forEach(b => b.classList.remove('open'));
   section.querySelectorAll('.zp-exhdr').forEach(h => h.classList.remove('open'));
-  if (!isOpen) { body.classList.add('open'); btn.classList.add('open'); }
+  if (!isOpen) {
+    body.classList.add('open');
+    btn.classList.add('open');
+  }
 }
 
 function renderPublicPlan(plan, pat) {
@@ -4745,17 +4748,20 @@ function renderPublicPlan(plan, pat) {
   ).join('');
 
   // ── EXERCISES ─────────────────────────────────────────────────────────────
-  const exHtml = (plan.exercises||[]).map((ex,i) => `
+  const exHtml = (plan.exercises||[]).map((ex,i) => {
+    const dose = [ex.sets&&ex.sets+' set', ex.reps&&ex.reps+' reps', ex.rest&&ex.rest+' vila'].filter(Boolean).join(' · ');
+    return `
     <div class="zp-excard">
-      <div class="zp-exhdr${i===0?' open':''}" onclick="zpToggleEx(this)">
+      <div class="zp-exhdr" onclick="zpToggleEx(this)">
         <div class="zp-exnum">${i+1}</div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:15px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
-          <div style="font-size:11px;color:var(--teal);margin-top:2px;font-weight:600">${[ex.sets&&ex.sets+' set', ex.reps&&ex.reps+' reps', ex.rest&&ex.rest+' vila'].filter(Boolean).join(' · ')}</div>
+          <div style="font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
+          ${dose ? `<div style="font-size:11px;color:var(--teal);margin-top:2px;font-weight:600;font-family:'DM Mono',monospace">${dose}</div>` : ''}
         </div>
         <span class="zp-chevron">›</span>
       </div>
-      <div class="zp-exbody${i===0?' open':''}">
+      <div class="zp-exbody">
+        ${dose ? `<div style="font-size:12px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace;padding:8px 0 12px;border-bottom:1px solid #f0f2f5;margin-bottom:12px">${dose}</div>` : ''}
         ${ex.purpose ? `<div style="font-size:12px;color:#4a5a6a;font-style:italic;line-height:1.65;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0f2f5">${e(ex.purpose)}</div>` : ''}
         ${ex.startPosition ? `<div style="font-size:9px;font-weight:700;color:#8a9aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px">Startposition</div>
           <div style="font-size:13px;color:#3a4a5a;line-height:1.6;margin-bottom:12px">${e(ex.startPosition)}</div>` : ''}
@@ -4769,7 +4775,8 @@ function renderPublicPlan(plan, pat) {
         ${ex.tip ? `<div style="border-left:2px solid #c8a030;padding:9px 13px;font-size:12px;color:#6a5000;line-height:1.55;margin-bottom:8px;background:#fffcf0"><span style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:3px;color:#a87000">Tänk på</span>${e(ex.tip)}</div>` : ''}
         ${ex.correctFeel ? `<div style="border-left:2px solid #3a9860;padding:9px 13px;font-size:12px;color:#1a4428;line-height:1.55;background:#f5faf6"><span style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:3px;color:#2a7a48">Rätt känsla</span>${e(ex.correctFeel)}</div>` : ''}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 
   // ── GOALS ─────────────────────────────────────────────────────────────────
   const goalsHtml = plan.goals?.length ? `
