@@ -2355,15 +2355,16 @@ function stopListening() {
 
 // ── KLINISK AI-ASSISTENT ──────────────────────────────────────────────────────
 function clinicalPanelHTML() {
-  return `<div style="margin-top:16px;background:#f8fafc;border:1px solid #dde6ee;border-radius:12px;overflow:hidden">
+  return `<div style="margin-top:16px;background:#f8fafc;border:1px solid #dde6ee;overflow:hidden">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--navy)">
       <div style="display:flex;align-items:center;gap:8px">
-        <div style="width:6px;height:6px;border-radius:50%;background:#4af0b0;animation:pulse 2s infinite"></div>
-        <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:white">Klinisk AI-assistent — analyserar i realtid</span>
+        <div id="clin-pulse" style="width:6px;height:6px;border-radius:50%;background:#6a8aaa;flex-shrink:0"></div>
+        <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:white">Klinisk AI-assistent</span>
+        <span id="clin-status" style="font-size:10px;color:rgba(255,255,255,.45);margin-left:2px">— skriv minst 30 tecken</span>
       </div>
     </div>
     <div id="clinical-panel-body" style="padding:12px;max-height:480px;overflow-y:auto">
-      <div style="font-size:12px;color:#8a9aaa;text-align:center;padding:16px">Börja tala eller skriv — analysen startar automatiskt.</div>
+      <div style="font-size:12px;color:#8a9aaa;text-align:center;padding:16px">Börja skriva i något SOAP-fält — analysen startar automatiskt.</div>
     </div>
   </div>`;
 }
@@ -2389,6 +2390,13 @@ async function runClinicalAnalysis(text) {
   if (!key) return;
   const panel = document.getElementById('clinical-panel-body');
   if (!panel) return;
+
+  // Update status indicator
+  const pulse = document.getElementById('clin-pulse');
+  const status = document.getElementById('clin-status');
+  if (pulse) pulse.style.background = '#4a9aaa';
+  if (status) status.textContent = '— analyserar...';
+
   panel.innerHTML = `<div style="display:flex;align-items:center;gap:8px;padding:12px;color:#4a9aaa;font-size:12px"><div style="width:6px;height:6px;border-radius:50%;background:#4a9aaa;animation:pulse 1s infinite"></div>Analyserar...</div>`;
   const patInfo = S.pat ? (() => {
     const p = S.pat;
@@ -2417,6 +2425,10 @@ async function runClinicalAnalysis(text) {
 function renderClinicalPanel(r) {
   const panel = document.getElementById('clinical-panel-body');
   if (!panel) return;
+  const pulse = document.getElementById('clin-pulse');
+  const status = document.getElementById('clin-status');
+  if (pulse) { pulse.style.background = '#4af0a0'; pulse.style.animation = 'none'; }
+  if (status) status.textContent = '— uppdaterad ' + new Date().toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
   const probColor = {'Hög':'#1a7a4a','Medel':'#8a6000','Låg':'#6a7a8a'};
   const probBg = {'Hög':'#e8f5ee','Medel':'#fff3cd','Låg':'#f0f2f4'};
   let h = '';
@@ -2781,6 +2793,7 @@ function restoreJournalDraft(draft) {
 
 function startManualSOAP() {
   if (!S.pat) return;
+  lastAnalyzedText = ''; // reset so clinical AI triggers on fresh text
   const draft = checkJournalDraft();
   currentSOAP = {
     soap: {S:'',O:'',A:'',P:''},
@@ -2817,8 +2830,10 @@ function rManualSOAP() {
     {l:'P', name:'Plan — åtgärder, hemprogram, uppföljning', ph:'Behandling: ... Hemövningar... Återbesök om...'}
   ];
   el.innerHTML = `<div class="msoap-wrap">
-    <div class="ftit">Manuell journalanteckning</div>
-    <div class="msoap-hint">Fyll i de fält som är relevanta. AI föreslår diagnos och rehabparametrar baserat på det du skriver. Fält kan lämnas tomma.</div>
+    <div class="ftit">Journalanteckning — ${e(p.name)}</div>
+    <div class="msoap-hint">Fyll i de fält som är relevanta. AI föreslår differentialdiagnoser och riktlinjer i realtid.</div>
+
+    ${smartIntakeHTML()}
     
     ${soapFields.map(f=>`
     <div class="msoap-section">
@@ -3433,6 +3448,7 @@ function sbsAutoSaveAndNotify() {
 
 function startSBSsoap(prevVisit) {
   SBS_PREV = prevVisit;
+  lastAnalyzedText = ''; // reset so clinical AI triggers fresh
   const draft = checkJournalDraft();
   currentSOAP = {
     soap: {S:'',O:'',A:'',P:''},
@@ -3487,6 +3503,8 @@ function rSBSsoap() {
         <button class="btn btn-navy" onclick="saveSBSsoap(true)">Spara & skapa rehabplan →</button>
       </div>
     </div>
+
+    ${smartIntakeHTML()}
 
     ${allVisits.length > 1 ? `
     <div style="background:white;border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
