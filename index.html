@@ -1727,7 +1727,7 @@ async function doGen(){
   // Inject phase instruction into form
   const ph = S.pat ? getCurrentPhase(S.pat) : 1;
   S.form.phaseInstruction = getPhasePromptAddition(ph);
-const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:"",service:(window._pendingService||{}).name||"",servicePrice:(window._pendingService||{}).price||0};window._pendingService=null;const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);if(ei<0)setTimeout(()=>aiExtractDiagnoses(sv.id),1200);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
+const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadMode='plan';S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:"",service:(window._pendingService||{}).name||"",servicePrice:(window._pendingService||{}).price||0};window._pendingService=null;const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);if(ei<0)setTimeout(()=>aiExtractDiagnoses(sv.id),1200);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
 function buildPr(f, locked=[]) {
   const age = new Date().getFullYear() - birthdateToYear(f.birthdate||f.birthYear);
   const lang = f.knowledge==="låg" ? "enkelt vardagsspråk — undvik anatomiska termer"
@@ -1854,11 +1854,15 @@ async function callAPI(prompt,locked,key){
   return JSON.parse(t);
 }
 function rLoading(){
-  const steps=["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer klinisk rehabplan"];
+  const isMeeting = S.loadMode === 'meeting';
+  const title = isMeeting ? 'Analyserar samtal' : 'Genererar rehabplan';
+  const steps = isMeeting
+    ? ["Transkriberar och filtrerar samtal","Strukturerar SOAP-journalanteckning","Skapar journalutkast"]
+    : ["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer klinisk rehabplan"];
   const pct = Math.round((S.loadStep/3)*100);
   let h=`<div class="ldwrap">
     <img src="${LOGO}" style="height:50px;margin-bottom:12px">
-    <div class="ldtitle">Genererar rehabplan</div>
+    <div class="ldtitle">${title}</div>
     <div style="width:200px;height:4px;background:#1a3a4a;border-radius:2px;margin:12px auto 16px;overflow:hidden">
       <div style="height:100%;width:${pct}%;background:#4a9aaa;border-radius:2px;transition:width .6s ease"></div>
     </div>
@@ -1866,7 +1870,7 @@ function rLoading(){
   steps.forEach((s,i)=>{
     const c=S.loadStep>i?"done":S.loadStep===i+1?"active":"";
     h+=`<div class="ldstep ${c}">
-      <span style="font-size:13px">${S.loadStep>i?"·":"·"}</span>
+      <span style="font-size:13px">·</span>
       <span>${s}</span>
     </div>`;
   });
@@ -1935,10 +1939,16 @@ function rDoc(){
         <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)">Meddelande till patienten</div>
         <div style="font-size:11px;color:var(--text3);margin-top:2px">Visas direkt på patientens plan — uppdateras utan nytt besök</div>
       </div>
-      <div id="therapist-msg-saved" style="font-size:10px;color:#4a9860;opacity:0;transition:opacity .3s">Sparat</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div id="therapist-msg-saved" style="font-size:10px;color:#4a9860;opacity:0;transition:opacity .3s">Sparat</div>
+        <button id="therapist-msg-gen-btn" onclick="generateTherapistMessage()"
+          style="font-size:11px;font-weight:600;color:var(--teal);background:#f0f8fa;border:1px solid #c0dde4;border-radius:6px;padding:5px 10px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap">
+          ${savedMsg ? 'Generera nytt' : 'Generera förslag'}
+        </button>
+      </div>
     </div>
     <textarea id="therapist-msg-input"
-      placeholder="T.ex: Du gör verkligen bra ifrån dig! Jag ser i dina rapporter att smärtan minskar — fortsätt med programmet som planerat. Hör av dig om något känns konstigt."
+      placeholder="Klicka 'Generera förslag' för ett AI-utkast, eller skriv direkt..."
       style="width:100%;border:1px solid #e0e8f0;padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;line-height:1.6;resize:vertical;outline:none;min-height:80px;color:var(--navy);border-radius:8px;box-sizing:border-box"
       oninput="saveTherapistMessage(this.value)">${e(savedMsg)}</textarea>
     ${savedMsg ? `<div style="font-size:11px;color:var(--text3);margin-top:6px">Senast uppdaterat: ${plan.therapistMessageDate ? new Date(plan.therapistMessageDate).toLocaleDateString('sv-SE') : 'okänt'}</div>` : ''}
@@ -2056,6 +2066,11 @@ function rDoc(){
   </div>`;
 
   document.getElementById("s-doc").innerHTML=h;
+
+  // Auto-generate therapist message if plan has none yet
+  if (plan && !plan.therapistMessage && getKey()) {
+    setTimeout(() => generateTherapistMessage(), 600);
+  }
 
   // First exercise open, rest closed — use explicit IDs via data attributes
   document.querySelectorAll('.mob-excard').forEach((card, idx) => {
@@ -2933,6 +2948,7 @@ async function finishMeeting() {
     return;
   }
 
+  S.loadMode = 'meeting';
   S.loadStep = 1;
   go('loading');
 
@@ -5215,6 +5231,58 @@ function savePlanEdits() {
   _planEditMode = false;
 }
 
+async function generateTherapistMessage() {
+  const key = getKey();
+  if (!key || !S.plan || !S.pat) return;
+
+  const ta = document.getElementById('therapist-msg-input');
+  const btn = document.getElementById('therapist-msg-gen-btn');
+  if (!ta) return;
+
+  // Show loading state
+  if (btn) { btn.textContent = 'Genererar...'; btn.disabled = true; }
+  ta.placeholder = 'AI formulerar meddelande...';
+  ta.style.opacity = '.5';
+
+  const pat = S.pat;
+  const plan = S.plan;
+  const soap = (pat.visits||[]).find(v=>v.id===S.visitId)?.soap || {};
+  const diagList = (pat.diagnoses||[]).length ? pat.diagnoses : [pat.diagnosis||''];
+  const goals = (plan.goals||[]).map(g=>`${g.title}: ${g.text}`).join('\n');
+  const exNames = (plan.exercises||[]).slice(0,4).map(e=>e.name).join(', ');
+
+  const prompt = `Du är en omtänksam fysioterapeut. Skriv ett kort, personligt meddelande direkt till patienten som ska visas i deras rehabplan i mobilen.
+
+PATIENT: ${pat.name||'Patienten'}, ${new Date().getFullYear() - (pat.birthYear||2000)} år
+DIAGNOS: ${diagList.join(', ')}
+JOURNALBEDÖMNING: ${soap.A||''}
+BEHANDLINGSPLAN: ${soap.P||''}
+MÅL: ${goals}
+ÖVNINGAR I PLANEN: ${exNames}
+SMÄRTNIVÅ: NRS ${plan.form?.pain||'?'}/10
+
+Skriv 2-3 meningar. Ton: varm, professionell, uppmuntrande. Adressera patienten direkt (du/dig). Referera konkret till deras situation. Nämn INTE att du är en AI. Returnera BARA texten, inga citattecken, ingen förklaring.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:MODEL_HAIKU, max_tokens:200, system:'Skriv bara meddelandetexten, inget annat.', messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const msg = (data.content||[]).map(b=>b.text||'').join('').trim().replace(/^["']|["']$/g,'');
+    if (msg && ta) {
+      ta.value = msg;
+      ta.style.opacity = '1';
+      saveTherapistMessage(msg);
+    }
+  } catch(err) {
+    console.warn('therapistMessage generation failed:', err);
+  }
+  if (btn) { btn.textContent = 'Generera förslag'; btn.disabled = false; }
+  if (ta) ta.style.opacity = '1';
+}
+
 function saveTherapistMessage(msg) {
   if (!S.plan || !S.pat || !S.visitId) return;
   clearTimeout(window._therapistMsgTimer);
@@ -5475,51 +5543,85 @@ async function loadPublicPlan(patId, visitId) {
   const el = document.getElementById('s-public-plan');
   if (!el) return;
 
-  // Use in-memory cache if available (e.g. after "Klar med dagens pass")
+  // In-memory cache
   if (_publicPlanCache && _publicPlanCache.patId === patId && _publicPlanCache.visitId === visitId) {
     renderPublicPlan(_publicPlanCache.plan, _publicPlanCache.pat);
     return;
   }
 
-  // Try Supabase first
+  el.innerHTML = `<div class="pub-loading">
+    <div style="margin-bottom:12px">Hämtar din rehabplan...</div>
+    <div style="font-size:12px;color:#aaa">Ansluter till server — kan ta några sekunder</div>
+  </div>`;
+
+  // Helper: fetch with timeout
+  async function fetchWithTimeout(url, opts, ms) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), ms);
+    try {
+      const r = await fetch(url, { ...opts, signal: ctrl.signal });
+      clearTimeout(t);
+      return r;
+    } catch(e) { clearTimeout(t); throw e; }
+  }
+
+  // 1. Try Supabase with 12s timeout
   try {
-    const r = await fetch(`${SB_URL}/rest/v1/patients?id=eq.${patId}&select=data`, {
-      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
-    });
+    const r = await fetchWithTimeout(
+      `${SB_URL}/rest/v1/patients?id=eq.${encodeURIComponent(patId)}&select=data`,
+      { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } },
+      12000
+    );
     if (r.ok) {
       const rows = await r.json();
-      if (rows && rows[0]?.data) {
-        // Supabase stores data column as JSON string — must parse
+      if (rows && rows.length > 0 && rows[0].data) {
         const raw = rows[0].data;
         const pat = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        const visit = (pat?.visits||[]).find(v=>v.id===visitId);
+        const visit = (pat?.visits||[]).find(v => v.id === visitId);
         if (visit?.plan) {
           _publicPlanCache = { patId, visitId, plan: visit.plan, pat };
-          renderPublicPlan(visit.plan, pat); return;
+          renderPublicPlan(visit.plan, pat);
+          return;
         }
+        // Patient found, visit/plan not found
+        el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:'DM Sans',sans-serif">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#0f2744;margin-bottom:12px">Plan ej tillgänglig</div>
+          <div style="font-size:14px;color:#8a9aaa;line-height:1.7">Länken är giltig men planen hittades inte.<br>Kontakta din behandlare.</div>
+        </div>`;
+        return;
       }
+    } else {
+      console.warn('Supabase HTTP', r.status);
     }
-  } catch(e) { console.warn('Supabase fetch failed:', e); }
+  } catch(e) {
+    console.warn('Supabase fetch failed:', e.name === 'AbortError' ? 'Timeout (12s)' : e.message);
+  }
 
-  // Fallback: try localStorage (only works on same device/browser as therapist)
+  // 2. Fallback: localStorage (same device only)
   try {
-    let pat = null;
-    const perPat = localStorage.getItem('kansei-data:'+patId);
-    if (perPat) { pat = JSON.parse(perPat); }
-    else {
-      const local = JSON.parse(localStorage.getItem('kansei_pats')||'[]');
-      pat = local.find(p=>p.id===patId) || null;
-    }
-    const visit = (pat?.visits||[]).find(v=>v.id===visitId);
-    if (visit?.plan) {
-      _publicPlanCache = { patId, visitId, plan: visit.plan, pat };
-      renderPublicPlan(visit.plan, pat); return;
+    const raw = localStorage.getItem('kansei-data:' + patId);
+    if (raw) {
+      const pat = JSON.parse(raw);
+      const visit = (pat?.visits||[]).find(v => v.id === visitId);
+      if (visit?.plan) {
+        _publicPlanCache = { patId, visitId, plan: visit.plan, pat };
+        renderPublicPlan(visit.plan, pat);
+        return;
+      }
     }
   } catch(e) { console.warn('localStorage fallback failed:', e); }
 
-  el.innerHTML = `<div style="text-align:center;padding:80px 24px">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--navy);margin-bottom:10px">Plan ej tillgänglig</div>
-    <div style="font-size:14px;color:#8a9aaa;line-height:1.6">Kontakta din fysioterapeut för att få tillgång till din plan.</div>
+  // 3. Nothing worked — show error with retry
+  el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:'DM Sans',sans-serif">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#0f2744;margin-bottom:12px">Kunde inte ladda planen</div>
+    <div style="font-size:14px;color:#8a9aaa;line-height:1.7;margin-bottom:24px">
+      Kontrollera att du är online och försök igen.<br>
+      Om problemet kvarstår, kontakta din behandlare.
+    </div>
+    <button onclick="loadPublicPlan('${patId.replace(/'/g,"\\'")}','${visitId.replace(/'/g,"\\'")}') "
+      style="background:#0f2744;color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">
+      Försök igen
+    </button>
   </div>`;
 }
 
