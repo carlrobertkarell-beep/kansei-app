@@ -542,84 +542,80 @@
     .sbs-section,.sbs-top{grid-template-columns:1fr;}
   }
 
-  /* ── MOBILE RESPONSIVE ──────────────────────────────────────────── */
+  /* ── RESPONSIVE ─────────────────────────────────────────────────── */
+
+  /* Tablet */
+  @media(max-width:900px){
+    .dash-grid{grid-template-columns:1fr 1fr;}
+    .dash-grid .dash-panel:last-child{display:none;}
+    .sbs-section,.sbs-top{grid-template-columns:1fr;}
+  }
+
+  /* Mobile */
   @media(max-width:600px){
-    /* Layout */
-    .main{padding:12px 12px 80px;}
     body{overflow-x:hidden;}
+    .main{padding:10px 10px 80px;}
 
-    /* Topbar — shrink logo, hide sync text, stack buttons if needed */
-    .topbar{padding:0 10px;height:48px;}
-    .topbar-logo{height:20px!important;}
-    #tbr .btn-ghost{font-size:10px;padding:5px 8px;}
-    #sync-status{display:none;}
+    /* Topbar */
+    .topbar{padding:0 10px;height:46px;}
 
-    /* Dashboard topbar — stack vertically */
-    .dash-topbar{flex-direction:column;align-items:flex-start;gap:12px;}
-    .dash-greeting{font-size:20px;}
+    /* Dashboard */
+    .dash-topbar{flex-direction:column;align-items:stretch;gap:10px;padding-bottom:14px;}
+    .dash-greeting{font-size:21px;}
     .dash-date{font-size:10px;}
-    .dash-quickbar{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .dash-quickbar{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .dash-qbtn{font-size:12px;padding:9px 8px;text-align:center;}
     .dash-quickbar button:last-child{grid-column:1/-1;}
-
-    /* KPI strip — 2x2 grid instead of 4-in-a-row */
-    .dash-kpis{display:grid;grid-template-columns:1fr 1fr;border-radius:6px;}
-    .dash-kpi{border-right:none;border-bottom:1px solid var(--border);padding:11px 12px;}
-    .dash-kpi:nth-child(odd){border-right:1px solid var(--border);}
-    .dash-kpi:nth-child(3),.dash-kpi:nth-child(4){border-bottom:none;}
+    .dash-kpis{display:grid;grid-template-columns:1fr 1fr;border-radius:8px;}
+    .dash-kpi{border-right:none!important;border-bottom:1px solid var(--border)!important;padding:11px 12px;}
+    .dash-kpi:nth-child(odd){border-right:1px solid var(--border)!important;}
+    .dash-kpi:nth-child(3),.dash-kpi:nth-child(4){border-bottom:none!important;}
     .dash-kpi-val{font-size:20px;}
-
-    /* Dashboard grid — single column */
-    .dash-grid{grid-template-columns:1fr;}
+    .dash-grid{grid-template-columns:1fr;gap:10px;}
 
     /* Patient list */
     .pgrid{grid-template-columns:1fr;}
     .page-hdr{flex-direction:column;align-items:flex-start;gap:8px;}
+    .pcard{padding:13px 12px;}
 
     /* Patient detail */
-    .det-hdr{padding:14px 12px;}
-    .det-name{font-size:20px;}
+    .det-hdr{padding:12px 10px;}
+    .det-name{font-size:21px;}
     .det-meta{gap:10px;flex-wrap:wrap;}
-    .det-actions{flex-wrap:wrap;gap:6px;}
-    .det-actions .btn{font-size:11px;padding:7px 10px;}
 
     /* Visit cards */
-    .vhdr{padding:9px 11px;gap:8px;flex-wrap:wrap;}
+    .vhdr{padding:9px 10px;gap:8px;}
     .vbadge{font-size:9px;padding:2px 5px;}
 
-    /* Meeting screen */
-    .meet-wrap{padding:0;}
+    /* Forms/screens */
+    .fwrap,.msoap-wrap,.meet-wrap,.soap-wrap{padding:0;}
+    .msoap-ta{font-size:13px;}
     .transcript-box{font-size:12px;}
 
-    /* SOAP manual */
-    .msoap-wrap{padding:0;}
-    .msoap-ta{font-size:13px;}
-
-    /* Form */
-    .fwrap{padding:0;}
+    /* Plan doc buttons */
+    .doc-actions{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .doc-actions .btn{flex-shrink:0;font-size:11px!important;padding:7px 10px!important;white-space:nowrap;}
 
     /* Clinical AI panel */
-    .clinical-panel{max-height:280px!important;}
+    .clinical-panel{max-height:260px!important;}
 
-    /* Doc (plan) view — action buttons scroll horizontally, no wrap */
-    .doc-actions{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:12px;}
-    .doc-actions .btn{flex-shrink:0;font-size:11px!important;padding:7px 11px!important;}
-
-    /* SBS soap — stack columns */
+    /* SBS stack */
     .sbs-section,.sbs-top{grid-template-columns:1fr!important;}
 
-    /* Overlays — full width bottom sheets */
-    .npf-sheet{border-radius:16px 16px 0 0;max-height:95vh;}
-
-    /* Anomaly section */
-    .anomaly-row{flex-wrap:wrap;gap:6px;}
-    .anomaly-tag{align-self:flex-start;}
+    /* Anomaly rows */
+    .anomaly-row{flex-wrap:wrap;gap:5px;}
+    .anomaly-tag{margin-top:2px;}
   }
 
-  /* Topbar overflow safety for very small screens */
+  /* Very small phones */
   @media(max-width:380px){
-    #tbr .btn-ghost{font-size:9px;padding:4px 6px;}
-    .topbar-logo{height:17px!important;}
+    .main{padding:8px 8px 80px;}
+    .topbar{height:43px;}
+    .det-name{font-size:18px;}
+    .dash-greeting{font-size:18px;}
+    .dash-kpi-val{font-size:18px;}
   }
+
 
   /* ── PUBLIC PLAN EXERCISE EXPAND ─────────────────────────────────── */
   .pub-exbody{display:none;}
@@ -907,9 +903,9 @@ const SERVICES = [
 const SOPTS=["Aktiv","Uppföljning","Avslutad"];
 const SCOL={Aktiv:{bg:'#e8f5ee',col:'#1a7a4a'},Uppföljning:{bg:'#fdf3d8',col:'#8a6000'},Avslutad:{bg:'#eef0f3',col:'#5a6a7a'}};
 const PHASES=[
-  {id:1,label:'Fas 1',name:'Smärtlindring',desc:'Minska smärta, skydda vävnad, återfå basrörelser',color:'#c03030',bg:'#fde8e8',icon:''},
-  {id:2,label:'Fas 2',name:'Stabilisering',desc:'Muskelstyrka, funktion, neuromuskulär kontroll',color:'#8a6000',bg:'#fdf3d8',icon:''},
-  {id:3,label:'Fas 3',name:'Underhåll & friskvård',desc:'Upprätthålla, förebygga återfall, långsiktig hälsa',color:'#1a7a4a',bg:'#e8f5ee',icon:''}
+  {id:1,label:'Akut',name:'Smärtlindring',desc:'Minska smärta, skydda vävnad, återfå basrörelser',color:'#c03030',bg:'#fde8e8',icon:''},
+  {id:2,label:'Rehabilitering',name:'Styrka & stabilitet',desc:'Muskelstyrka, funktion, neuromuskulär kontroll',color:'#8a6000',bg:'#fdf3d8',icon:''},
+  {id:3,label:'Underhåll',name:'Förebyggande & friskvård',desc:'Upprätthålla, förebygga återfall, långsiktig hälsa',color:'#1a7a4a',bg:'#e8f5ee',icon:''}
 ];
 let S={screen:"list",patients:[],pat:null,visitId:null,plan:null,locked:{},form:dform(),search:"",apiKey:"",apiVis:false};
 function parseBirthdate(val) {
@@ -1048,13 +1044,84 @@ function go(scr){
   // Auto-save journal draft when navigating away
   if((S.screen==='manualsoap'||S.screen==='sbs-soap') && scr!==S.screen) autoSaveJournalDraft();
   S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
-function rTopbar(){const r=document.getElementById("tbr");let h="";const scr=S.screen;
-if(scr==='dashboard'){h+=`<span style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em">Zenya</span>`;}
-else{h+=`<button class="btn-ghost btn" onclick="if(S.screen==='meeting'){resetMeeting();}go('dashboard')" style="font-size:11px">← Hem</button>`;}
-if(scr==="detail"&&S.pat){h+=`<button class="btn-ghost btn" onclick="startMeeting()" style="white-space:nowrap">Möte</button>`;h+=`<button class="btn-ghost btn" onclick="startManualSOAP()" style="white-space:nowrap">Journal</button>`;h+=`<button class="btn-ghost btn" onclick="newVisit()" style="white-space:nowrap">+ Besök</button>`;}
-if(scr==="doc"){h+=`<button class="btn-ghost btn" onclick="go('detail')">Kundkort</button>`;}
-h+=`<span id="sync-status" style="margin-right:4px"></span>`;h+=`<button class="btn-ghost btn" style="padding:7px 11px" onclick="togSettings()" title="Inställningar">&#9881;</button>`;r.innerHTML=h;}
-function goBack(){const s=S.screen;if(s==="doc"||s==="form"||s==="editex"||s==="soap"||s==="editpat"||s==="journaldoc"||s==="manualsoap")go(S.pat?"detail":"list");else if(s==="meeting"){resetMeeting();go("dashboard");}else if(s==="list"||s==="detail")go("dashboard");else go("dashboard");}
+function rTopbar(){
+  const r=document.getElementById("tbr");
+  const scr=S.screen;
+  let h="";
+
+  // Left: back button or app label
+  if(scr==='dashboard'){
+    h+=`<span style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em">Zenya</span>`;
+  } else {
+    const backLabels = {
+    meeting:'← Kundkort', soap:'← Kundkort', manualsoap:'← Kundkort',
+    'sbs-soap':'← Kundkort', doc:'← Kundkort', form:'← Kundkort',
+    editex:'← Plan', editpat:'← Kundkort', journaldoc:'← Kundkort',
+    patjournal:'← Kundkort', detail:'← Patienter', list:'← Hem'
+  };
+  const backLabel = backLabels[scr] || '← Hem';
+  h+=`<button class="btn-ghost btn" onclick="goBack()" style="font-size:12px;padding:6px 10px;white-space:nowrap">${backLabel}</button>`;
+  }
+
+  // Right: sync dot + hamburger
+  h+=`<div style="display:flex;align-items:center;gap:6px">`;
+  h+=`<span id="sync-status"></span>`;
+  h+=`<button onclick="togHamburger()" id="ham-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center" aria-label="Meny">
+    <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+    <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+    <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+  </button>`;
+  h+=`</div>`;
+  r.innerHTML=h;
+}
+
+function togHamburger(){
+  const existing=document.getElementById('ham-menu');
+  if(existing){existing.remove();return;}
+  const btn=document.getElementById('ham-btn');
+  const rect=btn.getBoundingClientRect();
+  const menu=document.createElement('div');
+  menu.id='ham-menu';
+  menu.style.cssText=`position:fixed;top:${rect.bottom+4}px;right:12px;background:white;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:400;min-width:180px;overflow:hidden;animation:fadeInOv .12s ease`;
+  const items=[
+    {label:'Inställningar', fn:'togHamburger();togSettings()'},
+    {label:'Hämta från molnet', fn:'togHamburger();syncFromCloud()'},
+    {label:'Ladda upp alla', fn:'togHamburger();syncToCloud()'},
+    {label:'Backup', fn:'togHamburger();exportBackup()'},
+    {label:'Logga ut', fn:'togHamburger();sbSignOut()', red:true},
+  ];
+  menu.innerHTML=items.map(it=>`<div onclick="${it.fn}" style="padding:12px 16px;font-size:13px;cursor:pointer;color:${it.red?'var(--red)':'var(--navy)'};font-family:'DM Sans',sans-serif;border-bottom:1px solid var(--bg2);transition:background .1s" onmouseenter="this.style.background='var(--bg)'" onmouseleave="this.style.background=''">${it.label}</div>`).join('');
+  // Close on outside click
+  setTimeout(()=>document.addEventListener('click', function _c(e){if(!menu.contains(e.target)&&e.target!==btn){menu.remove();document.removeEventListener('click',_c);}},true),10);
+  document.body.appendChild(menu);
+}
+function goBack(){
+  const s = S.screen;
+  const hasPat = !!S.pat;
+  if (s === 'meeting') {
+    stopListening(); go(hasPat ? 'detail' : 'list');
+  } else if (s === 'soap') {
+    // SOAP review — came from meeting, go back to detail to not lose data
+    go(hasPat ? 'detail' : 'list');
+  } else if (s === 'manualsoap' || s === 'sbs-soap') {
+    autoSaveJournalDraft();
+    go(hasPat ? 'detail' : 'list');
+  } else if (s === 'form' || s === 'editex') {
+    go(hasPat ? 'detail' : 'list');
+  } else if (s === 'doc') {
+    go(hasPat ? 'detail' : 'list');
+  } else if (s === 'editpat') {
+    go(hasPat ? 'detail' : 'list');
+  } else if (s === 'journaldoc' || s === 'patjournal') {
+    go(hasPat ? 'detail' : 'list');
+  } else if (s === 'detail') {
+    go('list');
+  } else if (s === 'list') {
+    go('dashboard');
+  } else {
+    go('dashboard');
+  }
+}
 function togSettings(){
   const existing = document.getElementById('settings-overlay');
   if (existing) { existing.remove(); return; }
@@ -1356,22 +1423,36 @@ function renderPhaseBar(pat) {
     const d = new Date(lastDate); d.setDate(d.getDate() + fw*7);
     nextDue = d.toLocaleDateString('sv-SE', {day:'numeric',month:'short'});
   }
-  const dots = PHASES.map(p => {
+  const steps = PHASES.map(p => {
     const done = p.id < cur;
     const active = p.id === cur;
-    const bg = active ? 'var(--navy)' : done ? 'var(--teal)' : 'var(--border)';
-    return `<div onclick="setPhase(${p.id})" title="${p.name}" style="width:8px;height:8px;border-radius:50%;background:${bg};cursor:pointer;flex-shrink:0;transition:background .15s"></div>`;
-  }).join('');
+    const dotBg = active ? p.color : done ? 'var(--teal)' : 'var(--border)';
+    const labelColor = active ? 'var(--navy)' : done ? 'var(--teal)' : 'var(--text4)';
+    const weight = active ? '700' : '400';
+    return `<div onclick="setPhase(${p.id})" style="display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex:1">
+      <div style="width:10px;height:10px;border-radius:50%;background:${dotBg};transition:background .15s"></div>
+      <div style="font-size:9px;font-weight:${weight};color:${labelColor};text-align:center;letter-spacing:.04em">${p.label}</div>
+    </div>`;
+  });
+  const connectors = `<div style="position:absolute;top:5px;left:calc(50%/3 + 5px);right:calc(50%/3 + 5px);height:1px;background:var(--border);z-index:0"></div>`;
+
   const back = cur > 1
-    ? `<button class="btn" style="font-size:11px;padding:4px 10px;flex-shrink:0;color:var(--text3)" onclick="setPhase(${cur-1})">← Fas ${cur-1}</button>`
+    ? `<button class="btn" style="font-size:10px;padding:3px 9px;flex-shrink:0;color:var(--text3)" onclick="setPhase(${cur-1})">← ${PHASES[cur-2].label}</button>`
     : '';
   const advance = next
-    ? `<button class="btn btn-p" style="font-size:11px;padding:4px 10px;flex-shrink:0" onclick="setPhase(${next.id})">→ ${next.label}</button>`
-    : `<span style="font-size:11px;color:var(--green);font-weight:600">Slutförd</span>`;
-  return `<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--teal3);border:1px solid var(--teal);border-radius:8px;margin-bottom:12px">
-    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">${dots}</div>
-    <div style="font-size:12px;font-weight:600;color:var(--navy);flex:1">${ph.label} — ${ph.name}${nextDue?`<span style="font-weight:400;color:var(--teal);margin-left:6px">· ${nextDue}</span>`:''}</div>
-    ${back}${advance}
+    ? `<button class="btn btn-p" style="font-size:10px;padding:3px 9px;flex-shrink:0" onclick="setPhase(${next.id})">→ ${next.label}</button>`
+    : `<span style="font-size:10px;color:var(--green);font-weight:600">Slutförd</span>`;
+
+  return `<div style="background:${ph.bg};border:1px solid ${ph.color}22;border-radius:10px;padding:10px 14px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <div>
+        <span style="display:inline-block;background:${ph.color};color:white;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:4px;margin-right:7px">${ph.label}</span>
+        <span style="font-size:13px;font-weight:600;color:${ph.color}">${ph.name}</span>
+        ${nextDue?`<span style="font-size:11px;color:var(--text3);margin-left:8px">Återbesök ${nextDue}</span>`:''}
+      </div>
+      <div style="display:flex;gap:5px">${back}${advance}</div>
+    </div>
+    <div style="position:relative;display:flex;gap:0">${connectors}${steps.join('')}</div>
   </div>`;
 }
 
@@ -1411,15 +1492,22 @@ function rDetail(){
         </div>
       </div>
     </div>
-    <div class="det-actions">
-      ${S.visitId&&S.plan?`<button class="btn" onclick="go('doc')">← Plan</button>`:""}
-      <button class="btn" onclick="go('editpat')">Redigera</button>
-      <button class="btn" onclick="go('patjournal')">Exportera</button>
-      <button class="btn" onclick="openConsultation('${p.id}')">AI-konsultation</button>
-      ${(p.visits||[]).length>=1?`<button class="btn" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">Epikris</button>`:""}
-      ${(p.visits||[]).length>=1?`<button class="btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}
-      <button class="btn btn-d" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera</button>
-      <button class="btn btn-p" onclick="newVisit()">+ Nytt besök</button>
+
+    <!-- PRIMARY ACTIONS: page-specific, prominently placed -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:14px;border-top:2px solid var(--border)">
+      <button class="btn btn-p" style="padding:11px;font-size:13px;font-weight:700" onclick="startManualSOAP()">+ Journal</button>
+      <button class="btn btn-p" style="padding:11px;font-size:13px;font-weight:700;background:white;color:var(--navy);border:1px solid var(--border)" onclick="startMeeting()">Möte / transkription</button>
+      ${S.visitId&&S.plan?`<button class="btn" style="padding:11px;font-size:12px;grid-column:1/-1" onclick="go('doc')">Visa senaste rehabplan</button>`:`<button class="btn btn-p" style="padding:11px;font-size:12px;grid-column:1/-1;background:var(--teal)" onclick="newVisit()">+ Nytt besök &amp; rehabplan</button>`}
+    </div>
+
+    <!-- SECONDARY ACTIONS: admin/tools, more compact -->
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
+      <button class="btn" style="font-size:11px;padding:6px 11px" onclick="go('editpat')">Redigera</button>
+      <button class="btn" style="font-size:11px;padding:6px 11px" onclick="go('patjournal')">Exportera</button>
+      <button class="btn" style="font-size:11px;padding:6px 11px" onclick="openConsultation('${p.id}')">AI-konsultation</button>
+      ${(p.visits||[]).length>=1?`<button class="btn" style="font-size:11px;padding:6px 11px" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">Epikris</button>`:""}
+      ${(p.visits||[]).length>=1?`<button class="btn" style="font-size:11px;padding:6px 11px" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}
+      <button class="btn btn-d" style="font-size:11px;padding:6px 11px" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera</button>
     </div>
   </div>`;
 
@@ -2234,16 +2322,21 @@ function rMeeting() {
 
   if (!meetConsented) {
     el.innerHTML = `<div class="meet-wrap">
-      <div class="meet-title">Starta möte — ${e(p.name)}</div>
-      <div class="meet-sub">${e(p.diagnosis||"")}</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+        <button class="btn" style="font-size:12px;padding:6px 12px" onclick="go('detail')">← Tillbaka</button>
+        <div>
+          <div class="meet-title" style="margin-bottom:0">Starta mötesinspelning</div>
+          <div class="meet-sub">${e(p.name)} · ${e(p.diagnosis||'')}</div>
+        </div>
+      </div>
       <div class="meet-consent">
         <div class="meet-consent-title">Samtycke krävs</div>
         <div class="meet-consent-txt">
           Innan inspelningen startar behöver patienten ge sitt samtycke till att mötet spelas in och transkriberas för journalföring. Transkriptionen behandlas av AI och lagras lokalt.
         </div>
         <div class="meet-consent-btn">
-          <button class="btn btn-p" onclick="giveConsent()">Patienten har samtyckt — Starta möte</button>
-          <button class="btn" onclick="go('detail')">Avbryt</button>
+          <button class="btn btn-p" style="width:100%;padding:13px;font-size:14px" onclick="giveConsent()">Patienten har samtyckt — Starta</button>
+          <button class="btn" style="width:100%;padding:10px" onclick="go('detail')">Avbryt</button>
         </div>
       </div>
     </div>`;
@@ -2257,11 +2350,16 @@ function rMeeting() {
   let transcriptHtml = meetTranscript.map(t =>
     `<div class="transcript-line"><span class="tl-time">${t.time}</span><span class="tl-text">${e(t.text)}</span></div>`
   ).join('');
-  if (!transcriptHtml) transcriptHtml = '<div style="color:#2a3a4a;font-style:italic">Inget transkriberat ännu. Tala tydligt — Safari transkriberar automatiskt.</div>';
+  if (!transcriptHtml) transcriptHtml = '<div style="color:#6a7a8a;font-style:italic;padding:8px 0;font-size:13px">Inget transkriberat ännu — tryck Starta inspelning och tala tydligt.</div>';
 
   el.innerHTML = `<div class="meet-wrap">
-    <div class="meet-title">Möte pågår — ${e(p.name)}</div>
-    <div class="meet-sub">${e(p.diagnosis||"")} · ${new Date().toLocaleDateString('sv-SE')}</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <button class="btn" style="font-size:12px;padding:6px 12px;flex-shrink:0" onclick="stopListening();go('detail')">← Kundkort</button>
+      <div style="flex:1;min-width:0">
+        <div class="meet-title" style="margin-bottom:1px">${e(p.name)}</div>
+        <div class="meet-sub">${e(p.diagnosis||'')} · ${new Date().toLocaleDateString('sv-SE')}</div>
+      </div>
+    </div>
     <div class="meet-status">
       <div class="meet-dot ${isListening?'listening':'idle'}" id="meet-dot"></div>
       <span class="meet-status-txt" id="meet-status-txt">${isListening?'Lyssnar och transkriberar...':'Tryck Starta för att börja'}</span>
@@ -2269,8 +2367,8 @@ function rMeeting() {
     </div>
     <div class="transcript-box" id="tbox">
       ${transcriptHtml}
-      <div class="transcript-line" id="meet-interim-line" style="${meetInterim?'':'display:none'}">
-        <span class="tl-time">--:--</span><span class="tl-text interim" id="meet-interim">${e(meetInterim)}</span>
+      <div class="transcript-line" id="meet-interim-line" style="display:none">
+        <span class="tl-time">--:--</span><span class="tl-text interim" id="meet-interim"></span>
       </div>
     </div>
     <div class="meet-controls" id="meet-btn-wrap">
@@ -2299,11 +2397,11 @@ function rMeeting() {
 function giveConsent() {
   meetConsented = true;
   meetTranscript = [];
-  meetInterim = "";
+  meetInterim = '';
   meetSeconds = 0;
-  meetNote = "";
+  meetNote = '';
   rMeeting();
-  // Start timer — only update the clock element, not full re-render
+  // Start timer — only update clock element, not full re-render
   meetTimer = setInterval(() => {
     meetSeconds++;
     const el = document.getElementById('meet-clock');
@@ -2313,75 +2411,84 @@ function giveConsent() {
       el.textContent = mins+':'+secs;
     }
   }, 1000);
-  startListening();
+  // Don't auto-start — let user press the button
 }
 
-function startListening() {
+async function startListening() {
+  if (meetRecognition) return; // already running
+  _meetingStopping = false;
+
+  // Request mic permission explicitly on mobile first
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach(t => t.stop()); // just checking permission
+    } catch(err) {
+      alert('Mikrofontillstånd nekades. Tillåt mikrofon i webbläsarens inställningar och försök igen.');
+      return;
+    }
+  }
+
   if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Din webbläsare stöder inte röstinspelning. Använd Safari på Mac eller iPhone.');
+    alert('Din webbläsare stöder inte röstinspelning. Använd Chrome eller Safari.');
     return;
   }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  meetRecognition = new SR();
-  meetRecognition.lang = 'sv-SE';
-  meetRecognition.continuous = true;
-  meetRecognition.interimResults = true;
-  meetRecognition.maxAlternatives = 1;
 
-  meetRecognition.onresult = (event) => {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const rec = new SR();
+  rec.lang = 'sv-SE';
+  rec.continuous = true;
+  rec.interimResults = true;
+  rec.maxAlternatives = 1;
+  meetRecognition = rec;
+
+  rec.onresult = (event) => {
     let interim = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      const transcript = event.results[i][0].transcript;
+      const t = event.results[i][0].transcript;
       if (event.results[i].isFinal) {
         const now = new Date();
         const time = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-        meetTranscript.push({ time, text: transcript.trim() });
+        meetTranscript.push({ time, text: t.trim() });
         meetInterim = '';
-        // Append new line to transcript box without full re-render
-        appendTranscriptLine(time, transcript.trim());
+        appendTranscriptLine(time, t.trim());
       } else {
-        interim += transcript;
+        interim += t;
       }
     }
     meetInterim = interim;
-    // Update interim display only
     const intEl = document.getElementById('meet-interim');
+    const intLine = document.getElementById('meet-interim-line');
     if (intEl) intEl.textContent = interim;
-    // Enable done button now that we have content
+    if (intLine) intLine.style.display = interim ? '' : 'none';
     updateDoneBtn();
   };
 
-  meetRecognition.onerror = (event) => {
+  rec.onerror = (event) => {
     console.warn('Speech error:', event.error);
-    if (event.error === 'not-allowed') {
-      alert('Mikrofontillstånd saknas. Gå till Systeminställningar → Safari → Mikrofon och tillåt.');
+    if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
       meetRecognition = null;
-    } else if (event.error !== 'no-speech' && event.error !== 'aborted') {
-      meetInterim = '';
-      const intEl = document.getElementById('meet-interim');
-      if (intEl) intEl.textContent = '';
+      alert('Mikrofontillstånd saknas. Tillåt mikrofon och försök igen.');
+      updateRecBtn(false);
+    } else if (event.error === 'aborted' || event.error === 'no-speech') {
+      // normal — will restart via onend if still active
+    } else {
+      console.warn('Speech recognition error:', event.error);
     }
   };
 
-  meetRecognition.onend = () => {
-    // Only auto-restart if we haven't manually stopped
-    if (meetRecognition) {
+  rec.onend = () => {
+    // Only auto-restart if we're still supposed to be listening
+    if (!_meetingStopping && meetRecognition === rec) {
       setTimeout(() => {
-        if (meetRecognition) {
-          try { meetRecognition.start(); } catch(e) { console.warn('restart failed', e); }
+        if (!_meetingStopping && meetRecognition === rec) {
+          try { rec.start(); } catch(e) { console.warn('restart failed', e); }
         }
-      }, 200);
-    }
-    // Update status dot
-    const dot = document.getElementById('meet-dot');
-    const txt = document.getElementById('meet-status-txt');
-    if (meetRecognition) {
-      if (dot) { dot.className = 'meet-dot listening'; }
-      if (txt) txt.textContent = 'Lyssnar och transkriberar...';
+      }, 150);
     }
   };
 
-  meetRecognition.onstart = () => {
+  rec.onstart = () => {
     const dot = document.getElementById('meet-dot');
     const txt = document.getElementById('meet-status-txt');
     if (dot) dot.className = 'meet-dot listening';
@@ -2389,26 +2496,40 @@ function startListening() {
     updateRecBtn(true);
   };
 
-  meetRecognition.start();
-  updateRecBtn(true);
+  try {
+    rec.start();
+    updateRecBtn(true);
+  } catch(e) {
+    meetRecognition = null;
+    alert('Kunde inte starta inspelning: ' + e.message);
+    updateRecBtn(false);
+  }
 }
 
+let _meetingStopping = false; // prevents onend race condition
+
 function stopListening() {
+  _meetingStopping = true;
   if (meetRecognition) {
     const r = meetRecognition;
-    meetRecognition = null; // set null BEFORE calling stop so onend doesn't restart
+    meetRecognition = null;
     r.onend = null;
     r.onerror = null;
-    try { r.stop(); } catch(e) {}
+    r.onresult = null;
+    r.onstart = null;
+    try { r.abort(); } catch(e) {}
   }
   meetInterim = '';
   const intEl = document.getElementById('meet-interim');
+  const intLine = document.getElementById('meet-interim-line');
   if (intEl) intEl.textContent = '';
+  if (intLine) intLine.style.display = 'none';
   const dot = document.getElementById('meet-dot');
   const txt = document.getElementById('meet-status-txt');
   if (dot) dot.className = 'meet-dot idle';
-  if (txt) txt.textContent = 'Inspelning pausad';
+  if (txt) txt.textContent = 'Inspelning pausad — tryck Fortsätt för att återuppta';
   updateRecBtn(false);
+  setTimeout(() => { _meetingStopping = false; }, 300);
 }
 
 // ── KLINISK AI-ASSISTENT ──────────────────────────────────────────────────────
@@ -2544,9 +2665,21 @@ function setClinicalICD(code, diagName) {
 
 function appendTranscriptLine(time, text) {
   triggerClinicalAnalysis(meetTranscript.map(t=>t.text).join(' '));
+
+  // Persist transcript to localStorage immediately — crash protection
+  if (S.pat) {
+    try {
+      localStorage.setItem('zenya:meetdraft:'+S.pat.id, JSON.stringify({
+        transcript: meetTranscript,
+        note: meetNote,
+        patId: S.pat.id,
+        savedAt: Date.now()
+      }));
+    } catch(e) {}
+  }
+
   const tbox = document.getElementById('tbox');
   if (!tbox) return;
-  // Remove the placeholder if present
   const placeholder = tbox.querySelector('div[style*="italic"]');
   if (placeholder) placeholder.remove();
   const div = document.createElement('div');
@@ -2581,6 +2714,7 @@ function resetMeeting() {
   meetSeconds = 0;
   meetNote = '';
   currentSOAP = null;
+  clearMeetDraft();
 }
 
 async function finishMeeting() {
@@ -2994,10 +3128,68 @@ pain 0-10, motivation 1-10, history: ingen/sporadisk/regelbunden, knowledge: lå
   }
 }
 
+function checkMeetDraft() {
+  if (!S.pat) return null;
+  try {
+    const raw = localStorage.getItem('zenya:meetdraft:'+S.pat.id);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || d.patId !== S.pat.id) return null;
+    if (Date.now() - d.savedAt > 8*60*60*1000) return null; // 8h expiry
+    if (!d.transcript || !d.transcript.length) return null;
+    return d;
+  } catch { return null; }
+}
+
+function clearMeetDraft() {
+  if (S.pat) try { localStorage.removeItem('zenya:meetdraft:'+S.pat.id); } catch {}
+}
+
 function startMeeting() {
   if (!S.pat) return;
+
+  // Check for a saved draft from a previous crashed/interrupted session
+  const draft = checkMeetDraft();
+  if (draft) {
+    const mins = Math.round((Date.now() - draft.savedAt) / 60000);
+    const timeAgo = mins < 60 ? `${mins} min sedan` : `${Math.round(mins/60)} tim sedan`;
+    const ov = document.createElement('div');
+    ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72)';
+    ov.innerHTML = `<div style="background:white;border-radius:16px;width:100%;max-width:420px;padding:24px;box-shadow:0 8px 40px rgba(0,0,0,.25)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Avbruten inspelning hittad</div>
+      <div style="font-size:17px;font-weight:600;color:var(--navy);margin-bottom:8px">${draft.transcript.length} rader sparade</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:20px">Från ett möte ${timeAgo}. Vill du fortsätta där du slutade?</div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-p" style="flex:1;padding:11px" onclick="restoreMeetDraft(${JSON.stringify(draft).replace(/"/g,'&quot;')})">Återuppta</button>
+        <button class="btn" style="flex:1;padding:11px" onclick="clearMeetDraft();this.closest('[style*=fixed]').remove();resetMeeting();go('meeting')">Nytt möte</button>
+      </div>
+    </div>`;
+    document.body.appendChild(ov);
+    return;
+  }
+
   resetMeeting();
   go('meeting');
+}
+
+function restoreMeetDraft(draft) {
+  document.querySelectorAll('[style*="position:fixed"]').forEach(el => { if(el.querySelector('.btn-p')) el.remove(); });
+  meetConsented = true;
+  meetTranscript = draft.transcript || [];
+  meetNote = draft.note || '';
+  meetSeconds = 0;
+  meetInterim = '';
+  go('meeting');
+  meetTimer = setInterval(() => {
+    meetSeconds++;
+    const el = document.getElementById('meet-clock');
+    if (el) {
+      const mins = String(Math.floor(meetSeconds/60)).padStart(2,'0');
+      const secs = String(meetSeconds%60).padStart(2,'0');
+      el.textContent = mins+':'+secs;
+    }
+  }, 1000);
+  showAutoSaveToast('Transkript återställt — '+meetTranscript.length+' rader');
 }
 
 
