@@ -973,7 +973,7 @@ function startAutoSave(){
   // Sync to Supabase every 5 minutes as safety net
   _autoBackupInterval=setInterval(()=>{
     if(S.patients.length > 0) syncToCloud();
-  }, 5 * 60 * 1000);
+  }, 30 * 60 * 1000);
 }
 
 // Warn before unload if unsaved changes
