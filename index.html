@@ -1265,6 +1265,7 @@ function rDashboard() {
     </div>
 
     ${renderAnomalySection(S.patients)}
+    ${renderPlanReviewSection(S.patients)}
     <div id="adaptive-alerts" class="anomaly-section" style="display:none"></div>
 
     <!-- MAIN GRID: followups | recent | stats -->
@@ -1540,7 +1541,42 @@ function rDetail(){
   <div id="vb-${v.id}" style="display:${exp?"block":"none"}"><div class="vbody"><div>`;
       if(v.plan&&v.plan.exercises)v.plan.exercises.forEach((ex,i)=>{h+=`<div class="vex-item"><span class="vex-num">0${i+1}</span><span class="vex-name">${e(ex.name)}</span><span class="vex-dose">${ex.sets}×${ex.reps}</span></div>`;});
       h+=`</div>`;
-      if(v.plan){h+=`<div id="passlog-${v.id}" style="margin:10px 0 8px"><div style="font-size:11px;color:#8a9aaa">Läser genomförda pass...</div></div>`;setTimeout(()=>loadPassLog(v.id,p.id),50);}
+      if(v.plan){
+        h+=`<div id="passlog-${v.id}" style="margin:10px 0 8px"><div style="font-size:11px;color:#8a9aaa">Läser genomförda pass...</div></div>`;
+        setTimeout(()=>loadPassLog(v.id,p.id),50);
+        // Plan adjustment trigger — only count logs for THIS visit
+        const visitLogs = getPassLogs(p.id).filter(l=>l.visitId===v.id);
+        if (visitLogs.length >= 2) {
+          const recent5 = visitLogs.slice(0,5);
+          const avgPain = Math.round(recent5.reduce((s,l)=>s+(l.pain||0),0)/recent5.length*10)/10;
+          const lowCompletion = recent5.filter(l=>l.done==='few'||l.done==='partial').length >= 2;
+          const highPain = avgPain >= 6;
+          const painRising = recent5.length>=3 && recent5[0].pain > recent5[recent5.length-1].pain + 1;
+          const canProgress = avgPain <= 3 && recent5.filter(l=>l.done==='all').length >= recent5.length*0.8;
+          const urgency = (highPain || painRising) ? 'high' : lowCompletion ? 'medium' : canProgress ? 'low' : null;
+          if (urgency) {
+            const urgencyColor = urgency==='high'?'#c05050':urgency==='medium'?'#c8a030':'#1a7a4a';
+            const urgencyBg    = urgency==='high'?'#fdf5f5':urgency==='medium'?'#fffcf0':'#f2faf5';
+            const urgencyLabel = urgency==='high'?'Planen bör justeras — smärta hög eller ökande'
+                               : urgency==='medium'?'Låg genomförandegrad — plan kan behöva förenklas'
+                               : 'Patienten progredierar bra — plan kan utmanas';
+            const alreadyApplied = v.plan.lastAdjusted
+              && visitLogs[0]?.ts && new Date(v.plan.lastAdjusted) > new Date(visitLogs[0].ts);
+            h += `<div style="margin:8px 0;padding:12px 14px;background:${urgencyBg};border-left:3px solid ${urgencyColor};border-radius:0 10px 10px 0">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:11px;font-weight:700;color:${urgencyColor};margin-bottom:2px">${urgencyLabel}</div>
+                  <div style="font-size:10px;color:var(--text3)">${visitLogs.length} pass loggade · snittsmärta NRS ${avgPain}${alreadyApplied?' · Justerad '+new Date(v.plan.lastAdjusted).toLocaleDateString('sv-SE'):''}</div>
+                </div>
+                <button onclick="analyzePlanAdjustment('${e(p.id)}','${e(v.id)}')"
+                  style="white-space:nowrap;background:var(--navy);color:white;border:none;padding:8px 14px;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:6px;flex-shrink:0">
+                  ${alreadyApplied?'Ny analys':'Analysera &amp; justera'}
+                </button>
+              </div>
+            </div>`;
+          }
+        }
+      }
       h+=`<div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea>`;
       h+=`<div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div>`;
       h+=`<div class="vactions">
@@ -1669,26 +1705,115 @@ async function doGen(){
   const ph = S.pat ? getCurrentPhase(S.pat) : 1;
   S.form.phaseInstruction = getPhasePromptAddition(ph);
 const key=getKey();if(!key){document.getElementById("ferr").innerHTML=`<div class="errbox">API-nyckel saknas. Klicka på Inställningar uppe till höger.</div>`;return;}document.getElementById("ferr").innerHTML="";const btn=document.getElementById("gbtn");if(btn)btn.disabled=true;const f=S.form;const diag=f.diagnosis==="Annan / fritext"?f.customDiag:f.diagnosis;const ff={...f,diagnosis:diag};S.loadStep=1;go("loading");try{S.loadStep=2;rLoading();const gen=await callAPI(buildPr(ff),[],key);S.loadStep=3;rLoading();const vid=S.visitId||("v_"+Date.now());const np={...gen,patientName:f.name||"Patient",diagnosis:diag,form:ff,visitId:vid};S.plan=np;let pat=S.pat||{id:"pat_"+Date.now(),name:f.name,birthYear:f.birthYear,diagnosis:diag,visits:[]};pat={...pat,name:ff.name||pat.name,birthdate:ff.birthdate||pat.birthdate,birthYear:birthdateToYear(ff.birthdate||pat.birthdate||""),diagnosis:diag};const nv={id:vid,date:new Date().toISOString().slice(0,10),form:ff,plan:np,status:"Aktiv",note:"",service:(window._pendingService||{}).name||"",servicePrice:(window._pendingService||{}).price||0};window._pendingService=null;const ei=(pat.visits||[]).findIndex(v=>v.id===vid);pat.visits=ei>=0?pat.visits.map(v=>v.id===vid?nv:v):[nv,...(pat.visits||[])];const sv=savePat(pat);S.pat=sv;S.visitId=vid;go("doc");if(ei<0&&!(pat.consents&&pat.consents.length))setTimeout(()=>showConsentPopup(sv.id),500);if(ei<0)setTimeout(()=>aiExtractDiagnoses(sv.id),1200);}catch(err){go("form");document.getElementById("ferr").innerHTML=`<div class="errbox">Fel: ${e(err.message||"Okänt fel")}. Kontrollera API-nyckeln.</div>`;if(btn)btn.disabled=false;}}
-function buildPr(f,locked=[]){
-  const age=new Date().getFullYear()-birthdateToYear(f.birthdate||f.birthYear);
-  const lang=f.knowledge==="låg"?"enkelt vardagsspråk — undvik anatomiska termer":f.knowledge==="medel"?"tydligt pedagogiskt":"kliniskt korrekt med anatomiska termer";
-  const load=f.pain>=7?"MINIMAL belastning":f.pain>=4?"MÅTTLIG belastning":"PROGRESSIV belastning";
-  const tr=f.history==="ingen"?"Ingen träningsbakgrund":f.history==="sporadisk"?"Sporadisk träning":"Regelbunden träning";
-  const loc=f.location==="hem"?"Hemträning — ingen utrustning. Kropp, vägg, stol.":"Gym — fria vikter, kabelmaskiner, bänk.";
-  const lp=locked.length?`\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`:"";
-  const n=f.exercises-locked.length;
+function buildPr(f, locked=[]) {
+  const age = new Date().getFullYear() - birthdateToYear(f.birthdate||f.birthYear);
+  const lang = f.knowledge==="låg" ? "enkelt vardagsspråk — undvik anatomiska termer"
+              : f.knowledge==="medel" ? "tydligt pedagogiskt"
+              : "kliniskt korrekt med anatomiska termer";
+  const load = f.pain>=7 ? "MINIMAL belastning — undvik kompression och axiell last"
+              : f.pain>=4 ? "MÅTTLIG belastning — kontrollerade rörelser, undvik smärtprovokation"
+              : "PROGRESSIV belastning — bygg styrka och rörelseomfång";
+  const tr = f.history==="ingen" ? "Ingen träningsbakgrund — börja enkelt, bygg rörelsemönster"
+            : f.history==="sporadisk" ? "Sporadisk träning — viss kroppskännedom"
+            : "Regelbunden träning — god kroppskännedom och kondition";
+  const loc = f.location==="hem"
+    ? "Hemträning — INGEN utrustning. Kropp, vägg, stol, golv, handduk."
+    : "Gym — fria vikter, kabelmaskiner, bänk, TRX, resistance bands.";
+  const lp = locked.length
+    ? `\nLÅSTA ÖVNINGAR (behåll exakt):\n${locked.map(l=>`Position ${l.index+1}: "${l.name}"`).join("\n")}`
+    : "";
+  const n = f.exercises - locked.length;
 
-  // Pull in current SOAP journal if available
+  // ── HÄMTA ALL KLINISK KONTEXT FRÅN S.pat ──────────────────────────────────
+  const pat = S.pat;
+
+  // 1. Rehabiliteringsfas
+  const phase = pat ? (PHASES[(pat.phase||1)-1]) : null;
+  const phaseContext = phase
+    ? `\nREHABFAS: ${phase.label} — ${phase.name}\n${
+        phase.id===1 ? "Prioritet: smärtlindring, skydda vävnad, undvik aggravering. Inga plyometriska eller tunga belastningar."
+      : phase.id===2 ? "Prioritet: progressiv belastning, återfå styrka, stabilitet och rörelseomfång."
+      : "Prioritet: underhåll, förebyggande, bibehåll funktion långsiktigt."}`
+    : "";
+
+  // 2. Alla diagnoser (primär + sekundära)
+  const allDiags = pat
+    ? (pat.diagnoses?.length ? pat.diagnoses : (pat.diagnosis ? [pat.diagnosis] : []))
+    : [f.diagnosis];
+  const diagContext = allDiags.length > 1
+    ? `\nDIAGNOSER (alla): ${allDiags.join(" | ")}`
+    : "";
+
+  // 3. Patientens bakgrundsanteckningar — mediciner, kontraindikationer
+  const notesContext = pat?.notes
+    ? `\nPATIENTINFO & KONTRAINDIKATIONER:\n${pat.notes}`
+    : "";
+
+  // 4. Tidigare besök — vad har provats, vad fungerade
+  const prevVisits = pat ? (pat.visits||[])
+    .filter(v => v.soap && (v.soap.A||v.soap.P||v.soap.S))
+    .slice(0, 3)
+    .map(v => {
+      const s = v.soap||{};
+      const exNames = (v.plan?.exercises||[]).map(e=>e.name).slice(0,4).join(", ");
+      return `Besök ${v.date||''}: A: ${s.A||''} | P: ${s.P||''}${exNames?` | Övningar: ${exNames}`:''}`;
+    })
+    .filter(x=>x.length>20) : [];
+  const prevContext = prevVisits.length
+    ? `\nTIDIGARE BESÖK (använd för progression och undvika upprepning):\n${prevVisits.join("\n")}`
+    : "";
+
+  // 5. Pass-loggar — hur patienten faktiskt mår hemma
+  const logs = pat ? getPassLogs(pat.id) : [];
+  let passContext = '';
+  if (logs.length >= 2) {
+    const recent = logs.slice(0, 5);
+    const avgPain = Math.round(recent.reduce((s,l)=>s+l.pain,0)/recent.length*10)/10;
+    const completionRate = Math.round(recent.filter(l=>l.done==='all').length/recent.length*100);
+    const energyLow = recent.filter(l=>l.energy==='1').length;
+    const notes = recent.filter(l=>l.note).map(l=>l.note).slice(0,2).join("; ");
+    passContext = `\nHEMPASS-DATA (senaste ${recent.length} loggade pass):\nSnittsmärta: ${avgPain}/10 | Genomförandegrad: ${completionRate}% | Låg energi: ${energyLow}/${recent.length} pass${notes?`\nPatientens egna noteringar: "${notes}"`:''}`;
+  }
+
+  // 6. SOAP från detta besök (primär klinisk grund)
   let soapContext = '';
-  if (S.pat && S.visitId) {
-    const v = (S.pat.visits||[]).find(x=>x.id===S.visitId);
-    if (v && v.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P)) {
+  if (pat && S.visitId) {
+    const v = (pat.visits||[]).find(x=>x.id===S.visitId);
+    if (v?.soap && (v.soap.S||v.soap.O||v.soap.A||v.soap.P)) {
       const s = v.soap;
-      soapContext = `\n\nJOURNAL FRÅN DETTA BESÖK (använd som primär klinisk grund):\nS: ${s.S||''}\nO: ${s.O||''}\nA: ${s.A||''}\nP: ${s.P||''}`;
+      soapContext = `\n\nJOURNAL DETTA BESÖK (primär klinisk grund — prioritera):\nS (subjektivt): ${s.S||''}\nO (objektivt): ${s.O||''}\nA (bedömning): ${s.A||''}\nP (plan): ${s.P||''}`;
     }
   }
 
-  return `Du är senior fysioterapeut. Skapa klinisk rehabplan. Returnera ENBART JSON utan backticks.\n\nPatient: ${f.name||"Patient"}, f. ${f.birthYear} (${age} år), ${f.diagnosis}\nSmärta NRS: ${f.pain}/10 — ${load}\nMotivation: ${f.motivation}/10, Träning: ${tr}, Plats: ${loc}\nKommunikation: ${lang}, Återbesök: ${f.followup} v${f.notes?`\n\nKLINISKT FOKUS — PRIORITERA:\n${f.notes}`:""}${soapContext}${lp}\n\nGenerera ${n>0?n+" NYA":f.exercises} övningar. Exakt dos, anatomisk motivering, 4-5 steg, diagnos-specifik säkerhetsanmärkning.\n\nJSON:{"greeting":"2-3 meningar hälsning","goals":[{"title":"Smärtmål","text":"mätbart"},{"title":"Funktionsmål","text":"konkret aktivitet"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"exercises":[{"name":"namn","purpose":"muskler och varför","startPosition":"exakt position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"muskelaktivering"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: råd","yellow":"NRS 4-6: modifiering","red":"NRS 7+: stopp"},"lifestyleTips":["råd1","råd2","råd3"],"followupNote":"avslutning"}`;
+  // 7. Kliniskt fokus från behandlaren (manuell input)
+  const clinFocus = f.notes
+    ? `\n\nBEHANDLARENS FOKUS (PRIORITERA DESSA):\n${f.notes}`
+    : "";
+
+  const allContext = phaseContext + diagContext + notesContext + prevContext + passContext + soapContext + clinFocus;
+
+  return `Du är senior fysioterapeut. Skapa individualiserad klinisk rehabplan. Returnera ENBART giltig JSON utan backticks.
+
+PATIENT: ${f.name||"Patient"}, ${age} år
+PRIMÄR DIAGNOS: ${f.diagnosis}
+SMÄRTA: NRS ${f.pain}/10 — ${load}
+MOTIVATION: ${f.motivation}/10
+TRÄNINGSBAKGRUND: ${tr}
+TRÄNINGSPLATS: ${loc}
+KOMMUNIKATIONSNIVÅ: ${lang}
+PLANERAD UPPFÖLJNING: ${f.followup} veckor
+${allContext}
+${lp}
+
+INSTRUKTIONER:
+- Generera ${n>0?n+" NYA":f.exercises} övningar anpassade till HELA den kliniska bilden ovan — inte bara diagnosen
+- whyThisForYou: förklara för patienten varför JUST denna övning valdes utifrån deras specifika situation (smärtnivå, fas, journal, hemrapporter)
+- Dosering ska spegla fas och smärtnivå — NRS ≥7 = lättare dos, fler set med lägre belastning
+- Om pass-data finns: anpassa svårighet efter faktisk genomförandegrad
+- Om tidigare besök finns: progrediera från förra planens övningar, upprepa inte exakt samma
+- level: 1=nybörjare/akut, 2=uppbyggnad, 3=avancerad/underhåll
+
+JSON:{"greeting":"2-3 meningar personlig hälsning — referera specifikt till patientens situation","goals":[{"title":"Smärtmål","text":"mätbart och realistiskt utifrån NRS och fas"},{"title":"Funktionsmål","text":"konkret aktivitet patienten vill klara"},{"title":"Livskvalitetsmål","text":"sömn/arbete/socialt"}],"totalWeeks":${f.followup||4},"exercises":[{"name":"namn","purpose":"anatomisk motivering — muskler och funktion","whyThisForYou":"personlig förklaring varför denna övning valdes för denna patient — referera fas, smärtnivå eller journalfynd","level":1,"startPosition":"exakt startposition","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"diagnos- och fas-specifik säkerhetsanmärkning","correctFeel":"vad patienten ska känna"}],"schedule":[{"day":"Måndag","activity":"Övningsprogram (~20 min)"},{"day":"Tisdag","activity":"Vila"},{"day":"Onsdag","activity":"Övningsprogram (~20 min)"},{"day":"Torsdag","activity":"Vila"},{"day":"Fredag","activity":"Övningsprogram (~20 min)"},{"day":"Lördag","activity":"Aktiv vila"},{"day":"Söndag","activity":"Vila"}],"painAdvice":{"green":"NRS 0-3: konkret råd för denna diagnos","yellow":"NRS 4-6: specifik modifiering","red":"NRS 7+: stopp-kriterie"},"lifestyleTips":["råd1 kopplat till patientens situation","råd2","råd3"],"followupNote":"personlig avslutning"}`;
 }
 // ── API MODELS ────────────────────────────────────────────────────────────────
 const MODEL_SONNET = 'claude-sonnet-4-20250514'; // Komplex planering, SOAP-analys
@@ -1776,6 +1901,24 @@ function rDoc(){
       <button class="btn" onclick="printHomeCard(S.visitId)" style="white-space:nowrap;font-size:12px;padding:8px 14px;flex-shrink:0">Hemkort</button>
       <button class="btn" onclick="window.print()" style="white-space:nowrap;font-size:12px;padding:8px 14px;flex-shrink:0">Skriv ut / PDF</button>
     </div>
+  </div>`;
+
+  // ── THERAPIST MESSAGE TO PATIENT ──────────────────────────────────────────
+  const savedMsg = plan.therapistMessage || '';
+  h += `
+  <div style="margin:12px 16px 0;background:white;border-radius:14px;padding:16px 18px;box-shadow:0 1px 6px rgba(0,0,0,.06)">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div>
+        <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)">Meddelande till patienten</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">Visas direkt på patientens plan — uppdateras utan nytt besök</div>
+      </div>
+      <div id="therapist-msg-saved" style="font-size:10px;color:#4a9860;opacity:0;transition:opacity .3s">Sparat</div>
+    </div>
+    <textarea id="therapist-msg-input"
+      placeholder="T.ex: Du gör verkligen bra ifrån dig! Jag ser i dina rapporter att smärtan minskar — fortsätt med programmet som planerat. Hör av dig om något känns konstigt."
+      style="width:100%;border:1px solid #e0e8f0;padding:10px 12px;font-size:13px;font-family:'DM Sans',sans-serif;line-height:1.6;resize:vertical;outline:none;min-height:80px;color:var(--navy);border-radius:8px;box-sizing:border-box"
+      oninput="saveTherapistMessage(this.value)">${e(savedMsg)}</textarea>
+    ${savedMsg ? `<div style="font-size:11px;color:var(--text3);margin-top:6px">Senast uppdaterat: ${plan.therapistMessageDate ? new Date(plan.therapistMessageDate).toLocaleDateString('sv-SE') : 'okänt'}</div>` : ''}
   </div>`;
 
   // ── GREETING CARD ─────────────────────────────────────────────────────────
@@ -2380,7 +2523,7 @@ function rMeeting() {
     <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#4a5a6a;margin-bottom:5px">Egna noteringar</div>
     <textarea class="meet-note" placeholder="Tilläggsnoteringar..." oninput="meetNote=this.value;triggerClinicalAnalysis(meetTranscript.map(t=>t.text).join(' ')+' '+this.value)">${e(meetNote)}</textarea>
 
-    ${clinicalPanelHTML()}
+    ${clinicalPanelHTML("meeting")}
 
     <button class="meet-done-btn" id="meet-done-btn" onclick="finishMeeting()">
       Avsluta möte och skapa journal →
@@ -2400,8 +2543,8 @@ function giveConsent() {
   meetInterim = '';
   meetSeconds = 0;
   meetNote = '';
+  lastAnalyzedText = ''; // reset so AI triggers fresh on new transcript
   rMeeting();
-  // Start timer — only update clock element, not full re-render
   meetTimer = setInterval(() => {
     meetSeconds++;
     const el = document.getElementById('meet-clock');
@@ -2414,25 +2557,64 @@ function giveConsent() {
   // Don't auto-start — let user press the button
 }
 
-async function startListening() {
-  if (meetRecognition) return; // already running
-  _meetingStopping = false;
+let _meetingStopping = false;
+let _meetingSessionId = 0;
 
-  // Request mic permission explicitly on mobile first
+function stopListening() {
+  _meetingStopping = true;
+  _meetingSessionId++;
+  if (meetRecognition) {
+    const r = meetRecognition;
+    meetRecognition = null;
+    r.onresult = null;
+    r.onerror = null;
+    r.onend = null;
+    r.onstart = null;
+    try { r.abort(); } catch(ignored) {}
+  }
+  meetInterim = '';
+  const intEl = document.getElementById('meet-interim');
+  const intLine = document.getElementById('meet-interim-line');
+  if (intEl) intEl.textContent = '';
+  if (intLine) intLine.style.display = 'none';
+  const dot = document.getElementById('meet-dot');
+  const txt = document.getElementById('meet-status-txt');
+  if (dot) dot.className = 'meet-dot idle';
+  if (txt) txt.textContent = 'Inspelning pausad';
+  updateRecBtn(false);
+  setTimeout(() => { _meetingStopping = false; }, 500);
+}
+
+async function startListening() {
+  if (meetRecognition) return; // guard: already active
+
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Din webbläsare stöder inte röstinspelning. Använd Chrome (desktop) eller Safari (iPhone).');
+    return;
+  }
+
+  // Show pending state — keep button as Starta while we wait for permission
+  const dot0 = document.getElementById('meet-dot');
+  const txt0 = document.getElementById('meet-status-txt');
+  if (dot0) dot0.className = 'meet-dot idle';
+  if (txt0) txt0.textContent = 'Väntar på mikrofontillstånd...';
+
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach(t => t.stop()); // just checking permission
+      stream.getTracks().forEach(t => t.stop());
     } catch(err) {
-      alert('Mikrofontillstånd nekades. Tillåt mikrofon i webbläsarens inställningar och försök igen.');
+      if (txt0) txt0.textContent = 'Mikrofontillstånd nekades';
+      alert('Mikrofontillstånd nekades.\n\nGå till webbläsarens inställningar → Sekretess → Mikrofon och tillåt denna sida.');
       return;
     }
   }
 
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Din webbläsare stöder inte röstinspelning. Använd Chrome eller Safari.');
-    return;
-  }
+  // Abort if user pressed stop during the permission wait
+  if (_meetingStopping || meetRecognition) return;
+
+  _meetingStopping = false;
+  const mySession = ++_meetingSessionId;
 
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const rec = new SR();
@@ -2440,20 +2622,29 @@ async function startListening() {
   rec.continuous = true;
   rec.interimResults = true;
   rec.maxAlternatives = 1;
-  meetRecognition = rec;
+
+  rec.onstart = () => {
+    if (meetRecognition !== rec) return;
+    const d = document.getElementById('meet-dot');
+    const t = document.getElementById('meet-status-txt');
+    if (d) d.className = 'meet-dot listening';
+    if (t) t.textContent = 'Lyssnar och transkriberar...';
+    updateRecBtn(true);
+  };
 
   rec.onresult = (event) => {
+    if (meetRecognition !== rec) return;
     let interim = '';
     for (let i = event.resultIndex; i < event.results.length; i++) {
-      const t = event.results[i][0].transcript;
+      const text = event.results[i][0].transcript;
       if (event.results[i].isFinal) {
         const now = new Date();
-        const time = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-        meetTranscript.push({ time, text: t.trim() });
+        const time = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+        meetTranscript.push({ time, text: text.trim() });
         meetInterim = '';
-        appendTranscriptLine(time, t.trim());
+        appendTranscriptLine(time, text.trim());
       } else {
-        interim += t;
+        interim += text;
       }
     }
     meetInterim = interim;
@@ -2465,85 +2656,63 @@ async function startListening() {
   };
 
   rec.onerror = (event) => {
-    console.warn('Speech error:', event.error);
+    if (meetRecognition !== rec) return;
     if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
       meetRecognition = null;
-      alert('Mikrofontillstånd saknas. Tillåt mikrofon och försök igen.');
       updateRecBtn(false);
-    } else if (event.error === 'aborted' || event.error === 'no-speech') {
-      // normal — will restart via onend if still active
-    } else {
-      console.warn('Speech recognition error:', event.error);
+      const t = document.getElementById('meet-status-txt');
+      if (t) t.textContent = 'Mikrofontillstånd saknas';
     }
+    // 'no-speech' and 'aborted' are normal during continuous recognition — ignore
   };
 
   rec.onend = () => {
-    // Only auto-restart if we're still supposed to be listening
-    if (!_meetingStopping && meetRecognition === rec) {
-      setTimeout(() => {
-        if (!_meetingStopping && meetRecognition === rec) {
-          try { rec.start(); } catch(e) { console.warn('restart failed', e); }
-        }
-      }, 150);
-    }
+    // Only restart if this exact session is still active
+    if (meetRecognition !== rec) return;
+    if (_meetingStopping) return;
+    if (_meetingSessionId !== mySession) return;
+    setTimeout(() => {
+      if (meetRecognition !== rec || _meetingStopping || _meetingSessionId !== mySession) return;
+      try {
+        rec.start();
+      } catch(e) {
+        // Restart failed — show resume button
+        meetRecognition = null;
+        updateRecBtn(false);
+        const t = document.getElementById('meet-status-txt');
+        if (t) t.textContent = 'Avbruten — tryck Fortsätt';
+      }
+    }, 300);
   };
 
-  rec.onstart = () => {
-    const dot = document.getElementById('meet-dot');
-    const txt = document.getElementById('meet-status-txt');
-    if (dot) dot.className = 'meet-dot listening';
-    if (txt) txt.textContent = 'Lyssnar och transkriberar...';
-    updateRecBtn(true);
-  };
+  // Assign to global ONLY after setting up all handlers
+  meetRecognition = rec;
 
   try {
     rec.start();
-    updateRecBtn(true);
   } catch(e) {
     meetRecognition = null;
-    alert('Kunde inte starta inspelning: ' + e.message);
     updateRecBtn(false);
+    if (txt0) txt0.textContent = 'Kunde inte starta';
+    alert('Kunde inte starta inspelning: ' + e.message);
   }
-}
-
-let _meetingStopping = false; // prevents onend race condition
-
-function stopListening() {
-  _meetingStopping = true;
-  if (meetRecognition) {
-    const r = meetRecognition;
-    meetRecognition = null;
-    r.onend = null;
-    r.onerror = null;
-    r.onresult = null;
-    r.onstart = null;
-    try { r.abort(); } catch(e) {}
-  }
-  meetInterim = '';
-  const intEl = document.getElementById('meet-interim');
-  const intLine = document.getElementById('meet-interim-line');
-  if (intEl) intEl.textContent = '';
-  if (intLine) intLine.style.display = 'none';
-  const dot = document.getElementById('meet-dot');
-  const txt = document.getElementById('meet-status-txt');
-  if (dot) dot.className = 'meet-dot idle';
-  if (txt) txt.textContent = 'Inspelning pausad — tryck Fortsätt för att återuppta';
-  updateRecBtn(false);
-  setTimeout(() => { _meetingStopping = false; }, 300);
 }
 
 // ── KLINISK AI-ASSISTENT ──────────────────────────────────────────────────────
-function clinicalPanelHTML() {
+function clinicalPanelHTML(context) {
+  const placeholder = context === 'meeting'
+    ? 'AI-analysen startar automatiskt när transkribering börjar.'
+    : 'Börja skriva i något SOAP-fält — analysen startar automatiskt.';
   return `<div style="margin-top:16px;background:#f8fafc;border:1px solid #dde6ee;overflow:hidden">
     <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--navy)">
       <div style="display:flex;align-items:center;gap:8px">
         <div id="clin-pulse" style="width:6px;height:6px;border-radius:50%;background:#6a8aaa;flex-shrink:0"></div>
         <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:white">Klinisk AI-assistent</span>
-        <span id="clin-status" style="font-size:10px;color:rgba(255,255,255,.45);margin-left:2px">— skriv minst 30 tecken</span>
+        <span id="clin-status" style="font-size:10px;color:rgba(255,255,255,.45);margin-left:2px">— väntar på text</span>
       </div>
     </div>
     <div id="clinical-panel-body" style="padding:12px;max-height:480px;overflow-y:auto">
-      <div style="font-size:12px;color:#8a9aaa;text-align:center;padding:16px">Börja skriva i något SOAP-fält — analysen startar automatiskt.</div>
+      <div style="font-size:12px;color:#8a9aaa;text-align:center;padding:16px">${placeholder}</div>
     </div>
   </div>`;
 }
@@ -4850,9 +5019,261 @@ function savePlanEdits() {
   _planEditMode = false;
 }
 
-// ── PUBLIC PLAN LOADER ────────────────────────────────────────────────────────
-// Cache for public plan — avoids re-fetching when user clicks "Tillbaka till planen"
-let _publicPlanCache = null;
+function saveTherapistMessage(msg) {
+  if (!S.plan || !S.pat || !S.visitId) return;
+  clearTimeout(window._therapistMsgTimer);
+  window._therapistMsgTimer = setTimeout(() => {
+    S.plan.therapistMessage = msg.trim();
+    S.plan.therapistMessageDate = new Date().toISOString();
+    S.pat.visits = S.pat.visits.map(v => v.id===S.visitId ? {...v, plan:S.plan} : v);
+    savePat(S.pat);
+    const saved = document.getElementById('therapist-msg-saved');
+    if (saved) { saved.style.opacity='1'; setTimeout(()=>{ saved.style.opacity='0'; }, 1800); }
+  }, 800);
+}
+
+// ── PLAN ADJUSTMENT — AI läser check-in data och föreslår justering ──────────
+async function analyzePlanAdjustment(patId, visitId) {
+  const key = getKey();
+  if (!key) { alert('API-nyckel saknas. Gå till Inställningar.'); return; }
+
+  const pat = S.patients.find(p=>p.id===patId) || S.pat;
+  const visit = (pat?.visits||[]).find(v=>v.id===visitId);
+  if (!pat || !visit?.plan) return;
+
+  const logs = getPassLogs(patId).filter(l=>l.visitId===visitId);
+  if (logs.length < 2) { alert('Behöver minst 2 loggade pass för att analysera.'); return; }
+
+  const ov = document.createElement('div');
+  ov.id = 'plan-adj-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.78);backdrop-filter:blur(6px)';
+  ov.innerHTML = `<div style="background:white;border-radius:16px;width:100%;max-width:420px;padding:28px 24px;text-align:center">
+    <div style="width:32px;height:32px;border:3px solid #dde6ee;border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px"></div>
+    <div style="font-size:15px;font-weight:600;color:var(--navy);margin-bottom:6px">Analyserar ${logs.length} pass...</div>
+    <div style="font-size:12px;color:var(--text3)">AI läser check-in data och jämför med befintlig plan</div>
+  </div>`;
+  document.body.appendChild(ov);
+
+  const recent = logs.slice(0,7).reverse();
+  const avgPain = (recent.reduce((s,l)=>s+(l.pain||0),0)/recent.length).toFixed(1);
+  const completionAll     = recent.filter(l=>l.done==='all').length;
+  const completionPartial = recent.filter(l=>l.done==='partial').length;
+  const completionFew     = recent.filter(l=>l.done==='few').length;
+  const energyLow  = recent.filter(l=>l.energy==='1').length;
+  const moveStiff  = recent.filter(l=>l.move==='1').length;
+  const painTrend  = recent.length>=3 ? recent[recent.length-1].pain - recent[0].pain : 0;
+  const patNotes   = recent.filter(l=>l.note).map(l=>`"${l.note}"`).join('\n');
+
+  const plan = visit.plan;
+  const exList = (plan.exercises||[]).map((ex,i)=>
+    `${i+1}. ${ex.name} — ${ex.sets||''}×${ex.reps||''} (nivå ${ex.level||1})`
+  ).join('\n');
+  const soap = visit.soap||{};
+  const phase = PHASES[(pat.phase||1)-1];
+
+  const prompt = `Du är erfaren fysioterapeut. Analysera patientens check-in data och föreslå justeringar av rehabplanen.
+
+PATIENT: ${pat.name}, ${pat.diagnosis||''}
+REHABFAS: ${phase.label} — ${phase.name}
+JOURNAL BEDÖMNING: ${soap.A||'ej angiven'}
+
+BEFINTLIG PLAN (${plan.exercises?.length||0} övningar):
+${exList}
+
+CHECK-IN DATA — ${recent.length} pass:
+Smärta snitt: NRS ${avgPain}/10
+Smärttrend: ${painTrend>0?`+${painTrend} (ökande)`:painTrend<0?`${painTrend} (minskande)`:'stabil'}
+Genomförde alla: ${completionAll}/${recent.length} | Delvis: ${completionPartial}/${recent.length} | Bara några: ${completionFew}/${recent.length}
+Låg energi: ${energyLow}/${recent.length} pass | Stelt: ${moveStiff}/${recent.length} pass
+${patNotes?`\nPatientens noteringar:\n${patNotes}`:''}
+
+Returnera ENBART giltig JSON utan backticks:
+{"summary":"2-3 meningar som sammanfattar vad datan visar","urgency":"low|medium|high","adjustments":[{"type":"increase|decrease|replace|remove|add","exerciseIndex":0,"exerciseName":"namn","change":"Konkret ändring t.ex. Öka från 3×10 till 3×15","reason":"Varför — kopplat till check-in datan"}],"scheduleNote":"kommentar om frekvens eller tom sträng","messageToPatient":"kort uppmuntrande meddelande till patienten"}
+
+urgency: high=smärta ökande/NRS>7, medium=låg genomförandegrad/stagnation, low=kan progrediera.
+Max 3 förslag. Varje förslag = en specifik konkret åtgärd.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body: JSON.stringify({model:MODEL_HAIKU, max_tokens:900, system:'Svara ALLTID med giltig JSON. Inga backticks.', messages:[{role:'user',content:prompt}]})
+    });
+    const data = await res.json();
+    const txt = (data.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim();
+    const result = JSON.parse(txt);
+    ov.remove();
+    showPlanAdjustmentOverlay(result, patId, visitId);
+  } catch(err) {
+    ov.remove();
+    alert('Analys misslyckades: '+(err.message||'okänt fel'));
+  }
+}
+
+function showPlanAdjustmentOverlay(result, patId, visitId) {
+  const urgencyColor = result.urgency==='high'?'#c05050':result.urgency==='medium'?'#c8a030':'#1a7a4a';
+  const urgencyBg    = result.urgency==='high'?'#fdf5f5':result.urgency==='medium'?'#fffcf0':'#f2faf5';
+  const urgencyLabel = result.urgency==='high'?'Kräver åtgärd':result.urgency==='medium'?'Rekommenderad justering':'Progression möjlig';
+
+  const adjHtml = (result.adjustments||[]).map(a => {
+    const typeLabel = {increase:'Öka',decrease:'Minska',replace:'Byt',remove:'Ta bort',add:'Lägg till'}[a.type]||a.type;
+    const typeColor = {increase:'#1a7a4a',decrease:'#c8a030',replace:'#4a7aaa',remove:'#c05050',add:'#1a7a4a'}[a.type]||'#4a5a6a';
+    return `<div style="border:1px solid #e8eef4;border-radius:10px;padding:13px 15px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+        <span style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${typeColor};background:${typeColor}18;padding:3px 8px;border-radius:10px">${typeLabel}</span>
+        <span style="font-size:13px;font-weight:600;color:var(--navy)">${e(a.exerciseName||'')}</span>
+      </div>
+      <div style="font-size:13px;color:#2a3a4a;font-weight:500;margin-bottom:4px">${e(a.change||'')}</div>
+      <div style="font-size:11px;color:var(--text3);line-height:1.5">${e(a.reason||'')}</div>
+    </div>`;
+  }).join('');
+
+  // Serialize result safely for onclick
+  const resultJson = encodeURIComponent(JSON.stringify(result));
+
+  const ov = document.createElement('div');
+  ov.id = 'plan-adj-result-ov';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:700;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(10,20,35,.78);backdrop-filter:blur(6px)';
+  ov.onclick = ev => { if(ev.target===ov) ov.remove(); };
+  ov.innerHTML = `
+  <div style="background:white;border-radius:16px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,.25)" onclick="event.stopPropagation()">
+    <div style="background:var(--navy);padding:18px 20px;border-radius:16px 16px 0 0;position:sticky;top:0;z-index:1">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:3px">AI-analys · pass-data</div>
+          <div style="font-size:17px;font-weight:600;color:white">Planförslag</div>
+        </div>
+        <button onclick="document.getElementById('plan-adj-result-ov').remove()"
+          style="background:rgba(255,255,255,.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;line-height:1">×</button>
+      </div>
+    </div>
+    <div style="padding:20px 22px">
+      <div style="background:${urgencyBg};border-left:3px solid ${urgencyColor};padding:12px 15px;border-radius:0 10px 10px 0;margin-bottom:18px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:${urgencyColor};margin-bottom:5px">${urgencyLabel}</div>
+        <div style="font-size:13px;color:#2a3a4a;line-height:1.6">${e(result.summary||'')}</div>
+      </div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px">Föreslagna ändringar</div>
+      ${adjHtml||'<div style="font-size:13px;color:var(--text3);padding:10px 0">Inga ändringar föreslagna — planen fungerar bra.</div>'}
+      ${result.scheduleNote?`<div style="background:#f4f7fa;border-radius:8px;padding:10px 13px;margin-bottom:14px;font-size:12px;color:#4a5a6a;line-height:1.5"><span style="font-weight:700;color:var(--navy)">Schema: </span>${e(result.scheduleNote)}</div>`:''}
+      ${result.messageToPatient?`<div style="margin-bottom:18px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:7px">Meddelande till patienten</div>
+        <div style="background:linear-gradient(135deg,#f0f7ff,#e8f4f8);border-radius:10px;padding:12px 15px;font-size:13px;color:#1a3a5a;line-height:1.65;font-style:italic">"${e(result.messageToPatient)}"</div>
+      </div>`:''}
+      <div style="display:flex;gap:10px">
+        <button onclick="applyPlanAdjustment('${e(patId)}','${e(visitId)}','${resultJson}')"
+          style="flex:2;background:var(--navy);color:white;border:none;padding:14px;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:10px">
+          Godkänn och tillämpa
+        </button>
+        <button onclick="document.getElementById('plan-adj-result-ov').remove()"
+          style="flex:1;background:white;border:1px solid #dde6ee;color:var(--text2);padding:14px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:10px">
+          Avvisa
+        </button>
+      </div>
+      <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:10px">Ändringar sparas och syns direkt på patientens plan</div>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+}
+
+async function applyPlanAdjustment(patId, visitId, resultEncoded) {
+  const result = JSON.parse(decodeURIComponent(resultEncoded));
+  const pat = S.patients.find(p=>p.id===patId)||S.pat;
+  const visit = (pat?.visits||[]).find(v=>v.id===visitId);
+  if (!pat||!visit?.plan) return;
+
+  const key = getKey();
+  const plan = {...visit.plan};
+  let exercises = [...(plan.exercises||[])];
+
+  // Collect add/replace types that need AI to generate new exercise details
+  const needsGeneration = (result.adjustments||[]).filter(a=>a.type==='add'||a.type==='replace');
+
+  // If we need new exercises, generate them first
+  if (needsGeneration.length > 0 && key) {
+    const loadOv = document.createElement('div');
+    loadOv.style.cssText = 'position:fixed;inset:0;z-index:800;display:flex;align-items:center;justify-content:center;background:rgba(10,20,35,.6)';
+    loadOv.innerHTML = `<div style="background:white;border-radius:12px;padding:24px 28px;text-align:center;max-width:300px">
+      <div style="width:28px;height:28px;border:3px solid #dde6ee;border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px"></div>
+      <div style="font-size:14px;font-weight:600;color:var(--navy)">Genererar nya övningar...</div>
+    </div>`;
+    document.body.appendChild(loadOv);
+
+    try {
+      const genPrompt = `Du är fysioterapeut. Generera detaljerade övningar för en rehabplan. Returnera ENBART giltig JSON utan backticks.
+
+Patient: ${pat.name}, ${pat.diagnosis||''}
+Befintliga övningar att ersätta/lägga till för:
+${needsGeneration.map(a=>`- ${a.exerciseName}: ${a.change} (${a.reason})`).join('\n')}
+
+För varje övning, returnera:
+{"exercises":[{"name":"namn","purpose":"anatomisk motivering","whyThisForYou":"personlig förklaring","level":1,"startPosition":"position","steps":["steg1","steg2","steg3","steg4"],"sets":3,"reps":"10","rest":"60 sek","tip":"säkerhetsanmärkning","correctFeel":"känsla"}]}`;
+
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body: JSON.stringify({model:MODEL_HAIKU,max_tokens:1200,system:'Svara ALLTID med giltig JSON.',messages:[{role:'user',content:genPrompt}]})
+      });
+      const d = await res.json();
+      const genResult = JSON.parse((d.content||[]).map(b=>b.text||'').join('').replace(/```json|```/g,'').trim());
+      const newExercises = genResult.exercises||[];
+
+      // Apply replace/add with generated data
+      let genIdx = 0;
+      needsGeneration.forEach(adj => {
+        const newEx = newExercises[genIdx++];
+        if (!newEx) return;
+        if (adj.type==='replace' && exercises[adj.exerciseIndex]) {
+          exercises[adj.exerciseIndex] = {...newEx, adjustmentNote:adj.change, adjustedAt:new Date().toISOString()};
+        } else if (adj.type==='add') {
+          exercises.push({...newEx, adjustmentNote:adj.change, adjustedAt:new Date().toISOString()});
+        }
+      });
+    } catch(err) {
+      console.warn('Exercise generation failed:', err);
+    }
+    loadOv.remove();
+  }
+
+  // Apply increase/decrease/remove adjustments
+  (result.adjustments||[]).filter(a=>a.type!=='add'&&a.type!=='replace').forEach(adj => {
+    const idx = adj.exerciseIndex;
+    if ((adj.type==='increase'||adj.type==='decrease') && exercises[idx]) {
+      exercises[idx] = {...exercises[idx], adjustmentNote:adj.change, adjustedAt:new Date().toISOString()};
+      // Parse "3×15" or "3 set × 15 reps"
+      const setsMatch = adj.change.match(/(\d+)\s*[×xX\*]\s*(\d+)/);
+      if (setsMatch) { exercises[idx].sets=parseInt(setsMatch[1]); exercises[idx].reps=setsMatch[2]; }
+      // Parse level change
+      const levelMatch = adj.change.match(/nivå\s*(\d)/i);
+      if (levelMatch) exercises[idx].level = parseInt(levelMatch[1]);
+      // Parse rest
+      const restMatch = adj.change.match(/(\d+)\s*sek\s*vila/i);
+      if (restMatch) exercises[idx].rest = restMatch[1]+' sek';
+    } else if (adj.type==='remove' && exercises[idx]) {
+      exercises.splice(idx, 1);
+    }
+  });
+
+  plan.exercises = exercises;
+
+  // Apply patient message
+  if (result.messageToPatient) {
+    plan.therapistMessage = result.messageToPatient;
+    plan.therapistMessageDate = new Date().toISOString();
+  }
+
+  plan.lastAdjusted = new Date().toISOString();
+  plan.lastAdjustmentSummary = result.summary;
+
+  const updPat = {...pat, visits:(pat.visits||[]).map(v=>v.id===visitId?{...v,plan}:v)};
+  const saved = savePat(updPat);
+  if (S.pat?.id===patId) { S.pat=saved; if(S.visitId===visitId) S.plan=plan; }
+
+  document.getElementById('plan-adj-result-ov')?.remove();
+  showAutoSaveToast('Plan uppdaterad — synlig för patienten direkt');
+  rDetail();
+}
+
+
 
 async function loadPublicPlan(patId, visitId) {
   const el = document.getElementById('s-public-plan');
@@ -5033,24 +5454,69 @@ function renderPublicPlan(plan, pat) {
     `<div class="zp-chip${i===0&&pain>=7?' accent':''}">${c}</div>`
   ).join('');
 
+  // ── WEEK PROGRESS BAR ─────────────────────────────────────────────────────
+  const totalWeeks = plan.totalWeeks || plan.form?.followup || 4;
+  const visitDateStr = pat?.visits?.find(v=>v.id===plan.visitId)?.date || pat?.visits?.[0]?.date;
+  const weeksSinceStart = visitDateStr
+    ? Math.floor((Date.now() - new Date(visitDateStr)) / (7*24*60*60*1000))
+    : 0;
+  const currentWeek = Math.min(weeksSinceStart + 1, totalWeeks);
+  const weekPct = Math.round((currentWeek / totalWeeks) * 100);
+  const weekProgressHtml = `
+  <div class="zp-section">
+    <div style="padding:18px 18px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy)">Din rehabiliteringsresa</div>
+        <div style="font-size:11px;color:var(--text3)">Vecka ${currentWeek} av ${totalWeeks}</div>
+      </div>
+      <div style="background:#eef1f5;height:6px;border-radius:3px;overflow:hidden;margin-bottom:10px">
+        <div style="background:linear-gradient(90deg,var(--teal),#16b8c8);height:100%;width:${weekPct}%;border-radius:3px;transition:width .5s ease"></div>
+      </div>
+      <div style="font-size:12px;color:#4a5a6a;line-height:1.6">
+        ${currentWeek <= 1
+          ? 'Du är precis i början — fokusera på att lära dig rörelserna ordentligt. Kvalitet före kvantitet.'
+          : currentWeek < totalWeeks * 0.4
+          ? 'Du bygger grunden nu. Rörelsekvalitet är viktigare än antal reps i detta skede.'
+          : currentWeek < totalWeeks * 0.75
+          ? 'Du är i uppbyggnadsfasen. Kroppen anpassar sig — det är normalt att det börjar kännas lättare.'
+          : currentWeek < totalWeeks
+          ? 'Du närmar dig målet. Bibehåll intensiteten och förbered dig för uppföljningsbesöket.'
+          : 'Du har nått ditt planerade mål. Dags för uppföljning — boka tid med din fysioterapeut.'}
+      </div>
+    </div>
+  </div>`;
+
   // ── EXERCISES ─────────────────────────────────────────────────────────────
   const exHtml = (plan.exercises||[]).map((ex,i) => {
     const dose = [ex.sets&&ex.sets+' set', ex.reps&&ex.reps+' reps', ex.rest&&ex.rest+' vila'].filter(Boolean).join(' · ');
+    const levelLabel = ex.level === 3 ? 'Avancerad' : ex.level === 2 ? 'Medel' : 'Grundnivå';
+    const levelColor = ex.level === 3 ? '#c05050' : ex.level === 2 ? '#8a6000' : '#1a7a4a';
+    const levelBg    = ex.level === 3 ? '#fdf5f5' : ex.level === 2 ? '#fffcf0' : '#f2faf5';
     return `
     <div class="zp-excard">
       <div class="zp-exhdr" onclick="zpToggleEx(this)">
         <div class="zp-exnum">${i+1}</div>
         <div style="flex:1;min-width:0">
           <div style="font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
-          ${dose ? `<div style="font-size:11px;color:var(--teal);margin-top:2px;font-weight:600;font-family:'DM Mono',monospace">${dose}</div>` : ''}
+          <div style="display:flex;gap:6px;align-items:center;margin-top:3px;flex-wrap:wrap">
+            ${dose ? `<div style="font-size:11px;color:var(--teal);font-weight:600;font-family:'DM Mono',monospace">${dose}</div>` : ''}
+            ${ex.level ? `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;color:${levelColor};background:${levelBg};padding:2px 7px;border-radius:10px">${levelLabel}</div>` : ''}
+          </div>
         </div>
         <span class="zp-chevron">›</span>
       </div>
       <div class="zp-exbody">
         ${dose ? `<div style="font-size:12px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace;padding:8px 0 12px;border-bottom:1px solid #f0f2f5;margin-bottom:12px">${dose}</div>` : ''}
-        ${ex.purpose ? `<div style="font-size:12px;color:#4a5a6a;font-style:italic;line-height:1.65;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0f2f5">${e(ex.purpose)}</div>` : ''}
+
+        ${ex.whyThisForYou ? `
+        <div style="background:linear-gradient(135deg,#f0f7ff,#e8f4f8);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--teal);margin-bottom:5px">Varför just denna övning för dig</div>
+          <div style="font-size:13px;color:#1a3a5a;line-height:1.65">${e(ex.whyThisForYou)}</div>
+        </div>` : ex.purpose ? `<div style="font-size:12px;color:#4a5a6a;font-style:italic;line-height:1.65;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #f0f2f5">${e(ex.purpose)}</div>` : ''}
+
         ${ex.startPosition ? `<div style="font-size:9px;font-weight:700;color:#8a9aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px">Startposition</div>
           <div style="font-size:13px;color:#3a4a5a;line-height:1.6;margin-bottom:12px">${e(ex.startPosition)}</div>` : ''}
+
         ${(ex.steps||[]).length ? `<div style="font-size:9px;font-weight:700;color:#8a9aaa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px">Utförande</div>
           <div style="margin-bottom:12px">${(ex.steps||[]).map((s,j)=>`
             <div class="zp-step">
@@ -5058,6 +5524,7 @@ function renderPublicPlan(plan, pat) {
               <div style="font-size:13px;color:#2a3a4a;line-height:1.55">${e(s)}</div>
             </div>`).join('')}
           </div>` : ''}
+
         ${ex.tip ? `<div style="border-left:2px solid #c8a030;padding:9px 13px;font-size:12px;color:#6a5000;line-height:1.55;margin-bottom:8px;background:#fffcf0"><span style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:3px;color:#a87000">Tänk på</span>${e(ex.tip)}</div>` : ''}
         ${ex.correctFeel ? `<div style="border-left:2px solid #3a9860;padding:9px 13px;font-size:12px;color:#1a4428;line-height:1.55;background:#f5faf6"><span style="font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;display:block;margin-bottom:3px;color:#2a7a48">Rätt känsla</span>${e(ex.correctFeel)}</div>` : ''}
       </div>
@@ -5205,13 +5672,22 @@ function renderPublicPlan(plan, pat) {
       </div>
 
       <!-- Greeting -->
-      ${plan.greeting ? `<div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:16px">${e(plan.greeting)}</div>` : ''}
+      ${plan.greeting ? `<div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:12px">${e(plan.greeting)}</div>` : ''}
+
+      <!-- Therapist message — updates without new visit -->
+      ${plan.therapistMessage ? `
+      <div style="background:rgba(26,200,150,.12);border:1px solid rgba(26,200,150,.2);border-radius:12px;padding:14px 16px;margin-bottom:16px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(140,240,200,.7);margin-bottom:6px">Meddelande från din fysioterapeut</div>
+        <div style="font-size:14px;color:rgba(255,255,255,.88);line-height:1.7;font-style:italic">${e(plan.therapistMessage)}</div>
+        ${plan.therapistMessageDate ? `<div style="font-size:10px;color:rgba(255,255,255,.3);margin-top:8px">${new Date(plan.therapistMessageDate).toLocaleDateString('sv-SE',{day:'numeric',month:'long'})}</div>` : ''}
+      </div>` : ''}
 
       <!-- Tab spacer -->
       <div style="height:16px"></div>
     </div>
 
     ${progressGraph}
+    ${weekProgressHtml}
     ${pubProgressSectionHTML(pat?.id||'')}
 
     <!-- GOALS -->
@@ -5871,6 +6347,60 @@ function detectAnomalies(patients) {
   // Sort by severity
   return alerts.sort((a,b) => b.severity - a.severity).slice(0,8);
 }
+
+function renderPlanReviewSection(patients) {
+  // Find visits with active plans that have enough check-in data to warrant review
+  const reviews = [];
+  (patients||[]).forEach(pat => {
+    (pat.visits||[]).filter(v=>v.plan).forEach(v => {
+      const logs = getPassLogs(pat.id).filter(l=>l.visitId===v.id);
+      if (logs.length < 2) return;
+      const recent = logs.slice(0,5);
+      const avgPain = recent.reduce((s,l)=>s+(l.pain||0),0)/recent.length;
+      const lowCompletion = recent.filter(l=>l.done==='few'||l.done==='partial').length >= 2;
+      const highPain = avgPain >= 6;
+      const painRising = recent.length>=3 && recent[0].pain > recent[recent.length-1].pain + 1;
+      const canProgress = avgPain <= 3 && recent.filter(l=>l.done==='all').length >= recent.length*0.8;
+      const urgency = (highPain||painRising) ? 'high' : lowCompletion ? 'medium' : canProgress ? 'progress' : null;
+      if (!urgency) return;
+      // Don't re-surface if already adjusted after latest log
+      const alreadyApplied = v.plan.lastAdjusted && new Date(v.plan.lastAdjusted) > new Date(logs[0].ts);
+      if (alreadyApplied) return;
+      reviews.push({ pat, visit:v, logs:recent, avgPain:Math.round(avgPain*10)/10, urgency });
+    });
+  });
+
+  if (!reviews.length) return '';
+
+  const urgencyColor = u => u==='high'?'#c05050':u==='medium'?'#c8a030':'#1a7a4a';
+  const urgencyBg    = u => u==='high'?'#fdf5f5':u==='medium'?'#fffcf0':'#f2faf5';
+  const urgencyLabel = u => u==='high'?'Hög smärta / stigande'
+                          : u==='medium'?'Låg genomförandegrad'
+                          : 'Redo att progrediera';
+
+  return `<div class="anomaly-section" style="border-left-color:#4a7aaa;background:#f8faff">
+    <div class="anomaly-hdr" style="border-bottom-color:#e0e8f5">
+      <div class="anomaly-dot" style="background:#4a7aaa"></div>
+      <div style="font-size:12px;font-weight:700;color:#1a3a6a">${reviews.length} plan${reviews.length>1?'er':''} väntar på granskning</div>
+    </div>
+    ${reviews.map(r => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid #e8eef6;cursor:pointer"
+           onclick="openPat('${r.pat.id}')">
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:600;color:var(--navy)">${e(r.pat.name)}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:1px">${r.logs.length} pass loggade · NRS snitt ${r.avgPain}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+          <span style="font-size:10px;font-weight:700;color:${urgencyColor(r.urgency)};background:${urgencyBg(r.urgency)};padding:3px 9px;border-radius:10px;white-space:nowrap">${urgencyLabel(r.urgency)}</span>
+          <button onclick="event.stopPropagation();analyzePlanAdjustment('${r.pat.id}','${r.visit.id}')"
+            style="background:var(--navy);color:white;border:none;padding:7px 12px;font-size:11px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;border-radius:6px;white-space:nowrap">
+            Analysera
+          </button>
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+
 
 function renderAnomalySection(patients) {
   const alerts = detectAnomalies(patients);
