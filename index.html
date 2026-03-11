@@ -836,7 +836,12 @@ async function sbLoadAll() {
     });
     if (!res.ok) return null;
     const rows = await res.json();
-    return rows.map(r => r.data).filter(Boolean);
+    return rows.map(r => {
+      if (!r.data) return null;
+      try {
+        return typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
+      } catch { return null; }
+    }).filter(Boolean);
   } catch(e) { return null; }
 }
 
@@ -863,15 +868,33 @@ async function syncFromCloud() {
   const cloudPats = await sbLoadAll();
   if (!cloudPats) { setSyncStatus('error', 'Anslutningsfel'); return; }
 
-  // Merge: cloud wins if newer
+  // Merge: newer wins, but never overwrite local data that has visits/plans with empty cloud
   const local = {};
   S.patients.forEach(p => local[p.id] = p);
 
   cloudPats.forEach(cp => {
+    if (!cp || !cp.id) return;
     const lp = local[cp.id];
-    if (!lp || (cp.updatedAt||0) > (lp.updatedAt||0)) {
+    if (!lp) {
       local[cp.id] = cp;
       try { localStorage.setItem('kansei-data:'+cp.id, JSON.stringify(cp)); } catch {}
+    } else {
+      const cloudNewer = (cp.updatedAt||0) > (lp.updatedAt||0);
+      const localHasMoreData = (lp.visits||[]).length > (cp.visits||[]).length;
+      if (cloudNewer && !localHasMoreData) {
+        // Cloud is newer and not losing visits — use cloud
+        local[cp.id] = cp;
+        try { localStorage.setItem('kansei-data:'+cp.id, JSON.stringify(cp)); } catch {}
+      } else if (cloudNewer && localHasMoreData) {
+        // Cloud is newer but local has more visits — merge visits from both
+        const cloudVisitIds = new Set((cp.visits||[]).map(v=>v.id));
+        const extraLocalVisits = (lp.visits||[]).filter(v=>!cloudVisitIds.has(v.id));
+        const merged = {...cp, visits:[...(cp.visits||[]), ...extraLocalVisits]
+          .sort((a,b)=>new Date(b.date||0)-new Date(a.date||0))};
+        local[cp.id] = merged;
+        try { localStorage.setItem('kansei-data:'+cp.id, JSON.stringify(merged)); } catch {}
+      }
+      // else: local is newer, keep local (already in local[])
     }
   });
 
@@ -2535,6 +2558,13 @@ function rMeeting() {
 
   const tbox = document.getElementById("tbox");
   if (tbox) tbox.scrollTop = tbox.scrollHeight;
+
+  // If there's already transcript text (resumed meeting), re-trigger clinical analysis
+  if (meetTranscript.length > 0) {
+    const existingText = meetTranscript.map(t=>t.text).join(' ') + (meetNote ? ' ' + meetNote : '');
+    lastAnalyzedText = ''; // force re-analysis even if text matches
+    triggerClinicalAnalysis(existingText);
+  }
 }
 
 function giveConsent() {
