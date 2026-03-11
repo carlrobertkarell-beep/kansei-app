@@ -66,7 +66,7 @@
   .dash-qbtn-primary:hover{background:var(--navy2);}
   .dash-qbtn-secondary{background:white;color:var(--navy);border:1px solid var(--border);}
   .dash-qbtn-secondary:hover{border-color:var(--teal);color:var(--teal);}
-  .dash-kpis{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);background:white;overflow:hidden;}
+  .dash-kpis{display:flex;gap:0;margin-bottom:20px;border:1px solid var(--border);background:white;overflow:hidden;border-radius:6px;}
   .dash-kpi{flex:1;padding:14px 18px;border-right:1px solid var(--border);}
   .dash-kpi:last-child{border-right:none;}
   .dash-kpi-val{font-size:24px;font-weight:700;font-family:'DM Mono',monospace;color:var(--navy);line-height:1;}
@@ -545,44 +545,80 @@
   /* ── MOBILE RESPONSIVE ──────────────────────────────────────────── */
   @media(max-width:600px){
     /* Layout */
-    .main{padding:16px 14px 80px;}
+    .main{padding:12px 12px 80px;}
+    body{overflow-x:hidden;}
 
-    /* Dashboard */
-    .dash-actions{grid-template-columns:repeat(2,1fr);}
-    .dash-cols{grid-template-columns:1fr;}
-    .dash-greeting{font-size:19px;}
+    /* Topbar — shrink logo, hide sync text, stack buttons if needed */
+    .topbar{padding:0 10px;height:48px;}
+    .topbar-logo{height:20px!important;}
+    #tbr .btn-ghost{font-size:10px;padding:5px 8px;}
+    #sync-status{display:none;}
 
-    /* Patient list — single column */
+    /* Dashboard topbar — stack vertically */
+    .dash-topbar{flex-direction:column;align-items:flex-start;gap:12px;}
+    .dash-greeting{font-size:20px;}
+    .dash-date{font-size:10px;}
+    .dash-quickbar{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+    .dash-quickbar button:last-child{grid-column:1/-1;}
+
+    /* KPI strip — 2x2 grid instead of 4-in-a-row */
+    .dash-kpis{display:grid;grid-template-columns:1fr 1fr;border-radius:6px;}
+    .dash-kpi{border-right:none;border-bottom:1px solid var(--border);padding:11px 12px;}
+    .dash-kpi:nth-child(odd){border-right:1px solid var(--border);}
+    .dash-kpi:nth-child(3),.dash-kpi:nth-child(4){border-bottom:none;}
+    .dash-kpi-val{font-size:20px;}
+
+    /* Dashboard grid — single column */
+    .dash-grid{grid-template-columns:1fr;}
+
+    /* Patient list */
     .pgrid{grid-template-columns:1fr;}
+    .page-hdr{flex-direction:column;align-items:flex-start;gap:8px;}
 
-    /* Patient detail — stack meta */
-    .det-hdr{padding:16px;}
-    .det-name{font-size:22px;}
-    .det-meta{gap:14px;}
-    .det-actions{gap:6px;}
+    /* Patient detail */
+    .det-hdr{padding:14px 12px;}
+    .det-name{font-size:20px;}
+    .det-meta{gap:10px;flex-wrap:wrap;}
+    .det-actions{flex-wrap:wrap;gap:6px;}
     .det-actions .btn{font-size:11px;padding:7px 10px;}
 
     /* Visit cards */
-    .vhdr{padding:10px 12px;gap:9px;}
-    .vbadge{font-size:9px;padding:2px 6px;}
+    .vhdr{padding:9px 11px;gap:8px;flex-wrap:wrap;}
+    .vbadge{font-size:9px;padding:2px 5px;}
 
     /* Meeting screen */
-    .meet-wrap{padding:0 2px;}
+    .meet-wrap{padding:0;}
     .transcript-box{font-size:12px;}
 
     /* SOAP manual */
-    .msoap-wrap{padding:0 2px;}
+    .msoap-wrap{padding:0;}
     .msoap-ta{font-size:13px;}
 
     /* Form */
-    .fwrap{padding:0 2px;}
+    .fwrap{padding:0;}
 
-    /* Topbar */
-    .topbar{padding:0 12px;}
-    .topbar-logo{height:22px!important;}
+    /* Clinical AI panel */
+    .clinical-panel{max-height:280px!important;}
 
-    /* Clinical panel */
-    .clinical-panel{max-height:300px!important;}
+    /* Doc (plan) view — action buttons scroll horizontally, no wrap */
+    .doc-actions{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:12px;}
+    .doc-actions .btn{flex-shrink:0;font-size:11px!important;padding:7px 11px!important;}
+
+    /* SBS soap — stack columns */
+    .sbs-section,.sbs-top{grid-template-columns:1fr!important;}
+
+    /* Overlays — full width bottom sheets */
+    .npf-sheet{border-radius:16px 16px 0 0;max-height:95vh;}
+
+    /* Anomaly section */
+    .anomaly-row{flex-wrap:wrap;gap:6px;}
+    .anomaly-tag{align-self:flex-start;}
+  }
+
+  /* Topbar overflow safety for very small screens */
+  @media(max-width:380px){
+    #tbr .btn-ghost{font-size:9px;padding:4px 6px;}
+    .topbar-logo{height:17px!important;}
   }
 
   /* ── PUBLIC PLAN EXERCISE EXPAND ─────────────────────────────────── */
@@ -596,9 +632,9 @@
   .zp-hero::before{content:'';position:absolute;top:-80px;right:-60px;width:240px;height:240px;border-radius:50%;background:rgba(26,122,138,.15);pointer-events:none;}
   .zp-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);border-radius:20px;padding:5px 12px;font-size:11px;color:rgba(255,255,255,.8);white-space:nowrap;}
   .zp-chip.accent{background:rgba(26,200,150,.15);border-color:rgba(26,200,150,.25);color:rgba(140,240,200,.95);}
-  .zp-section{background:white;border-radius:16px;margin:10px 14px 0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .zp-section{background:white;border-radius:16px;margin:12px 14px 0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .zp-footer{margin:12px 14px 0;background:var(--navy);border-radius:16px;padding:22px 20px;}
   .zp-sec-hdr{padding:20px 18px 11px;}
-  .zp-sec-title{font-size:10px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--navy);padding-left:10px;border-left:2px solid var(--teal);line-height:1.2;}
   .zp-sec-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);}
   .zp-excard{border-bottom:1px solid #f2f4f7;}
   .zp-excard:last-child{border-bottom:none;}
@@ -611,10 +647,9 @@
   .zp-chevron{font-size:18px;color:#c8d0d8;flex-shrink:0;transition:transform .25s ease;display:inline-block;}
   .zp-step{display:flex;gap:10px;align-items:flex-start;padding:6px 0;}
   .zp-step-num{width:22px;height:22px;border-radius:6px;background:var(--teal);color:white;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
-  .zp-pass-bar{position:sticky;bottom:0;background:linear-gradient(to top,#f0f2f6 85%,transparent);padding:14px 14px 22px;z-index:10;}
+  .zp-pass-bar{position:sticky;bottom:0;z-index:10;}
   .zp-pass-btn{width:100%;background:linear-gradient(135deg,#1a7a8a,#16a8b8);color:white;font-size:16px;font-weight:700;padding:17px;border-radius:14px;border:none;cursor:pointer;box-shadow:0 6px 24px rgba(26,122,138,.38);-webkit-tap-highlight-color:transparent;transition:transform .1s,opacity .1s;letter-spacing:.01em;}
   .zp-pass-btn:active{transform:scale(.98);opacity:.9;}
-  .zp-footer{margin:10px 14px 0;background:var(--navy);border-radius:16px;padding:22px 20px;}
   @media print{.zp-pass-bar{display:none!important;}.zp-exbody{display:block!important;}}
   /* ── BETALSTATUS ── */
   .pay-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:12px;font-size:10px;font-weight:700;cursor:pointer;border:1px solid transparent;transition:opacity .12s;user-select:none;}
@@ -1016,7 +1051,7 @@ function go(scr){
 function rTopbar(){const r=document.getElementById("tbr");let h="";const scr=S.screen;
 if(scr==='dashboard'){h+=`<span style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em">Zenya</span>`;}
 else{h+=`<button class="btn-ghost btn" onclick="if(S.screen==='meeting'){resetMeeting();}go('dashboard')" style="font-size:11px">← Hem</button>`;}
-if(scr==="detail"&&S.pat){h+=`<button class="btn-ghost btn" onclick="startMeeting()">Möte</button>`;h+=`<button class="btn-ghost btn" onclick="startManualSOAP()">Journal</button>`;h+=`<button class="btn-ghost btn" onclick="go('editpat')">Redigera</button>`;h+=`<button class="btn-ghost btn" onclick="newVisit()">+ Besök</button>`;}
+if(scr==="detail"&&S.pat){h+=`<button class="btn-ghost btn" onclick="startMeeting()" style="white-space:nowrap">Möte</button>`;h+=`<button class="btn-ghost btn" onclick="startManualSOAP()" style="white-space:nowrap">Journal</button>`;h+=`<button class="btn-ghost btn" onclick="newVisit()" style="white-space:nowrap">+ Besök</button>`;}
 if(scr==="doc"){h+=`<button class="btn-ghost btn" onclick="go('detail')">Kundkort</button>`;}
 h+=`<span id="sync-status" style="margin-right:4px"></span>`;h+=`<button class="btn-ghost btn" style="padding:7px 11px" onclick="togSettings()" title="Inställningar">&#9881;</button>`;r.innerHTML=h;}
 function goBack(){const s=S.screen;if(s==="doc"||s==="form"||s==="editex"||s==="soap"||s==="editpat"||s==="journaldoc"||s==="manualsoap")go(S.pat?"detail":"list");else if(s==="meeting"){resetMeeting();go("dashboard");}else if(s==="list"||s==="detail")go("dashboard");else go("dashboard");}
@@ -4695,13 +4730,25 @@ function pubLogPassDone(patId, visitId) {
     } catch(e) {}
   })();
 
-  // Replace pass bar with quiet confirmation
+  // Replace pass bar with celebration confirmation
   const passBar = document.querySelector('.zp-pass-bar');
   if (passBar) {
-    passBar.innerHTML = `<div style="border-top:1px solid rgba(255,255,255,.1);padding:18px 20px;text-align:center">
-      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:6px">Pass registrerat</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.7)">${new Date(ts).toLocaleDateString('sv-SE',{weekday:'long',day:'numeric',month:'long'})} · ${new Date(ts).toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'})}</div>
-    </div>`;
+    const dateStr = new Date(ts).toLocaleDateString('sv-SE',{weekday:'long',day:'numeric',month:'long'});
+    const timeStr = new Date(ts).toLocaleTimeString('sv-SE',{hour:'2-digit',minute:'2-digit'});
+    passBar.style.cssText = 'position:sticky;bottom:0;z-index:10;padding:0;';
+    passBar.innerHTML = `
+      <div style="background:linear-gradient(135deg,#0f4a30,#1a7a4a);padding:22px 20px 28px;text-align:center;animation:fadeInOv .3s ease">
+        <div style="display:flex;justify-content:center;margin-bottom:14px">
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+              <path d="M4 11.5L9 16.5L18 6" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div style="font-size:17px;font-weight:700;color:white;margin-bottom:5px;letter-spacing:.01em">Pass genomfört!</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.65)">${dateStr} kl. ${timeStr}</div>
+        <div style="margin-top:12px;font-size:11px;color:rgba(255,255,255,.45)">Din fysioterapeut ser dina rapporter automatiskt.</div>
+      </div>`;
   }
 }
 
@@ -4727,7 +4774,7 @@ function renderPublicPlanProgressGraph(pat) {
       dots += `<text x="${xs[i]}" y="${H+13}" text-anchor="${anc}" font-size="8" fill="rgba(255,255,255,.4)">${v.date||''}</text>`;
     }
   });
-  return `<div style="margin:12px 16px 0;background:var(--navy);border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
+  return `<div style="margin:12px 14px 0;background:var(--navy);border-radius:14px;padding:18px 20px;box-shadow:0 2px 8px rgba(0,0,0,.1)">
     <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px">Din smärtutveckling (NRS)</div>
     <div style="font-size:13px;font-weight:600;margin-bottom:12px" style="color:${trend}">
       <span style="color:${trend}">${arrow}${diff>0?' · '+diff+' enheter':''}</span>
@@ -4916,7 +4963,7 @@ function renderPublicPlan(plan, pat) {
 
   // ── FOLLOWUP ──────────────────────────────────────────────────────────────
   const followupHtml = (plan.followupNote || followupStr) ? `
-    <div style="margin:10px 14px 0;background:var(--navy);padding:22px 20px">
+    <div style="margin:12px 14px 0;background:var(--navy);border-radius:16px;padding:22px 20px;box-shadow:0 1px 3px rgba(0,0,0,.06)">
       <div style="font-size:9px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px">Nästa steg</div>
       ${plan.followupNote ? `<div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:white;line-height:1.7;font-style:italic;margin-bottom:${followupStr?'16px':'0'}">${e(plan.followupNote)}</div>` : ''}
       ${followupStr ? `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
@@ -5729,7 +5776,7 @@ function savePassLog(patId, entry) {
 // Render multi-metric patient check-in widget (shown in public plan after exercises)
 function pubCheckInHTML(patId, visitId) {
   return `
-  <div id="pub-checkin" style="margin:0 14px 12px;background:white;border-top:2px solid var(--navy);padding:18px 18px 16px;box-shadow:0 1px 4px rgba(0,0,0,.06)">
+  <div id="pub-checkin" style="margin:12px 14px 0;background:white;border-radius:16px;padding:18px 18px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06)">
     <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:16px">Rapport efter passet</div>
 
     <!-- Pain -->
