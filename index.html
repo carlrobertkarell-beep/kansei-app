@@ -159,8 +159,8 @@
   .kpi-trend.up{color:var(--green);}
   .kpi-trend.alert{color:var(--red);}
 
-  .dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
-  .dash-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+  .dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px;}
+  .dash-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
   .dash-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-xs);}
   .dash-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--surface2);}
   .dash-panel-title{font-size:11px;font-weight:700;color:var(--ink2);letter-spacing:.03em;text-transform:uppercase;}
@@ -180,7 +180,11 @@
   .dash-bar{height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden;}
   .dash-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#1a8fc4);border-radius:2px;transition:width .4s ease;}
 
-  .dash-topbar{display:flex;align-items:flex-start;justify-content:space-between;padding:28px 32px 20px;flex-wrap:wrap;gap:16px;border-bottom:1px solid var(--border);margin-bottom:24px;background:var(--surface);}
+  .dash-topbar{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:28px;margin-bottom:28px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:16px;}
+  .dash-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px;}
+  .dash-kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:18px 22px;box-shadow:var(--shadow-xs);}
+  .dash-kpi-val{font-size:28px;font-weight:700;font-family:var(--font-mono);color:var(--ink);line-height:1;letter-spacing:-.03em;margin-bottom:5px;}
+  .dash-kpi-lbl{font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase;}
   .dash-greeting{font-family:var(--font-serif);font-size:24px;color:var(--ink);font-weight:400;letter-spacing:-.02em;}
   .dash-date{font-size:12px;color:var(--muted);margin-top:3px;}
   .dash-quickbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
@@ -226,23 +230,37 @@
   .pc-bot{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border);}
   .pc-visits{font-size:10px;color:var(--muted);font-family:var(--font-mono);}
 
-  .det-hero{background:linear-gradient(135deg,var(--ink) 0%,var(--ink3) 100%);border-radius:var(--r-xl);padding:26px 28px;margin-bottom:18px;position:relative;overflow:hidden;}
-  .det-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(13,155,138,.14),transparent 70%);pointer-events:none;}
-  .det-hero-name{font-family:var(--font-serif);font-size:29px;color:white;font-weight:400;margin-bottom:4px;letter-spacing:-.02em;}
-  .det-hero-diag{font-size:12.5px;color:rgba(255,255,255,.55);margin-bottom:18px;font-style:italic;}
-  .det-hero-meta{display:flex;gap:24px;flex-wrap:wrap;}
-  .det-meta-item{display:flex;flex-direction:column;gap:3px;}
-  .det-meta-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.32);font-weight:700;}
-  .det-meta-value{font-size:12px;color:rgba(255,255,255,.82);font-family:var(--font-mono);}
-  .det-actions-primary{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
-  .det-action-main{width:100%;padding:13px;background:var(--accent);border:none;border-radius:var(--r-md);color:white;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:var(--t-fast);display:flex;align-items:center;justify-content:center;gap:7px;letter-spacing:-.01em;}
-  .det-action-main:hover{background:var(--accent2);}
-  .det-action-main.secondary{background:rgba(255,255,255,.08);color:white;border:1px solid rgba(255,255,255,.15);}
-  .det-action-main.secondary:hover{background:rgba(255,255,255,.15);}
-  .det-action-main.full{grid-column:1/-1;}
-  .det-actions-secondary{display:flex;gap:6px;flex-wrap:wrap;}
-  .det-sec-btn{padding:6px 13px;border-radius:var(--r-sm);font-size:11px;font-weight:500;cursor:pointer;font-family:var(--font);border:1px solid var(--border);background:var(--surface);color:#64748b;transition:var(--t-fast);}
-  .det-sec-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+  /* ── DETAIL — TWO COLUMN DESKTOP LAYOUT ── */
+  .det-layout{display:grid;grid-template-columns:1fr 270px;gap:24px;align-items:start;}
+  .det-aside{position:sticky;top:24px;display:flex;flex-direction:column;gap:12px;}
+  .det-action-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-xs);}
+  .det-action-card-hdr{padding:12px 16px;border-bottom:1px solid var(--border);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+  .det-action-card-body{padding:12px 16px;display:flex;flex-direction:column;gap:7px;}
+  .det-action-btn{width:100%;padding:10px 14px;border-radius:var(--r-sm);font-size:12.5px;font-weight:600;cursor:pointer;font-family:var(--font);border:1px solid var(--border);background:var(--surface);color:var(--ink2);transition:var(--t-fast);text-align:left;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;}
+  .det-action-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+  .det-action-btn.primary{background:var(--accent);border-color:var(--accent);color:white;box-shadow:0 1px 3px rgba(13,155,138,.25);}
+  .det-action-btn.primary:hover{background:var(--accent2);border-color:var(--accent2);}
+  .det-action-btn.danger{color:var(--red);border-color:#fca5a5;}
+  .det-action-btn.danger:hover{background:var(--red-bg);}
+
+  /* ── FORM SCREENS — CONTEXT HEADER ── */
+  .form-screen-wrap{min-height:100vh;background:var(--surface2);}
+  .form-screen-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50;}
+  .form-screen-header .fsh-back{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:var(--muted);background:none;border:none;cursor:pointer;font-family:var(--font);padding:0;transition:color .15s;}
+  .form-screen-header .fsh-back:hover{color:var(--accent);}
+  .form-screen-header .fsh-sep{color:var(--border2);font-size:14px;}
+  .form-screen-header .fsh-title{font-size:13px;font-weight:600;color:var(--ink);letter-spacing:-.01em;}
+  .form-screen-header .fsh-sub{font-size:11px;color:var(--muted);margin-left:4px;}
+  .form-screen-body{max-width:740px;margin:0 auto;padding:32px 32px 80px;}
+  .form-screen-body.narrow{max-width:580px;}
+  .form-screen-body.wide{max-width:920px;}
+
+  @media(max-width:960px){
+    .det-layout{grid-template-columns:1fr;}
+    .det-aside{position:static;}
+    .form-screen-header{padding:0 16px;height:48px;}
+    .form-screen-body{padding:20px 16px 64px;}
+  }
 
   .det-hdr{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:0;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-xs);}
   .det-meta{display:flex;flex-wrap:wrap;gap:16px;padding:16px 18px 0;}
@@ -283,7 +301,11 @@
   .soap-l.P{background:#f3e8ff;color:#6b21a8;}
   .soap-t{color:#475569;line-height:1.65;}
 
-  .fwrap{max-width:580px;margin:0 auto;}
+  .cx{max-width:1100px;margin:0 auto;padding:32px 36px 80px;}
+  .fwrap{max-width:640px;margin:0 auto;padding:36px 0 80px;}
+  .msoap-wrap{max-width:800px;margin:0 auto;padding:32px 0 80px;}
+  .form-screen-body{max-width:640px;margin:0 auto;padding:32px 0 80px;}
+  .form-screen-body.wide{max-width:860px;}
   .ftitle{font-family:var(--font-serif);font-size:25px;color:var(--ink);margin-bottom:4px;font-weight:400;letter-spacing:-.02em;}
   .fsub{color:var(--muted);font-size:12px;margin-bottom:24px;line-height:1.65;}
   .slabel{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:20px;display:block;font-weight:700;}
@@ -322,7 +344,7 @@
   .empty{text-align:center;padding:72px 20px;}
   .empty-title{font-family:var(--font-serif);font-size:21px;color:var(--subtle);margin-bottom:14px;font-weight:400;}
 
-  .swrap{max-width:460px;margin:0 auto;}
+  .swrap{max-width:480px;margin:0 auto;padding:32px 36px 80px;}
   .stitle{font-family:var(--font-serif);font-size:25px;color:var(--ink);font-weight:400;margin-bottom:4px;letter-spacing:-.02em;}
   .ssub{font-size:12px;color:var(--muted);margin-bottom:24px;line-height:1.65;}
   .akwrap{position:relative;margin-bottom:8px;}
@@ -343,7 +365,7 @@
   .modal-text{font-size:13px;color:#64748b;line-height:1.65;margin-bottom:20px;}
   .modal-actions{display:flex;gap:9px;justify-content:flex-end;}
 
-  .meet-wrap{max-width:720px;margin:0 auto;}
+  .meet-wrap{max-width:740px;margin:0 auto;padding:28px 32px 80px;}
   .meet-consent{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:22px 26px;margin-bottom:22px;}
   .meet-consent-title{font-family:var(--font-serif);font-size:19px;color:var(--ink);margin-bottom:9px;font-weight:400;letter-spacing:-.01em;}
   .meet-consent-txt{font-size:12px;color:#64748b;line-height:1.75;margin-bottom:16px;}
@@ -439,7 +461,7 @@
   .insight-fill{height:100%;background:linear-gradient(90deg,var(--accent),#1a8fc4);border-radius:3px;}
 
   .npf-backdrop{position:fixed;inset:0;background:rgba(8,12,22,.65);z-index:400;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);}
-  .npf-sheet{background:var(--surface);border-radius:var(--r-2xl) var(--r-2xl) 0 0;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;animation:slideUp .25s ease;}
+  .npf-sheet{position:relative;z-index:1;background:var(--surface);border-radius:var(--r-xl);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;animation:scaleIn .18s ease;}
   .npf-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:14px auto 0;}
   .npf-title{font-family:var(--font-serif);font-size:21px;color:var(--ink);font-weight:400;letter-spacing:-.02em;}
   .npf-sub{font-size:12px;color:var(--muted);margin-top:4px;}
@@ -478,20 +500,25 @@
     .main-content{margin-left:0;}
     .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 4px;height:54px;background:var(--sb);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--sb-border);}
     .kpi-grid{grid-template-columns:repeat(2,1fr);}
-    .dash-grid-3{grid-template-columns:1fr 1fr;}
-    .dash-grid{grid-template-columns:1fr;}
-    .det-actions-primary{grid-template-columns:1fr;}
-    .page-header{padding:16px 16px 12px;}
-    .page-body{padding:0 16px 48px;}
-    .dash-topbar{padding:20px 16px 16px;}
+    .dash-grid{grid-template-columns:1fr 1fr;}
+    .dash-grid-2{grid-template-columns:1fr;}
+    .dash-kpis{grid-template-columns:repeat(2,1fr);}
+    .det-layout{grid-template-columns:1fr;}
+    .det-aside{position:static;}
+    .cx{padding:16px 16px 56px;}
+    .meet-wrap{padding:20px 16px 56px;}
+    .msoap-wrap{padding:20px 16px 56px;}
+    .swrap{padding:20px 16px 56px;}
+    .fwrap{padding:20px 16px 56px;}
   }
   @media(max-width:600px){
     .kpi-grid{grid-template-columns:repeat(2,1fr);}
     .pgrid{grid-template-columns:1fr;}
-    .dash-grid-3{grid-template-columns:1fr;}
-    .meet-wrap{max-width:100%;}
+    .dash-grid{grid-template-columns:1fr;}
+    .dash-kpis{grid-template-columns:1fr 1fr;}
     .npf-row{grid-template-columns:1fr;}
-    .fwrap{max-width:100%;}
+    .cx{padding:14px 14px 56px;}
+    .meet-wrap,.msoap-wrap,.fwrap,.swrap{padding:16px 14px 56px;}
   }
   @media print{
     .nav-sidebar,.topbar,.dcontrols{display:none!important;}
@@ -2176,8 +2203,8 @@ function rDashboard() {
       <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);margin-left:12px;flex-shrink:0">${c}</div>
     </div>`).join('') : '<div class="dash-empty">—</div>';
 
-  document.getElementById('s-dashboard').innerHTML = `
-    <!-- TOP BAR: greeting + actions -->
+  document.getElementById('s-dashboard').innerHTML = `<div class="cx">
+    <!-- HEADER: greeting + actions -->
     <div class="dash-topbar">
       <div>
         <div class="dash-greeting">${greeting}</div>
@@ -2201,7 +2228,7 @@ function rDashboard() {
         <div class="dash-kpi-lbl">Aktiva</div>
       </div>
       <div class="dash-kpi">
-        <div class="dash-kpi-val" style="color:${upcoming.length>0?'var(--red)':'var(--navy)'}">${upcoming.length}</div>
+        <div class="dash-kpi-val" style="color:${upcoming.length>0?'var(--red)':'var(--ink)'}">${upcoming.length}</div>
         <div class="dash-kpi-lbl">Väntande återbesök</div>
       </div>
       <div class="dash-kpi">
@@ -2214,19 +2241,19 @@ function rDashboard() {
     ${renderPlanReviewSection(S.patients)}
     <div id="adaptive-alerts" class="anomaly-section" style="display:none"></div>
 
-    <!-- MAIN GRID: followups | recent | stats -->
+    <!-- MAIN GRID: 3 columns -->
     <div class="dash-grid">
       <div class="dash-panel">
         <div class="dash-panel-hdr">
           <div class="dash-panel-title">Väntande återbesök</div>
-          <div style="font-size:10px;color:var(--text3)">${upcoming.length} st</div>
+          <div style="font-size:10px;color:var(--muted)">${upcoming.length} st</div>
         </div>
         <div class="dash-panel-body">${upcomingHtml}</div>
       </div>
       <div class="dash-panel">
         <div class="dash-panel-hdr">
           <div class="dash-panel-title">Senaste aktivitet</div>
-          <button onclick="go('list')" style="background:none;border:none;font-size:10px;color:var(--teal);cursor:pointer;font-family:'DM Sans',sans-serif;padding:0">Visa alla →</button>
+          <button onclick="go('list')" style="background:none;border:none;font-size:10px;color:var(--accent);cursor:pointer;font-family:var(--font);padding:0;font-weight:600">Visa alla →</button>
         </div>
         <div class="dash-panel-body">${recentHtml}</div>
       </div>
@@ -2237,7 +2264,7 @@ function rDashboard() {
     </div>
 
     ${renderClinicInsightsHTML(S.patients)}
-  `;
+  </div>`;
   setTimeout(() => checkAdaptivePlanAlerts(S.patients), 800);
 }
 
@@ -2321,7 +2348,7 @@ function rList(){
     });
     h+=`</div>`;
   }
-  document.getElementById("s-list").innerHTML=h;
+  document.getElementById("s-list").innerHTML=`<div class="cx">${h}</div>`;
 }
 
 // ── PHASE MANAGEMENT ──────────────────────────────────────────────────────────
@@ -2422,43 +2449,90 @@ function rDetail(){
     ${diagList.length ? diagList.map((d,i)=>`<span style="display:inline-block;margin:0 5px 5px 0;padding:3px 10px;background:${i===0?'var(--navy)':'var(--bg2)'};color:${i===0?'white':'var(--text2)'};font-size:11px;font-weight:${i===0?'600':'400'}">${e(d)}</span>`).join('') : '<span style="font-size:12px;color:var(--text4)">Ingen diagnos angiven — registreras automatiskt efter första journal</span>'}
   </div>`;
 
-  let h = renderPhaseBar(p) + renderPhaseNext(p);
-  h += `<div class="det-hdr">
-    <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
-      <div style="flex:1;min-width:200px">
-        <div class="det-name">${e(p.name||"Namnlös")}</div>
-        <div style="font-size:12px;color:var(--text3);margin-bottom:12px">${p.birthdate||""}${age&&!isNaN(age)?' · '+age+' år':''}</div>
-        ${diagHtml}
-        <div class="det-meta">
-          ${p.phone?`<div><div class="dml">Telefon</div><div class="dmv">${e(p.phone)}</div></div>`:''}
-          ${p.email?`<div><div class="dml">E-post</div><div class="dmv">${e(p.email)}</div></div>`:''}
-          ${p.address?`<div><div class="dml">Adress</div><div class="dmv" style="font-size:11px">${e(p.address)}</div></div>`:''}
-          <div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div>
-          <div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div>
-          ${totalRevenue?`<div><div class="dml">Köpt för</div><div class="dmv">${totalRevenue.toLocaleString('sv-SE')} kr</div></div>`:''}
+  // ── SIDEBAR — actions panel ────────────────────────────────────────────────
+  const hasVisits = (p.visits||[]).length >= 1;
+  const asideHtml = `
+    <div class="det-aside">
+      <div class="det-action-card">
+        <div class="det-action-card-hdr">Åtgärder</div>
+        <div class="det-action-card-body">
+          <button class="det-action-btn primary" onclick="startManualSOAP()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Ny journal
+          </button>
+          <button class="det-action-btn" onclick="startMeeting()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            Möte &amp; transkription
+          </button>
+          ${S.visitId&&S.plan
+            ? `<button class="det-action-btn" onclick="go('doc')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                Visa senaste rehabplan
+              </button>`
+            : `<button class="det-action-btn" onclick="newVisit()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Nytt besök &amp; rehabplan
+              </button>`}
         </div>
       </div>
-    </div>
 
-    <!-- PRIMARY ACTIONS: page-specific, prominently placed -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:14px;border-top:2px solid var(--border)">
-      <button class="btn btn-p" style="padding:11px;font-size:13px;font-weight:700" onclick="startManualSOAP()">+ Journal</button>
-      <button class="btn btn-p" style="padding:11px;font-size:13px;font-weight:700;background:white;color:var(--navy);border:1px solid var(--border)" onclick="startMeeting()">Möte / transkription</button>
-      ${S.visitId&&S.plan?`<button class="btn" style="padding:11px;font-size:12px;grid-column:1/-1" onclick="go('doc')">Visa senaste rehabplan</button>`:`<button class="btn btn-p" style="padding:11px;font-size:12px;grid-column:1/-1;background:var(--teal)" onclick="newVisit()">+ Nytt besök &amp; rehabplan</button>`}
-    </div>
+      <div class="det-action-card">
+        <div class="det-action-card-hdr">Verktyg</div>
+        <div class="det-action-card-body">
+          <button class="det-action-btn" onclick="openConsultation('${p.id}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            AI-konsultation
+          </button>
+          ${hasVisits?`<button class="det-action-btn" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Epikris
+          </button>`:''}
+          ${hasVisits?`<button class="det-action-btn" id="remiss-btn-${p.id}" onclick="openRemissDialog('${p.id}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Remissunderlag
+          </button>`:''}
+          ${hasVisits?`<button class="det-action-btn" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Patientanalys
+          </button>`:''}
+          <button class="det-action-btn" onclick="go('editpat')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Redigera patient
+          </button>
+          <button class="det-action-btn" onclick="go('patjournal')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportera journal
+          </button>
+          <button class="det-action-btn danger" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            Radera patient
+          </button>
+        </div>
+      </div>
+    </div>`;
 
-    <!-- SECONDARY ACTIONS: admin/tools, more compact -->
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-      <button class="btn" style="font-size:11px;padding:6px 11px" onclick="go('editpat')">Redigera</button>
-      <button class="btn" style="font-size:11px;padding:6px 11px" onclick="go('patjournal')">Exportera</button>
-      <button class="btn" style="font-size:11px;padding:6px 11px" onclick="openConsultation('${p.id}')">AI-konsultation</button>
-      ${(p.visits||[]).length>=1?`<button class="btn" style="font-size:11px;padding:6px 11px" id="epikris-btn-${p.id}" onclick="generateEpikris('${p.id}')">Epikris</button>`:""}
-      ${(p.visits||[]).length>=1?`<button class="btn" style="font-size:11px;padding:6px 11px" id="remiss-btn-${p.id}" onclick="openRemissDialog('${p.id}')">Remiss</button>`:""}
-      ${(p.visits||[]).length>=1?`<button class="btn" style="font-size:11px;padding:6px 11px" id="prog-btn-${p.id}" onclick="showProgressNote('${p.id}')">Patientanalys</button>`:""}
-      <button class="btn btn-d" style="font-size:11px;padding:6px 11px" onclick="confDel('pat','${p.id}','${e(p.name||"patienten")}')">Radera</button>
-    </div>
-  </div>`;
+  // ── MAIN — patient info + visits ──────────────────────────────────────────
+  let mainHtml = `
+    <div>
+      <div class="det-hdr">
+        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+          <div style="flex:1;min-width:200px">
+            <div class="det-name">${e(p.name||"Namnlös")}</div>
+            <div style="font-size:12px;color:var(--text3);margin-bottom:12px">${p.birthdate||""}${age&&!isNaN(age)?' · '+age+' år':''}</div>
+            ${diagHtml}
+            <div class="det-meta">
+              ${p.phone?`<div><div class="dml">Telefon</div><div class="dmv">${e(p.phone)}</div></div>`:''}
+              ${p.email?`<div><div class="dml">E-post</div><div class="dmv">${e(p.email)}</div></div>`:''}
+              ${p.address?`<div><div class="dml">Adress</div><div class="dmv" style="font-size:11px">${e(p.address)}</div></div>`:''}
+              <div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div>
+              <div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div>
+              ${totalRevenue?`<div><div class="dml">Köpt för</div><div class="dmv">${totalRevenue.toLocaleString('sv-SE')} kr</div></div>`:''}
+            </div>
+          </div>
+        </div>
+      </div>`;
 
+  let h = renderPhaseBar(p) + renderPhaseNext(p) + mainHtml;
   h += renderMsgPanel(p.id);
   // Briefing — rendered above messages, shell first then AI async
   if ((p.visits||[]).length > 0 && getKey()) {
@@ -2547,7 +2621,8 @@ function rDetail(){
     });
   }
   h += renderConsentBlock(p);
-  document.getElementById("s-detail").innerHTML=h;
+  h += `</div>`; // close det-main
+  document.getElementById("s-detail").innerHTML=`<div class="cx"><div class="det-layout"><div class="det-main">${h}</div>${asideHtml}</div></div>`;
 }
 function togVisit(vid){const p=S.pat;if(!p||!p.visits)return;const v=p.visits.find(x=>x.id===vid);if(!v)return;v._exp=!v._exp;const b=document.getElementById("vb-"+vid);const c=document.getElementById("ch-"+vid);if(b)b.style.display=v._exp?"block":"none";if(c)c.classList.toggle("open",v._exp);}
 
@@ -3434,16 +3509,20 @@ function rMeeting() {
   if (!p) { go("list"); return; }
   const el = document.getElementById("s-meeting");
 
+  const meetHeader = `
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50">
+    <button onclick="stopListening();go('detail')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--muted);padding:0;font-family:var(--font);transition:color .15s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Kundkort
+    </button>
+    <span style="color:var(--border2)">›</span>
+    <span style="font-size:13px;font-weight:600;color:var(--ink)">${e(p.name)}</span>
+    <span style="font-size:11px;color:var(--muted)">— Möte &amp; transkription</span>
+  </div>`;
+
   if (!meetConsented) {
-    el.innerHTML = `<div class="meet-wrap">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
-        <button class="btn" style="font-size:12px;padding:6px 12px" onclick="go('detail')">← Tillbaka</button>
-        <div>
-          <div class="meet-title" style="margin-bottom:0">Starta mötesinspelning</div>
-          <div class="meet-sub">${e(p.name)} · ${e(p.diagnosis||'')}</div>
-        </div>
-      </div>
-      <div class="meet-consent">
+    el.innerHTML = meetHeader + `<div class="meet-wrap">
+      <div class="meet-consent" style="margin-top:32px">
         <div class="meet-consent-title">Samtycke krävs</div>
         <div class="meet-consent-txt">
           Innan inspelningen startar behöver patienten ge sitt samtycke till att mötet spelas in och transkriberas för journalföring. Transkriptionen behandlas av AI och lagras lokalt.
@@ -3466,14 +3545,7 @@ function rMeeting() {
   ).join('');
   if (!transcriptHtml) transcriptHtml = '<div style="color:#6a7a8a;font-style:italic;padding:8px 0;font-size:13px">Inget transkriberat ännu — tryck Starta inspelning och tala tydligt.</div>';
 
-  el.innerHTML = `<div class="meet-wrap">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-      <button class="btn" style="font-size:12px;padding:6px 12px;flex-shrink:0" onclick="stopListening();go('detail')">← Kundkort</button>
-      <div style="flex:1;min-width:0">
-        <div class="meet-title" style="margin-bottom:1px">${e(p.name)}</div>
-        <div class="meet-sub">${e(p.diagnosis||'')} · ${new Date().toLocaleDateString('sv-SE')}</div>
-      </div>
-    </div>
+  el.innerHTML = meetHeader + `<div class="meet-wrap">
     <div class="meet-status">
       <div class="meet-dot ${isListening?'listening':'idle'}" id="meet-dot"></div>
       <span class="meet-status-txt" id="meet-status-txt">${isListening?'Lyssnar och transkriberar...':'Tryck Starta för att börja'}</span>
@@ -4169,7 +4241,20 @@ function rManualSOAP() {
     {l:'A', name:'Bedömning — diagnos, funktionsnivå, prognos', ph:'Bedömning: Klinisk bild förenlig med... Funktionsnivå... Prognos...'},
     {l:'P', name:'Plan — åtgärder, hemprogram, uppföljning', ph:'Behandling: ... Hemövningar... Återbesök om...'}
   ];
-  el.innerHTML = `<div class="msoap-wrap">
+  el.innerHTML = `
+  <div style="background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;height:52px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50">
+    <button onclick="autoSaveJournalDraft();go('detail')" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:500;color:var(--muted);padding:0;font-family:var(--font);transition:color .15s" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Kundkort
+    </button>
+    <span style="color:var(--border2)">›</span>
+    <span style="font-size:13px;font-weight:600;color:var(--ink)">${e(p.name)}</span>
+    <span style="font-size:11px;color:var(--muted)">— Journalanteckning</span>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+      <span id="soap-autosave-label" style="font-size:11px;color:var(--muted);display:none">Sparad</span>
+    </div>
+  </div>
+  <div style="max-width:800px;margin:0 auto;padding:28px 32px 80px">
     <div class="ftit">Journalanteckning — ${e(p.name)}</div>
     <div class="msoap-hint">Fyll i de fält som är relevanta. AI föreslår differentialdiagnoser och riktlinjer i realtid.</div>
 
@@ -4216,7 +4301,7 @@ function rManualSOAP() {
       </button>
     </div>
     <button class="btn" style="width:100%;margin-top:8px;padding:10px" onclick="go('detail')">Avbryt</button>
-  </div>`;
+  </div></div>`;
 }
 
 async function finishManualSOAP(goPlan) {
@@ -5276,10 +5361,10 @@ function showMailDialog(vid) {
   document.getElementById('mail-dialog-overlay')?.remove();
   const ov = document.createElement('div');
   ov.id = 'mail-dialog-overlay';
-  ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeInOv .18s ease';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(8,12,22,.6);backdrop-filter:blur(4px);animation:fadeInOv .18s ease';
+  ov.onclick = ev => { if(ev.target===ov) ov.remove(); };
   ov.innerHTML = `
-  <div class="npf-backdrop" onclick="document.getElementById('mail-dialog-overlay').remove()"></div>
-  <div class="npf-sheet" style="max-height:90vh;overflow-y:auto">
+  <div class="npf-sheet" style="max-height:90vh;overflow-y:auto;position:relative;z-index:1" onclick="event.stopPropagation()">
     <div class="npf-header">
       <div class="npf-title">Skicka rehabplan</div>
       <div class="npf-sub">${e(p.name)} · ${e(v.plan.diagnosis||p.diagnosis||'')}</div>
