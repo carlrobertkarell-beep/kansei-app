@@ -793,12 +793,9 @@
 </style>
 </head>
 <body>
-<!-- Mobile topbar (hidden on desktop) -->
-<div class="topbar" id="mobile-topbar">
-  <button onclick="togSidebar()" style="background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:4px;line-height:1">☰</button>
-  <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20105%2018.81%22%3E%3Cstyle%3E.zw%7Bfill%3A%23fff%3Bfill-rule%3Aevenodd%7D%3C/style%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2214.47%203.62%2014.47%200%20.23%200%20.23%204.09%208.53%204.09%200%2015.03%200%2018.81%2014.49%2018.81%2014.49%2014.73%205.82%2014.73%2014.47%203.62%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2227.32%2011%2035.81%2011%2035.81%206.96%2027.32%206.96%2027.32%204.09%2036.57%204.09%2036.57%200%2022.86%200%2022.86%206.96%2019.75%206.96%2019.75%2010.96%2022.86%2010.96%2022.86%2018.81%2036.99%2018.81%2036.99%2014.67%2027.32%2014.67%2027.32%2011%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2255.72%2011.2%2049.48%200%2044.94%200%2044.94%2018.81%2049.24%2018.81%2049.24%207.38%2055.66%2018.81%2060.02%2018.81%2060.02%200%2055.72%200%2055.72%2011.2%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2275.52%207.16%2072.19%200%2066.84%200%2073.19%2011.74%2073.19%2018.81%2077.74%2018.81%2077.74%2011.74%2083.89%200%2078.71%200%2075.52%207.16%22/%3E%3Cpath%20class%3D%22zw%22%20d%3D%22M94.45%2C11.13l1.62-5.07%2C1.57%2C5.07h-3.19ZM98.5%2C0h-4.76l-6.55%2C18.81h4.78l1.21-3.68h5.78l1.13%2C3.68h4.93L98.5%2C0Z%22/%3E%3C/svg%3E" style="height:20px;opacity:.9">
-  <div style="width:32px"></div>
-</div>
+<!-- Mobile sidebar overlay -->
+<div id="sb-overlay" onclick="togSidebar()" style="display:none;position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.4)"></div>
+<div class="topbar" id="mobile-topbar"></div>
 
 <div class="app-shell">
   <!-- SIDEBAR NAVIGATION -->
@@ -1953,88 +1950,111 @@ function go(scr){
   // Auto-save journal draft when navigating away
   if((S.screen==='manualsoap'||S.screen==='sbs-soap') && scr!==S.screen) autoSaveJournalDraft();
   S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
-function rTopbar(){
-  const scr = S.screen;
+function togSidebar() {
+  const sb  = document.getElementById('nav-sidebar');
+  const ov  = document.getElementById('sb-overlay');
+  const open = sb.classList.toggle('open');
+  if (ov) ov.style.display = open ? 'block' : 'none';
+}
 
-  // ── MOBILE TOPBAR ───────────────────────────────────────────────────────────
-  const tb = document.getElementById('mobile-topbar');
-  if (tb) {
-    const backLabels = {
-      meeting:'← Kundkort', soap:'← Kundkort', manualsoap:'← Kundkort',
-      'sbs-soap':'← Kundkort', doc:'← Kundkort', form:'← Kundkort',
-      editex:'← Plan', editpat:'← Kundkort', journaldoc:'← Kundkort',
-      patjournal:'← Kundkort', detail:'← Patienter', list:'← Hem'
-    };
-    const isRoot = scr === 'dashboard' || scr === 'list';
-    const leftBtn = isRoot
-      ? `<button onclick="togSidebar()" style="background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:4px;line-height:1">☰</button>`
-      : `<button class="btn-ghost btn" onclick="goBack()" style="font-size:12px;padding:6px 10px;white-space:nowrap;color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.2)">${backLabels[scr]||'← Hem'}</button>`;
-    tb.innerHTML = `
-      ${leftBtn}
-      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20105%2018.81%22%3E%3Cstyle%3E.zw%7Bfill%3A%23fff%3Bfill-rule%3Aevenodd%7D%3C/style%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2214.47%203.62%2014.47%200%20.23%200%20.23%204.09%208.53%204.09%200%2015.03%200%2018.81%2014.49%2018.81%2014.49%2014.73%205.82%2014.73%2014.47%203.62%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2227.32%2011%2035.81%2011%2035.81%206.96%2027.32%206.96%2027.32%204.09%2036.57%204.09%2036.57%200%2022.86%200%2022.86%206.96%2019.75%206.96%2019.75%2010.96%2022.86%2010.96%2022.86%2018.81%2036.99%2018.81%2036.99%2014.67%2027.32%2014.67%2027.32%2011%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2255.72%2011.2%2049.48%200%2044.94%200%2044.94%2018.81%2049.24%2018.81%2049.24%207.38%2055.66%2018.81%2060.02%2018.81%2060.02%200%2055.72%200%2055.72%2011.2%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2275.52%207.16%2072.19%200%2066.84%200%2073.19%2011.74%2073.19%2018.81%2077.74%2018.81%2077.74%2011.74%2083.89%200%2078.71%200%2075.52%207.16%22/%3E%3Cpath%20class%3D%22zw%22%20d%3D%22M94.45%2C11.13l1.62-5.07%2C1.57%2C5.07h-3.19ZM98.5%2C0h-4.76l-6.55%2C18.81h4.78l1.21-3.68h5.78l1.13%2C3.68h4.93L98.5%2C0Z%22/%3E%3C/svg%3E" style="height:20px;opacity:.9">
-      <div style="display:flex;align-items:center;gap:2px">
-        <span id="sync-status"></span>
-        <button class="inbox-btn" onclick="openInbox()" title="Inkorg">
-          <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-          <span id="inbox-badge" class="inbox-badge" style="display:none">0</span>
-        </button>
-        <button onclick="togHamburger()" id="ham-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center" aria-label="Meny">
-          <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-          <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-          <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-        </button>
-      </div>`;
-  }
+function rTopbar() {
+  const scr = S.screen;
 
   // ── SIDEBAR NAV LINKS ───────────────────────────────────────────────────────
   const nav = document.getElementById('nav-links');
   if (nav) {
-    const navItems = [
-      { scr:'dashboard', label:'Hem' },
-      { scr:'list',      label:'Patienter' },
+    const items = [
+      { s:'dashboard', label:'Hem',       svg:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+      { s:'list',      label:'Patienter', svg:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
     ];
-    nav.innerHTML = navItems.map(n =>
-      `<div class="nav-item ${scr===n.scr?'active':''}" onclick="go('${n.scr}')">${n.label}</div>`
-    ).join('');
+    nav.innerHTML = items.map(it => `
+      <button class="nav-item ${scr===it.s?'active':''}" onclick="go('${it.s}')">
+        <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${it.svg}</svg>
+        ${it.label}
+      </button>`).join('');
   }
 
   // ── SIDEBAR FOOTER ──────────────────────────────────────────────────────────
   const nf = document.getElementById('nav-footer');
   if (nf) {
     const unread = getUnreadCount();
+    const email  = _authUser?.email || '';
+    const name   = email.split('@')[0] || 'Inloggad';
     nf.innerHTML = `
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 2px 8px">
-        <span id="sync-status-sb"></span>
-        <button class="inbox-btn" onclick="openInbox()" title="Inkorg" style="position:relative">
+      <div class="nav-user" onclick="togSettings()">
+        <div style="width:30px;height:30px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div style="min-width:0">
+          <div class="nav-user-name">${e(name)}</div>
+          <div class="nav-user-clinic">${e(CLINIC.name)}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;padding:8px 4px 4px">
+        <button class="inbox-btn" onclick="openInbox()" title="Inkorg" style="position:relative;flex-shrink:0">
           <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
           <span id="inbox-badge-sb" class="inbox-badge" style="display:${unread>0?'block':'none'}">${unread>9?'9+':unread}</span>
         </button>
-      </div>
-      <button onclick="togSettings()" style="width:100%;background:none;border:none;text-align:left;padding:8px 6px;font-size:11px;color:var(--sb-text);cursor:pointer;font-family:var(--font)">Inställningar</button>
-      <button onclick="sbSignOut()" style="width:100%;background:none;border:none;text-align:left;padding:8px 6px;font-size:11px;color:var(--sb-text);cursor:pointer;font-family:var(--font)">Logga ut</button>`;
+        <span id="sync-status-sb" style="flex:1;overflow:hidden"></span>
+        <button onclick="sbSignOut()" style="background:none;border:none;padding:4px 8px;font-size:11px;color:var(--sb-text);cursor:pointer;font-family:var(--font);white-space:nowrap;border-radius:5px" onmouseover="this.style.color='var(--sb-text3)'" onmouseout="this.style.color='var(--sb-text)'">Logga ut</button>
+      </div>`;
+  }
+
+  // ── MOBILE TOPBAR ───────────────────────────────────────────────────────────
+  const tb = document.getElementById('mobile-topbar');
+  if (tb) {
+    const isRoot = scr === 'dashboard' || scr === 'list';
+    const backLabels = {
+      meeting:'← Kundkort', soap:'← Kundkort', manualsoap:'← Kundkort',
+      'sbs-soap':'← Kundkort', doc:'← Kundkort', form:'← Kundkort',
+      editex:'← Plan', editpat:'← Kundkort', journaldoc:'← Kundkort',
+      patjournal:'← Kundkort', detail:'← Patienter', list:'← Hem'
+    };
+    const leftBtn = isRoot
+      ? `<button onclick="togSidebar()" style="background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;padding:6px 8px;line-height:1">&#9776;</button>`
+      : `<button onclick="goBack()" style="background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;padding:6px 12px;font-family:var(--font)">${backLabels[scr]||'← Hem'}</button>`;
+    const unread = getUnreadCount();
+    tb.innerHTML = `
+      ${leftBtn}
+      <img src="${LOGO}" style="height:18px;opacity:.9">
+      <div style="display:flex;align-items:center;gap:2px">
+        <button class="inbox-btn" onclick="openInbox()" title="Inkorg">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          <span id="inbox-badge" class="inbox-badge" style="display:${unread>0?'block':'none'}">${unread>9?'9+':unread}</span>
+        </button>
+        <button onclick="togMobileMenu()" id="mob-menu-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;align-items:center" aria-label="Meny">
+          <div style="width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+          <div style="width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+          <div style="width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+        </button>
+      </div>`;
   }
 
   updateInboxBadge();
 }
 
-function togHamburger(){
-  const existing=document.getElementById('ham-menu');
-  if(existing){existing.remove();return;}
-  const btn=document.getElementById('ham-btn');
-  const rect=btn.getBoundingClientRect();
-  const menu=document.createElement('div');
-  menu.id='ham-menu';
-  menu.style.cssText=`position:fixed;top:${rect.bottom+4}px;right:12px;background:white;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:400;min-width:180px;overflow:hidden;animation:fadeInOv .12s ease`;
-  const items=[
-    {label:'Inställningar', fn:'togHamburger();togSettings()'},
-    {label:'Hämta från molnet', fn:'togHamburger();syncFromCloud()'},
-    {label:'Ladda upp alla', fn:'togHamburger();syncToCloud()'},
-    {label:'Backup', fn:'togHamburger();exportBackup()'},
-    {label:'Logga ut', fn:'togHamburger();sbSignOut()', red:true},
+function togMobileMenu() {
+  const existing = document.getElementById('mob-menu');
+  if (existing) { existing.remove(); return; }
+  const btn = document.getElementById('mob-menu-btn');
+  if (!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const menu = document.createElement('div');
+  menu.id = 'mob-menu';
+  menu.style.cssText = `position:fixed;top:${rect.bottom+4}px;right:12px;background:white;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:500;min-width:180px;overflow:hidden`;
+  const items = [
+    { label:'Inställningar', fn:'document.getElementById("mob-menu")?.remove();togSettings()' },
+    { label:'Hämta från molnet', fn:'document.getElementById("mob-menu")?.remove();syncFromCloud()' },
+    { label:'Ladda upp alla', fn:'document.getElementById("mob-menu")?.remove();syncToCloud()' },
+    { label:'Backup', fn:'document.getElementById("mob-menu")?.remove();exportBackup()' },
+    { label:'Logga ut', fn:'document.getElementById("mob-menu")?.remove();sbSignOut()', red:true },
   ];
-  menu.innerHTML=items.map(it=>`<div onclick="${it.fn}" style="padding:12px 16px;font-size:13px;cursor:pointer;color:${it.red?'var(--red)':'var(--navy)'};font-family:'DM Sans',sans-serif;border-bottom:1px solid var(--bg2);transition:background .1s" onmouseenter="this.style.background='var(--bg)'" onmouseleave="this.style.background=''">${it.label}</div>`).join('');
-  // Close on outside click
-  setTimeout(()=>document.addEventListener('click', function _c(e){if(!menu.contains(e.target)&&e.target!==btn){menu.remove();document.removeEventListener('click',_c);}},true),10);
+  menu.innerHTML = items.map(it =>
+    `<div onclick="${it.fn}" style="padding:12px 16px;font-size:13px;cursor:pointer;color:${it.red?'var(--red)':'var(--ink)'};font-family:var(--font);border-bottom:1px solid var(--border)" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background=''">${it.label}</div>`
+  ).join('');
+  setTimeout(() => document.addEventListener('click', function _c(ev) {
+    if (!menu.contains(ev.target) && ev.target !== btn) { menu.remove(); document.removeEventListener('click', _c); }
+  }, true), 10);
   document.body.appendChild(menu);
 }
 function goBack(){
