@@ -262,10 +262,23 @@
     .form-screen-body{padding:20px 16px 64px;}
   }
 
-  .det-hdr{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:0;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-xs);}
-  .det-meta{display:flex;flex-wrap:wrap;gap:16px;padding:16px 18px 0;}
-  .dml{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:2px;}
+  .det-hdr{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px 24px;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow-xs);}
+  .det-name{font-family:var(--font-serif);font-size:24px;color:var(--ink);font-weight:400;letter-spacing:-.02em;margin-bottom:3px;line-height:1.2;}
+  .det-meta{display:flex;flex-wrap:wrap;gap:20px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border);}
+  .dml{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:3px;}
   .dmv{font-size:13px;color:var(--ink);font-weight:500;}
+
+  /* ── CONSENT BLOCK ── */
+  .consent-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-xs);margin-top:20px;}
+  .consent-hdr{padding:12px 18px;border-bottom:1px solid var(--border);background:var(--surface2);display:flex;align-items:center;justify-content:space-between;}
+  .consent-hdr-title{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);}
+  .consent-row{display:flex;align-items:center;gap:12px;padding:11px 18px;border-bottom:1px solid var(--border);font-size:12.5px;}
+  .consent-row:last-child{border-bottom:none;}
+  .consent-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+  .consent-type{flex:1;color:var(--ink);font-weight:500;}
+  .consent-date{font-size:11px;color:var(--muted);font-family:var(--font-mono);}
+  .consent-rev{font-size:10px;color:var(--muted);cursor:pointer;padding:2px 8px;border-radius:4px;border:1px solid var(--border);white-space:nowrap;}
+  .consent-rev:hover{color:var(--red);border-color:#fca5a5;background:var(--red-bg);}
 
   .vlbl{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:700;}
   .vcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow-xs);transition:var(--t-fast);}
@@ -2526,20 +2539,16 @@ function rDetail(){
   let mainHtml = `
     <div>
       <div class="det-hdr">
-        <div style="display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
-          <div style="flex:1;min-width:200px">
-            <div class="det-name">${e(p.name||"Namnlös")}</div>
-            <div style="font-size:12px;color:var(--text3);margin-bottom:12px">${p.birthdate||""}${age&&!isNaN(age)?' · '+age+' år':''}</div>
-            ${diagHtml}
-            <div class="det-meta">
-              ${p.phone?`<div><div class="dml">Telefon</div><div class="dmv">${e(p.phone)}</div></div>`:''}
-              ${p.email?`<div><div class="dml">E-post</div><div class="dmv">${e(p.email)}</div></div>`:''}
-              ${p.address?`<div><div class="dml">Adress</div><div class="dmv" style="font-size:11px">${e(p.address)}</div></div>`:''}
-              <div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div>
-              <div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div>
-              ${totalRevenue?`<div><div class="dml">Köpt för</div><div class="dmv">${totalRevenue.toLocaleString('sv-SE')} kr</div></div>`:''}
-            </div>
-          </div>
+        <div class="det-name">${e(p.name||"Namnlös")}</div>
+        <div style="font-size:12.5px;color:var(--muted);margin-top:2px">${p.birthdate||""}${age&&!isNaN(age)?' · '+age+' år':''}</div>
+        ${diagHtml}
+        <div class="det-meta">
+          ${p.phone?`<div><div class="dml">Telefon</div><div class="dmv">${e(p.phone)}</div></div>`:''}
+          ${p.email?`<div><div class="dml">E-post</div><div class="dmv">${e(p.email)}</div></div>`:''}
+          ${p.address?`<div><div class="dml">Adress</div><div class="dmv">${e(p.address)}</div></div>`:''}
+          <div><div class="dml">Besök</div><div class="dmv">${(p.visits||[]).length}</div></div>
+          <div><div class="dml">Senast</div><div class="dmv">${(p.visits&&p.visits[0]&&p.visits[0].date)||"—"}</div></div>
+          ${totalRevenue?`<div><div class="dml">Intäkter</div><div class="dmv">${totalRevenue.toLocaleString('sv-SE')} kr</div></div>`:''}
         </div>
       </div>`;
 
@@ -5871,6 +5880,7 @@ async function fetchClinHint(diag) {
 
 // ── AUTH ──────────────────────────────────────────────────────────────────────
 let _authUser = null;
+let _publicPlanCache = null;
 
 async function sbSignIn(email, password) {
   try {
@@ -6648,10 +6658,12 @@ async function loadPublicPlan(patId, visitId) {
   if (!el) return;
 
   // In-memory cache
-  if (_publicPlanCache && _publicPlanCache.patId === patId && _publicPlanCache.visitId === visitId) {
-    renderPublicPlan(_publicPlanCache.plan, _publicPlanCache.pat);
-    return;
-  }
+  try {
+    if (_publicPlanCache && _publicPlanCache.patId === patId && _publicPlanCache.visitId === visitId) {
+      renderPublicPlan(_publicPlanCache.plan, _publicPlanCache.pat);
+      return;
+    }
+  } catch(e) { /* ignore cache check errors */ }
 
   el.innerHTML = `<div class="pub-loading">
     <div style="margin-bottom:12px">Hämtar din rehabplan...</div>
@@ -6669,12 +6681,12 @@ async function loadPublicPlan(patId, visitId) {
     } catch(e) { clearTimeout(t); throw e; }
   }
 
-  // 1. Try Supabase with 12s timeout
+  // 1. Try Supabase with 8s timeout
   try {
     const r = await fetchWithTimeout(
       `${SB_URL}/rest/v1/patients?id=eq.${encodeURIComponent(patId)}&select=data`,
       { headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY } },
-      12000
+      8000
     );
     if (r.ok) {
       const rows = await r.json();
@@ -6687,21 +6699,18 @@ async function loadPublicPlan(patId, visitId) {
           renderPublicPlan(visit.plan, pat);
           return;
         }
-        // Patient found, visit/plan not found
-        el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:'DM Sans',sans-serif">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#0f2744;margin-bottom:12px">Plan ej tillgänglig</div>
+        el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:var(--font)">
+          <div style="font-family:var(--font-serif);font-size:26px;color:#0f2744;margin-bottom:12px">Plan ej tillgänglig</div>
           <div style="font-size:14px;color:#8a9aaa;line-height:1.7">Länken är giltig men planen hittades inte.<br>Kontakta din behandlare.</div>
         </div>`;
         return;
       }
-    } else {
-      console.warn('Supabase HTTP', r.status);
     }
   } catch(e) {
-    console.warn('Supabase fetch failed:', e.name === 'AbortError' ? 'Timeout (12s)' : e.message);
+    console.warn('Supabase fetch failed:', e.name === 'AbortError' ? 'Timeout' : e.message);
   }
 
-  // 2. Fallback: localStorage (same device only)
+  // 2. Fallback: localStorage (same device)
   try {
     const raw = localStorage.getItem('kansei-data:' + patId);
     if (raw) {
@@ -6715,15 +6724,15 @@ async function loadPublicPlan(patId, visitId) {
     }
   } catch(e) { console.warn('localStorage fallback failed:', e); }
 
-  // 3. Nothing worked — show error with retry
-  el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:'DM Sans',sans-serif">
-    <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#0f2744;margin-bottom:12px">Kunde inte ladda planen</div>
+  // 3. Nothing worked
+  el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:var(--font)">
+    <div style="font-family:var(--font-serif);font-size:26px;color:#0f2744;margin-bottom:12px">Kunde inte ladda planen</div>
     <div style="font-size:14px;color:#8a9aaa;line-height:1.7;margin-bottom:24px">
       Kontrollera att du är online och försök igen.<br>
       Om problemet kvarstår, kontakta din behandlare.
     </div>
-    <button onclick="loadPublicPlan('${patId.replace(/'/g,"\\'")}','${visitId.replace(/'/g,"\\'")}') "
-      style="background:#0f2744;color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">
+    <button onclick="loadPublicPlan('${patId.replace(/'/g,"\\'")}','${visitId.replace(/'/g,"\\'")}');"
+      style="background:#0f2744;color:white;border:none;padding:14px 28px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--font)">
       Försök igen
     </button>
   </div>`;
