@@ -5199,6 +5199,11 @@ function sharePlan(vid) {
   const v = (p.visits||[]).find(x => x.id === vid);
   if (!v || !v.plan) { alert('Ingen rehabplan finns för detta besök.'); return; }
 
+  // Force-sync this patient to Supabase immediately so the link works
+  sbUpsertPat(p).then(ok => {
+    if (!ok) console.warn('sharePlan: Supabase sync failed — link may show stale data');
+  });
+
   // Generate live link
   const baseUrl = window.location.origin + window.location.pathname.replace('index.html','');
   const liveUrl = baseUrl + '#plan=' + p.id + '&visit=' + vid;
@@ -6699,9 +6704,20 @@ async function loadPublicPlan(patId, visitId) {
           renderPublicPlan(visit.plan, pat);
           return;
         }
+        // Fallback: visitId not found or plan missing — try most recent visit that has a plan
+        const fallbackVisit = (pat?.visits||[]).find(v => v.plan && v.plan.exercises?.length > 0);
+        if (fallbackVisit?.plan) {
+          console.warn('visitId mismatch — using fallback visit', fallbackVisit.id, 'expected', visitId);
+          _publicPlanCache = { patId, visitId: fallbackVisit.id, plan: fallbackVisit.plan, pat };
+          renderPublicPlan(fallbackVisit.plan, pat);
+          return;
+        }
+        // Nothing found — show diagnostic
+        const visitIds = (pat?.visits||[]).map(v=>v.id).join(', ') || 'inga besök';
         el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:var(--font)">
           <div style="font-family:var(--font-serif);font-size:26px;color:#0f2744;margin-bottom:12px">Plan ej tillgänglig</div>
-          <div style="font-size:14px;color:#8a9aaa;line-height:1.7">Länken är giltig men planen hittades inte.<br>Kontakta din behandlare.</div>
+          <div style="font-size:14px;color:#8a9aaa;line-height:1.7;margin-bottom:16px">Patienten hittades men ingen rehabplan finns sparad i molnet.<br>Be behandlaren trycka "Ladda upp alla" i Inställningar och skicka länken igen.</div>
+          <div style="font-size:10px;color:#bbb;font-family:monospace">visit=${visitId}<br>found=${visitIds}</div>
         </div>`;
         return;
       }
