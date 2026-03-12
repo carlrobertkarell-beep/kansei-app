@@ -875,11 +875,12 @@ function sbHeaders() {
 
 function setSyncStatus(s, msg) {
   _syncStatus = s;
-  const el = document.getElementById('sync-status');
-  if (!el) return;
-  const icons = {idle:'', syncing:'', ok:'', error:''};
   const colors = {idle:'rgba(255,255,255,0.4)', syncing:'#f0c040', ok:'#60d080', error:'#f07060'};
-  el.innerHTML = `<span style="color:${colors[s]};font-size:11px">${icons[s]} ${msg||''}</span>`;
+  const html = msg ? `<span style="color:${colors[s]||colors.idle};font-size:11px">${msg}</span>` : '';
+  ['sync-status','sync-status-sb'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  });
 }
 
 async function sbUpsertPat(pat) {
@@ -1214,12 +1215,13 @@ function getUnreadCount() {
 }
 
 function updateInboxBadge() {
-  const badge = document.getElementById('inbox-badge');
   const count = getUnreadCount();
-  if (badge) {
-    badge.textContent = count > 9 ? '9+' : String(count);
-    badge.style.display = count > 0 ? 'block' : 'none';
-  }
+  const display = count > 0 ? 'block' : 'none';
+  const label = count > 9 ? '9+' : String(count);
+  ['inbox-badge','inbox-badge-sb'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.textContent = label; el.style.display = display; }
+  });
 }
 
 // ── INBOX DRAWER ─────────────────────────────────────────────────────────────
@@ -1952,40 +1954,66 @@ function go(scr){
   if((S.screen==='manualsoap'||S.screen==='sbs-soap') && scr!==S.screen) autoSaveJournalDraft();
   S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
 function rTopbar(){
-  const r=document.getElementById("tbr");
-  if(!r) return;
-  const scr=S.screen;
-  let h="";
+  const scr = S.screen;
 
-  // Left: back button or app label
-  if(scr==='dashboard'){
-    h+=`<span style="font-size:11px;color:rgba(255,255,255,0.3);letter-spacing:.06em">Zenya</span>`;
-  } else {
+  // ── MOBILE TOPBAR ───────────────────────────────────────────────────────────
+  const tb = document.getElementById('mobile-topbar');
+  if (tb) {
     const backLabels = {
-    meeting:'← Kundkort', soap:'← Kundkort', manualsoap:'← Kundkort',
-    'sbs-soap':'← Kundkort', doc:'← Kundkort', form:'← Kundkort',
-    editex:'← Plan', editpat:'← Kundkort', journaldoc:'← Kundkort',
-    patjournal:'← Kundkort', detail:'← Patienter', list:'← Hem'
-  };
-  const backLabel = backLabels[scr] || '← Hem';
-  h+=`<button class="btn-ghost btn" onclick="goBack()" style="font-size:12px;padding:6px 10px;white-space:nowrap">${backLabel}</button>`;
+      meeting:'← Kundkort', soap:'← Kundkort', manualsoap:'← Kundkort',
+      'sbs-soap':'← Kundkort', doc:'← Kundkort', form:'← Kundkort',
+      editex:'← Plan', editpat:'← Kundkort', journaldoc:'← Kundkort',
+      patjournal:'← Kundkort', detail:'← Patienter', list:'← Hem'
+    };
+    const isRoot = scr === 'dashboard' || scr === 'list';
+    const leftBtn = isRoot
+      ? `<button onclick="togSidebar()" style="background:none;border:none;color:rgba(255,255,255,.7);font-size:20px;cursor:pointer;padding:4px;line-height:1">☰</button>`
+      : `<button class="btn-ghost btn" onclick="goBack()" style="font-size:12px;padding:6px 10px;white-space:nowrap;color:rgba(255,255,255,.8);border-color:rgba(255,255,255,.2)">${backLabels[scr]||'← Hem'}</button>`;
+    tb.innerHTML = `
+      ${leftBtn}
+      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20105%2018.81%22%3E%3Cstyle%3E.zw%7Bfill%3A%23fff%3Bfill-rule%3Aevenodd%7D%3C/style%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2214.47%203.62%2014.47%200%20.23%200%20.23%204.09%208.53%204.09%200%2015.03%200%2018.81%2014.49%2018.81%2014.49%2014.73%205.82%2014.73%2014.47%203.62%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2227.32%2011%2035.81%2011%2035.81%206.96%2027.32%206.96%2027.32%204.09%2036.57%204.09%2036.57%200%2022.86%200%2022.86%206.96%2019.75%206.96%2019.75%2010.96%2022.86%2010.96%2022.86%2018.81%2036.99%2018.81%2036.99%2014.67%2027.32%2014.67%2027.32%2011%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2255.72%2011.2%2049.48%200%2044.94%200%2044.94%2018.81%2049.24%2018.81%2049.24%207.38%2055.66%2018.81%2060.02%2018.81%2060.02%200%2055.72%200%2055.72%2011.2%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2275.52%207.16%2072.19%200%2066.84%200%2073.19%2011.74%2073.19%2018.81%2077.74%2018.81%2077.74%2011.74%2083.89%200%2078.71%200%2075.52%207.16%22/%3E%3Cpath%20class%3D%22zw%22%20d%3D%22M94.45%2C11.13l1.62-5.07%2C1.57%2C5.07h-3.19ZM98.5%2C0h-4.76l-6.55%2C18.81h4.78l1.21-3.68h5.78l1.13%2C3.68h4.93L98.5%2C0Z%22/%3E%3C/svg%3E" style="height:20px;opacity:.9">
+      <div style="display:flex;align-items:center;gap:2px">
+        <span id="sync-status"></span>
+        <button class="inbox-btn" onclick="openInbox()" title="Inkorg">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          <span id="inbox-badge" class="inbox-badge" style="display:none">0</span>
+        </button>
+        <button onclick="togHamburger()" id="ham-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center" aria-label="Meny">
+          <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+          <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+          <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
+        </button>
+      </div>`;
   }
 
-  // Right: sync dot + inbox + hamburger
-  h+=`<div style="display:flex;align-items:center;gap:4px">`;
-  h+=`<span id="sync-status"></span>`;
-  h+=`<button class="inbox-btn" onclick="openInbox()" title="Inkorg" aria-label="Inkorg">
-    <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-    <span id="inbox-badge" class="inbox-badge" style="display:none">0</span>
-  </button>`;
-  h+=`<button onclick="togHamburger()" id="ham-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center" aria-label="Meny">
-    <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-    <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-    <div style="width:18px;height:2px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-  </button>`;
-  h+=`</div>`;
-  r.innerHTML=h;
-  // Refresh inbox badge count
+  // ── SIDEBAR NAV LINKS ───────────────────────────────────────────────────────
+  const nav = document.getElementById('nav-links');
+  if (nav) {
+    const navItems = [
+      { scr:'dashboard', label:'Hem' },
+      { scr:'list',      label:'Patienter' },
+    ];
+    nav.innerHTML = navItems.map(n =>
+      `<div class="nav-item ${scr===n.scr?'active':''}" onclick="go('${n.scr}')">${n.label}</div>`
+    ).join('');
+  }
+
+  // ── SIDEBAR FOOTER ──────────────────────────────────────────────────────────
+  const nf = document.getElementById('nav-footer');
+  if (nf) {
+    const unread = getUnreadCount();
+    nf.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 2px 8px">
+        <span id="sync-status-sb"></span>
+        <button class="inbox-btn" onclick="openInbox()" title="Inkorg" style="position:relative">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+          <span id="inbox-badge-sb" class="inbox-badge" style="display:${unread>0?'block':'none'}">${unread>9?'9+':unread}</span>
+        </button>
+      </div>
+      <button onclick="togSettings()" style="width:100%;background:none;border:none;text-align:left;padding:8px 6px;font-size:11px;color:var(--sb-text);cursor:pointer;font-family:var(--font)">Inställningar</button>
+      <button onclick="sbSignOut()" style="width:100%;background:none;border:none;text-align:left;padding:8px 6px;font-size:11px;color:var(--sb-text);cursor:pointer;font-family:var(--font)">Logga ut</button>`;
+  }
+
   updateInboxBadge();
 }
 
