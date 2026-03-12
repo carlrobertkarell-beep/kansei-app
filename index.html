@@ -476,7 +476,7 @@
     .nav-sidebar{transform:translateX(-100%);}
     .nav-sidebar.open{transform:translateX(0);}
     .main-content{margin-left:0;}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:54px;background:var(--sb);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--sb-border);}
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 12px 0 4px;height:54px;background:var(--sb);position:sticky;top:0;z-index:100;border-bottom:1px solid var(--sb-border);}
     .kpi-grid{grid-template-columns:repeat(2,1fr);}
     .dash-grid-3{grid-template-columns:1fr 1fr;}
     .dash-grid{grid-template-columns:1fr;}
@@ -1951,8 +1951,9 @@ function go(scr){
   if((S.screen==='manualsoap'||S.screen==='sbs-soap') && scr!==S.screen) autoSaveJournalDraft();
   S.screen=scr;document.querySelectorAll(".screen").forEach(el=>el.classList.remove("active"));const el=document.getElementById("s-"+scr);if(el)el.classList.add("active");rTopbar();const fn={dashboard:rDashboard,list:rList,detail:rDetail,form:rForm,editex:rEditEx,loading:rLoading,doc:rDoc,meeting:rMeeting,soap:rSOAP,editpat:rEditPat,journaldoc:rJournalDoc,manualsoap:rManualSOAP,'sbs-soap':rSBSsoap,patjournal:rPatJournal};if(fn[scr])fn[scr]();window.scrollTo(0,0);}
 function togSidebar() {
-  const sb  = document.getElementById('nav-sidebar');
-  const ov  = document.getElementById('sb-overlay');
+  const sb = document.getElementById('nav-sidebar');
+  const ov = document.getElementById('sb-overlay');
+  if (!sb) return;
   const open = sb.classList.toggle('open');
   if (ov) ov.style.display = open ? 'block' : 'none';
 }
@@ -1960,47 +1961,59 @@ function togSidebar() {
 function rTopbar() {
   const scr = S.screen;
 
-  // ── SIDEBAR NAV LINKS ───────────────────────────────────────────────────────
+  // ── SIDEBAR NAV LINKS ──────────────────────────────────────────────────────
   const nav = document.getElementById('nav-links');
   if (nav) {
     const items = [
-      { s:'dashboard', label:'Hem',       svg:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
-      { s:'list',      label:'Patienter', svg:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
+      { s:'dashboard', label:'Hem',
+        svg:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+      { s:'list',      label:'Patienter',
+        svg:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>' },
     ];
     nav.innerHTML = items.map(it => `
-      <button class="nav-item ${scr===it.s?'active':''}" onclick="go('${it.s}')">
+      <button class="nav-item ${scr===it.s?'active':''}" onclick="go('${it.s}');document.getElementById('nav-sidebar')?.classList.remove('open');document.getElementById('sb-overlay')&&(document.getElementById('sb-overlay').style.display='none')">
         <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${it.svg}</svg>
         ${it.label}
       </button>`).join('');
   }
 
-  // ── SIDEBAR FOOTER ──────────────────────────────────────────────────────────
+  // ── SIDEBAR FOOTER ─────────────────────────────────────────────────────────
   const nf = document.getElementById('nav-footer');
   if (nf) {
-    const unread = getUnreadCount();
-    const email  = _authUser?.email || '';
-    const name   = email.split('@')[0] || 'Inloggad';
+    const email    = _authUser?.email || '';
+    const initials = email.slice(0,2).toUpperCase() || 'ZY';
+    const unread   = getUnreadCount();
     nf.innerHTML = `
-      <div class="nav-user" onclick="togSettings()">
-        <div style="width:30px;height:30px;border-radius:50%;background:var(--accent-dim);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        </div>
-        <div style="min-width:0">
-          <div class="nav-user-name">${e(name)}</div>
-          <div class="nav-user-clinic">${e(CLINIC.name)}</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;padding:8px 4px 4px">
-        <button class="inbox-btn" onclick="openInbox()" title="Inkorg" style="position:relative;flex-shrink:0">
-          <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-          <span id="inbox-badge-sb" class="inbox-badge" style="display:${unread>0?'block':'none'}">${unread>9?'9+':unread}</span>
+      <div style="display:flex;flex-direction:column;gap:1px;margin-bottom:8px">
+        <button class="nav-item" onclick="openInbox()" style="justify-content:space-between">
+          <span style="display:flex;align-items:center;gap:9px">
+            <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+            Inkorg
+          </span>
+          <span id="inbox-badge-sb" class="nav-badge" style="display:${unread>0?'inline':'none'}">${unread>9?'9+':unread}</span>
         </button>
-        <span id="sync-status-sb" style="flex:1;overflow:hidden"></span>
-        <button onclick="sbSignOut()" style="background:none;border:none;padding:4px 8px;font-size:11px;color:var(--sb-text);cursor:pointer;font-family:var(--font);white-space:nowrap;border-radius:5px" onmouseover="this.style.color='var(--sb-text3)'" onmouseout="this.style.color='var(--sb-text)'">Logga ut</button>
+        <button class="nav-item" onclick="togSettings()">
+          <svg class="nav-item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Inställningar
+        </button>
+      </div>
+      <div style="border-top:1px solid var(--sb-border);padding-top:10px">
+        <div style="display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:var(--r-md)">
+          <div style="width:28px;height:28px;border-radius:50%;background:var(--accent-dim);border:1px solid rgba(13,155,138,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:700;color:var(--accent);font-family:var(--font-mono);letter-spacing:0">${initials}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:11px;font-weight:600;color:var(--sb-text2);letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(email)}</div>
+            <div style="font-size:10px;color:var(--sb-text);margin-top:1px" id="sync-status-sb">${e(CLINIC.name)}</div>
+          </div>
+          <button onclick="sbSignOut()" title="Logga ut"
+            style="background:none;border:none;cursor:pointer;padding:5px;color:var(--sb-text);display:flex;align-items:center;border-radius:5px;transition:color .15s;flex-shrink:0"
+            onmouseover="this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.color='var(--sb-text)'">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
       </div>`;
   }
 
-  // ── MOBILE TOPBAR ───────────────────────────────────────────────────────────
+  // ── MOBILE TOPBAR — ☰ left | logo center | inbox right ─────────────────────
   const tb = document.getElementById('mobile-topbar');
   if (tb) {
     const isRoot = scr === 'dashboard' || scr === 'list';
@@ -2010,53 +2023,24 @@ function rTopbar() {
       editex:'← Plan', editpat:'← Kundkort', journaldoc:'← Kundkort',
       patjournal:'← Kundkort', detail:'← Patienter', list:'← Hem'
     };
-    const leftBtn = isRoot
-      ? `<button onclick="togSidebar()" style="background:none;border:none;color:rgba(255,255,255,.7);font-size:22px;cursor:pointer;padding:6px 8px;line-height:1">&#9776;</button>`
-      : `<button onclick="goBack()" style="background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);border-radius:7px;font-size:12px;font-weight:500;cursor:pointer;padding:6px 12px;font-family:var(--font)">${backLabels[scr]||'← Hem'}</button>`;
     const unread = getUnreadCount();
+    const leftBtn = isRoot
+      ? `<button onclick="togSidebar()" style="background:none;border:none;color:rgba(255,255,255,.65);cursor:pointer;padding:8px;display:flex;align-items:center;flex-shrink:0">
+           <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+         </button>`
+      : `<button onclick="goBack()" style="background:none;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.75);border-radius:var(--r-sm);font-size:12px;font-weight:500;cursor:pointer;padding:6px 12px;font-family:var(--font);white-space:nowrap;flex-shrink:0">${backLabels[scr]||'← Hem'}</button>`;
     tb.innerHTML = `
       ${leftBtn}
-      <img src="${LOGO}" style="height:18px;opacity:.9">
-      <div style="display:flex;align-items:center;gap:2px">
-        <button class="inbox-btn" onclick="openInbox()" title="Inkorg">
-          <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
-          <span id="inbox-badge" class="inbox-badge" style="display:${unread>0?'block':'none'}">${unread>9?'9+':unread}</span>
-        </button>
-        <button onclick="togMobileMenu()" id="mob-menu-btn" style="background:none;border:none;cursor:pointer;padding:8px;display:flex;flex-direction:column;gap:4px;align-items:center" aria-label="Meny">
-          <div style="width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-          <div style="width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-          <div style="width:18px;height:1.5px;background:rgba(255,255,255,.7);border-radius:1px"></div>
-        </button>
-      </div>`;
+      <img src="${LOGO}" style="height:17px;opacity:.9;position:absolute;left:50%;transform:translateX(-50%);pointer-events:none">
+      <button class="inbox-btn" onclick="openInbox()" title="Inkorg" style="flex-shrink:0">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        <span id="inbox-badge" class="inbox-badge" style="display:${unread>0?'block':'none'}">${unread>9?'9+':unread}</span>
+      </button>`;
   }
 
   updateInboxBadge();
 }
 
-function togMobileMenu() {
-  const existing = document.getElementById('mob-menu');
-  if (existing) { existing.remove(); return; }
-  const btn = document.getElementById('mob-menu-btn');
-  if (!btn) return;
-  const rect = btn.getBoundingClientRect();
-  const menu = document.createElement('div');
-  menu.id = 'mob-menu';
-  menu.style.cssText = `position:fixed;top:${rect.bottom+4}px;right:12px;background:white;border:1px solid var(--border);border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:500;min-width:180px;overflow:hidden`;
-  const items = [
-    { label:'Inställningar', fn:'document.getElementById("mob-menu")?.remove();togSettings()' },
-    { label:'Hämta från molnet', fn:'document.getElementById("mob-menu")?.remove();syncFromCloud()' },
-    { label:'Ladda upp alla', fn:'document.getElementById("mob-menu")?.remove();syncToCloud()' },
-    { label:'Backup', fn:'document.getElementById("mob-menu")?.remove();exportBackup()' },
-    { label:'Logga ut', fn:'document.getElementById("mob-menu")?.remove();sbSignOut()', red:true },
-  ];
-  menu.innerHTML = items.map(it =>
-    `<div onclick="${it.fn}" style="padding:12px 16px;font-size:13px;cursor:pointer;color:${it.red?'var(--red)':'var(--ink)'};font-family:var(--font);border-bottom:1px solid var(--border)" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background=''">${it.label}</div>`
-  ).join('');
-  setTimeout(() => document.addEventListener('click', function _c(ev) {
-    if (!menu.contains(ev.target) && ev.target !== btn) { menu.remove(); document.removeEventListener('click', _c); }
-  }, true), 10);
-  document.body.appendChild(menu);
-}
 function goBack(){
   const s = S.screen;
   const hasPat = !!S.pat;
