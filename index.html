@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hael</title>
+<title>Vela</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -21,7 +21,7 @@
     --muted:#8892a4;
     --subtle:#b4bbc8;
 
-    /* ── ACCENT — HAEL TEAL ── */
+    /* ── ACCENT — VELA TEAL ── */
     --accent:#0d9b8a;
     --accent2:#0b8577;
     --accent3:#097568;
@@ -984,7 +984,7 @@ window.onerror = function(msg, src, line, col, err) {
   document.body.appendChild(ov);
   return true;
 };
-const LOGO="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20105%2018.81%22%3E%3Cstyle%3E.zw%7Bfill%3A%23fff%3Bfill-rule%3Aevenodd%7D%3C/style%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2214.47%203.62%2014.47%200%20.23%200%20.23%204.09%208.53%204.09%200%2015.03%200%2018.81%2014.49%2018.81%2014.49%2014.73%205.82%2014.73%2014.47%203.62%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2227.32%2011%2035.81%2011%2035.81%206.96%2027.32%206.96%2027.32%204.09%2036.57%204.09%2036.57%200%2022.86%200%2022.86%206.96%2019.75%206.96%2019.75%2010.96%2022.86%2010.96%2022.86%2018.81%2036.99%2018.81%2036.99%2014.67%2027.32%2014.67%2027.32%2011%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2255.72%2011.2%2049.48%200%2044.94%200%2044.94%2018.81%2049.24%2018.81%2049.24%207.38%2055.66%2018.81%2060.02%2018.81%2060.02%200%2055.72%200%2055.72%2011.2%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2275.52%207.16%2072.19%200%2066.84%200%2073.19%2011.74%2073.19%2018.81%2077.74%2018.81%2077.74%2011.74%2083.89%200%2078.71%200%2075.52%207.16%22/%3E%3Cpath%20class%3D%22zw%22%20d%3D%22M94.45%2C11.13l1.62-5.07%2C1.57%2C5.07h-3.19ZM98.5%2C0h-4.76l-6.55%2C18.81h4.78l1.21-3.68h5.78l1.13%2C3.68h4.93L98.5%2C0Z%22/%3E%3C/svg%3E";
+const LOGO="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2080%2020%22%3E%3Ctext%20x%3D%220%22%20y%3D%2216%22%20font-family%3D%22Fraunces%2C%20Georgia%2C%20serif%22%20font-size%3D%2218%22%20font-weight%3D%22300%22%20fill%3D%22white%22%20letter-spacing%3D%22-0.5%22%3EVela%3C/text%3E%3C/svg%3E";
 const SLOGAN="Rörelse är medicin — vi guidar dig hela vägen";
 
 // ── SUPABASE SYNC ─────────────────────────────────────────────────────────────
@@ -1671,7 +1671,7 @@ function renderInboxDrawer() {
     : `<div class="inbox-empty">
         <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
         <div class="inbox-empty-title">Allt klart</div>
-        <div class="inbox-empty-sub">Inga nya händelser att visa.<br>Hael bevakar dina patienter.</div>
+        <div class="inbox-empty-sub">Inga nya händelser att visa.<br>Vela bevakar dina patienter.</div>
       </div>`;
 
   dr.innerHTML = `
@@ -2300,9 +2300,14 @@ Regler:
     if (wrap) wrap.outerHTML = renderBriefingContent(pat.id, briefing);
   } catch (err) {
     const wrap = document.getElementById('briefing-' + pat.id);
-    if (wrap) wrap.innerHTML = `<div class="briefing-error">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Kunde inte generera briefing. <button class="briefing-regen" style="margin-left:6px" onclick="regenBriefing('${e(pat.id)}')">Försök igen</button>
+    const noKey = !getKey() || !getKey().startsWith('sk-ant');
+    if (wrap) wrap.innerHTML = `<div class="briefing-error" style="flex-direction:column;align-items:flex-start;gap:6px;padding:14px 16px;background:#fafbfc;border-radius:10px">
+      <div style="display:flex;align-items:center;gap:7px;color:#8a9aaa;font-size:11px;font-weight:600">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bbc4cc" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Briefing kunde inte genereras
+      </div>
+      <div style="font-size:11px;color:#aab0ba;line-height:1.5">${noKey ? 'API-nyckel saknas — kontrollera Inställningar.' : 'API-anropet misslyckades. Kontrollera internetanslutning.'}</div>
+      <button class="briefing-regen" onclick="regenBriefing('${e(pat.id)}')" style="margin-top:2px;font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #dde6ee;background:white;cursor:pointer;color:#5a6a7a;font-family:inherit;font-weight:600">Försök igen</button>
     </div>`;
   }
 }
@@ -3048,23 +3053,20 @@ function rDetail(){
       <div class="det-action-card">
         <div class="det-action-card-hdr">Åtgärder</div>
         <div class="det-action-card-body">
-          <button class="det-action-btn primary" onclick="startManualSOAP()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-            Ny journal
+          <button class="det-action-btn primary" onclick="newVisit()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            Nytt besök
           </button>
-          <button class="det-action-btn" onclick="startMeeting()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            Möte &amp; transkription
+          <button class="det-action-btn" onclick="prepVisitForm(S.pat?.id);go('form')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            Skapa Hael-plan
           </button>
           ${S.visitId&&S.plan
             ? `<button class="det-action-btn" onclick="go('doc')">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                 Visa senaste Hael-plan
               </button>`
-            : `<button class="det-action-btn" onclick="newVisit()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                Nytt besök &amp; Hael-plan
-              </button>`}
+            : ''}
         </div>
       </div>
 
@@ -3695,7 +3697,7 @@ function rDoc(){
     }
   });
 }
-function rSettings(){const key=S.apiKey;const ok=key.startsWith("sk-ant");const patCount=S.patients.length;document.getElementById("s-settings").innerHTML=`<div class="swrap"><div class="stitle">Inställningar</div><div class="ssub">Hael — ${patCount} patienter i databasen.</div>
+function rSettings(){const key=S.apiKey;const ok=key.startsWith("sk-ant");const patCount=S.patients.length;document.getElementById("s-settings").innerHTML=`<div class="swrap"><div class="stitle">Inställningar</div><div class="ssub">Vela — ${patCount} patienter i databasen.</div>
 <span class="slabel">Anthropic API-nyckel</span><div class="akwrap"><input class="akinp" id="akinp" type="${S.apiVis?"text":"password"}" placeholder="sk-ant-api03-..." value="${e(key)}" oninput="S.apiKey=this.value"><button class="aktgl" onclick="S.apiVis=!S.apiVis;rSettings()">${S.apiVis?"Dölj":"Visa"}</button></div><div class="akst"><div class="akdot" style="background:${ok?"#5a9860":"#4a5a6a"}"></div><span style="color:${ok?"#5a9860":"#5a6a7a"}">${ok?"Nyckel ser korrekt ut":"Ingen giltig nyckel angiven"}</span></div><div class="akhint">Hämta på <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.</div><div style="display:flex;align-items:center"><button class="btn btn-p" onclick="doSaveKey()">Spara nyckel</button><span class="svconf" id="svconf">Sparad</span></div>
 <div style="margin-top:28px"><span class="slabel">Data & Backup</span>
 <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:8px">
@@ -3742,30 +3744,55 @@ function newVisit(){
   ov.style.cssText='position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72);backdrop-filter:blur(5px);animation:fadeInOv .15s ease';
   ov.onclick=function(e){if(e.target===ov)ov.remove();};
   ov.innerHTML=`
-  <div style="position:relative;z-index:1;background:white;border-radius:16px;width:100%;max-width:400px;max-height:90vh;overflow-y:auto;padding:24px 20px 20px;box-shadow:0 8px 40px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
-    <div style="font-size:18px;font-weight:600;color:var(--navy);margin-bottom:4px">Nytt besök</div>
-    <div style="font-size:13px;color:var(--text3);margin-bottom:20px">${e(p.name)} — ${e(p.diagnosis||'')}</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <button onclick="document.getElementById('new-visit-overlay').remove();startMeeting()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Spela in möte</div>
-        <div style="font-size:12px;color:var(--text3)">Transkribera samtal automatiskt och skapa journal</div>
+  <div style="position:relative;z-index:1;background:white;border-radius:18px;width:100%;max-width:420px;max-height:90vh;overflow-y:auto;padding:26px 22px 22px;box-shadow:0 12px 48px rgba(0,0,0,.22)" onclick="event.stopPropagation()">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px">
+      <div>
+        <div style="font-size:17px;font-weight:700;color:var(--navy);margin-bottom:2px">Nytt besök</div>
+        <div style="font-size:12px;color:var(--text3)">${e(p.name)}${p.diagnosis?' · '+e(p.diagnosis):''}</div>
+      </div>
+      <button onclick="document.getElementById('new-visit-overlay').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#aab0ba;line-height:1;padding:0;margin-top:-2px">×</button>
+    </div>
+
+    <!-- SECTION: Journal -->
+    <div style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);margin-bottom:9px">Journal</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:18px">
+      <button onclick="document.getElementById('new-visit-overlay').remove();startMeeting()"
+        style="display:flex;align-items:center;gap:14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:border-color .15s"
+        onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:34px;height:34px;border-radius:9px;background:var(--teal3);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px">Spela in möte</div>
+          <div style="font-size:11px;color:var(--text3)">Transkribera samtal automatiskt → journal skapas av AI</div>
+        </div>
       </button>
-      ${prevWithSoap
-        ? `<button onclick="document.getElementById('new-visit-overlay').remove();startSBSsoap(window._sbsPrevVisit)" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-            <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skriv journal</div>
-            <div style="font-size:12px;color:var(--text3)">Jämför med förra besöket (${prevWithSoap.date||''})</div>
-           </button>`
-        : `<button onclick="document.getElementById('new-visit-overlay').remove();startManualSOAP()" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-            <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skriv journal manuellt</div>
-            <div style="font-size:12px;color:var(--text3)">Fyll i SOAP-anteckning direkt</div>
-           </button>`
-      }
-      <button onclick="document.getElementById('new-visit-overlay').remove();prepVisitForm(S.pat?.id);go('form')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skapa Hael-plan</div>
-        <div style="font-size:12px;color:var(--text3)">Generera ny träningsplan utan journal</div>
+      <button onclick="document.getElementById('new-visit-overlay').remove();${prevWithSoap?`startSBSsoap(window._sbsPrevVisit)`:`startManualSOAP()`}"
+        style="display:flex;align-items:center;gap:14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:border-color .15s"
+        onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--border)'">
+        <div style="width:34px;height:34px;border-radius:9px;background:#f0f4f8;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px">Skriv journal manuellt</div>
+          <div style="font-size:11px;color:var(--text3)">${prevWithSoap?`SOAP med jämförelse — förra besöket ${prevWithSoap.date||''}`:'Fyll i SOAP-anteckning direkt'}</div>
+        </div>
       </button>
     </div>
-    <button onclick="document.getElementById('new-visit-overlay').remove()" style="width:100%;margin-top:12px;padding:10px;background:none;border:1px solid #dde6ee;border-radius:8px;color:#8a9aaa;font-size:13px;cursor:pointer;font-family:inherit">Stäng</button>
+
+    <!-- SECTION: Hael-plan -->
+    <div style="font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--text4);margin-bottom:9px">Hael-plan</div>
+    <button onclick="document.getElementById('new-visit-overlay').remove();prepVisitForm(S.pat?.id);go('form')"
+      style="display:flex;align-items:center;gap:14px;background:var(--surface2);border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;text-align:left;cursor:pointer;font-family:inherit;width:100%;transition:border-color .15s"
+      onmouseover="this.style.borderColor='var(--navy)'" onmouseout="this.style.borderColor='var(--border)'">
+      <div style="width:34px;height:34px;border-radius:9px;background:#eef1f6;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:2px">Skapa Hael-plan</div>
+        <div style="font-size:11px;color:var(--text3)">Generera rehabiliteringsplan direkt — utan journal</div>
+      </div>
+    </button>
   </div>`;
   document.body.appendChild(ov);
   addOverlayEsc('new-visit-overlay');
@@ -5283,11 +5310,7 @@ function renderPaymentBlock(p) {
       <div style="display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
         <span class="pay-badge ${badgeClass}">${tierName}${expStr}</span>
         ${tierSelect}
-        <div style="display:flex;gap:3px">
-          <button class="consent-rev" onclick="zpManualExtend('${p.id}','${v.id}',30)" title="+30 dagar">+30d</button>
-          <button class="consent-rev" onclick="zpManualExtend('${p.id}','${v.id}',90)" title="+90 dagar">+90d</button>
-          <button class="consent-rev" onclick="zpSetUnlimited('${p.id}','${v.id}')" title="Obegränsad tillgång">∞</button>
-        </div>
+        <button class="consent-rev" onclick="zpOpenExtendPanel('${p.id}','${v.id}')" style="padding:3px 9px;font-size:10px;font-weight:600">Hantera tillgång</button>
       </div>
     </div>`;
   }).join('');
@@ -5299,6 +5322,163 @@ function renderPaymentBlock(p) {
     </div>
     ${rows}
   </div>`;
+}
+
+function zpOpenExtendPanel(patId, visitId) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const v = (p.visits||[]).find(x => x.id === visitId);
+  if (!v) return;
+
+  // Calculate current status
+  const access = zpCheckAccess(v);
+  const currentExpiry = v.paidUntil ? new Date(v.paidUntil) : null;
+  const isUnlimited = v.accessOverride === 'unlimited';
+  const fmt = (d) => d ? d.toLocaleDateString('sv-SE') : '—';
+
+  const statusText = isUnlimited ? 'Obegränsad tillgång'
+    : currentExpiry && currentExpiry > new Date() ? `Aktiv till ${fmt(currentExpiry)}`
+    : 'Tillgång utgången';
+
+  const patEmail = p.email || '';
+  const patName = (p.name||'').split(' ')[0];
+
+  const ov = document.createElement('div');
+  ov.id = 'extend-panel-overlay';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.75);backdrop-filter:blur(5px);animation:fadeInOv .15s ease';
+  ov.onclick = function(e){ if(e.target===ov) ov.remove(); };
+
+  ov.innerHTML = `
+  <div style="position:relative;z-index:1;background:white;border-radius:18px;width:100%;max-width:400px;box-shadow:0 16px 56px rgba(0,0,0,.22);overflow:hidden" onclick="event.stopPropagation()">
+
+    <!-- Header -->
+    <div style="background:var(--navy);padding:20px 22px 18px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px">Tillgång & förlängning</div>
+          <div style="font-size:16px;font-weight:700;color:white">${e(p.name)}</div>
+        </div>
+        <button onclick="document.getElementById('extend-panel-overlay').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:rgba(255,255,255,.4);line-height:1;padding:0">×</button>
+      </div>
+      <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:10px 13px;display:flex;align-items:center;gap:10px">
+        <div style="width:8px;height:8px;border-radius:50%;background:${isUnlimited?'#4ade80':currentExpiry&&currentExpiry>new Date()?'#4ade80':'#f87171'};flex-shrink:0"></div>
+        <div style="font-size:12px;color:rgba(255,255,255,.7)">${statusText}</div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div style="padding:20px 22px">
+
+      <!-- Extend options -->
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text4);margin-bottom:10px">Förläng tillgång</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:16px">
+        ${[{d:14,label:'14 dagar'},{d:30,label:'30 dagar'},{d:60,label:'60 dagar'},{d:90,label:'90 dagar'}].map(opt => `
+          <button onclick="zpExtendAndClose('${patId}','${visitId}',${opt.d},document.getElementById('ep-email').checked,document.getElementById('ep-emailaddr').value)"
+            style="border:1.5px solid var(--border);border-radius:9px;padding:10px 4px;background:var(--surface2);cursor:pointer;font-family:inherit;transition:all .15s;text-align:center"
+            onmouseover="this.style.borderColor='var(--teal)';this.style.background='var(--teal3)'"
+            onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface2)'">
+            <div style="font-size:14px;font-weight:700;color:var(--navy)">+${opt.d}</div>
+            <div style="font-size:9px;color:var(--text3);margin-top:1px">dagar</div>
+          </button>`).join('')}
+      </div>
+
+      <!-- Unlimited -->
+      <button onclick="zpUnlimitedAndClose('${patId}','${visitId}')"
+        style="width:100%;border:1.5px solid var(--border);border-radius:9px;padding:10px 14px;background:var(--surface2);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;transition:all .15s"
+        onmouseover="this.style.borderColor='var(--navy)';this.style.background='#f0f2f6'"
+        onmouseout="this.style.borderColor='var(--border)';this.style.background='var(--surface2)'">
+        <div style="text-align:left">
+          <div style="font-size:12px;font-weight:600;color:var(--navy)">Obegränsad tillgång</div>
+          <div style="font-size:10px;color:var(--text3);margin-top:1px">Ingen utgångstid — passar gratis-/propatient</div>
+        </div>
+        <span style="font-size:18px;color:var(--text4)">∞</span>
+      </button>
+
+      <!-- Revoke -->
+      <button onclick="zpRevokeAndClose('${patId}','${visitId}')"
+        style="width:100%;border:1.5px solid #fde8e8;border-radius:9px;padding:9px 14px;background:#fff8f8;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;transition:all .15s"
+        onmouseover="this.style.borderColor='#f87171';this.style.background='#fff0f0'"
+        onmouseout="this.style.borderColor='#fde8e8';this.style.background='#fff8f8'">
+        <div style="font-size:12px;font-weight:600;color:#c0392b;text-align:left">Återkalla tillgång</div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#c0392b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+      </button>
+
+      <!-- Email toggle -->
+      <div style="border-top:1px solid var(--border);padding-top:14px">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;margin-bottom:10px">
+          <input type="checkbox" id="ep-email" ${patEmail?'checked':''} style="width:15px;height:15px;accent-color:var(--teal)">
+          <span style="font-size:12px;color:var(--text2);font-weight:500">Skicka notis till patienten via e-post</span>
+        </label>
+        <input type="email" id="ep-emailaddr" value="${e(patEmail)}" placeholder="patient@mail.se"
+          style="width:100%;border:1px solid var(--border);border-radius:8px;padding:8px 11px;font-size:12px;font-family:inherit;color:var(--ink);background:var(--surface2);box-sizing:border-box"
+          oninput="document.getElementById('ep-email').checked=!!this.value.trim()">
+        <div style="font-size:10px;color:var(--text4);margin-top:6px">Sparas på patientkortet om du uppdaterar det</div>
+      </div>
+    </div>
+  </div>`;
+  document.body.appendChild(ov);
+  addOverlayEsc('extend-panel-overlay');
+}
+
+function zpExtendAndClose(patId, visitId, days, sendEmail, emailAddr) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  // Remove unlimited override if set
+  delete p.visits[vIdx].accessOverride;
+  const from = p.visits[vIdx].paidUntil && new Date(p.visits[vIdx].paidUntil) > new Date()
+    ? new Date(p.visits[vIdx].paidUntil) : new Date();
+  from.setDate(from.getDate() + days);
+  p.visits[vIdx].paidUntil = from.toISOString();
+  if (!p.visits[vIdx].paymentTier) p.visits[vIdx].paymentTier = 'bas';
+  // Save email if updated
+  if (emailAddr && emailAddr !== p.email) { p.email = emailAddr; }
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  document.getElementById('extend-panel-overlay')?.remove();
+  showAutoSaveToast('Tillgång förlängd ' + days + ' dagar');
+  if (sendEmail && emailAddr) {
+    const expDate = from.toLocaleDateString('sv-SE');
+    const subject = encodeURIComponent('Din Hael-plan har förlängts');
+    const body = encodeURIComponent(`Hej ${(p.name||'').split(' ')[0]},
+
+Din tillgång till Hael-planen har förlängts och är nu aktiv till och med ${expDate}.
+
+Hälsningar,
+${S.clinicName||'Din behandlare'}`);
+    window.open(`mailto:${emailAddr}?subject=${subject}&body=${body}`);
+  }
+}
+
+function zpUnlimitedAndClose(patId, visitId) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  p.visits[vIdx].accessOverride = 'unlimited';
+  p.visits[vIdx].paymentTier = 'pro';
+  delete p.visits[vIdx].paidUntil;
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  document.getElementById('extend-panel-overlay')?.remove();
+  showAutoSaveToast('Obegränsad tillgång aktiverad');
+}
+
+function zpRevokeAndClose(patId, visitId) {
+  if (!confirm('Återkalla tillgången? Patienten ser paywall nästa gång de öppnar sin plan.')) return;
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  delete p.visits[vIdx].accessOverride;
+  // Set paidUntil to yesterday so it's immediately expired
+  const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+  p.visits[vIdx].paidUntil = yesterday.toISOString();
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  document.getElementById('extend-panel-overlay')?.remove();
+  showAutoSaveToast('Tillgång återkallad');
 }
 
 function zpSetUnlimited(patId, visitId) {
@@ -5425,7 +5605,7 @@ function rPatJournal() {
           <div class="pjdoc-ftr-txt">
             <div>${e(CLINIC.name)} · ${e(CLINIC.address)}</div>
             <div>${e(CLINIC.phone)} · ${e(CLINIC.email)}</div>
-            <div style="margin-top:2px;color:var(--text4)">Konfidentiell patientjournal — Hael · Vela</div>
+            <div style="margin-top:2px;color:var(--text4)">Konfidentiell patientjournal — Vela</div>
           </div>
         </div>
       </div>
@@ -5459,7 +5639,7 @@ function exportBackup(silent) {
   const ekEntries = (() => { try { return JSON.parse(localStorage.getItem('kansei-ek:intakter')||'[]'); } catch(e){return[];} })();
 
   const data = {
-    appName: 'Hael',
+    appName: 'Vela',
     version: 2,
     exported: new Date().toISOString(),
     exportedReadable: new Date().toLocaleString('sv-SE'),
@@ -6814,7 +6994,7 @@ function rLogin() {
   <!-- RIGHT: LOGIN CARD -->
   <div class="ln-right">
     <div class="ln-card">
-      <div class="ln-card-eyebrow">Hael</div>
+      <div class="ln-card-eyebrow">Vela</div>
       <div class="ln-card-title">Välkommen tillbaka</div>
       <div class="ln-card-sub">Logga in på ditt klinikkonto</div>
 
@@ -7922,7 +8102,7 @@ function renderPublicPlan(plan, pat) {
 
 
 // ════════════════════════════════════════════════════════════════════════════
-// AI FEATURES MODULE — Hael Intelligence Layer
+// AI FEATURES MODULE — Vela Intelligence Layer
 // 1. Smart intag   2. Röstjournal   3. Avvikelsedetektering
 // 4. Klinikinsikter  5. Adaptiv plan  6. Kollegakonsultation  7. Epikris
 // ════════════════════════════════════════════════════════════════════════════
