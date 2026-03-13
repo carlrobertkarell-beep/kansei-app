@@ -378,32 +378,67 @@
   .modal-text{font-size:13px;color:#64748b;line-height:1.65;margin-bottom:20px;}
   .modal-actions{display:flex;gap:9px;justify-content:flex-end;}
 
-  .meet-wrap{max-width:740px;margin:0 auto;padding:28px 32px 80px;}
-  .meet-consent{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-xl);padding:22px 26px;margin-bottom:22px;}
-  .meet-consent-title{font-family:var(--font-serif);font-size:19px;color:var(--ink);margin-bottom:9px;font-weight:400;letter-spacing:-.01em;}
-  .meet-consent-txt{font-size:12px;color:#64748b;line-height:1.75;margin-bottom:16px;}
-  .meet-consent-btn{display:flex;gap:9px;}
+  .meet-wrap{max-width:700px;margin:0 auto;padding:24px 28px 80px;}
+  .meet-consent{background:white;border:1.5px solid var(--border);border-radius:var(--r-xl);padding:28px 32px;margin-top:24px;box-shadow:var(--shadow-sm);}
+  .meet-consent-title{font-family:var(--font-serif);font-size:20px;color:var(--ink);margin-bottom:10px;font-weight:400;letter-spacing:-.01em;}
+  .meet-consent-txt{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:20px;}
+  .meet-consent-btn{display:flex;gap:9px;flex-direction:column;}
   .meet-title{font-family:var(--font-serif);font-size:23px;color:var(--ink);font-weight:400;margin-bottom:3px;letter-spacing:-.02em;}
   .meet-sub{font-size:12px;color:var(--muted);margin-bottom:20px;}
-  .meet-status{display:flex;align-items:center;gap:10px;padding:11px 16px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:14px;}
-  .meet-status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;}
+
+  /* Status bar */
+  .meet-status{display:flex;align-items:center;gap:10px;padding:11px 16px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-md);margin-bottom:16px;}
+  .meet-status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;background:var(--subtle);}
   .meet-status-dot.idle{background:var(--subtle);}
-  .meet-status-dot.listening{background:var(--green);animation:glow 1.5s ease-in-out infinite;}
+  .meet-status-dot.listening{background:#22c55e;animation:glow 1.5s ease-in-out infinite;}
   .meet-status-dot.processing{background:var(--amber);animation:pulse .6s infinite;}
   .meet-status-txt{font-size:12.5px;color:var(--ink);flex:1;}
-  .meet-control{display:flex;gap:9px;margin-bottom:22px;}
-  .meet-ctrl-btn{flex:1;padding:12px;border-radius:var(--r-md);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);border:none;transition:var(--t-fast);letter-spacing:-.01em;}
-  .meet-ctrl-start{background:var(--accent);color:white;}
-  .meet-ctrl-start:hover{background:var(--accent2);}
-  .meet-ctrl-stop{background:var(--red-bg);color:var(--red);border:1.5px solid #fca5a5;}
-  .meet-ctrl-stop:hover{background:var(--red);color:white;}
-  .meet-transcript{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-lg);padding:16px 18px;min-height:120px;font-size:13px;color:var(--ink);line-height:1.7;margin-bottom:16px;white-space:pre-wrap;}
-  .meet-panel{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow-xs);}
-  .meet-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:var(--surface2);border-bottom:1px solid var(--border);}
+  .meet-timer{font-family:var(--font-mono);font-size:13px;color:var(--muted);letter-spacing:.05em;}
+
+  /* Transcript */
+  .transcript-box{background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);min-height:160px;max-height:320px;overflow-y:auto;padding:14px 16px;margin-bottom:16px;scroll-behavior:smooth;}
+  .transcript-line{display:flex;gap:10px;padding:4px 0;border-bottom:1px solid var(--surface2);font-size:13px;line-height:1.6;}
+  .transcript-line:last-child{border-bottom:none;}
+  .tl-time{font-family:var(--font-mono);font-size:10px;color:var(--subtle);flex-shrink:0;padding-top:3px;min-width:36px;}
+  .tl-text{color:var(--ink);flex:1;}
+  .tl-text.interim{color:var(--muted);font-style:italic;}
+
+  /* Control buttons */
+  .meet-controls{margin-bottom:16px;}
+  .rec-btn{width:100%;padding:13px 20px;border-radius:var(--r-md);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);border:none;transition:var(--t-fast);letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;gap:8px;}
+  .rec-btn.start{background:var(--accent);color:white;}
+  .rec-btn.start:hover{background:var(--accent2);box-shadow:0 4px 16px rgba(13,155,138,.3);}
+  .rec-btn.stop{background:#fef2f2;color:#dc2626;border:1.5px solid #fca5a5;}
+  .rec-btn.stop:hover{background:#dc2626;color:white;border-color:#dc2626;}
+
+  /* Notes */
+  .meet-note-label{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block;font-weight:700;}
+  .meet-note{width:100%;border:1.5px solid var(--border);border-radius:var(--r-md);padding:11px 14px;font-size:13px;font-family:var(--font);color:var(--ink);line-height:1.65;resize:vertical;min-height:80px;outline:none;transition:border-color .15s;background:white;margin-bottom:16px;}
+  .meet-note:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);}
+
+  /* Done button */
+  .meet-done-btn{width:100%;padding:14px 20px;background:var(--ink);color:white;border:none;border-radius:var(--r-lg);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:var(--t-fast);letter-spacing:-.01em;margin-top:8px;}
+  .meet-done-btn:hover{background:var(--accent);box-shadow:0 4px 20px rgba(13,155,138,.35);}
+  .meet-done-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .meet-done-hint{font-size:10px;color:var(--muted);margin-top:7px;text-align:center;}
+
+  .meet-panel{background:white;border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow-xs);}
+  .meet-panel-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;background:var(--surface2);border-bottom:1px solid var(--border);}
   .meet-panel-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
-  .meet-panel-body{padding:14px 16px;}
-  .clinical-hint{padding:10px 14px;background:var(--accent-light);border:1px solid rgba(13,155,138,.2);border-radius:var(--r-sm);font-size:12px;color:var(--accent3);margin-bottom:9px;line-height:1.6;}
-  .clinical-hint-urgent{padding:10px 14px;background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--r-sm);font-size:12px;color:var(--red-text);margin-bottom:9px;line-height:1.6;}
+  .meet-panel-body{padding:13px 15px;}
+  .clinical-hint{padding:10px 13px;background:var(--accent-light);border:1px solid rgba(13,155,138,.2);border-radius:var(--r-sm);font-size:12px;color:var(--accent3);margin-bottom:9px;line-height:1.6;}
+  .clinical-hint-urgent{padding:10px 13px;background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--r-sm);font-size:12px;color:#dc2626;margin-bottom:9px;line-height:1.6;}
+
+  /* Transcript on patient card */
+  .visit-transcript-block{margin-top:10px;border:1.5px solid var(--border);border-radius:var(--r-md);overflow:hidden;}
+  .visit-transcript-hdr{display:flex;align-items:center;justify-content:space-between;padding:8px 13px;background:var(--surface2);cursor:pointer;user-select:none;}
+  .visit-transcript-hdr-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .visit-transcript-body{padding:12px 14px;display:none;}
+  .visit-transcript-body.open{display:block;}
+  .vt-line{display:flex;gap:9px;padding:3px 0;font-size:12px;border-bottom:1px solid var(--surface2);}
+  .vt-line:last-child{border-bottom:none;}
+  .vt-time{font-family:var(--font-mono);font-size:10px;color:var(--subtle);flex-shrink:0;min-width:34px;padding-top:2px;}
+  .vt-text{color:var(--ink);line-height:1.55;flex:1;}
 
   .soap-editor-ta{width:100%;border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px 13px;font-size:13px;font-family:var(--font);color:var(--ink);line-height:1.65;resize:vertical;min-height:80px;outline:none;transition:border-color .15s;background:var(--surface);}
   .soap-editor-ta:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);}
@@ -1279,7 +1314,7 @@ function _zpPaywallHTML(patId, visitId, patName, selectedLen) {
   return `<div class="zp-paywall">
     <img src="${LOGO}" class="zp-paywall-logo">
     <div class="zp-paywall-eyebrow">${e(CLINIC.name)}</div>
-    <div class="zp-paywall-title">Din rehabplan${patName?', '+patName:''}</div>
+    <div class="zp-paywall-title">Din Hael-plan${patName?', '+patName:''}</div>
     <div class="zp-paywall-sub">Din kostnadsfria period är avslutad. Välj en plan för att fortsätta din rehabilitering.</div>
     <div style="display:flex;gap:8px;margin-bottom:22px">${lengthBtns}</div>
     <div class="zp-plan-cards">${cards}</div>
@@ -1298,9 +1333,12 @@ function saveStripeLinks(obj) {
 }
 function saveStripeLinksFromUI() {
   const links = {};
-  Object.keys(PAYMENT_PLANS).forEach(id => {
-    const val = document.getElementById('stripe-' + id)?.value?.trim();
-    if (val) links[id] = val;
+  Object.keys(PAYMENT_TIERS).forEach(tierId => {
+    Object.keys(PAYMENT_LENGTHS).forEach(lenId => {
+      const id = tierId + '_' + lenId;
+      const val = document.getElementById('stripe-' + id)?.value?.trim();
+      if (val) links[id] = val;
+    });
   });
   saveStripeLinks(links);
   const s = document.getElementById('stripe-saved');
@@ -1362,7 +1400,7 @@ function zpRenderPaywall(patId, visitId, pat) {
   const hasLinks = Object.keys(links).length > 0;
   const patName = (pat?.name||'').split(' ')[0] || '';
 
-  const cards = Object.values(PAYMENT_PLANS).map(plan => {
+  const cards = Object.values(PAYMENT_TIERS).map(plan => {
     const url = zpPaymentUrl(plan.id, patId, visitId);
     const feats = plan.features.map(f => `<div class="zp-plan-feat">${f}</div>`).join('');
     return `<a class="zp-plan-card${plan.featured?' featured':''}" ${url ? `href="${url}"` : 'href="#"'} ${url ? 'target="_blank"' : `onclick="alert('Betalningslänk saknas — kontakta din behandlare.')"` }>
@@ -1377,7 +1415,7 @@ function zpRenderPaywall(patId, visitId, pat) {
   el.innerHTML = `<div class="zp-paywall">
     <img src="${LOGO}" class="zp-paywall-logo">
     <div class="zp-paywall-eyebrow">${e(CLINIC.name)}</div>
-    <div class="zp-paywall-title">Din rehabplan${patName ? ', ' + patName : ''}</div>
+    <div class="zp-paywall-title">Din Hael-plan${patName ? ', ' + patName : ''}</div>
     <div class="zp-paywall-sub">Din kostnadsfria period är avslutad. Fortsätt din rehabilitering med löpande AI-uppföljning.</div>
     <div class="zp-plan-cards">${cards}</div>
     ${!hasLinks ? '<div style="font-size:11px;color:rgba(255,200,0,.5);text-align:center;margin-bottom:16px">Betalning ej konfigurerad — kontakta din behandlare</div>' : ''}
@@ -2541,7 +2579,7 @@ function rTopbar() {
   const nf = document.getElementById('nav-footer');
   if (nf) {
     const email    = _authUser?.email || '';
-    const initials = email.slice(0,2).toUpperCase() || 'ZY';
+    const initials = email.slice(0,2).toUpperCase() || 'HA';
     const unread   = getUnreadCount();
     nf.innerHTML = `
       <div style="display:flex;flex-direction:column;gap:1px;margin-bottom:8px">
@@ -3021,11 +3059,11 @@ function rDetail(){
           ${S.visitId&&S.plan
             ? `<button class="det-action-btn" onclick="go('doc')">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                Visa senaste rehabplan
+                Visa senaste Hael-plan
               </button>`
             : `<button class="det-action-btn" onclick="newVisit()">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                Nytt besök &amp; rehabplan
+                Nytt besök &amp; Hael-plan
               </button>`}
         </div>
       </div>
@@ -3112,7 +3150,7 @@ function rDetail(){
       <div class="vdate">${v.date||"—"}${v.service?` <span style="font-size:10px;color:var(--text3);font-weight:400;margin-left:6px">${e(v.service)}${v.servicePrice?' · '+v.servicePrice.toLocaleString('sv-SE')+' kr':''}</span>`:''}</div>
       <div style="display:flex;gap:5px;margin-top:3px;flex-wrap:wrap">
         <span style="font-size:10px;padding:2px 7px;font-weight:600;background:${hasSoap?"#e8f4f6":"#f0f0f0"};color:${hasSoap?"var(--teal)":"#aaa"}">${hasSoap?"Journal":"Ingen journal"}</span>
-        <span style="font-size:10px;padding:2px 7px;font-weight:600;background:${v.plan?"#e8f5ee":"#f0f0f0"};color:${v.plan?"#1a7a4a":"#aaa"}">${v.plan?"Plan ("+((v.plan.exercises||[]).length)+" övn)":"Ingen plan"}</span>
+        <span style="font-size:10px;padding:2px 7px;font-weight:600;background:${v.plan?"#e8f5ee":"#f0f0f0"};color:${v.plan?"#1a7a4a":"#aaa"}">${v.plan?"Plan ("+((v.plan.exercises||[]).length)+" övn)":"Ingen Hael-plan"}</span>
       </div>
     </div>
     <span class="vstatus" style="background:${sc.bg};color:${sc.col}">${st}</span>
@@ -3158,14 +3196,27 @@ function rDetail(){
         }
       }
       h+=`<div class="note-lbl">Kliniska noteringar</div><textarea class="note-inp" placeholder="Dina observationer..." onchange="updNote('${v.id}',this.value)">${e(v.note||"")}</textarea>`;
+      // Transcript block — show if this visit has a saved transcript
+      if (v.transcript && v.transcript.length) {
+        const tLines = v.transcript.map(t =>
+          `<div class="vt-line"><span class="vt-time">${e(t.time||'')}</span><span class="vt-text">${e(t.text||'')}</span></div>`
+        ).join('');
+        h += `<div class="visit-transcript-block">
+          <div class="visit-transcript-hdr" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.vt-chev').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(90deg)':''">
+            <span class="visit-transcript-hdr-title">Transkription (${v.transcript.length} rader)</span>
+            <svg class="vt-chev" style="transition:transform .2s" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="visit-transcript-body">${tLines}</div>
+        </div>`;
+      }
       h+=`<div class="srow"><span class="slbl">Status</span><select class="ssel" onchange="updStatus('${v.id}',this.value)">${SOPTS.map(s=>`<option ${s===st?"selected":""}>${s}</option>`).join("")}</select></div>`;
       h+=`<div class="vactions">
   ${hasSoap
     ? `<button class="btn btn-p" onclick="viewDoc('${v.id}')">Visa journal</button>`
     : `<button class="btn" onclick="addJournalToVisit('${v.id}')">+ Skapa journal</button>`}
   ${v.plan
-    ? `<button class="btn" onclick="viewPlan('${v.id}')">Visa plan</button><button class="btn" onclick="sharePlan('${v.id}')">Dela</button><button class="btn" onclick="mailPlan('${v.id}')">Maila</button><button class="btn" onclick="printHomeCard('${v.id}')">Hemkort</button>`
-    : `<button class="btn" onclick="addPlanToVisit('${v.id}')">+ Skapa plan</button>`}
+    ? `<button class="btn" onclick="viewPlan('${v.id}')">Visa Hael-plan</button><button class="btn" onclick="sharePlan('${v.id}')">Dela</button><button class="btn" onclick="mailPlan('${v.id}')">Maila</button><button class="btn" onclick="printHomeCard('${v.id}')">Hemkort</button>`
+    : `<button class="btn" onclick="addPlanToVisit('${v.id}')">+ Skapa Hael-plan</button>`}
   <button class="btn btn-d" style="margin-left:auto" onclick="confDel('visit','${v.id}','besöket ${v.date}')">Radera</button>
 </div></div></div></div>`;
     });
@@ -3254,7 +3305,7 @@ function editVisit(vid){const p=S.pat;if(!p)return;const v=p.visits.find(x=>x.id
 function rForm(){
   if(!S.pat){go('dashboard');return;}
   const f=S.form;const pc=f.pain>=7?"#c07070":f.pain>=4?"#c8a030":"#5a9860";const mc=f.motivation>=7?"#5a9860":f.motivation>=4?"#c8a030":"#c07070";
-  const title=S.visitId?"Redigera rehabplan":"Rehabplan — "+S.pat.name;
+  const title=S.visitId?"Redigera Hael-plan":"Hael-plan — "+S.pat.name;
   const ph = S.pat ? getCurrentPhase(S.pat) : 1;
   let h=`<div class="fwrap">
     <div class="ftitle">${e(title)}</div>
@@ -3414,10 +3465,10 @@ async function callAPI(prompt,locked,key){
 }
 function rLoading(){
   const isMeeting = S.loadMode === 'meeting';
-  const title = isMeeting ? 'Analyserar samtal' : 'Genererar rehabplan';
+  const title = isMeeting ? 'Analyserar samtal' : 'Genererar Hael-plan';
   const steps = isMeeting
     ? ["Transkriberar och filtrerar samtal","Strukturerar SOAP-journalanteckning","Skapar journalutkast"]
-    : ["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer klinisk rehabplan"];
+    : ["Analyserar diagnos och patientprofil","Väljer och doserar evidensbaserade övningar","Sammanställer Hael-plan"];
   const pct = Math.round((S.loadStep/3)*100);
   let h=`<div class="ldwrap">
     <img src="${LOGO}" style="height:50px;margin-bottom:12px">
@@ -3458,7 +3509,7 @@ function rDoc(){
       <img src="${LOGO}" style="height:28px;opacity:.7">
     </div>
     <div style="padding-bottom:20px">
-      <div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Rehabplan · ${today}</div>
+      <div style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:6px">Hael · ${today}</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:400;color:white;line-height:1.1;margin-bottom:4px">${e(plan.patientName||"Patient")}</div>
       <div style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:16px">${e(plan.diagnosis||"")}</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px">
@@ -3710,7 +3761,7 @@ function newVisit(){
            </button>`
       }
       <button onclick="document.getElementById('new-visit-overlay').remove();prepVisitForm(S.pat?.id);go('form')" style="background:white;border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:left;cursor:pointer;font-family:inherit;width:100%">
-        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skapa rehabplan</div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px">Skapa Hael-plan</div>
         <div style="font-size:12px;color:var(--text3)">Generera ny träningsplan utan journal</div>
       </button>
     </div>
@@ -4098,7 +4149,7 @@ function rMeeting() {
 
   el.innerHTML = meetHeader + `<div class="meet-wrap">
     <div class="meet-status">
-      <div class="meet-dot ${isListening?'listening':'idle'}" id="meet-dot"></div>
+      <div class="meet-status-dot ${isListening?'listening':'idle'}" id="meet-dot"></div>
       <span class="meet-status-txt" id="meet-status-txt">${isListening?'Lyssnar och transkriberar...':'Tryck Starta för att börja'}</span>
       <span class="meet-timer" id="meet-clock">${mins}:${secs}</span>
     </div>
@@ -4110,21 +4161,19 @@ function rMeeting() {
     </div>
     <div class="meet-controls" id="meet-btn-wrap">
       ${isListening
-        ? `<button class="rec-btn stop" onclick="stopListening()">Pausa inspelning</button>`
-        : `<button class="rec-btn start" onclick="startListening()">${meetTranscript.length?'Fortsätt':'Starta'} inspelning</button>`
+        ? `<button class="rec-btn stop" onclick="stopListening()">⏸ Pausa inspelning</button>`
+        : `<button class="rec-btn start" onclick="startListening()">${meetTranscript.length?'▶ Återuppta':'▶ Starta'} inspelning</button>`
       }
     </div>
-    <div style="font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#4a5a6a;margin-bottom:5px">Egna noteringar</div>
-    <textarea class="meet-note" placeholder="Tilläggsnoteringar..." oninput="meetNote=this.value;triggerClinicalAnalysis(meetTranscript.map(t=>t.text).join(' ')+' '+this.value)">${e(meetNote)}</textarea>
+    <span class="meet-note-label">Egna noteringar</span>
+    <textarea class="meet-note" placeholder="Kompletterande anteckningar — syns inte i transkriptet..." oninput="meetNote=this.value;triggerClinicalAnalysis(meetTranscript.map(t=>t.text).join(' ')+' '+this.value)">${e(meetNote)}</textarea>
 
     ${clinicalPanelHTML("meeting")}
 
     <button class="meet-done-btn" id="meet-done-btn" onclick="finishMeeting()">
       Avsluta möte och skapa journal →
     </button>
-    <div style="font-size:10px;color:var(--text3);margin-top:8px;text-align:center">
-      Du kan avsluta även om inget transkriberats — skriv manuellt i noteringar ovan.
-    </div>
+    <div class="meet-done-hint">Du kan avsluta även om inget transkriberats — fyll i manuellt i noteringar.</div>
   </div>`;
 
   const tbox = document.getElementById("tbox");
@@ -4180,7 +4229,7 @@ function stopListening() {
   if (intLine) intLine.style.display = 'none';
   const dot = document.getElementById('meet-dot');
   const txt = document.getElementById('meet-status-txt');
-  if (dot) dot.className = 'meet-dot idle';
+  if (dot) dot.className = 'meet-status-dot idle';
   if (txt) txt.textContent = 'Inspelning pausad';
   updateRecBtn(false);
   setTimeout(() => { _meetingStopping = false; }, 500);
@@ -4197,7 +4246,7 @@ async function startListening() {
   // Show pending state — keep button as Starta while we wait for permission
   const dot0 = document.getElementById('meet-dot');
   const txt0 = document.getElementById('meet-status-txt');
-  if (dot0) dot0.className = 'meet-dot idle';
+  if (dot0) dot0.className = 'meet-status-dot idle';
   if (txt0) txt0.textContent = 'Väntar på mikrofontillstånd...';
 
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -4228,7 +4277,7 @@ async function startListening() {
     if (meetRecognition !== rec) return;
     const d = document.getElementById('meet-dot');
     const t = document.getElementById('meet-status-txt');
-    if (d) d.className = 'meet-dot listening';
+    if (d) d.className = 'meet-status-dot listening';
     if (t) t.textContent = 'Lyssnar och transkriberar...';
     updateRecBtn(true);
   };
@@ -4509,6 +4558,8 @@ async function finishMeeting() {
   go('loading');
 
   const prompt = `Du är erfaren fysioterapeut och journalförare. Analysera detta medicinska samtal och skapa en strukturerad SOAP-journalanteckning på svenska.
+
+VIKTIGT: Extrahera ENBART medicinskt och kliniskt relevant information. Ignorera smalltalk, sidospår, diskussioner om icke-medicinska ämnen (t.ex. väder, sport, fritid) och allt som inte är direkt relevant för patientens besvär, symtom, undersökning eller behandling.
 
 TRANSKRIPTION:
 ${fullTranscript}${extra}
@@ -4938,6 +4989,7 @@ function startMeeting() {
     const mins = Math.round((Date.now() - draft.savedAt) / 60000);
     const timeAgo = mins < 60 ? `${mins} min sedan` : `${Math.round(mins/60)} tim sedan`;
     const ov = document.createElement('div');
+    ov.id = 'meet-draft-overlay';
     ov.style.cssText = 'position:fixed;inset:0;z-index:600;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,20,35,.72)';
     ov.innerHTML = `<div style="background:white;border-radius:16px;width:100%;max-width:420px;padding:24px;box-shadow:0 8px 40px rgba(0,0,0,.25)">
       <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Avbruten inspelning hittad</div>
@@ -4945,7 +4997,7 @@ function startMeeting() {
       <div style="font-size:12px;color:var(--text3);margin-bottom:20px">Från ett möte ${timeAgo}. Vill du fortsätta där du slutade?</div>
       <div style="display:flex;gap:8px">
         <button class="btn btn-p" style="flex:1;padding:11px" onclick="restoreMeetDraft(${JSON.stringify(draft).replace(/"/g,'&quot;')})">Återuppta</button>
-        <button class="btn" style="flex:1;padding:11px" onclick="clearMeetDraft();this.closest('[style*=fixed]').remove();resetMeeting();go('meeting')">Nytt möte</button>
+        <button class="btn" style="flex:1;padding:11px" onclick="clearMeetDraft();document.getElementById('meet-draft-overlay').remove();resetMeeting();go('meeting')">Nytt möte</button>
       </div>
     </div>`;
     document.body.appendChild(ov);
@@ -4957,7 +5009,8 @@ function startMeeting() {
 }
 
 function restoreMeetDraft(draft) {
-  document.querySelectorAll('[style*="position:fixed"]').forEach(el => { if(el.querySelector('.btn-p')) el.remove(); });
+  const ov = document.getElementById('meet-draft-overlay');
+  if (ov) ov.remove();
   meetConsented = true;
   meetTranscript = draft.transcript || [];
   meetNote = draft.note || '';
@@ -5693,7 +5746,7 @@ function rSBSsoap() {
     });
     h += `</div></div>
       <div class="sbs-panel" style="border-color:var(--teal)">
-        <div class="sbs-phdr" style="background:var(--teal3)"><div style="font-size:12px;font-weight:600;color:var(--teal)">Kliniskt fokus för ny rehabplan</div></div>
+        <div class="sbs-phdr" style="background:var(--teal3)"><div style="font-size:12px;font-weight:600;color:var(--teal)">Kliniskt fokus för ny Hael-plan</div></div>
         <textarea class="sbs-curr-ta" id="sbs-focus" placeholder="Vad ska ny plan fokusera på? Vilka övningar fungerade bra/dåligt? Anpassningar..."
           style="min-height:120px" oninput="currentSOAP.clinicalFocus=this.value;autoSaveJournalDraft()">${e(currentSOAP&&currentSOAP.clinicalFocus||'')}</textarea>
       </div>
@@ -5873,7 +5926,7 @@ Skicka länken via mail, SMS eller iMessage. Patienten öppnar den i mobilen —
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Rehabplan — ${plan.patientName||'Patient'}</title>
+<title>Hael-plan — ${plan.patientName||'Patient'}</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0ede8;color:#2a3a4a;font-size:15px;line-height:1.6}
@@ -5921,7 +5974,7 @@ Skicka länken via mail, SMS eller iMessage. Patienten öppnar den i mobilen —
 </head>
 <body>
 <div class="top">
-  <div class="top-tag">Rehabplan</div>
+  <div class="top-tag">Hael-plan</div>
   <div class="top-name">${plan.patientName||'Patient'}</div>
   <div class="top-diag">${plan.diagnosis||''}</div>
   <div class="top-meta">
@@ -5947,14 +6000,14 @@ ${plan.followupNote ? `<div class="card"><div class="fu">${plan.followupNote}</d
 
 <div class="card" style="text-align:center">
   <div class="sec">Spara denna sida</div>
-  <p style="font-size:12px;color:#5a6a7a;margin-bottom:12px">Bokmärk sidan i din webbläsare för att komma åt din rehabplan igen.</p>
+  <p style="font-size:12px;color:#5a6a7a;margin-bottom:12px">Bokmärk sidan i din webbläsare för att komma åt din Hael-plan igen.</p>
 </div>
 <div class="ftr">${clinic.name||'Hael'}<br>Plan utfärdad ${today}</div>
 </body>
 </html>`;
 
   // Generate QR code via data URL (encode filename hint)
-  const qrData = encodeURIComponent('Rehabplan: ' + (plan.patientName||'Patient') + ' — ' + today);
+  const qrData = encodeURIComponent('Hael-plan: ' + (plan.patientName||'Patient') + ' — ' + today);
   const qrUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=' + qrData;
 
   // Create blob and trigger download
@@ -5994,7 +6047,7 @@ function showMailDialog(vid) {
   ov.innerHTML = `
   <div class="npf-sheet" style="max-height:90vh;overflow-y:auto;position:relative;z-index:1" onclick="event.stopPropagation()">
     <div class="npf-header">
-      <div class="npf-title">Skicka rehabplan</div>
+      <div class="npf-title">Skicka Hael-plan</div>
       <div class="npf-sub">${e(p.name)} · ${e(v.plan.diagnosis||p.diagnosis||'')}</div>
     </div>
     <div class="npf-body">
@@ -6073,10 +6126,10 @@ Tack för ditt besök hos ${clinic.name} ${visitDate||''}.
 
   if (inclLink) {
     body += `
-Din personliga rehabplan finns här:
+Din Hael-plan finns här:
 ${liveUrl}
 
-Vi använder Hael — ett digitalt verktyg från Vela — för att skicka din rehabplan direkt till din telefon. Öppna länken för att se alla övningar med instruktioner, veckoschema och smärthanteringsråd. Planen uppdateras automatiskt om vi gör ändringar.
+Vi använder Hael — ett digitalt verktyg från Vela — för att skicka din Hael-plan direkt till din telefon. Öppna länken för att se alla övningar med instruktioner, veckoschema och smärthanteringsråd. Planen uppdateras automatiskt om vi gör ändringar.
 `;
   }
 
@@ -6115,7 +6168,7 @@ function sendMailDialog(vid, encodedUrl) {
   const clinic = CLINIC;
   const diag = v.plan.diagnosis || p.diagnosis || '';
 
-  const subject = encodeURIComponent(`Din rehabplan — ${clinic.name}`);
+  const subject = encodeURIComponent(`Din Hael-plan — ${clinic.name}`);
   const body = encodeURIComponent(buildMailBody(vid, liveUrl, inclLink, inclPdf));
   const mailto = `mailto:${encodeURIComponent(toEmail)}?subject=${subject}&body=${body}`;
 
@@ -6730,7 +6783,7 @@ function rLogin() {
         Klinikverktyget<br>som tänker ett steg<br><em>före dig.</em>
       </div>
       <div class="ln-sub">
-        AI-driven plattform för alla som journalför, rehabiliterar och följer upp patienter — från besök till rehabplan på under två minuter.
+        AI-driven plattform för alla som journalför, rehabiliterar och följer upp patienter — från besök till Hael-plan på under två minuter.
       </div>
       <div class="ln-divider"></div>
       <div class="ln-features">
@@ -6744,7 +6797,7 @@ function rLogin() {
         </div>
         <div class="ln-feat">
           <div class="ln-feat-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-          <div class="ln-feat-txt"><strong>Planer som anpassar sig</strong>Rehabplanen justeras automatiskt efter patientens hemrapporter.</div>
+          <div class="ln-feat-txt"><strong>Planer som anpassar sig</strong>Haelen justeras automatiskt efter patientens hemrapporter.</div>
         </div>
         <div class="ln-feat">
           <div class="ln-feat-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
@@ -7274,7 +7327,7 @@ async function loadPublicPlan(patId, visitId) {
   } catch(e) { /* ignore cache check errors */ }
 
   el.innerHTML = `<div class="pub-loading">
-    <div style="margin-bottom:12px">Hämtar din rehabplan...</div>
+    <div style="margin-bottom:12px">Hämtar din Hael-plan...</div>
     <div style="font-size:12px;color:#aaa">Ansluter till server — kan ta några sekunder</div>
   </div>`;
 
@@ -7328,7 +7381,7 @@ async function loadPublicPlan(patId, visitId) {
         const visitIds = (pat?.visits||[]).map(v=>v.id).join(', ') || 'inga besök';
         el.innerHTML = `<div style="text-align:center;padding:80px 24px;font-family:var(--font)">
           <div style="font-family:var(--font-serif);font-size:26px;color:#0f2744;margin-bottom:12px">Plan ej tillgänglig</div>
-          <div style="font-size:14px;color:#8a9aaa;line-height:1.7;margin-bottom:16px">Patienten hittades men ingen rehabplan finns sparad i molnet.<br>Be behandlaren trycka "Ladda upp alla" i Inställningar och skicka länken igen.</div>
+          <div style="font-size:14px;color:#8a9aaa;line-height:1.7;margin-bottom:16px">Patienten hittades men ingen Hael-plan finns sparad i molnet.<br>Be behandlaren trycka "Ladda upp alla" i Inställningar och skicka länken igen.</div>
           <div style="font-size:10px;color:#bbb;font-family:monospace">visit=${visitId}<br>found=${visitIds}</div>
         </div>`;
         return;
@@ -7801,7 +7854,7 @@ function renderPublicPlan(plan, pat) {
 
       <!-- Patient + Diagnosis -->
       <div style="margin-bottom:16px">
-        <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Personlig rehabplan</div>
+        <div style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px">Din Hael-plan</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:400;color:white;line-height:1.05;margin-bottom:5px">${patName}</div>
         <div style="font-size:14px;color:rgba(255,255,255,.55);margin-bottom:14px">${diag}</div>
         <div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">${chips}${plan.visitDate||plan.visitId?`<span style="font-size:10px;color:rgba(255,255,255,.28);padding-left:4px">${plan.visitDate?'Journal '+plan.visitDate:''}</span>`:''}
@@ -8485,7 +8538,7 @@ function detectAnomalies(patients) {
 
     // 4. Hög smärta (≥8) utan plan
     if (latestPain >= 8 && !latestVisit.plan) {
-      alerts.push({pat:p, icon:'crit', msg:`Smärta NRS ${latestPain}/10 — ingen rehabplan skapad`, tag:'Åtgärd krävs', tagColor:'#fde8e8', tagText:'#8a2020', severity:3});
+      alerts.push({pat:p, icon:'crit', msg:`Smärta NRS ${latestPain}/10 — ingen Hael-plan skapad`, tag:'Åtgärd krävs', tagColor:'#fde8e8', tagText:'#8a2020', severity:3});
     }
   });
 
@@ -9346,7 +9399,7 @@ if (_hashPatId && _hashVisitId) {
   if (at) at.style.display = 'none';
   document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
   document.getElementById('s-public-plan').classList.add('active');
-  document.getElementById('s-public-plan').innerHTML = '<div class="pub-loading">Hämtar din rehabplan...</div>';
+  document.getElementById('s-public-plan').innerHTML = '<div class="pub-loading">Hämtar din Hael-plan...</div>';
   loadPublicPlan(_hashPatId, _hashVisitId);
 } else {
   const _storedAuth = getStoredAuth();
