@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zenya</title>
+<title>Hael</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -21,7 +21,7 @@
     --muted:#8892a4;
     --subtle:#b4bbc8;
 
-    /* ── ACCENT — ZENYA TEAL ── */
+    /* ── ACCENT — HAEL TEAL ── */
     --accent:#0d9b8a;
     --accent2:#0b8577;
     --accent3:#097568;
@@ -446,7 +446,64 @@
   .zp-pass-btn{width:calc(100% - 32px);margin:18px 16px;padding:16px;background:var(--ink);color:white;border:none;border-radius:var(--r-lg);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:var(--t-fast);display:block;letter-spacing:-.01em;}
   .zp-pass-btn:hover{background:var(--accent);box-shadow:var(--shadow-accent);}
   .zp-pass-btn:disabled{opacity:.38;cursor:not-allowed;}
+  .zp-pass-btn.all-done{background:var(--accent);box-shadow:0 4px 20px rgba(13,155,138,.4);}
   .zp-footer{text-align:center;padding:22px;font-size:11px;color:var(--subtle);}
+
+  /* ── PAYWALL ── */
+  .zp-paywall{min-height:100vh;background:#080e18;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
+  .zp-paywall-logo{height:22px;opacity:.55;margin-bottom:40px;}
+  .zp-paywall-eyebrow{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(13,155,138,.8);margin-bottom:14px;text-align:center;}
+  .zp-paywall-title{font-family:'Fraunces',Georgia,serif;font-size:28px;font-weight:300;color:white;text-align:center;line-height:1.2;letter-spacing:-.02em;margin-bottom:10px;max-width:320px;}
+  .zp-paywall-sub{font-size:13px;color:rgba(255,255,255,.4);text-align:center;line-height:1.7;margin-bottom:36px;max-width:300px;}
+  .zp-plan-cards{width:100%;max-width:360px;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;}
+  .zp-plan-card{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.09);border-radius:16px;padding:18px 20px;cursor:pointer;transition:border-color .2s,background .2s;position:relative;text-decoration:none;display:block;}
+  .zp-plan-card:hover{border-color:rgba(13,155,138,.5);background:rgba(13,155,138,.07);}
+  .zp-plan-card.featured{border-color:rgba(13,155,138,.45);background:rgba(13,155,138,.1);}
+  .zp-plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#0d9b8a;color:white;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 12px;border-radius:20px;white-space:nowrap;}
+  .zp-plan-name{font-size:13px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:3px;}
+  .zp-plan-desc{font-size:11px;color:rgba(255,255,255,.38);margin-bottom:12px;line-height:1.5;}
+  .zp-plan-price{font-size:26px;font-weight:700;color:white;font-family:'JetBrains Mono',monospace;letter-spacing:-.02em;}
+  .zp-plan-price span{font-size:12px;font-weight:400;color:rgba(255,255,255,.4);margin-left:3px;}
+  .zp-plan-features{margin-top:12px;display:flex;flex-direction:column;gap:5px;}
+  .zp-plan-feat{font-size:11px;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:7px;}
+  .zp-plan-feat::before{content:'';width:5px;height:5px;border-radius:50%;background:rgba(13,155,138,.7);flex-shrink:0;}
+  .zp-paywall-note{font-size:11px;color:rgba(255,255,255,.22);text-align:center;line-height:1.7;max-width:280px;}
+
+  /* ── PAYMENT STATUS BADGE IN ADMIN ── */
+  .pay-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:3px 9px;border-radius:20px;}
+  .pay-badge.free{background:#eef5ff;color:#3a6aaa;}
+  .pay-badge.active{background:#e6f7f5;color:#0d7a6a;}
+  .pay-badge.expired{background:#fff0f0;color:#b03030;}
+  .pay-badge.manual{background:#fff8e6;color:#8a5a00;}
+
+  /* ── PER-EXERCISE CHECK ── */
+  .zp-excard{background:var(--surface);border:1.5px solid var(--border);border-radius:13px;margin-bottom:9px;overflow:hidden;transition:border-color .2s,background .2s;}
+  .zp-excard.done{border-color:rgba(13,155,138,.35);background:rgba(13,155,138,.03);}
+  .zp-exhdr{display:flex;align-items:center;gap:0;padding:0;cursor:default;}
+  .zp-exhdr-tap{display:flex;align-items:center;gap:13px;padding:14px 0 14px 16px;flex:1;min-width:0;cursor:pointer;}
+  .zp-exnum{width:28px;height:28px;border-radius:50%;background:var(--ink);color:white;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-mono);transition:background .2s;}
+  .zp-excard.done .zp-exnum{background:var(--accent);}
+  .zp-chevron{color:var(--subtle);font-size:16px;transition:transform .2s;flex-shrink:0;padding:14px 8px 14px 4px;}
+  .zp-exhdr.open .zp-chevron{transform:rotate(90deg);}
+  .zp-exbody{padding:0 16px 16px;border-top:1px solid var(--border);display:none;}
+  .zp-exbody.open{display:block;}
+
+  .zp-check-btn{width:44px;height:100%;min-height:56px;border:none;background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0 12px 0 4px;-webkit-tap-highlight-color:transparent;}
+  .zp-check-ring{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:border-color .18s,background .18s;background:transparent;}
+  .zp-check-btn:hover .zp-check-ring,.zp-check-btn:active .zp-check-ring{border-color:var(--accent);}
+  .zp-check-ring.checked{border-color:var(--accent);background:var(--accent);}
+  .zp-check-ring svg{opacity:0;transition:opacity .15s;transform:scale(.8);transition:opacity .15s,transform .15s;}
+  .zp-check-ring.checked svg{opacity:1;transform:scale(1);}
+
+  /* ── SESSION PROGRESS STRIP ── */
+  .zp-session-strip{margin:0 14px 12px;border-radius:12px;padding:14px 16px;background:var(--surface);border:1.5px solid var(--border);}
+  .zp-session-strip.active{border-color:rgba(13,155,138,.3);background:rgba(13,155,138,.04);}
+  .zp-session-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .zp-session-label{font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.02em;}
+  .zp-session-count{font-size:13px;font-weight:700;color:var(--ink);font-family:var(--font-mono);}
+  .zp-session-count.done{color:var(--accent);}
+  .zp-session-bar-bg{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+  .zp-session-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),#1ab8a0);border-radius:3px;transition:width .3s ease;}
 
   .topbar{display:none;}
   .ham-menu{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:300;}
@@ -1062,6 +1119,273 @@ const PHASES=[
   {id:3,label:'Underhåll',name:'Förebyggande & friskvård',desc:'Upprätthålla, förebygga återfall, långsiktig hälsa',color:'#1a7a4a',bg:'#e8f5ee',icon:''}
 ];
 let S={screen:"list",patients:[],pat:null,visitId:null,plan:null,locked:{},form:dform(),search:"",apiKey:"",apiVis:false};
+
+// ── BETALNING & TILLGÅNG ──────────────────────────────────────────────────────
+const STRIPE_LINKS_KEY = 'zenya:stripe-links';
+
+// ── TIER DEFINITIONS ──────────────────────────────────────────────────────────
+// features: what a tier UNLOCKS (free period has none)
+const PAYMENT_TIERS = {
+  bas: {
+    id: 'bas', name: 'Bas', color: '#4a7aaa',
+    tagline: 'Fortsätt följa din rehab',
+    features: ['stats', 'ai_messages'],
+    featureLabels: ['Smärtgraf & veckostatistik', 'AI-meddelanden från kliniken'],
+    prices: { month: 79, quarter: 199, year: 599 },
+  },
+  standard: {
+    id: 'standard', name: 'Standard', color: '#0d9b8a',
+    tagline: 'Planen anpassar sig med dig',
+    featured: true,
+    features: ['stats', 'ai_messages', 'plan_progression', 'monthly_pdf'],
+    featureLabels: ['Allt i Bas', 'AI-progressering av planen', 'Månadssammanfattning PDF'],
+    prices: { month: 149, quarter: 369, year: 999 },
+  },
+  pro: {
+    id: 'pro', name: 'Pro', color: '#8a5aaa',
+    tagline: 'Full uppföljning med din behandlare',
+    features: ['stats', 'ai_messages', 'plan_progression', 'monthly_pdf', 'direct_contact'],
+    featureLabels: ['Allt i Standard', 'Prioriterad direktkontakt med kliniken'],
+    prices: { month: 249, quarter: 599, year: 1690 },
+  },
+};
+
+const PAYMENT_LENGTHS = {
+  month:   { id: 'month',   label: 'Månad',   days: 30,  suffix: '/ mån' },
+  quarter: { id: 'quarter', label: 'Kvartal', days: 90,  suffix: '/ kvartal' },
+  year:    { id: 'year',    label: 'År',       days: 365, suffix: '/ år' },
+};
+
+// stripe link key: `${tierId}_${lengthId}` e.g. 'bas_month', 'standard_quarter'
+function getStripeLinks() {
+  try { return JSON.parse(localStorage.getItem(STRIPE_LINKS_KEY)||'{}'); } catch { return {}; }
+}
+function saveStripeLinks(obj) {
+  try { localStorage.setItem(STRIPE_LINKS_KEY, JSON.stringify(obj)); } catch {}
+}
+function saveStripeLinksFromUI() {
+  const links = {};
+  Object.keys(PAYMENT_TIERS).forEach(tid => {
+    Object.keys(PAYMENT_LENGTHS).forEach(lid => {
+      const key = tid + '_' + lid;
+      const val = document.getElementById('stripe-' + key)?.value?.trim();
+      if (val) links[key] = val;
+    });
+  });
+  saveStripeLinks(links);
+  const s = document.getElementById('stripe-saved');
+  if (s) { s.style.opacity = 1; setTimeout(() => s.style.opacity = 0, 2000); }
+}
+
+// Returns {ok, tier, features:[], expiresAt, freeUntil}
+function zpCheckAccess(visit) {
+  if (!visit) return { ok: false, tier: 'expired', features: [] };
+  if (visit.accessOverride === 'unlimited') {
+    const t = PAYMENT_TIERS[visit.paymentTier] || PAYMENT_TIERS.pro;
+    return { ok: true, tier: 'manual', features: t.features };
+  }
+  if (visit.paidUntil && new Date(visit.paidUntil) > new Date()) {
+    const t = PAYMENT_TIERS[visit.paymentTier];
+    return { ok: true, tier: visit.paymentTier || 'bas', features: t ? t.features : ['stats','ai_messages'], expiresAt: visit.paidUntil };
+  }
+  const followupWeeks = visit.form?.followup || 4;
+  if (visit.date) {
+    const freeEnd = new Date(visit.date);
+    freeEnd.setDate(freeEnd.getDate() + followupWeeks * 7);
+    if (freeEnd > new Date()) return { ok: true, tier: 'free', features: [], freeUntil: freeEnd.toISOString() };
+    return { ok: false, tier: 'expired', features: [], expiredAt: freeEnd.toISOString() };
+  }
+  return { ok: true, tier: 'free', features: [] };
+}
+
+// Quick helper — use anywhere in plan rendering
+function zpHasFeature(visit, feature) {
+  const a = zpCheckAccess(visit);
+  return a.features.includes(feature);
+}
+
+// Build Stripe Payment Link URL: tierId_lengthId e.g. 'standard_quarter'
+function zpPaymentUrl(tierLengthKey, patId, visitId) {
+  const links = getStripeLinks();
+  const base = links[tierLengthKey];
+  if (!base) return null;
+  const ref = encodeURIComponent(patId + ':' + visitId + ':' + tierLengthKey);
+  return base + (base.includes('?') ? '&' : '?') + 'client_reference_id=' + ref;
+}
+
+// Admin: manually extend access
+function zpManualExtend(patId, visitId, days) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  const from = p.visits[vIdx].paidUntil && new Date(p.visits[vIdx].paidUntil) > new Date()
+    ? new Date(p.visits[vIdx].paidUntil) : new Date();
+  from.setDate(from.getDate() + days);
+  p.visits[vIdx].paidUntil = from.toISOString();
+  if (!p.visits[vIdx].paymentTier) p.visits[vIdx].paymentTier = 'bas';
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  showAutoSaveToast('Tillgång förlängd ' + days + ' dagar');
+}
+
+// ── PAYWALL ───────────────────────────────────────────────────────────────────
+// State: which length is selected (stored on window for onclick)
+window._zpPaywallLength = 'quarter';
+
+function zpRenderPaywall(patId, visitId, pat) {
+  const el = document.getElementById('s-public-plan');
+  if (!el) return;
+  const patName = (pat?.name||'').split(' ')[0] || '';
+  el.innerHTML = _zpPaywallHTML(patId, visitId, patName, window._zpPaywallLength);
+}
+
+function zpPaywallSetLength(len, patId, visitId, patName) {
+  window._zpPaywallLength = len;
+  const el = document.getElementById('s-public-plan');
+  if (el) el.innerHTML = _zpPaywallHTML(patId, visitId, patName, len);
+}
+
+function _zpPaywallHTML(patId, visitId, patName, selectedLen) {
+  const links = getStripeLinks();
+  const hasAnyLink = Object.keys(links).length > 0;
+
+  const lengthBtns = Object.values(PAYMENT_LENGTHS).map(l =>
+    `<button onclick="zpPaywallSetLength('${l.id}','${e(patId)}','${e(visitId)}','${e(patName)}')"
+      style="padding:7px 18px;border-radius:20px;border:none;cursor:pointer;font-size:12px;font-weight:600;font-family:'Plus Jakarta Sans',sans-serif;transition:all .2s;
+        background:${selectedLen===l.id?'#0d9b8a':'rgba(255,255,255,.07)'};
+        color:${selectedLen===l.id?'white':'rgba(255,255,255,.45)'}">
+      ${l.label}
+    </button>`
+  ).join('');
+
+  const cards = Object.values(PAYMENT_TIERS).map(tier => {
+    const price = tier.prices[selectedLen];
+    const len = PAYMENT_LENGTHS[selectedLen];
+    const key = tier.id + '_' + selectedLen;
+    const url = zpPaymentUrl(key, patId, visitId);
+    const feats = tier.featureLabels.map(f => `<div class="zp-plan-feat">${f}</div>`).join('');
+    const noLink = `onclick="alert('Betalningslänk saknas — kontakta ${e(CLINIC.name)}.')"`;
+    return `<a class="zp-plan-card${tier.featured?' featured':''}"
+        ${url ? `href="${url}" target="_blank"` : `href="#" ${noLink}`}>
+      ${tier.featured ? '<div class="zp-plan-badge">Mest populär</div>' : ''}
+      <div class="zp-plan-name" style="color:${tier.color}">${tier.name}</div>
+      <div class="zp-plan-desc">${tier.tagline}</div>
+      <div class="zp-plan-price">${price} kr<span>${len.suffix}</span></div>
+      <div class="zp-plan-features">${feats}</div>
+    </a>`;
+  }).join('');
+
+  return `<div class="zp-paywall">
+    <img src="${LOGO}" class="zp-paywall-logo">
+    <div class="zp-paywall-eyebrow">${e(CLINIC.name)}</div>
+    <div class="zp-paywall-title">Din rehabplan${patName?', '+patName:''}</div>
+    <div class="zp-paywall-sub">Din kostnadsfria period är avslutad. Välj en plan för att fortsätta din rehabilitering.</div>
+    <div style="display:flex;gap:8px;margin-bottom:22px">${lengthBtns}</div>
+    <div class="zp-plan-cards">${cards}</div>
+    ${!hasAnyLink?'<div style="font-size:11px;color:rgba(255,200,0,.5);text-align:center;margin-bottom:16px">Betalning ej konfigurerad — kontakta din behandlare</div>':''}
+    <div class="zp-paywall-note">${e(CLINIC.name)} · ${e(CLINIC.address)}<br>
+      ${CLINIC.phone?`<a href="tel:${CLINIC.phone}" style="color:rgba(255,255,255,.3);text-decoration:none">${e(CLINIC.phone)}</a>`:''}
+    </div>
+  </div>`;
+}
+
+function getStripeLinks() {
+  try { return JSON.parse(localStorage.getItem(STRIPE_LINKS_KEY)||'{}'); } catch { return {}; }
+}
+function saveStripeLinks(obj) {
+  try { localStorage.setItem(STRIPE_LINKS_KEY, JSON.stringify(obj)); } catch {}
+}
+function saveStripeLinksFromUI() {
+  const links = {};
+  Object.keys(PAYMENT_PLANS).forEach(id => {
+    const val = document.getElementById('stripe-' + id)?.value?.trim();
+    if (val) links[id] = val;
+  });
+  saveStripeLinks(links);
+  const s = document.getElementById('stripe-saved');
+  if (s) { s.style.opacity = 1; setTimeout(() => s.style.opacity = 0, 2000); }
+}
+
+// Returns {ok, tier, expiresAt, freeUntil}
+function zpCheckAccess(visit) {
+  if (!visit) return { ok: false };
+  // Manual override — admin set paidUntil directly
+  if (visit.accessOverride === 'unlimited') return { ok: true, tier: 'manual' };
+  // Paid subscription active
+  if (visit.paidUntil && new Date(visit.paidUntil) > new Date()) {
+    return { ok: true, tier: visit.paymentTier || 'paid', expiresAt: visit.paidUntil };
+  }
+  // Free period: visit.date + followup weeks
+  const followupWeeks = visit.form?.followup || 4;
+  if (visit.date) {
+    const freeEnd = new Date(visit.date);
+    freeEnd.setDate(freeEnd.getDate() + followupWeeks * 7);
+    if (freeEnd > new Date()) return { ok: true, tier: 'free', freeUntil: freeEnd.toISOString() };
+    return { ok: false, tier: 'expired', expiredAt: freeEnd.toISOString() };
+  }
+  // No date set — always free
+  return { ok: true, tier: 'free' };
+}
+
+// Build Stripe Payment Link URL with patient metadata
+function zpPaymentUrl(planId, patId, visitId) {
+  const links = getStripeLinks();
+  const base = links[planId];
+  if (!base) return null;
+  const ref = encodeURIComponent(patId + ':' + visitId + ':' + planId);
+  return base + (base.includes('?') ? '&' : '?') + 'client_reference_id=' + ref;
+}
+
+// Admin: manually extend access (no payment)
+function zpManualExtend(patId, visitId, days) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  const from = p.visits[vIdx].paidUntil && new Date(p.visits[vIdx].paidUntil) > new Date()
+    ? new Date(p.visits[vIdx].paidUntil)
+    : new Date();
+  from.setDate(from.getDate() + days);
+  p.visits[vIdx].paidUntil = from.toISOString();
+  p.visits[vIdx].paymentTier = 'manual';
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  showAutoSaveToast('Tillgång förlängd ' + days + ' dagar');
+}
+
+// Render paywall screen (shown to patient when access expired)
+function zpRenderPaywall(patId, visitId, pat) {
+  const el = document.getElementById('s-public-plan');
+  if (!el) return;
+  const links = getStripeLinks();
+  const hasLinks = Object.keys(links).length > 0;
+  const patName = (pat?.name||'').split(' ')[0] || '';
+
+  const cards = Object.values(PAYMENT_PLANS).map(plan => {
+    const url = zpPaymentUrl(plan.id, patId, visitId);
+    const feats = plan.features.map(f => `<div class="zp-plan-feat">${f}</div>`).join('');
+    return `<a class="zp-plan-card${plan.featured?' featured':''}" ${url ? `href="${url}"` : 'href="#"'} ${url ? 'target="_blank"' : `onclick="alert('Betalningslänk saknas — kontakta din behandlare.')"` }>
+      ${plan.featured ? '<div class="zp-plan-badge">Mest populär</div>' : ''}
+      <div class="zp-plan-name">${plan.name}</div>
+      <div class="zp-plan-desc">${plan.desc}</div>
+      <div class="zp-plan-price">${plan.price} kr<span>/ ${plan.days <= 30 ? '30 dagar' : plan.days <= 90 ? 'kvartal' : 'år'}</span></div>
+      <div class="zp-plan-features">${feats}</div>
+    </a>`;
+  }).join('');
+
+  el.innerHTML = `<div class="zp-paywall">
+    <img src="${LOGO}" class="zp-paywall-logo">
+    <div class="zp-paywall-eyebrow">${e(CLINIC.name)}</div>
+    <div class="zp-paywall-title">Din rehabplan${patName ? ', ' + patName : ''}</div>
+    <div class="zp-paywall-sub">Din kostnadsfria period är avslutad. Fortsätt din rehabilitering med löpande AI-uppföljning.</div>
+    <div class="zp-plan-cards">${cards}</div>
+    ${!hasLinks ? '<div style="font-size:11px;color:rgba(255,200,0,.5);text-align:center;margin-bottom:16px">Betalning ej konfigurerad — kontakta din behandlare</div>' : ''}
+    <div class="zp-paywall-note">${e(CLINIC.name)} · ${e(CLINIC.address)}<br>
+      ${CLINIC.phone ? `<a href="tel:${CLINIC.phone}" style="color:rgba(255,255,255,.35);text-decoration:none">${e(CLINIC.phone)}</a>` : ''}
+    </div>
+  </div>`;
+}
 function parseBirthdate(val) {
   if (!val) return '';
   val = val.trim().replace(/\s/g,'');
@@ -1309,7 +1633,7 @@ function renderInboxDrawer() {
     : `<div class="inbox-empty">
         <svg viewBox="0 0 24 24"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
         <div class="inbox-empty-title">Allt klart</div>
-        <div class="inbox-empty-sub">Inga nya händelser att visa.<br>Zenya bevakar dina patienter.</div>
+        <div class="inbox-empty-sub">Inga nya händelser att visa.<br>Hael bevakar dina patienter.</div>
       </div>`;
 
   dr.innerHTML = `
@@ -1493,19 +1817,50 @@ async function _agentScanPatient(p) {
     }
   }
 
-  // ── 3. INACTIVITY ─────────────────────────────────────────────────────────
+  // ── 3. INACTIVITY — auto-send message after 4+ days ─────────────────────
   if (recentLogs.length > 0) {
     const lastLog = recentLogs[0];
     const daysSince = Math.round((Date.now() - new Date(lastLog.ts||lastLog.date).getTime()) / (1000*60*60*24));
-    if (daysSince >= 5) {
-      addInboxItem(p.id, p.name, 'urgent', 'inactivity',
-        `Inget loggat pass på ${daysSince} dagar`,
-        'Patienten har inte rapporterat hemträning på ett tag.',
-        [
-          { label:'Skicka påminnelse', style:'primary', fn:`openMsg:${p.id}` },
-          { label:'Öppna kundkort', style:'secondary', fn:`openDetail:${p.id}` },
-        ]
+    if (daysSince >= 4) {
+      const alreadySent = (p.messages||[]).some(m =>
+        m.type === 'ai_inactivity' && Date.now() - new Date(m.ts).getTime() < 4*24*60*60*1000
       );
+      if (!alreadySent) await _agentSendInactivityMsg(p, daysSince);
+      if (daysSince >= 5) {
+        addInboxItem(p.id, p.name, 'urgent', 'inactivity',
+          `Inget loggat pass på ${daysSince} dagar`,
+          'Patienten har inte rapporterat hemträning på ett tag.',
+          [
+            { label:'Skicka påminnelse', style:'primary', fn:`openMsg:${p.id}` },
+            { label:'Öppna kundkort', style:'secondary', fn:`openDetail:${p.id}` },
+          ]
+        );
+      }
+    }
+  }
+
+  // ── 3b. PAIN SPIKE — auto-send check-in ──────────────────────────────────
+  if (recentLogs.length >= 2) {
+    const latest3 = recentLogs.slice(0, 3);
+    const avgLatest = latest3.reduce((s,l) => s+(l.pain||0), 0) / latest3.length;
+    if (avgLatest >= 7) {
+      const alreadySent = (p.messages||[]).some(m =>
+        m.type === 'ai_pain_checkin' && Date.now() - new Date(m.ts).getTime() < 3*24*60*60*1000
+      );
+      if (!alreadySent) await _agentSendPainCheckIn(p, avgLatest);
+    }
+  }
+
+  // ── 3c. UPCOMING FOLLOWUP — remind 3 days before ─────────────────────────
+  if (lastVisit?.form?.followup && lastVisit.date) {
+    const followupDate = new Date(lastVisit.date);
+    followupDate.setDate(followupDate.getDate() + (lastVisit.form.followup * 7));
+    const daysUntil = Math.round((followupDate - Date.now()) / (1000*60*60*24));
+    if (daysUntil >= 0 && daysUntil <= 3) {
+      const alreadySent = (p.messages||[]).some(m =>
+        m.type === 'ai_followup_reminder' && Date.now() - new Date(m.ts).getTime() < 4*24*60*60*1000
+      );
+      if (!alreadySent) await _agentSendFollowupReminder(p, daysUntil);
     }
   }
 
@@ -1558,6 +1913,51 @@ async function _agentSendComplianceMsg(p, lowRate) {
   } catch {}
 }
 
+async function _agentSendInactivityMsg(p, daysSince) {
+  const key = getKey(); if (!key) return;
+  const firstName = (p.name||'').split(' ')[0] || 'Hej';
+  const prompt = `Skriv ett kort, varmt meddelande (max 35 ord) från en rehabklinik till patienten ${firstName} som inte har loggat något träningspass på ${daysSince} dagar. Känn igen att livet kan vara hektiskt, uppmuntra dem att komma tillbaka i rörelse — lite är bättre än ingenting. Naturlig, mänsklig ton. BARA meddelandet.`;
+  try {
+    const txt = await callAPI(prompt, MODEL_HAIKU, false);
+    if (!txt) return;
+    if (!p.messages) p.messages = [];
+    p.messages.unshift({ id:'msg_'+Date.now(), from:'therapist', type:'ai_inactivity', text:txt.trim(), ts:new Date().toISOString(), read:true, aiGenerated:true, reply:null });
+    savePat(p);
+  } catch {}
+}
+
+async function _agentSendPainCheckIn(p, avgPain) {
+  const key = getKey(); if (!key) return;
+  const firstName = (p.name||'').split(' ')[0] || 'Hej';
+  const prompt = `Skriv ett kort, omtänksamt meddelande (max 35 ord) från en rehabklinik till patienten ${firstName} vars genomsnittliga smärtnivå de senaste passen har varit ${avgPain.toFixed(1)}/10. Visa omtanke, fråga hur de mår och påminn att de kan höra av sig om smärtan ökar. Lugn, professionell ton. BARA meddelandet.`;
+  try {
+    const txt = await callAPI(prompt, MODEL_HAIKU, false);
+    if (!txt) return;
+    if (!p.messages) p.messages = [];
+    p.messages.unshift({ id:'msg_'+Date.now(), from:'therapist', type:'ai_pain_checkin', text:txt.trim(), ts:new Date().toISOString(), read:true, aiGenerated:true, reply:null });
+    savePat(p);
+  } catch {}
+}
+
+async function _agentSendFollowupReminder(p, daysUntil) {
+  const key = getKey(); if (!key) return;
+  const firstName = (p.name||'').split(' ')[0] || 'Hej';
+  const whenStr = daysUntil === 0 ? 'idag' : daysUntil === 1 ? 'imorgon' : `om ${daysUntil} dagar`;
+  const prompt = `Skriv ett kort, vänligt påminnelsemeddelande (max 35 ord) från ${CLINIC.name} till patienten ${firstName} om att deras planerade återbesök är ${whenStr}. Uppmuntra dem att höra av sig för att boka om de inte redan gjort det. Professionell men varm ton. BARA meddelandet.`;
+  try {
+    const txt = await callAPI(prompt, MODEL_HAIKU, false);
+    if (!txt) return;
+    if (!p.messages) p.messages = [];
+    p.messages.unshift({ id:'msg_'+Date.now(), from:'therapist', type:'ai_followup_reminder', text:txt.trim(), ts:new Date().toISOString(), read:true, aiGenerated:true, reply:null });
+    savePat(p);
+    addInboxItem(p.id, p.name, 'info', 'message_sent',
+      `Återbesökspåminnelse skickad till ${firstName}`,
+      `Återbesök ${whenStr} — AI har skickat påminnelse.`,
+      [{ label:'Granska', style:'secondary', fn:`openMsg:${p.id}` }]
+    );
+  } catch {}
+}
+
 async function _agentProgressPlan(p, visit) {
   const key = getKey(); if (!key) return;
   if (!visit.plan?.exercises?.length) return;
@@ -1582,7 +1982,116 @@ async function _agentProgressPlan(p, visit) {
   } catch {}
 }
 
-// ── AI BRIEFING ──────────────────────────────────────────────────────────────
+// ── SPÅR 2: KONTEXTUELLA MEDDELANDEN PÅ PATIENTSIDAN ────────────────────────
+// Körs i patientens webbläsare — ingen inloggning, ingen server.
+// Läser zenya:exsession:* från localStorage och räknar ut passhistorik.
+
+function zpGetExSessionHistory(patId, visitId) {
+  const prefix = 'zenya:exsession:' + patId + ':' + visitId + ':';
+  const sessions = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith(prefix)) {
+        const date = k.slice(prefix.length);
+        const state = JSON.parse(localStorage.getItem(k) || '{}');
+        const done = Object.values(state).filter(Boolean).length;
+        sessions.push({ date, done, state });
+      }
+    }
+  } catch(e) {}
+  // Sort newest first
+  return sessions.sort((a,b) => b.date.localeCompare(a.date));
+}
+
+function zpContextualMsg(pat, visitId, plan) {
+  const patId = pat?.id;
+  if (!patId || !visitId) return '';
+
+  const sessions = zpGetExSessionHistory(patId, visitId);
+  const total = (plan?.exercises||[]).length;
+  const today = new Date().toISOString().slice(0,10);
+  const todaySession = sessions.find(s => s.date === today);
+  const todayDone = todaySession ? Object.values(todaySession.state).filter(Boolean).length : 0;
+
+  // Days since last session
+  const lastSession = sessions[0];
+  const daysSinceLast = lastSession
+    ? Math.round((Date.now() - new Date(lastSession.date).getTime()) / (1000*60*60*24))
+    : null;
+
+  // Streak — consecutive days with at least 1 exercise done
+  let streak = 0;
+  const d = new Date();
+  for (let i = 0; i < 30; i++) {
+    const dateStr = new Date(d - i*86400000).toISOString().slice(0,10);
+    const s = sessions.find(x => x.date === dateStr);
+    if (s && s.done > 0) streak++;
+    else if (i > 0) break; // streak broken
+  }
+
+  // Full completions (all exercises done)
+  const fullPasses = sessions.filter(s => total > 0 && s.done >= total).length;
+
+  // ── Pick the most relevant message ──────────────────────────────────────
+  let icon = '', title = '', body = '', color = 'rgba(255,255,255,.08)', borderColor = 'rgba(255,255,255,.1)';
+
+  if (total > 0 && todayDone >= total) {
+    // All done today — celebration
+    icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3dcfbd" stroke-width="2.2" stroke-linecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+    title = 'Bra jobbat idag!';
+    body = `Du har klarat alla ${total} övningar. ${fullPasses > 1 ? 'Det här är ditt ' + fullPasses + ':e fullständiga pass — imponerande.' : 'Varje pass räknas.'}`;
+    color = 'rgba(13,155,138,.15)'; borderColor = 'rgba(13,155,138,.3)';
+  } else if (streak >= 5) {
+    // Long streak
+    icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f0c040" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`;
+    title = `${streak} dagar i rad`;
+    body = 'Du håller en imponerande streak — kroppen anpassar sig och bygger kapacitet varje dag du fortsätter.';
+    color = 'rgba(240,192,64,.12)'; borderColor = 'rgba(240,192,64,.25)';
+  } else if (streak >= 3) {
+    icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3dcfbd" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`;
+    title = `${streak} dagar i rad`;
+    body = 'Du har byggt ett momentum. Håll i det — vanan befästs nu.';
+    color = 'rgba(13,155,138,.12)'; borderColor = 'rgba(13,155,138,.25)';
+  } else if (daysSinceLast !== null && daysSinceLast >= 4 && daysSinceLast < 10) {
+    // Returned after a break
+    icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2" stroke-linecap="round"><path d="M21 12A9 9 0 1 1 3.6 7.6"/><polyline points="3 3 3.6 7.6 8 8"/></svg>`;
+    title = 'Välkommen tillbaka';
+    body = 'Det är okej att ha tagit en paus. Börja mjukt idag — lite rörelse är alltid bättre än ingen.';
+  } else if (fullPasses >= 10) {
+    icon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3dcfbd" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`;
+    title = `${fullPasses} genomförda pass`;
+    body = 'Du har lagt ner ett seriöst arbete i din rehabilitering. Din behandlare ser din progression.';
+    color = 'rgba(13,155,138,.12)'; borderColor = 'rgba(13,155,138,.25)';
+  } else {
+    return ''; // Inget tillräckligt relevant att visa
+  }
+
+  return `<div style="margin:0 14px 14px;padding:14px 16px;background:${color};border:1px solid ${borderColor};border-radius:14px">
+    <div style="display:flex;align-items:flex-start;gap:11px">
+      <div style="flex-shrink:0;margin-top:2px">${icon}</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,.85);margin-bottom:4px">${title}</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.6">${body}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// Subtle upsell shown when stats are locked (free tier)
+function _zpStatsUpsell() {
+  return `<div style="margin:0 14px 14px;padding:14px 16px;background:rgba(255,255,255,.04);border:1px dashed rgba(255,255,255,.1);border-radius:14px">
+    <div style="display:flex;align-items:flex-start;gap:11px">
+      <div style="flex-shrink:0;margin-top:2px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.45);margin-bottom:3px">Smärtgraf & veckostatistik</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.28);line-height:1.6">Se din progress och smärtutveckling — ingår i Bas-planen.</div>
+      </div>
+    </div>
+  </div>`;
+}
 
 
 const BRIEFING_CACHE_KEY = 'zenya:briefing:'; // + patId
@@ -2138,6 +2647,27 @@ function togSettings(){
     <button class="btn btn-p" onclick="doSaveKey();document.getElementById('ov-saved').style.opacity=1;setTimeout(()=>document.getElementById('ov-saved').style.opacity=0,2000)">Spara nyckel</button>
     <span id="ov-saved" style="font-size:12px;color:#4a9860;margin-left:10px;opacity:0;transition:opacity .3s">Sparad</span>
     <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+      <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px">Stripe Betalningslänkar</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.6">Skapa Payment Links i Stripe (en per tier × längd), klistra in här. Patienter skickas hit när rehabperioden gått ut.</div>
+      ${Object.values(PAYMENT_TIERS).map(tier => {
+        const links = getStripeLinks();
+        const rows = Object.values(PAYMENT_LENGTHS).map(len => {
+          const key = tier.id + '_' + len.id;
+          return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <div style="font-size:9px;color:var(--text3);width:58px;flex-shrink:0">${len.label} · ${tier.prices[len.id]} kr</div>
+            <input id="stripe-${key}" style="flex:1;border:1.5px solid var(--border);border-radius:7px;padding:6px 9px;font-size:11px;font-family:var(--font-mono);color:var(--ink);background:var(--surface2);box-sizing:border-box"
+              placeholder="https://buy.stripe.com/..." value="${e(links[key]||'')}">
+          </div>`;
+        }).join('');
+        return `<div style="margin-bottom:14px">
+          <div style="font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px" style="color:${tier.color}">${tier.name}</div>
+          ${rows}
+        </div>`;
+      }).join('')}
+      <button class="btn btn-p" style="font-size:12px;margin-top:4px" onclick="saveStripeLinksFromUI()">Spara Stripe-länkar</button>
+      <span id="stripe-saved" style="font-size:12px;color:#4a9860;margin-left:10px;opacity:0;transition:opacity .3s">Sparade</span>
+    </div>
+    <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
       <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:10px">Molnsynk</div>
       <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Data synkas automatiskt till Supabase (EU/Frankfurt)</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -2641,6 +3171,7 @@ function rDetail(){
     });
   }
   h += renderConsentBlock(p);
+  h += renderPaymentBlock(p);
   h += `</div>`; // close det-main
   document.getElementById("s-detail").innerHTML=`<div class="cx"><div class="det-layout"><div class="det-main">${h}</div>${asideHtml}</div></div>`;
 }
@@ -3113,7 +3644,7 @@ function rDoc(){
     }
   });
 }
-function rSettings(){const key=S.apiKey;const ok=key.startsWith("sk-ant");const patCount=S.patients.length;document.getElementById("s-settings").innerHTML=`<div class="swrap"><div class="stitle">Inställningar</div><div class="ssub">Zenya — ${patCount} patienter i databasen.</div>
+function rSettings(){const key=S.apiKey;const ok=key.startsWith("sk-ant");const patCount=S.patients.length;document.getElementById("s-settings").innerHTML=`<div class="swrap"><div class="stitle">Inställningar</div><div class="ssub">Hael — ${patCount} patienter i databasen.</div>
 <span class="slabel">Anthropic API-nyckel</span><div class="akwrap"><input class="akinp" id="akinp" type="${S.apiVis?"text":"password"}" placeholder="sk-ant-api03-..." value="${e(key)}" oninput="S.apiKey=this.value"><button class="aktgl" onclick="S.apiVis=!S.apiVis;rSettings()">${S.apiVis?"Dölj":"Visa"}</button></div><div class="akst"><div class="akdot" style="background:${ok?"#5a9860":"#4a5a6a"}"></div><span style="color:${ok?"#5a9860":"#5a6a7a"}">${ok?"Nyckel ser korrekt ut":"Ingen giltig nyckel angiven"}</span></div><div class="akhint">Hämta på <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key.</div><div style="display:flex;align-items:center"><button class="btn btn-p" onclick="doSaveKey()">Spara nyckel</button><span class="svconf" id="svconf">Sparad</span></div>
 <div style="margin-top:28px"><span class="slabel">Data & Backup</span>
 <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:8px">
@@ -3908,7 +4439,7 @@ function appendTranscriptLine(time, text) {
   // Persist transcript to localStorage immediately — crash protection
   if (S.pat) {
     try {
-      localStorage.setItem('zenya:meetdraft:'+S.pat.id, JSON.stringify({
+      localStorage.setItem('hael:meetdraft:'+S.pat.id, JSON.stringify({
         transcript: meetTranscript,
         note: meetNote,
         patId: S.pat.id,
@@ -4197,12 +4728,12 @@ function autoSaveJournalDraft() {
     },
     savedAt: Date.now()
   };
-  try { sessionStorage.setItem('zenya:journaldraft', JSON.stringify(draft)); } catch{}
+  try { sessionStorage.setItem('hael:journaldraft', JSON.stringify(draft)); } catch{}
 }
 
 function checkJournalDraft() {
   try {
-    const raw = sessionStorage.getItem('zenya:journaldraft');
+    const raw = sessionStorage.getItem('hael:journaldraft');
     if (!raw) return false;
     const d = JSON.parse(raw);
     if (!d || !S.pat || d.patId !== S.pat.id) return false;
@@ -4217,7 +4748,7 @@ function restoreJournalDraft(draft) {
       const el = document.getElementById('ms-'+l) || document.getElementById('sbs-'+l);
       if (el && draft.soap[l]) { el.value = draft.soap[l]; el.dispatchEvent(new Event('input')); }
     });
-    sessionStorage.removeItem('zenya:journaldraft');
+    sessionStorage.removeItem('hael:journaldraft');
     showAutoSaveToast('Utkast återställt');
   }, 200);
 }
@@ -4384,7 +4915,7 @@ pain 0-10, motivation 1-10, history: ingen/sporadisk/regelbunden, knowledge: lå
 function checkMeetDraft() {
   if (!S.pat) return null;
   try {
-    const raw = localStorage.getItem('zenya:meetdraft:'+S.pat.id);
+    const raw = localStorage.getItem('hael:meetdraft:'+S.pat.id);
     if (!raw) return null;
     const d = JSON.parse(raw);
     if (!d || d.patId !== S.pat.id) return null;
@@ -4395,7 +4926,7 @@ function checkMeetDraft() {
 }
 
 function clearMeetDraft() {
-  if (S.pat) try { localStorage.removeItem('zenya:meetdraft:'+S.pat.id); } catch {}
+  if (S.pat) try { localStorage.removeItem('hael:meetdraft:'+S.pat.id); } catch {}
 }
 
 function startMeeting() {
@@ -4668,6 +5199,78 @@ function revokeConsent(type) {
   rDetail();
 }
 
+function renderPaymentBlock(p) {
+  const visits = (p.visits||[]).filter(v => v.plan);
+  if (!visits.length) return '';
+
+  const rows = visits.slice(0,3).map(v => {
+    const access = zpCheckAccess(v);
+    const tierDef = PAYMENT_TIERS[access.tier];
+    const tierName = tierDef?.name || (access.tier === 'free' ? 'Fri period' : access.tier === 'expired' ? 'Utgången' : access.tier === 'manual' ? 'Manuell' : access.tier);
+    const badgeClass = access.tier === 'expired' ? 'expired' : access.tier === 'free' ? 'free' : access.tier === 'manual' ? 'manual' : 'active';
+    const expStr = access.expiresAt
+      ? ' · till ' + new Date(access.expiresAt).toLocaleDateString('sv-SE',{day:'numeric',month:'short',year:'numeric'})
+      : access.freeUntil
+      ? ' · fri till ' + new Date(access.freeUntil).toLocaleDateString('sv-SE',{day:'numeric',month:'short'})
+      : '';
+    const dotColor = badgeClass==='active'?'var(--green)':badgeClass==='expired'?'var(--red)':badgeClass==='manual'?'#c8a030':'var(--subtle)';
+
+    // Tier selector for active/manual
+    const tierSelect = (access.ok && access.tier !== 'free') ? `
+      <select onchange="zpSetTier('${p.id}','${v.id}',this.value)"
+        style="font-size:9px;border:1px solid var(--border);border-radius:5px;padding:2px 5px;background:var(--surface2);color:var(--ink);cursor:pointer;font-family:var(--font)">
+        ${Object.values(PAYMENT_TIERS).map(t =>
+          `<option value="${t.id}" ${access.tier===t.id||(!PAYMENT_TIERS[access.tier]&&t.id==='bas')?'selected':''}>${t.name}</option>`
+        ).join('')}
+      </select>` : '';
+
+    return `<div class="consent-row">
+      <div class="consent-dot" style="background:${dotColor}"></div>
+      <div class="consent-type">${v.date||'—'} · ${(v.plan.exercises||[]).length} övn</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
+        <span class="pay-badge ${badgeClass}">${tierName}${expStr}</span>
+        ${tierSelect}
+        <div style="display:flex;gap:3px">
+          <button class="consent-rev" onclick="zpManualExtend('${p.id}','${v.id}',30)" title="+30 dagar">+30d</button>
+          <button class="consent-rev" onclick="zpManualExtend('${p.id}','${v.id}',90)" title="+90 dagar">+90d</button>
+          <button class="consent-rev" onclick="zpSetUnlimited('${p.id}','${v.id}')" title="Obegränsad tillgång">∞</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `<div class="consent-wrap" style="margin-top:12px">
+    <div class="consent-hdr">
+      <div class="consent-hdr-title">Tillgång & betalning</div>
+      <button onclick="togSettings()" style="font-size:10px;color:var(--accent);background:none;border:none;cursor:pointer;font-weight:600;font-family:var(--font);padding:0">Konfigurera Stripe →</button>
+    </div>
+    ${rows}
+  </div>`;
+}
+
+function zpSetUnlimited(patId, visitId) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  p.visits[vIdx].accessOverride = 'unlimited';
+  p.visits[vIdx].paymentTier = 'pro';
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  showAutoSaveToast('Obegränsad tillgång aktiverad (Pro)');
+}
+
+function zpSetTier(patId, visitId, tierId) {
+  const p = S.patients.find(x => x.id === patId) || S.pat;
+  if (!p) return;
+  const vIdx = (p.visits||[]).findIndex(v => v.id === visitId);
+  if (vIdx < 0) return;
+  p.visits[vIdx].paymentTier = tierId;
+  savePat(p);
+  if (S.pat?.id === patId) { S.pat = p; rDetail(); }
+  showAutoSaveToast('Tier ändrad till ' + (PAYMENT_TIERS[tierId]?.name || tierId));
+}
+
 // ── FULL PATIENT JOURNAL EXPORT ───────────────────────────────────────────────
 function rPatJournal() {
   const p = S.pat;
@@ -4769,7 +5372,7 @@ function rPatJournal() {
           <div class="pjdoc-ftr-txt">
             <div>${e(CLINIC.name)} · ${e(CLINIC.address)}</div>
             <div>${e(CLINIC.phone)} · ${e(CLINIC.email)}</div>
-            <div style="margin-top:2px;color:var(--text4)">Konfidentiell patientjournal — Zenya · Kansei AB</div>
+            <div style="margin-top:2px;color:var(--text4)">Konfidentiell patientjournal — Hael · Vela</div>
           </div>
         </div>
       </div>
@@ -4803,7 +5406,7 @@ function exportBackup(silent) {
   const ekEntries = (() => { try { return JSON.parse(localStorage.getItem('kansei-ek:intakter')||'[]'); } catch(e){return[];} })();
 
   const data = {
-    appName: 'Zenya',
+    appName: 'Hael',
     version: 2,
     exported: new Date().toISOString(),
     exportedReadable: new Date().toLocaleString('sv-SE'),
@@ -4818,7 +5421,7 @@ function exportBackup(silent) {
   const a = document.createElement('a');
   a.href = url;
   const ts = new Date().toISOString().slice(0,16).replace('T','_').replace(':','-');
-  a.download = `zenya-export-${ts}.json`;
+  a.download = `hael-export-${ts}.json`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -4890,7 +5493,7 @@ function copySOAP() {
     soap.P || '',
     ``,
     `---`,
-    `Genererad av Zenya`
+    `Genererad av Hael`
   ].join('\n');
 
   navigator.clipboard.writeText(text).then(() => {
@@ -5346,7 +5949,7 @@ ${plan.followupNote ? `<div class="card"><div class="fu">${plan.followupNote}</d
   <div class="sec">Spara denna sida</div>
   <p style="font-size:12px;color:#5a6a7a;margin-bottom:12px">Bokmärk sidan i din webbläsare för att komma åt din rehabplan igen.</p>
 </div>
-<div class="ftr">${clinic.name||'Zenya'}<br>Plan utfärdad ${today}</div>
+<div class="ftr">${clinic.name||'Hael'}<br>Plan utfärdad ${today}</div>
 </body>
 </html>`;
 
@@ -5473,7 +6076,7 @@ Tack för ditt besök hos ${clinic.name} ${visitDate||''}.
 Din personliga rehabplan finns här:
 ${liveUrl}
 
-Vi använder Zenya — ett digitalt verktyg från Kansei — för att skicka din rehabplan direkt till din telefon. Öppna länken för att se alla övningar med instruktioner, veckoschema och smärthanteringsråd. Planen uppdateras automatiskt om vi gör ändringar.
+Vi använder Hael — ett digitalt verktyg från Vela — för att skicka din rehabplan direkt till din telefon. Öppna länken för att se alla övningar med instruktioner, veckoschema och smärthanteringsråd. Planen uppdateras automatiskt om vi gör ändringar.
 `;
   }
 
@@ -6150,7 +6753,7 @@ function rLogin() {
       </div>
     </div>
     <div class="ln-footer">
-      <div class="ln-footer-brand">en produkt av Kansei AB</div>
+      <div class="ln-footer-brand">en produkt av Vela</div>
       <div class="ln-dots"><div class="ln-dot"></div><div class="ln-dot"></div><div class="ln-dot"></div></div>
     </div>
   </div>
@@ -6158,7 +6761,7 @@ function rLogin() {
   <!-- RIGHT: LOGIN CARD -->
   <div class="ln-right">
     <div class="ln-card">
-      <div class="ln-card-eyebrow">Zenya</div>
+      <div class="ln-card-eyebrow">Hael</div>
       <div class="ln-card-title">Välkommen tillbaka</div>
       <div class="ln-card-sub">Logga in på ditt klinikkonto</div>
 
@@ -6700,6 +7303,13 @@ async function loadPublicPlan(patId, visitId) {
         const pat = typeof raw === 'string' ? JSON.parse(raw) : raw;
         const visit = (pat?.visits||[]).find(v => v.id === visitId);
         if (visit?.plan) {
+          // ── ACCESS CHECK ───────────────────────────────────────────────
+          const access = zpCheckAccess(visit);
+          if (!access.ok) {
+            zpRenderPaywall(patId, visitId, pat);
+            return;
+          }
+          // ───────────────────────────────────────────────────────────────
           _publicPlanCache = { patId, visitId, plan: visit.plan, pat };
           renderPublicPlan(visit.plan, pat);
           return;
@@ -6707,6 +7317,8 @@ async function loadPublicPlan(patId, visitId) {
         // Fallback: visitId not found or plan missing — try most recent visit that has a plan
         const fallbackVisit = (pat?.visits||[]).find(v => v.plan && v.plan.exercises?.length > 0);
         if (fallbackVisit?.plan) {
+          const access = zpCheckAccess(fallbackVisit);
+          if (!access.ok) { zpRenderPaywall(patId, fallbackVisit.id, pat); return; }
           console.warn('visitId mismatch — using fallback visit', fallbackVisit.id, 'expected', visitId);
           _publicPlanCache = { patId, visitId: fallbackVisit.id, plan: fallbackVisit.plan, pat };
           renderPublicPlan(fallbackVisit.plan, pat);
@@ -6843,23 +7455,89 @@ function pubToggleEx(btn) {
   if (!isOpen) { body.classList.add('open'); btn.classList.add('open'); }
 }
 
-function zpToggleEx(btn) {
-  const card = btn.closest('.zp-excard');
-  const body = card.querySelector('.zp-exbody');
+function zpExpandEx(idx) {
+  const body = document.getElementById('zp-exbody-' + idx);
+  const hdr  = document.getElementById('zp-exhdr-' + idx);
+  if (!body) return;
   const isOpen = body.classList.contains('open');
-  // Close all in section
-  const section = card.closest('.zp-section') || card.parentElement;
-  section.querySelectorAll('.zp-exbody').forEach(b => b.classList.remove('open'));
-  section.querySelectorAll('.zp-exhdr').forEach(h => h.classList.remove('open'));
-  if (!isOpen) {
-    body.classList.add('open');
-    btn.classList.add('open');
+  // Close all
+  document.querySelectorAll('.zp-exbody').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.zp-exhdr').forEach(h => h.classList.remove('open'));
+  // Open this if it was closed
+  if (!isOpen) { body.classList.add('open'); if(hdr) hdr.classList.add('open'); }
+}
+
+// ── PER-EXERCISE SESSION LOGGING ──────────────────────────────────────────
+function _zpSessionKey(patId, visitId) {
+  const today = new Date().toISOString().slice(0,10);
+  return 'zenya:exsession:' + patId + ':' + visitId + ':' + today;
+}
+
+function zpInitSession(patId, visitId, total) {
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(_zpSessionKey(patId, visitId)) || '{}'); } catch(e) {}
+  const doneCount = Object.values(state).filter(Boolean).length;
+  // Restore checked state for each exercise
+  for (let i = 0; i < total; i++) {
+    if (state[i]) _zpApplyCheck(i, true);
   }
+  _zpUpdateStrip(doneCount, total);
+}
+
+function zpCheckEx(patId, visitId, idx, total) {
+  // Load state
+  const key = _zpSessionKey(patId, visitId);
+  let state = {};
+  try { state = JSON.parse(localStorage.getItem(key) || '{}'); } catch(e) {}
+
+  // Toggle
+  state[idx] = !state[idx];
+  try { localStorage.setItem(key, JSON.stringify(state)); } catch(e) {}
+
+  // Update UI
+  _zpApplyCheck(idx, state[idx]);
+  const doneCount = Object.values(state).filter(Boolean).length;
+  _zpUpdateStrip(doneCount, total);
+
+  // If all done — light up pass button
+  if (doneCount === total) {
+    const btn = document.getElementById('pub-pass-btn');
+    if (btn && !btn.disabled) btn.classList.add('all-done');
+    // Save completion data to session so pubLogPassDone can include it
+    window._zpSessionState = { patId, visitId, state, total, completedAt: new Date().toISOString() };
+  }
+}
+
+function _zpApplyCheck(idx, done) {
+  const card = document.getElementById('zp-ex-' + idx);
+  const ring = document.getElementById('zp-ring-' + idx);
+  if (card) card.classList.toggle('done', done);
+  if (ring) ring.classList.toggle('checked', done);
+}
+
+function _zpUpdateStrip(done, total) {
+  const countEl = document.getElementById('zp-session-count');
+  const barEl   = document.getElementById('zp-session-bar');
+  const stripEl = document.getElementById('zp-session-strip');
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  if (countEl) {
+    countEl.textContent = done + ' / ' + total;
+    countEl.classList.toggle('done', done === total);
+  }
+  if (barEl) barEl.style.width = pct + '%';
+  if (stripEl) stripEl.classList.toggle('active', done > 0);
 }
 
 function renderPublicPlan(plan, pat) {
   const el = document.getElementById('s-public-plan');
   if (!el || !plan) return;
+
+  // ── ACCESS & FEATURE CHECK ────────────────────────────────────────────────
+  const _visit = (pat?.visits||[]).find(v => v.id === (plan.visitId||plan.id)) || pat?.visits?.[0];
+  const _access = zpCheckAccess(_visit);
+  const _hasStats     = _access.features.includes('stats');
+  const _hasMsgs      = _access.features.includes('ai_messages');
+  // ─────────────────────────────────────────────────────────────────────────
 
   const pain     = plan.form?.pain;
   const fw       = plan.form?.followup;
@@ -6875,8 +7553,8 @@ function renderPublicPlan(plan, pat) {
     followupStr = d.toLocaleDateString('sv-SE', {day:'numeric', month:'long'});
   }
 
-  // Progress graph
-  const progressGraph = pat ? renderPublicPlanProgressGraph(pat) : '';
+  // Progress graph — only for paid tiers with stats
+  const progressGraph = (pat && _hasStats) ? renderPublicPlanProgressGraph(pat) : '';
 
   // ── CHIPS ──────────────────────────────────────────────────────────────────
   const chips = [
@@ -6920,26 +7598,40 @@ function renderPublicPlan(plan, pat) {
   </div>`;
 
   // ── EXERCISES ─────────────────────────────────────────────────────────────
+  const _patIdSafeEx = (pat?.id||'').replace(/'/g,"\\'");
+  const _visitIdSafeEx = (plan.visitId||'').replace(/'/g,"\\'");
+  const totalEx = (plan.exercises||[]).length;
   const exHtml = (plan.exercises||[]).map((ex,i) => {
     const dose = [ex.sets&&ex.sets+' set', ex.reps&&ex.reps+' reps', ex.rest&&ex.rest+' vila'].filter(Boolean).join(' · ');
     const levelLabel = ex.level === 3 ? 'Avancerad' : ex.level === 2 ? 'Medel' : 'Grundnivå';
     const levelColor = ex.level === 3 ? '#c05050' : ex.level === 2 ? '#8a6000' : '#1a7a4a';
     const levelBg    = ex.level === 3 ? '#fdf5f5' : ex.level === 2 ? '#fffcf0' : '#f2faf5';
     return `
-    <div class="zp-excard">
-      <div class="zp-exhdr" onclick="zpToggleEx(this)">
-        <div class="zp-exnum">${i+1}</div>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
-          <div style="display:flex;gap:6px;align-items:center;margin-top:3px;flex-wrap:wrap">
-            ${dose ? `<div style="font-size:11px;color:var(--teal);font-weight:600;font-family:'DM Mono',monospace">${dose}</div>` : ''}
-            ${ex.level ? `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;color:${levelColor};background:${levelBg};padding:2px 7px;border-radius:10px">${levelLabel}</div>` : ''}
+    <div class="zp-excard" id="zp-ex-${i}">
+      <div class="zp-exhdr" id="zp-exhdr-${i}">
+        <div class="zp-exhdr-tap" onclick="zpExpandEx(${i})">
+          <div class="zp-exnum">${i+1}</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:600;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${e(ex.name)}</div>
+            <div style="display:flex;gap:6px;align-items:center;margin-top:3px;flex-wrap:wrap">
+              ${dose ? `<div style="font-size:11px;color:var(--teal);font-weight:600;font-family:'JetBrains Mono',monospace">${dose}</div>` : ''}
+              ${ex.level ? `<div style="font-size:9px;font-weight:700;letter-spacing:.07em;color:${levelColor};background:${levelBg};padding:2px 7px;border-radius:10px">${levelLabel}</div>` : ''}
+            </div>
           </div>
+          <span class="zp-chevron">›</span>
         </div>
-        <span class="zp-chevron">›</span>
+        <button class="zp-check-btn" id="zp-chk-${i}"
+          onclick="zpCheckEx('${_patIdSafeEx}','${_visitIdSafeEx}',${i},${totalEx})"
+          aria-label="Markera som klar">
+          <div class="zp-check-ring" id="zp-ring-${i}">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M2.5 6.5L5.5 9.5L10.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </button>
       </div>
-      <div class="zp-exbody">
-        ${dose ? `<div style="font-size:12px;font-weight:700;color:var(--navy);font-family:'DM Mono',monospace;padding:8px 0 12px;border-bottom:1px solid #f0f2f5;margin-bottom:12px">${dose}</div>` : ''}
+      <div class="zp-exbody" id="zp-exbody-${i}">
+        ${dose ? `<div style="font-size:12px;font-weight:700;color:var(--navy);font-family:'JetBrains Mono',monospace;padding:8px 0 12px;border-bottom:1px solid #f0f2f5;margin-bottom:12px">${dose}</div>` : ''}
 
         ${ex.whyThisForYou ? `
         <div style="background:linear-gradient(135deg,#f0f7ff,#e8f4f8);border-radius:10px;padding:12px 14px;margin-bottom:14px">
@@ -6963,6 +7655,18 @@ function renderPublicPlan(plan, pat) {
       </div>
     </div>`;
   }).join('');
+
+  // Session progress strip
+  const sessionStripHtml = totalEx > 0 ? `
+  <div class="zp-session-strip" id="zp-session-strip">
+    <div class="zp-session-row">
+      <div class="zp-session-label">Dagens pass</div>
+      <div class="zp-session-count" id="zp-session-count">0 / ${totalEx}</div>
+    </div>
+    <div class="zp-session-bar-bg">
+      <div class="zp-session-bar-fill" id="zp-session-bar" style="width:0%"></div>
+    </div>
+  </div>` : '';
 
   // ── GOALS ─────────────────────────────────────────────────────────────────
   const goalsHtml = plan.goals?.length ? `
@@ -7082,7 +7786,7 @@ function renderPublicPlan(plan, pat) {
     <!-- HERO HEADER -->
     <div class="zp-hero">
 
-      <!-- Brand strip: Kansei + Zenya -->
+      <!-- Brand strip: Vela + Hael -->
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
         <div style="display:flex;align-items:center;gap:10px">
           <div>
@@ -7121,7 +7825,8 @@ function renderPublicPlan(plan, pat) {
 
     ${progressGraph}
     ${weekProgressHtml}
-    ${pubMsgSectionHTML(pat, plan.visitId||'')}
+    ${_hasStats ? zpContextualMsg(pat, plan.visitId||visitIdSafe, plan) : _zpStatsUpsell()}
+    ${_hasMsgs ? pubMsgSectionHTML(pat, plan.visitId||'') : ''}
     ${pubProgressSectionHTML(pat?.id||'')}
 
     <!-- GOALS -->
@@ -7131,6 +7836,7 @@ function renderPublicPlan(plan, pat) {
     ${(plan.exercises||[]).length ? `
     <div class="zp-section">
       <div class="zp-sec-hdr"><div class="zp-sec-title">Övningsprogram — ${plan.exercises.length} övningar</div></div>
+      ${sessionStripHtml}
       ${exHtml}
     </div>` : ''}
 
@@ -7152,13 +7858,18 @@ function renderPublicPlan(plan, pat) {
     </div>
 
   </div>`;
+
+  // Restore today's exercise session state
+  if (pat?.id && plan.visitId) {
+    setTimeout(() => zpInitSession(pat.id, plan.visitId, (plan.exercises||[]).length), 50);
+  }
 }
 
 
 
 
 // ════════════════════════════════════════════════════════════════════════════
-// AI FEATURES MODULE — Zenya Intelligence Layer
+// AI FEATURES MODULE — Hael Intelligence Layer
 // 1. Smart intag   2. Röstjournal   3. Avvikelsedetektering
 // 4. Klinikinsikter  5. Adaptiv plan  6. Kollegakonsultation  7. Epikris
 // ════════════════════════════════════════════════════════════════════════════
@@ -7342,7 +8053,7 @@ function saveSOAPDraftFromIntake() {
     soap,
     source: 'smart-intake'
   };
-  try { sessionStorage.setItem('zenya:journaldraft', JSON.stringify(draftData)); } catch {}
+  try { sessionStorage.setItem('hael:journaldraft', JSON.stringify(draftData)); } catch {}
   // Also pre-fill currentSOAP if it exists
   if (typeof currentSOAP !== 'undefined' && currentSOAP) {
     currentSOAP.soap = {...(currentSOAP.soap||{}), ...soap};
@@ -7427,7 +8138,7 @@ const SOAP_PROMPT_DEFAULTS = {
   ]
 };
 
-const SOAP_PROMPT_KEY = 'zenya:soap-prompts';
+const SOAP_PROMPT_KEY = 'hael:soap-prompts';
 
 function getSoapPrompts() {
   try {
