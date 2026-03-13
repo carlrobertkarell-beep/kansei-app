@@ -933,7 +933,7 @@
   <!-- SIDEBAR NAVIGATION -->
   <nav class="nav-sidebar" id="nav-sidebar">
     <div class="nav-logo">
-      <img src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20105%2018.81%22%3E%3Cstyle%3E.zw%7Bfill%3A%23fff%3Bfill-rule%3Aevenodd%7D%3C/style%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2214.47%203.62%2014.47%200%20.23%200%20.23%204.09%208.53%204.09%200%2015.03%200%2018.81%2014.49%2018.81%2014.49%2014.73%205.82%2014.73%2014.47%203.62%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2227.32%2011%2035.81%2011%2035.81%206.96%2027.32%206.96%2027.32%204.09%2036.57%204.09%2036.57%200%2022.86%200%2022.86%206.96%2019.75%206.96%2019.75%2010.96%2022.86%2010.96%2022.86%2018.81%2036.99%2018.81%2036.99%2014.67%2027.32%2014.67%2027.32%2011%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2255.72%2011.2%2049.48%200%2044.94%200%2044.94%2018.81%2049.24%2018.81%2049.24%207.38%2055.66%2018.81%2060.02%2018.81%2060.02%200%2055.72%200%2055.72%2011.2%22/%3E%3Cpolygon%20class%3D%22zw%22%20points%3D%2275.52%207.16%2072.19%200%2066.84%200%2073.19%2011.74%2073.19%2018.81%2077.74%2018.81%2077.74%2011.74%2083.89%200%2078.71%200%2075.52%207.16%22/%3E%3Cpath%20class%3D%22zw%22%20d%3D%22M94.45%2C11.13l1.62-5.07%2C1.57%2C5.07h-3.19ZM98.5%2C0h-4.76l-6.55%2C18.81h4.78l1.21-3.68h5.78l1.13%2C3.68h4.93L98.5%2C0Z%22/%3E%3C/svg%3E" class="nav-logo-img">
+      <img src="" id="nav-logo-img" class="nav-logo-img">
     </div>
     <div class="nav-section" id="nav-links">
       <!-- nav items rendered by rTopbar() -->
@@ -2292,9 +2292,10 @@ Regler:
 - Max 5 punkter, max 3 frågor`;
 
   try {
-    const result = await callAPI(prompt, MODEL_HAIKU, false);
-    const clean = result.replace(/```json|```/g, '').trim();
-    const briefing = JSON.parse(clean);
+    const key = getKey();
+    if (!key) throw new Error('no-key');
+    const result = await callAPI(prompt, [], key, MODEL_HAIKU);
+    const briefing = typeof result === 'string' ? JSON.parse(result.replace(/```json|```/g,'').trim()) : result;
     setBriefingCache(pat.id, briefing);
     const wrap = document.getElementById('briefing-' + pat.id);
     if (wrap) wrap.outerHTML = renderBriefingContent(pat.id, briefing);
@@ -2562,6 +2563,9 @@ function togSidebar() {
 }
 
 function rTopbar() {
+  // Set sidebar logo dynamically from LOGO constant
+  const navLogoImg = document.getElementById('nav-logo-img');
+  if (navLogoImg) navLogoImg.src = LOGO;
   const scr = S.screen;
 
   // ── SIDEBAR NAV LINKS ──────────────────────────────────────────────────────
